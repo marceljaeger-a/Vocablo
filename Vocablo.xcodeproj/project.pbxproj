@@ -7,19 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F46EFBC2AE81F5D0006E5F3 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBB2AE81F5D0006E5F3 /* Tag.swift */; };
 		9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583152AE6F70900A56141 /* VocabloApp.swift */; };
 		9FC583182AE6F70900A56141 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583172AE6F70900A56141 /* ContentView.swift */; };
 		9FC5831A2AE6F70A00A56141 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC583192AE6F70A00A56141 /* Assets.xcassets */; };
 		9FC5831E2AE6F70A00A56141 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC5831D2AE6F70A00A56141 /* Preview Assets.xcassets */; };
+		9FC583272AE7080E00A56141 /* VocabularyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583262AE7080E00A56141 /* VocabularyList.swift */; };
+		9FC583292AE7085400A56141 /* Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583282AE7085400A56141 /* Vocabulary.swift */; };
+		9FC5832B2AE7088B00A56141 /* WordGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC5832A2AE7088B00A56141 /* WordGroup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F46EFBB2AE81F5D0006E5F3 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		9FC583122AE6F70900A56141 /* Vocablo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vocablo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FC583152AE6F70900A56141 /* VocabloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloApp.swift; sourceTree = "<group>"; };
 		9FC583172AE6F70900A56141 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9FC583192AE6F70A00A56141 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FC5831B2AE6F70A00A56141 /* Vocablo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vocablo.entitlements; sourceTree = "<group>"; };
 		9FC5831D2AE6F70A00A56141 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9FC583262AE7080E00A56141 /* VocabularyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyList.swift; sourceTree = "<group>"; };
+		9FC583282AE7085400A56141 /* Vocabulary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vocabulary.swift; sourceTree = "<group>"; };
+		9FC5832A2AE7088B00A56141 /* WordGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGroup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +41,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F46EFBD2AE823D20006E5F3 /* types */ = {
+			isa = PBXGroup;
+			children = (
+				9FC5832A2AE7088B00A56141 /* WordGroup.swift */,
+			);
+			path = types;
+			sourceTree = "<group>";
+		};
 		9FC583092AE6F70900A56141 = {
 			isa = PBXGroup;
 			children = (
@@ -53,7 +69,8 @@
 			isa = PBXGroup;
 			children = (
 				9FC583152AE6F70900A56141 /* VocabloApp.swift */,
-				9FC583172AE6F70900A56141 /* ContentView.swift */,
+				9FC583252AE707CB00A56141 /* ui */,
+				9FC583242AE707C600A56141 /* data */,
 				9FC583192AE6F70A00A56141 /* Assets.xcassets */,
 				9FC5831B2AE6F70A00A56141 /* Vocablo.entitlements */,
 				9FC5831C2AE6F70A00A56141 /* Preview Content */,
@@ -67,6 +84,25 @@
 				9FC5831D2AE6F70A00A56141 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9FC583242AE707C600A56141 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				9F46EFBD2AE823D20006E5F3 /* types */,
+				9FC583262AE7080E00A56141 /* VocabularyList.swift */,
+				9FC583282AE7085400A56141 /* Vocabulary.swift */,
+				9F46EFBB2AE81F5D0006E5F3 /* Tag.swift */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		9FC583252AE707CB00A56141 /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				9FC583172AE6F70900A56141 /* ContentView.swift */,
+			);
+			path = ui;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,8 +175,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F46EFBC2AE81F5D0006E5F3 /* Tag.swift in Sources */,
 				9FC583182AE6F70900A56141 /* ContentView.swift in Sources */,
+				9FC5832B2AE7088B00A56141 /* WordGroup.swift in Sources */,
+				9FC583272AE7080E00A56141 /* VocabularyList.swift in Sources */,
 				9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */,
+				9FC583292AE7085400A56141 /* Vocabulary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
