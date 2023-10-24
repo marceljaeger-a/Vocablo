@@ -12,5 +12,6 @@ Additionaly this app has a simple learning system with spaced repetionan, the Le
 
 - [ ] Simple Vocabulary list functionality.
 - [ ] Vocabulary list organise functionality.
-- [ ] Spaced Repetition Leitner System.
+- [ ] iCloud synchronisation functionality.
+- [ ] Spaced Repetition (Leitner System) learning system..
       
