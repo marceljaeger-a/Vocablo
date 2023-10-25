@@ -35,3 +35,31 @@ class Vocabulary {
         self.translatedExplanation = translatedExplenation
     }
 }
+
+extension Vocabulary {
+    func hasTag(_ tag: Tag) -> Bool {
+        tags.contains { element in
+            element == tag
+        }
+    }
+    
+    func tag(_ tag: Tag) {
+        guard !hasTag(tag) else { return }
+        tags.append(tag)
+    }
+    
+    func untag(_ tag: Tag){
+        guard hasTag(tag) else { return }
+        tags.removeAll { element in
+            element == tag
+        }
+    }
+    
+    func toggleTag(_ tag: Tag) {
+        if hasTag(tag) {
+            self.untag(tag)
+        }else {
+            self.tag(tag)
+        }
+    }
+}

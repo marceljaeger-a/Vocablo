@@ -9,16 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        PackNavigationView()
     }
 }
 
 #Preview {
     ContentView()
+        .previewModelContainer()
+}
+
+extension View {
+    func previewModelContainer() -> some View {
+        self.modelContainer(for: [VocabularyList.self, Vocabulary.self, Tag.self], inMemory: true)
+    }
 }

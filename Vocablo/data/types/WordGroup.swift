@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WordGroup: Codable{
-    case noun, adjective, verb, adverb
-    case pronoun, interjections, conjunctions, prepositions, determiners
+enum WordGroup: String, Codable, CaseIterable{    
+    case noun = "Noun", adjective = "Adjective", verb = "Verb", adverb = "Adverb"
+    case pronoun = "Pronoun", interjection = "Interjection", conjunction = "Conjunction", preposition = "Preposition", determiner = "Determiner"
 }

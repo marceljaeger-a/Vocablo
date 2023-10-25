@@ -21,3 +21,9 @@ class VocabularyList {
         self.vocabularies = vocabularies
     }
 }
+
+extension VocabularyList {
+    func addVocabulary(_ vocabulary: Vocabulary) {
+        self.vocabularies.append(vocabulary)
+    }
+}
