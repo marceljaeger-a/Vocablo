@@ -29,6 +29,7 @@ fileprivate struct SidebarView: View {
     @Environment(\.modelContext) var context: ModelContext
     @Query var lists: Array<VocabularyList>
     @Query var tags: Array<Tag>
+    @Query var vocabularies: Array<Vocabulary>
     
     @Binding var selectedList: VocabularyList?
     
@@ -49,6 +50,9 @@ fileprivate struct SidebarView: View {
                             Text("Remove")
                         }
                     }
+                    .dropDestination(for: Vocabulary.TransferType.self) {
+                        dropVocabulariesOnList(on: list, items: $0, location: $1)
+                    }
                 }
             }
             Section("Tags") {
@@ -66,6 +70,9 @@ fileprivate struct SidebarView: View {
                         } label: {
                             Text("Remove")
                         }
+                    }
+                    .dropDestination(for: Vocabulary.TransferType.self) {
+                        dropVocabulariesOnTag(on: tag, items: $0, location: $1)
                     }
                 }
                 .selectionDisabled()
@@ -118,6 +125,29 @@ fileprivate struct SidebarView: View {
     
     private func deleteTag(_ deletingTag: Tag) {
         context.delete(deletingTag)
+    }
+    
+    private func dropVocabulariesOnList(on list: VocabularyList, items: [Vocabulary.TransferType], location: CGPoint) -> Bool {
+        for item in items {
+            let vocabulary: Optional<Vocabulary> = item.pickObject(fetched: vocabularies)
+            
+            guard let vocabulary else { continue }
+            if !list.containVocabulary(vocabulary) {
+                vocabulary.list = list
+            }
+        }
+        return true
+    }
+    
+    private func dropVocabulariesOnTag(on tag: Tag, items: [Vocabulary.TransferType], location: CGPoint) -> Bool {
+        for item in items {
+            let vocabulary = item.pickObject(fetched: vocabularies)
+            
+            guard let vocabulary else { continue }
+            vocabulary.safelyTag(tag)
+        }
+        
+        return true
     }
 }
 

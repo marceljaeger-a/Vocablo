@@ -42,6 +42,7 @@ struct ListTableView: View {
         } rows: {
             ForEach(list.vocabularies.sorted(using: KeyPathComparator(\.created))) { vocabulary in
                 TableRow(vocabulary)
+                    .draggable(vocabulary.transferType)
             }
         }
         .textFieldStyle(.plain)

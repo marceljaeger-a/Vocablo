@@ -26,4 +26,10 @@ extension VocabularyList {
     func addVocabulary(_ vocabulary: Vocabulary) {
         self.vocabularies.append(vocabulary)
     }
+    
+    func containVocabulary(_ vocabulary: Vocabulary) -> Bool {
+        self.vocabularies.contains { item in
+            item == vocabulary
+        }
+    }
 }

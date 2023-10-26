@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import SwiftUI
 import SwiftData
+import UniformTypeIdentifiers
 
 @Model
 class Vocabulary {
@@ -43,12 +45,12 @@ extension Vocabulary {
         }
     }
     
-    func tag(_ tag: Tag) {
+    func safelyTag(_ tag: Tag) {
         guard !hasTag(tag) else { return }
         tags.append(tag)
     }
     
-    func untag(_ tag: Tag){
+    func safelyUntag(_ tag: Tag){
         guard hasTag(tag) else { return }
         tags.removeAll { element in
             element == tag
@@ -57,9 +59,38 @@ extension Vocabulary {
     
     func toggleTag(_ tag: Tag) {
         if hasTag(tag) {
-            self.untag(tag)
+            self.safelyUntag(tag)
         }else {
-            self.tag(tag)
+            self.safelyTag(tag)
         }
+    }
+}
+
+extension Vocabulary{
+    struct TransferType: Codable, Transferable {
+        var id: PersistentIdentifier
+        
+        func pickObject(fetched objects: Array<Vocabulary>) -> Vocabulary? {
+            for object in objects {
+                if object.id == self.id {
+                    return object
+                }
+            }
+            return nil
+        }
+        
+        static var transferRepresentation: some TransferRepresentation {
+            CodableRepresentation(for: TransferType.self, contentType: .vocabulary)
+        }
+    }
+    
+    var transferType: TransferType {
+        TransferType(id: self.id)
+    }
+}
+
+extension UTType {
+    static var vocabulary: UTType {
+        UTType(exportedAs: "com.marceljaeger.vocabulary")
     }
 }
