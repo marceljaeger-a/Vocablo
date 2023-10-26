@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct VocabloApp: App {
@@ -13,5 +14,6 @@ struct VocabloApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [VocabularyList.self, Vocabulary.self, Tag.self], inMemory: true)
     }
 }
