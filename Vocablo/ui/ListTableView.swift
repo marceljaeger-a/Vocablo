@@ -14,21 +14,26 @@ struct ListTableView: View {
     
     @Bindable var list: VocabularyList
     
+    @State var showLearningSheet: Bool = false
+    
     var body: some View {
         Table(of: Vocabulary.self) {
             TableColumn("Englisch word") { vocabulary in
                 @Bindable var bindedVocabulary = vocabulary
                 TextField("", text: $bindedVocabulary.word, prompt: Text("Word in english..."))
+                    .bold()
             }
             
             TableColumn("German word") { vocabulary in
                 @Bindable var bindedVocabulary = vocabulary
                 TextField("", text: $bindedVocabulary.translatedWord, prompt: Text("Word in german..."))
+                    .bold()
             }
             
             TableColumn("Explanation") { vocabulary in
                 @Bindable var bindedVocabulary = vocabulary
                 TextField("", text: $bindedVocabulary.explenation, prompt: Text("Explane the word..."))
+                    .bold()
             }
             
             TableColumn("Word group") { vocabulary in
@@ -39,12 +44,21 @@ struct ListTableView: View {
             TableColumn("Tags") { vocabulary in
                 TagMultiPicker(vocabulary: vocabulary, tags: tags)
             }
+            
+            TableColumn("Learnable") { vocabulary in
+                VocabularyToggle(vocabulary: vocabulary, property: \.isLearnable)
+            }
+            
+            TableColumn("Next Repetition", value: \.learningState.remainingTimeLabel)
+            
+            TableColumn("Level", value: \.currentLevel.rawValue)
         } rows: {
             ForEach(list.vocabularies.sorted(using: KeyPathComparator(\.created))) { vocabulary in
                 TableRow(vocabulary)
                     .draggable(vocabulary.transferType)
             }
         }
+        .tableStyle(.inset)
         .textFieldStyle(.plain)
         .autocorrectionDisabled(true)
         .toolbar {
@@ -55,6 +69,26 @@ struct ListTableView: View {
                     Image(.wordPlus)
                 }
             }
+            ToolbarItem(placement: .secondaryAction) {
+                Button {
+                    self.showLearningSheet = true
+                } label: {
+                    Image(.wordlistPlay)
+                }
+            }
+        }
+        .sheet(isPresented: $showLearningSheet, content: {
+            LearningView(list: list)
+        })
+    }
+}
+
+fileprivate struct VocabularyToggle: View {
+    @Bindable var vocabulary: Vocabulary
+    var property: KeyPath<Bindable<Vocabulary>, Binding<Bool>>
+    var body: some View {
+        Toggle(isOn: $vocabulary[keyPath: property]) {
+            
         }
     }
 }

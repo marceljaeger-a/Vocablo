@@ -11,7 +11,31 @@ import SwiftData
 import UniformTypeIdentifiers
 
 @Model
-class Vocabulary {
+class Vocabulary: Learnable {
+    //Learnable implementation
+    var isLearnable: Bool = false
+    var learningState: LearningState = LearningState.newly(.lvl1)
+    var learningContext: (word: String, sentence: String, translatedWord: String, translatedSentence: String) {
+        (self.word, self.sentence, self.translatedWord, self.translatedSentence)
+    }
+    
+    var toLearnToday: Bool {
+        guard isLearnable else { return false }
+        
+        let todayZeroDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: .now)
+        let nextRepetititonZeroDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: learningState.nextRepetition)
+        
+        guard let todayZeroDate else { return false }
+        guard let nextRepetititonZeroDate else { return false }
+        
+        if nextRepetititonZeroDate <= todayZeroDate {
+            return true
+        }
+        return false
+    }
+    
+    
+    //Model implementation
     var word: String
     var translatedWord: String
     var sentence: String
@@ -21,8 +45,8 @@ class Vocabulary {
     var explenation: String
     var translatedExplanation: String
     
-    var list: VocabularyList?
-    var tags: Array<Tag>
+    @Relationship(deleteRule: .nullify )var list: VocabularyList?
+    @Relationship(deleteRule: .nullify) var tags: Array<Tag>
     
     init(word: String, translatedWord: String, sentence: String = "", translatedSentence: String = "", wordGroup: WordGroup, explenation: String = "", translatedExplenation: String = "", list: VocabularyList? = nil, tags: [Tag] = []) {
         self.word = word

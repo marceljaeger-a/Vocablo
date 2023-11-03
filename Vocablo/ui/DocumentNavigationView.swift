@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct PackNavigationView: View {
+struct DocumentNavigationView: View {
     @State var selectedList: VocabularyList?
     
     var body: some View {
@@ -78,40 +78,31 @@ fileprivate struct SidebarView: View {
                 .selectionDisabled()
             }
         }
-        .overlay {
-            ZStack(alignment: .topLeading){
-                Color.gray.opacity(0)
-                
-                VStack {
-                    Spacer()
-                        
-                    HStack{
-                        Button {
-                            addList()
-                        } label: {
-                            Label("New List", systemImage: "plus.circle")
-                        }
-                        .buttonStyle(.borderless)
-                        
-                        Spacer()
-                        
-                        Button {
-                            addTag()
-                        } label: {
-                            Image(.tagPlus)
-                        }
-                        .buttonStyle(.borderless)
-                    }
-                    .padding(8)
-                    .background(.thickMaterial, in: .containerRelative)
-                }
+        .buttomToolbar(leftButton: {
+            Button {
+                addList()
+            } label: {
+                Label("New List", systemImage: "plus.circle")
             }
-        }
+            .buttonStyle(.borderless)
+        }, rightButton: {
+            Button {
+                addTag()
+            } label: {
+                Image(.tagPlus)
+            }
+            .buttonStyle(.borderless)
+        })
     }
     
     private func addList() {
         let newList = VocabularyList("New List")
         context.insert(newList)
+        
+        for i in 1...5 {
+            let newVocabulary = Vocabulary(word: "Englisch \(i)", translatedWord: "German \(i)", sentence: "This is a english word!", translatedSentence: "This is a german word!", wordGroup: .noun)
+            newList.addVocabulary(newVocabulary)
+        }
     }
     
     private func deleteList(_ deletingList: VocabularyList) {
@@ -152,6 +143,6 @@ fileprivate struct SidebarView: View {
 }
 
 #Preview {
-    PackNavigationView()
+    DocumentNavigationView()
         .previewModelContainer()
 }
