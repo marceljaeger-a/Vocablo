@@ -51,7 +51,7 @@ struct ListTableView: View {
             
             TableColumn("Next Repetition", value: \.learningState.remainingTimeLabel)
             
-            TableColumn("Level", value: \.currentLevel.rawValue)
+            TableColumn("Level", value: \.learningState.currentLevel.rawValue)
         } rows: {
             ForEach(list.vocabularies.sorted(using: KeyPathComparator(\.created))) { vocabulary in
                 TableRow(vocabulary)

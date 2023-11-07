@@ -81,4 +81,62 @@ enum LearningState: Codable, Equatable {
         }
         return "\(remainingMinutes) min"
     }
+    
+    var toLearnToday: Bool {
+        let todayZeroDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: .now)
+        let nextRepetititonZeroDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: nextRepetition)
+        
+        guard let todayZeroDate else { return false }
+        guard let nextRepetititonZeroDate else { return false }
+        
+        if nextRepetititonZeroDate <= todayZeroDate {
+            return true
+        }
+        return false
+    }
+}
+
+extension LearningState {
+    var currentLevel: LearningLevel {
+        switch self {
+        case .newly:
+            return .min
+        case .repeatly(_, _, let currentLevel):
+            return currentLevel
+        }
+    }
+    
+    var downLevel: LearningLevel {
+        switch self {
+        case .newly:
+            return .min
+        case .repeatly(_, _, let currentLevel):
+            if let downLevel = currentLevel.downLevel() {
+                return downLevel
+            }else {
+                return .min
+            }
+        }
+    }
+    
+    var nextLevel: LearningLevel {
+        switch self {
+        case .newly:
+            return .lvl2
+        case let .repeatly(_, _, currentLevel):
+            if let nextLevel = currentLevel.nextLevel() {
+                return nextLevel
+            }else {
+                return .max
+            }
+        }
+    }
+    
+    mutating func levelUp() {
+        self = .repeatly(.now, self.repetitionCount + 1, nextLevel)
+    }
+    
+    mutating func levelDown() {
+        self = .repeatly(.now, self.repetitionCount + 1, downLevel)
+    }
 }

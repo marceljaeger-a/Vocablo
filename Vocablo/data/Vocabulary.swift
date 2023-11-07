@@ -15,31 +15,13 @@ class Vocabulary: Learnable {
     //Learnable implementation
     var isLearnable: Bool = false
     var learningState: LearningState = LearningState.newly(.lvl1)
-    var learningContext: (word: String, sentence: String, translatedWord: String, translatedSentence: String) {
-        (self.word, self.sentence, self.translatedWord, self.translatedSentence)
-    }
-    
-    var toLearnToday: Bool {
-        guard isLearnable else { return false }
-        
-        let todayZeroDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: .now)
-        let nextRepetititonZeroDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: learningState.nextRepetition)
-        
-        guard let todayZeroDate else { return false }
-        guard let nextRepetititonZeroDate else { return false }
-        
-        if nextRepetititonZeroDate <= todayZeroDate {
-            return true
-        }
-        return false
-    }
-    
-    
-    //Model implementation
+    var translatedLearningState: LearningState = LearningState.newly(.lvl1)
     var word: String
     var translatedWord: String
     var sentence: String
     var translatedSentence: String
+    
+    //Model implementation
     var wordGroup: WordGroup
     var created: Date
     var explenation: String
