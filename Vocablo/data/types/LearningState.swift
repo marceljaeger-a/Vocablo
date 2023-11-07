@@ -82,7 +82,7 @@ enum LearningState: Codable, Equatable {
         return "\(remainingMinutes) min"
     }
     
-    var toLearnToday: Bool {
+    var isNextRepetitionExpired: Bool {
         let todayZeroDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: .now)
         let nextRepetititonZeroDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: nextRepetition)
         
