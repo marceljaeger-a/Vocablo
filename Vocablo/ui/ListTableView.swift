@@ -55,6 +55,13 @@ struct ListTableView: View {
         } rows: {
             ForEach(list.vocabularies.sorted(using: KeyPathComparator(\.created))) { vocabulary in
                 TableRow(vocabulary)
+                    .contextMenu {
+                        Button {
+                            deleteVocabulary(vocabulary)
+                        } label: {
+                            Text("Remove")
+                        }
+                    }
                     .draggable(vocabulary.transferType)
             }
         }
@@ -80,6 +87,11 @@ struct ListTableView: View {
         .sheet(isPresented: $showLearningSheet, content: {
             LearningView(list: list)
         })
+    }
+    
+    private func deleteVocabulary(_ vocabulary: Vocabulary) {
+        list.removeVocabulary(vocabulary)
+        context.delete(vocabulary)
     }
 }
 

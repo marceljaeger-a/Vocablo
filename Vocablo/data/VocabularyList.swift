@@ -32,6 +32,12 @@ extension VocabularyList {
             item == vocabulary
         }
     }
+    
+    func removeVocabulary(_ vocabulary: Vocabulary) {
+        self.vocabularies.removeAll { element in
+            element == vocabulary
+        }
+    }
 }
 
 extension VocabularyList {
