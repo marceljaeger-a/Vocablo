@@ -40,18 +40,24 @@ struct ListTableView: View {
                 @Bindable var bindedVocabulary = vocabulary
                 WordGroupPicker(label: vocabulary.wordGroup.rawValue, wordGroup: $bindedVocabulary.wordGroup)
             }
-            
-            TableColumn("Tags") { vocabulary in
-                TagMultiPicker(vocabulary: vocabulary, tags: tags)
-            }
+            .width(100)
             
             TableColumn("Learnable") { vocabulary in
                 VocabularyToggle(vocabulary: vocabulary, property: \.isLearnable)
             }
+            .width(65)
+
+            TableColumn("State (Level / next Repetition)") { vocabulary in
+                Text("\(vocabulary.learningState.currentLevel.rawValue) / \(vocabulary.learningState.remainingTimeLabel)")
+            }
+
+            TableColumn("State of translation (Level / next Repetition)") { vocabulary in
+                Text("\(vocabulary.translatedLearningState.currentLevel.rawValue) / \(vocabulary.translatedLearningState.remainingTimeLabel)")
+            }
             
-            TableColumn("Next Repetition", value: \.learningState.remainingTimeLabel)
-            
-            TableColumn("Level", value: \.learningState.currentLevel.rawValue)
+            TableColumn("Tags") { vocabulary in
+                TagMultiPicker(vocabulary: vocabulary, tags: tags)
+            }
         } rows: {
             ForEach(list.vocabularies.sorted(using: KeyPathComparator(\.created))) { vocabulary in
                 TableRow(vocabulary)
