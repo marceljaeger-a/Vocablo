@@ -37,8 +37,7 @@ struct ListTableView: View {
             }
             
             TableColumn("Word group") { vocabulary in
-                @Bindable var bindedVocabulary = vocabulary
-                WordGroupPicker(label: vocabulary.wordGroup.rawValue, wordGroup: $bindedVocabulary.wordGroup)
+                WordGroupPicker(vocabulary: vocabulary)
             }
             .width(100)
             
@@ -48,11 +47,11 @@ struct ListTableView: View {
             .width(65)
 
             TableColumn("State (Level / next Repetition)") { vocabulary in
-                Text("\(vocabulary.learningState.currentLevel.rawValue) / \(vocabulary.learningState.remainingTimeLabel)")
+                LearningStateLabel(vocabulary: vocabulary, learningState: \.learningState)
             }
 
             TableColumn("State of translation (Level / next Repetition)") { vocabulary in
-                Text("\(vocabulary.translatedLearningState.currentLevel.rawValue) / \(vocabulary.translatedLearningState.remainingTimeLabel)")
+                LearningStateLabel(vocabulary: vocabulary, learningState: \.translatedLearningState)
             }
             
             TableColumn("Tags") { vocabulary in
@@ -101,6 +100,15 @@ struct ListTableView: View {
     }
 }
 
+fileprivate struct LearningStateLabel: View {
+    let vocabulary: Vocabulary
+    let learningState: KeyPath<Vocabulary, LearningState>
+    
+    var body: some View {
+        Text("\(vocabulary[keyPath: learningState].currentLevel.rawValue) / \(vocabulary[keyPath: learningState].remainingTimeLabel)")
+    }
+}
+
 fileprivate struct VocabularyToggle: View {
     @Bindable var vocabulary: Vocabulary
     var property: KeyPath<Bindable<Vocabulary>, Binding<Bool>>
@@ -112,18 +120,17 @@ fileprivate struct VocabularyToggle: View {
 }
 
 fileprivate struct WordGroupPicker: View {
-    let label: String
-    @Binding var wordGroup: WordGroup
+    @Bindable var vocabulary: Vocabulary
     
     var body: some View {
-        Menu(label) {
+        Menu(vocabulary.wordGroup.rawValue) {
             ForEach(WordGroup.allCases, id: \.rawValue) { wordGroup in
                 Button {
-                    self.wordGroup = wordGroup
+                    vocabulary.wordGroup = wordGroup
                 } label: {
                     Text(wordGroup.rawValue)
                 }
-                .disabled(self.wordGroup == wordGroup)
+                .disabled(vocabulary.wordGroup == wordGroup)
             }
         }
         .menuStyle(BorderlessButtonMenuStyle())
