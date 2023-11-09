@@ -19,21 +19,15 @@ struct ListTableView: View {
     var body: some View {
         Table(of: Vocabulary.self) {
             TableColumn("Englisch word") { vocabulary in
-                @Bindable var bindedVocabulary = vocabulary
-                TextField("", text: $bindedVocabulary.word, prompt: Text("Word in english..."))
-                    .bold()
+                VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Word in english...")
             }
             
             TableColumn("German word") { vocabulary in
-                @Bindable var bindedVocabulary = vocabulary
-                TextField("", text: $bindedVocabulary.translatedWord, prompt: Text("Word in german..."))
-                    .bold()
+                VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Word in german...")
             }
             
             TableColumn("Explanation") { vocabulary in
-                @Bindable var bindedVocabulary = vocabulary
-                TextField("", text: $bindedVocabulary.explenation, prompt: Text("Explane the word..."))
-                    .bold()
+                VocabularyTextField(vocabulary: vocabulary, value: \.explenation, placeholder: "Explenation in english...")
             }
             
             TableColumn("Word group") { vocabulary in
@@ -67,7 +61,7 @@ struct ListTableView: View {
                             Text("Remove")
                         }
                     }
-                    .draggable(vocabulary.transferType)
+                    //.draggable(vocabulary.transferType)
             }
         }
         .tableStyle(.inset)
@@ -97,6 +91,17 @@ struct ListTableView: View {
     private func deleteVocabulary(_ vocabulary: Vocabulary) {
         list.removeVocabulary(vocabulary)
         context.delete(vocabulary)
+    }
+}
+
+fileprivate struct VocabularyTextField: View {
+    @Bindable var vocabulary: Vocabulary
+    let value: KeyPath<Bindable<Vocabulary>, Binding<String>>
+    let placeholder: String
+    
+    var body: some View {
+        TextField("", text: $vocabulary[keyPath: value], prompt: Text(placeholder))
+            .bold()
     }
 }
 
