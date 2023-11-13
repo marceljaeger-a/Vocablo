@@ -16,18 +16,32 @@ struct ListTableView: View {
     
     @State var showLearningSheet: Bool = false
     
+    @FocusState var focusedVocabulary: PersistentIdentifier?
+    
     var body: some View {
         Table(of: Vocabulary.self) {
             TableColumn("Englisch word") { vocabulary in
+                @Bindable var bindedVocabulary = vocabulary
                 VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Word in english...")
+                    .bold()
+                    .onSubmit {
+                        addVocabulary()
+                    }
+                    .focused($focusedVocabulary, equals: vocabulary.id)
             }
             
             TableColumn("German word") { vocabulary in
                 VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Word in german...")
+                    .onSubmit {
+                        addVocabulary()
+                    }
             }
             
             TableColumn("Explanation") { vocabulary in
                 VocabularyTextField(vocabulary: vocabulary, value: \.explenation, placeholder: "Explenation in english...")
+                    .onSubmit {
+                        addVocabulary()
+                    }
             }
             
             TableColumn("Word group") { vocabulary in
@@ -39,11 +53,11 @@ struct ListTableView: View {
                 VocabularyToggle(vocabulary: vocabulary, property: \.isLearnable)
             }
             .width(65)
-
+            
             TableColumn("State (Level / next Repetition)") { vocabulary in
                 LearningStateLabel(vocabulary: vocabulary, learningState: \.learningState)
             }
-
+            
             TableColumn("State of translation (Level / next Repetition)") { vocabulary in
                 LearningStateLabel(vocabulary: vocabulary, learningState: \.translatedLearningState)
             }
@@ -56,12 +70,13 @@ struct ListTableView: View {
                 TableRow(vocabulary)
                     .contextMenu {
                         Button {
+                            //                            #error("When I delete a vocabulary, that´s text field is focused, the preview crashes!")
                             deleteVocabulary(vocabulary)
                         } label: {
                             Text("Remove")
                         }
                     }
-                    //.draggable(vocabulary.transferType)
+                //.draggable(vocabulary.transferType)
             }
         }
         .tableStyle(.inset)
@@ -70,7 +85,7 @@ struct ListTableView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    list.addVocabulary(Vocabulary(word: "", translatedWord: "", wordGroup: .noun))
+                    addVocabulary()
                 } label: {
                     Image(.wordPlus)
                 }
@@ -92,6 +107,13 @@ struct ListTableView: View {
         list.removeVocabulary(vocabulary)
         context.delete(vocabulary)
     }
+    
+    private func addVocabulary() {
+        let newVocabulary = Vocabulary(word: "", translatedWord: "", wordGroup: .noun)
+        list.addVocabulary(newVocabulary)
+        focusedVocabulary = newVocabulary.id
+    }
+
 }
 
 fileprivate struct VocabularyTextField: View {
