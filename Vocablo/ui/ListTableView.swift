@@ -16,10 +16,21 @@ struct ListTableView: View {
     
     @State var showLearningSheet: Bool = false
     
-    @FocusState var focusedVocabulary: PersistentIdentifier?
+    @FocusState var focusedVocabulary: VocabularyTextFieldFocusState?
+    enum VocabularyTextFieldFocusState: Hashable{
+        case word(PersistentIdentifier), translatedWord(PersistentIdentifier), explenation(PersistentIdentifier)
+    }
+    
+    @State var selectedVocabularyIdentifiers: Set<PersistentIdentifier> = Set()
+    var selectedVocabularies: Array<Vocabulary> {
+        let vocabularies = list.vocabularies
+        return vocabularies.filter { element in
+            selectedVocabularyIdentifiers.contains(element.id)
+        }
+    }
     
     var body: some View {
-        Table(of: Vocabulary.self) {
+        Table(of: Vocabulary.self, selection: $selectedVocabularyIdentifiers) {
             TableColumn("Englisch word") { vocabulary in
                 @Bindable var bindedVocabulary = vocabulary
                 VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Word in english...")
@@ -27,7 +38,7 @@ struct ListTableView: View {
                     .onSubmit {
                         addVocabulary()
                     }
-                    .focused($focusedVocabulary, equals: vocabulary.id)
+                    .focused($focusedVocabulary, equals: VocabularyTextFieldFocusState.word(vocabulary.id))
             }
             
             TableColumn("German word") { vocabulary in
@@ -35,6 +46,7 @@ struct ListTableView: View {
                     .onSubmit {
                         addVocabulary()
                     }
+                    .focused($focusedVocabulary, equals: VocabularyTextFieldFocusState.translatedWord(vocabulary.id))
             }
             
             TableColumn("Explanation") { vocabulary in
@@ -42,6 +54,7 @@ struct ListTableView: View {
                     .onSubmit {
                         addVocabulary()
                     }
+                    .focused($focusedVocabulary, equals: VocabularyTextFieldFocusState.explenation(vocabulary.id))
             }
             
             TableColumn("Word group") { vocabulary in
@@ -71,6 +84,12 @@ struct ListTableView: View {
                     .contextMenu {
                         Button {
                             //                            #error("When I delete a vocabulary, that´s text field is focused, the preview crashes!")
+                            if !selectedVocabularies.isEmpty {
+                                for selectedVocabulary in selectedVocabularies {
+                                    guard selectedVocabulary != vocabulary else { continue }
+                                    deleteVocabulary(selectedVocabulary)
+                                }
+                            }
                             deleteVocabulary(vocabulary)
                         } label: {
                             Text("Remove")
@@ -111,7 +130,7 @@ struct ListTableView: View {
     private func addVocabulary() {
         let newVocabulary = Vocabulary(word: "", translatedWord: "", wordGroup: .noun)
         list.addVocabulary(newVocabulary)
-        focusedVocabulary = newVocabulary.id
+        focusedVocabulary = .word(newVocabulary.id)
     }
 
 }
