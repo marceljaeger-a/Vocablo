@@ -32,8 +32,10 @@
 			<string>Vocabulary Transfer</string>
 			<key>UTTypeIcons</key>
 			<dict>
+				<key>UTTypeIconBackgroundName</key>
+				<string>File Background</string>
 				<key>UTTypeIconBadgeName</key>
-				<string></string>
+				<string>File Icon</string>
 			</dict>
 			<key>UTTypeIdentifier</key>
 			<string>com.marceljaeger.vocabulary</string>
