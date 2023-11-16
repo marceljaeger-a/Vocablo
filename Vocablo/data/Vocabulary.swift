@@ -94,9 +94,3 @@ extension Vocabulary{
         TransferType(id: self.id)
     }
 }
-
-extension UTType {
-    static var vocabulary: UTType {
-        UTType(exportedAs: "com.marceljaeger.vocabulary")
-    }
-}

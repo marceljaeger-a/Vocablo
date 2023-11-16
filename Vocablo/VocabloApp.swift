@@ -11,9 +11,8 @@ import SwiftData
 @main
 struct VocabloApp: App {
     var body: some Scene {
-        WindowGroup {
+        DocumentGroup(editing: [VocabularyList.self, Tag.self], contentType: .vocablo) {
             ContentView()
         }
-        .modelContainer(for: [VocabularyList.self, Vocabulary.self, Tag.self], inMemory: true)
     }
 }
