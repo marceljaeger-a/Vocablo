@@ -10,10 +10,9 @@
 		9F0975E22AF590C10001C9E3 /* ButtomToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0975E12AF590C10001C9E3 /* ButtomToolbar.swift */; };
 		9F2767322B0525A900C99231 /* Vocabulary UTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2767312B0525A900C99231 /* Vocabulary UTType.swift */; };
 		9F46EFBC2AE81F5D0006E5F3 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBB2AE81F5D0006E5F3 /* Tag.swift */; };
-		9F46EFBF2AE83C510006E5F3 /* DocumentNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBE2AE83C510006E5F3 /* DocumentNavigationView.swift */; };
+		9F46EFBF2AE83C510006E5F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBE2AE83C510006E5F3 /* ContentView.swift */; };
 		9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */; };
 		9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583152AE6F70900A56141 /* VocabloApp.swift */; };
-		9FC583182AE6F70900A56141 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583172AE6F70900A56141 /* ContentView.swift */; };
 		9FC5831A2AE6F70A00A56141 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC583192AE6F70A00A56141 /* Assets.xcassets */; };
 		9FC5831E2AE6F70A00A56141 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC5831D2AE6F70A00A56141 /* Preview Assets.xcassets */; };
 		9FC583272AE7080E00A56141 /* VocabularyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583262AE7080E00A56141 /* VocabularyList.swift */; };
@@ -30,12 +29,11 @@
 		9F0975E12AF590C10001C9E3 /* ButtomToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtomToolbar.swift; sourceTree = "<group>"; };
 		9F2767312B0525A900C99231 /* Vocabulary UTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Vocabulary UTType.swift"; sourceTree = "<group>"; };
 		9F46EFBB2AE81F5D0006E5F3 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
-		9F46EFBE2AE83C510006E5F3 /* DocumentNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentNavigationView.swift; sourceTree = "<group>"; };
+		9F46EFBE2AE83C510006E5F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
 		9FAF88472AEAE9E000D81CE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9FC583122AE6F70900A56141 /* Vocablo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vocablo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FC583152AE6F70900A56141 /* VocabloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloApp.swift; sourceTree = "<group>"; };
-		9FC583172AE6F70900A56141 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9FC583192AE6F70A00A56141 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FC5831B2AE6F70A00A56141 /* Vocablo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vocablo.entitlements; sourceTree = "<group>"; };
 		9FC5831D2AE6F70A00A56141 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -133,8 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				9F0975E02AF590810001C9E3 /* view modifier */,
-				9FC583172AE6F70900A56141 /* ContentView.swift */,
-				9F46EFBE2AE83C510006E5F3 /* DocumentNavigationView.swift */,
+				9F46EFBE2AE83C510006E5F3 /* ContentView.swift */,
 				9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */,
 				9FFB361D2AED9AE300E510CA /* LearningView.swift */,
 			);
@@ -225,7 +222,6 @@
 				9F0975E22AF590C10001C9E3 /* ButtomToolbar.swift in Sources */,
 				9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */,
 				9FF0F6A02B0401F400693857 /* VocabularyPack UTType.swift in Sources */,
-				9FC583182AE6F70900A56141 /* ContentView.swift in Sources */,
 				9FC5832B2AE7088B00A56141 /* WordGroup.swift in Sources */,
 				9FC583272AE7080E00A56141 /* VocabularyList.swift in Sources */,
 				9FFB36182AED93A500E510CA /* Learnable.swift in Sources */,
@@ -233,7 +229,7 @@
 				9FFB361E2AED9AE300E510CA /* LearningView.swift in Sources */,
 				9F2767322B0525A900C99231 /* Vocabulary UTType.swift in Sources */,
 				9FC583292AE7085400A56141 /* Vocabulary.swift in Sources */,
-				9F46EFBF2AE83C510006E5F3 /* DocumentNavigationView.swift in Sources */,
+				9F46EFBF2AE83C510006E5F3 /* ContentView.swift in Sources */,
 				9FFB361A2AED952C00E510CA /* LearningState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
