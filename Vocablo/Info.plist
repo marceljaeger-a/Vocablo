@@ -21,6 +21,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleIdentifier</key>
+	<string></string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

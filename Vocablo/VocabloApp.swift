@@ -13,6 +13,8 @@ struct VocabloApp: App {
     var body: some Scene {
         DocumentGroup(editing: [VocabularyList.self, Tag.self], contentType: .vocablo) {
             ContentView()
+        } prepareDocument: { context in
+           
         }
     }
 }
