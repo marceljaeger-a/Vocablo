@@ -94,14 +94,36 @@ struct ListTableView: View {
                 TableRow(vocabulary)
                     .contextMenu {
                         Button {
+                            var toggledVocabularies = selectedVocabularies
+                            toggledVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
+                            toggleLearnable(of: toggledVocabularies)
+                        } label: {
+                            Text("Toggle Learnable")
+                        }
+                        
+                        Button {
+                            var checkedVocabularies = selectedVocabularies
+                            checkedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
+                            checkLearnable(of: checkedVocabularies)
+                        } label: {
+                            Text("Check Learnable")
+                        }
+                        
+                        Button {
+                            var uncheckedVocabularies = selectedVocabularies
+                            uncheckedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
+                            uncheckLearnable(of: uncheckedVocabularies)
+                        } label: {
+                            Text("Uncheck Learnable")
+                        }
+                        
+                        Divider()
+                        
+                        Button {
                             //                            #error("When I delete a vocabulary, that´s text field is focused, the preview crashes!")
-                            if !selectedVocabularies.isEmpty {
-                                for selectedVocabulary in selectedVocabularies {
-                                    guard selectedVocabulary != vocabulary else { continue }
-                                    deleteVocabulary(selectedVocabulary)
-                                }
-                            }
-                            deleteVocabulary(vocabulary)
+                            var deletedVocabularies = selectedVocabularies
+                            deletedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
+                            deleteVocabularies(deletedVocabularies)
                         } label: {
                             Text("Remove")
                         }
@@ -132,10 +154,12 @@ struct ListTableView: View {
             LearningView(list: list)
         })
     }
-    
-    private func deleteVocabulary(_ vocabulary: Vocabulary) {
-        list.removeVocabulary(vocabulary)
-        context.delete(vocabulary)
+
+    private func deleteVocabularies(_ vocabularies: Array<Vocabulary>) {
+        for vocabulary in vocabularies {
+            list.removeVocabulary(vocabulary)
+            context.delete(vocabulary)
+        }
     }
     
     private func addVocabulary() {
@@ -144,7 +168,26 @@ struct ListTableView: View {
         focusedVocabulary = .word(newVocabulary.id)
         selectedVocabularyIdentifiers = [newVocabulary.id]
     }
-
+    
+    private func toggleLearnable(of vocabularies: Array<Vocabulary>) {
+        for vocabulary in vocabularies {
+            vocabulary.toggleLearnable()
+        }
+    }
+    
+    private func checkLearnable(of vocabularies: Array<Vocabulary>) {
+        for vocabulary in vocabularies {
+            guard !vocabulary.isLearnable else { continue }
+            vocabulary.checkLearnable()
+        }
+    }
+    
+    private func uncheckLearnable(of vocabularies: Array<Vocabulary>) {
+        for vocabulary in vocabularies {
+            guard vocabulary.isLearnable else { continue }
+            vocabulary.uncheckLearnable()
+        }
+    }
 }
 
 fileprivate struct VocabularyTextField: View {

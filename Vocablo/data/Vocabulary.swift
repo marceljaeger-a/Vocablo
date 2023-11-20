@@ -94,3 +94,21 @@ extension Vocabulary{
         TransferType(id: self.id)
     }
 }
+
+extension Vocabulary {
+    func checkLearnable() {
+        self.isLearnable = true
+    }
+    
+    func uncheckLearnable() {
+        self.isLearnable = false
+    }
+    
+    func toggleLearnable() {
+        if isLearnable {
+            uncheckLearnable()
+        }else {
+            checkLearnable()
+        }
+    }
+}

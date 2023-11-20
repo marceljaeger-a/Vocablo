@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+extension Array {
+    mutating func append(_ newElement: Element, when: (Array<Element>) -> Bool) {
+        if when(self) {
+            self.append(newElement)
+        }
+    }
+}
