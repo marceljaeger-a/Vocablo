@@ -18,7 +18,7 @@ struct ListTableView: View {
     
     @FocusState var focusedVocabulary: VocabularyTextFieldFocusState?
     enum VocabularyTextFieldFocusState: Hashable{
-        case word(PersistentIdentifier), translatedWord(PersistentIdentifier), explenation(PersistentIdentifier)
+        case word(PersistentIdentifier), translatedWord(PersistentIdentifier), explenation(PersistentIdentifier), sentence(PersistentIdentifier), translatedSentence(PersistentIdentifier)
     }
     
     @State var selectedVocabularyIdentifiers: Set<PersistentIdentifier> = Set()
@@ -31,8 +31,12 @@ struct ListTableView: View {
     
     var body: some View {
         Table(of: Vocabulary.self, selection: $selectedVocabularyIdentifiers) {
+            TableColumn("Learnable") { vocabulary in
+                VocabularyToggle(vocabulary: vocabulary, property: \.isLearnable)
+            }
+            .width(60)
+            
             TableColumn("Englisch word") { vocabulary in
-                @Bindable var bindedVocabulary = vocabulary
                 VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Word in english...")
                     .bold()
                     .onSubmit {
@@ -40,6 +44,7 @@ struct ListTableView: View {
                     }
                     .focused($focusedVocabulary, equals: VocabularyTextFieldFocusState.word(vocabulary.id))
             }
+            .width(200)
             
             TableColumn("German word") { vocabulary in
                 VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Word in german...")
@@ -48,6 +53,7 @@ struct ListTableView: View {
                     }
                     .focused($focusedVocabulary, equals: VocabularyTextFieldFocusState.translatedWord(vocabulary.id))
             }
+            .width(200)
             
             TableColumn("Explanation") { vocabulary in
                 VocabularyTextField(vocabulary: vocabulary, value: \.explenation, placeholder: "Explenation in english...")
@@ -56,28 +62,33 @@ struct ListTableView: View {
                     }
                     .focused($focusedVocabulary, equals: VocabularyTextFieldFocusState.explenation(vocabulary.id))
             }
+            .width(250)
+            
+            TableColumn("English Sentence") { vocabulary in
+                VocabularyTextField(vocabulary: vocabulary, value: \.sentence, placeholder: "Sentence in english...")
+                    .onSubmit {
+                        addVocabulary()
+                    }
+                    .focused($focusedVocabulary, equals: VocabularyTextFieldFocusState.sentence(vocabulary.id))
+            }
+            
+            TableColumn("German Sentence") { vocabulary in
+                VocabularyTextField(vocabulary: vocabulary, value: \.translatedSentence, placeholder: "Sentence in english...")
+                    .onSubmit {
+                        addVocabulary()
+                    }
+                    .focused($focusedVocabulary, equals: VocabularyTextFieldFocusState.translatedSentence(vocabulary.id))
+            }
             
             TableColumn("Word group") { vocabulary in
                 WordGroupPicker(vocabulary: vocabulary)
             }
             .width(100)
             
-            TableColumn("Learnable") { vocabulary in
-                VocabularyToggle(vocabulary: vocabulary, property: \.isLearnable)
+            TableColumn("") { vocabulary in
+                VocabularyInfoButton(vocabulary: vocabulary)
             }
-            .width(65)
-            
-            TableColumn("State (Level / next Repetition)") { vocabulary in
-                LearningStateLabel(vocabulary: vocabulary, learningState: \.learningState)
-            }
-            
-            TableColumn("State of translation (Level / next Repetition)") { vocabulary in
-                LearningStateLabel(vocabulary: vocabulary, learningState: \.translatedLearningState)
-            }
-            
-            TableColumn("Tags") { vocabulary in
-                TagMultiPicker(vocabulary: vocabulary, tags: tags)
-            }
+            .width(20)
         } rows: {
             ForEach(list.vocabularies.sorted(using: KeyPathComparator(\.created))) { vocabulary in
                 TableRow(vocabulary)
@@ -131,6 +142,7 @@ struct ListTableView: View {
         let newVocabulary = Vocabulary(word: "", translatedWord: "", wordGroup: .noun)
         list.addVocabulary(newVocabulary)
         focusedVocabulary = .word(newVocabulary.id)
+        selectedVocabularyIdentifiers = [newVocabulary.id]
     }
 
 }
@@ -149,9 +161,23 @@ fileprivate struct VocabularyTextField: View {
 fileprivate struct LearningStateLabel: View {
     let vocabulary: Vocabulary
     let learningState: KeyPath<Vocabulary, LearningState>
+    let arrow: ArrowSymbole
+    
+    enum ArrowSymbole: String {
+        case arrowRight = "arrow.right"
+        case arrowLeft = "arrow.left"
+    }
     
     var body: some View {
-        Text("\(vocabulary[keyPath: learningState].currentLevel.rawValue) / \(vocabulary[keyPath: learningState].remainingTimeLabel)")
+        Label {
+            Text("\(vocabulary[keyPath: learningState].currentLevel.rawValue) / \(vocabulary[keyPath: learningState].remainingTimeLabel)")
+        } icon: {
+            HStack(spacing: 0) {
+                Image(systemName: "a.square")
+                Image(systemName: arrow.rawValue)
+                Image(systemName: "b.square")
+            }
+        }
     }
 }
 
@@ -217,6 +243,46 @@ fileprivate struct TagMultiPicker: View {
             Text(tagListString)
         }
         .menuStyle(.borderlessButton)
+    }
+}
+
+fileprivate struct VocabularyInfoButton: View {
+    @Query var tags: Array<Tag>
+    
+    let vocabulary: Vocabulary
+    
+    @State var showPopover: Bool = false
+    
+    var body: some View {
+        Button {
+            showPopover = true
+        } label: {
+            Image(systemName: "info.circle")
+        }
+        .popover(isPresented: $showPopover, arrowEdge: .trailing) {
+            infoPopover
+        }
+    }
+    
+    var infoPopover: some View {
+        VStack(alignment: .leading) {
+            VStack {
+                LearningStateLabel(vocabulary: vocabulary, learningState: \.learningState, arrow: .arrowRight)
+                LearningStateLabel(vocabulary: vocabulary, learningState: \.translatedLearningState, arrow: .arrowLeft)
+            }
+            .padding([.top, .horizontal] , 15)
+            .padding(.bottom, 5)
+            
+            Divider()
+            
+            HStack {
+                Image(systemName: "tag")
+                TagMultiPicker(vocabulary: vocabulary, tags: tags)
+            }
+            .padding([.bottom, .horizontal] , 15)
+            .padding(.top, 5)
+        }
+        .foregroundStyle(.secondary)
     }
 }
 
