@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>131</string>
+					<string>157</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>130</string>
+					<string>156</string>
 					<key>Timestamp</key>
-					<string>722204803.410272</string>
+					<string>722289071.874905</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,16 +34,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>                //.draggable(vocabulary.transferType)
+				<string>            }
 </string>
 				<key>leading</key>
-				<string>                        }
-                    }
+				<string>                    }
+                //.draggable(vocabulary.transferType)
 </string>
 				<key>trailing</key>
-				<string>            }
-        }
+				<string>        }
         .tableStyle(.inset)
+        .textFieldStyle(.plain)
 </string>
 			</dict>
 			<key>title</key>

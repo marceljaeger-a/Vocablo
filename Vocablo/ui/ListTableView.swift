@@ -29,6 +29,31 @@ struct ListTableView: View {
         }
     }
     
+    @State var sortState: VocabularySorting = .newest
+    enum VocabularySorting: String {
+        case newest = "Newest", oldest = "Oldest", word = "Word", translatedWord = "Translated Word"
+        
+        var sortComparator: KeyPathComparator<Vocabulary> {
+            switch self {
+            case .newest:
+                KeyPathComparator(\Vocabulary.created, order: .reverse)
+            case .oldest:
+                KeyPathComparator(\Vocabulary.created, order: .forward)
+            case .word:
+                KeyPathComparator(\Vocabulary.word)
+            case .translatedWord:
+                KeyPathComparator(\Vocabulary.translatedWord)
+            }
+        }
+        
+        @ViewBuilder static var pickerContent: some View {
+            Text("Oldest").tag(VocabularySorting.oldest)
+            Text("Newest").tag(VocabularySorting.newest)
+            Text("Word").tag(VocabularySorting.word)
+            Text("Translated Word").tag(VocabularySorting.translatedWord)
+        }
+    }
+    
     var body: some View {
         Table(of: Vocabulary.self, selection: $selectedVocabularyIdentifiers) {
             TableColumn("Learnable") { vocabulary in
@@ -90,7 +115,7 @@ struct ListTableView: View {
             }
             .width(20)
         } rows: {
-            ForEach(list.vocabularies.sorted(using: KeyPathComparator(\.created))) { vocabulary in
+            ForEach(list.vocabularies.sorted(using: sortState.sortComparator)) { vocabulary in
                 TableRow(vocabulary)
                     .contextMenu {
                         Button {
@@ -142,12 +167,20 @@ struct ListTableView: View {
                     Image(.wordPlus)
                 }
             }
-            ToolbarItem(placement: .secondaryAction) {
+            ToolbarItem(placement: .primaryAction) {
                 Button {
                     self.showLearningSheet = true
                 } label: {
                     Image(.wordlistPlay)
                 }
+            }
+            ToolbarItem(placement: .status) {
+                Picker(selection: $sortState) {
+                    VocabularySorting.pickerContent
+                } label: {
+                    Text("\(sortState.rawValue)")
+                }
+
             }
         }
         .sheet(isPresented: $showLearningSheet, content: {
