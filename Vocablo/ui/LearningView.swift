@@ -114,22 +114,22 @@ fileprivate struct LearnableView: View {
 fileprivate struct LearnableSideView: View {
     let word: String
     let sentence: String
-    @Binding var showSide: Bool
+    @Binding var isSideShowing: Bool
     
     init(word: String, sentence: String, showSide: Binding<Bool> = .constant(true)) {
         self.word = word
         self.sentence = sentence
-        self._showSide = showSide
+        self._isSideShowing = showSide
     }
     
     var body: some View {
         VStack(spacing: 10){
             Text(word)
-                .opacity(showSide ? 1.0 : 0)
+                .opacity(isSideShowing ? 1.0 : 0)
             Divider()
-                .opacity(showSide ? 1.0 : 0)
+                .opacity(isSideShowing ? 1.0 : 0)
             Text(sentence)
-                .opacity(showSide ? 1.0 : 0)
+                .opacity(isSideShowing ? 1.0 : 0)
         }
         .font(.headline)
         .padding()
@@ -137,11 +137,9 @@ fileprivate struct LearnableSideView: View {
         .background(in: .rect(cornerRadius: 15))
         .backgroundStyle(.thickMaterial)
         .overlay {
-            if !showSide {
+            if !isSideShowing {
                 Button {
-                    withAnimation {
-                        showSide.toggle()
-                    }
+                    onShowSide()
                 }label: {
                     Image(systemName: "questionmark")
                         .imageScale(.large)
@@ -150,6 +148,12 @@ fileprivate struct LearnableSideView: View {
                 }
                 .buttonStyle(.borderless)
             }
+        }
+    }
+    
+    private func onShowSide() {
+        withAnimation {
+            isSideShowing.toggle()
         }
     }
 }
@@ -164,8 +168,7 @@ fileprivate struct LearnableAnswersView: View {
             
             HStack(spacing: 20){
                 Button {
-                    learningState.levelDown()
-                    showTranslation = false
+                    onFalse()
                 } label: {
                     Label(learningState.downLevel.repeatIntervalLabel, systemImage: "hand.thumbsdown.fill")
                         .foregroundStyle(.red)
@@ -174,8 +177,7 @@ fileprivate struct LearnableAnswersView: View {
                 .controlSize(.extraLarge)
                 
                 Button {
-                    learningState.levelUp()
-                    showTranslation = false
+                    onTrue()
                 } label: {
                     Label(learningState.nextLevel.repeatIntervalLabel, systemImage: "hand.thumbsup.fill")
                         .foregroundStyle(.green)
@@ -185,6 +187,16 @@ fileprivate struct LearnableAnswersView: View {
             }
         }
         .padding()
+    }
+    
+    private func onFalse() {
+        learningState.levelDown()
+        showTranslation = false
+    }
+    
+    private func onTrue() {
+        learningState.levelUp()
+        showTranslation = false
     }
 }
 

@@ -11,6 +11,7 @@ import SwiftData
 struct ListTableView: View {
     @Environment(\.modelContext) var context: ModelContext
     @Query var tags: Array<Tag>
+    @Query var allVocabularies: Array<Vocabulary>
     
     @Bindable var list: VocabularyList
     
@@ -53,6 +54,8 @@ struct ListTableView: View {
             Text("Translated Word").tag(VocabularySorting.translatedWord)
         }
     }
+    
+    @State var isDraggable: Bool = false
     
     var body: some View {
         Table(of: Vocabulary.self, selection: $selectedVocabularyIdentifiers) {
@@ -116,44 +119,18 @@ struct ListTableView: View {
             .width(20)
         } rows: {
             ForEach(list.vocabularies.sorted(using: sortState.sortComparator)) { vocabulary in
-                TableRow(vocabulary)
-                    .contextMenu {
-                        Button {
-                            var toggledVocabularies = selectedVocabularies
-                            toggledVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
-                            toggleLearnable(of: toggledVocabularies)
-                        } label: {
-                            Text("Toggle Learnable")
+                if isDraggable {
+                    TableRow(vocabulary)
+                        .draggable(vocabulary.transferType)
+                        .contextMenu {
+                            contextMenuItem(vocabulary: vocabulary)
                         }
-                        
-                        Button {
-                            var checkedVocabularies = selectedVocabularies
-                            checkedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
-                            checkLearnable(of: checkedVocabularies)
-                        } label: {
-                            Text("Check Learnable")
+                }else {
+                    TableRow(vocabulary)
+                        .contextMenu {
+                            contextMenuItem(vocabulary: vocabulary)
                         }
-                        
-                        Button {
-                            var uncheckedVocabularies = selectedVocabularies
-                            uncheckedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
-                            uncheckLearnable(of: uncheckedVocabularies)
-                        } label: {
-                            Text("Uncheck Learnable")
-                        }
-                        
-                        Divider()
-                        
-                        Button {
-                            //                            #error("When I delete a vocabulary, that´s text field is focused, the preview crashes!")
-                            var deletedVocabularies = selectedVocabularies
-                            deletedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
-                            deleteVocabularies(deletedVocabularies)
-                        } label: {
-                            Text("Remove")
-                        }
-                    }
-                //.draggable(vocabulary.transferType)
+                }
             }
         }
         .tableStyle(.inset)
@@ -180,12 +157,60 @@ struct ListTableView: View {
                 } label: {
                     Text("\(sortState.rawValue)")
                 }
-
+            }
+            
+            ToolbarItem(placement: .status) {
+                Button {
+                    self.isDraggable.toggle()
+                } label: {
+                    if isDraggable {
+                        Image(systemName: "cursorarrow.and.square.on.square.dashed")
+                    }else {
+                        Image(.cursorarrowAndSquareOnSquareDashedSlash)
+                    }
+                }
             }
         }
         .sheet(isPresented: $showLearningSheet, content: {
             LearningView(list: list)
         })
+    }
+    
+    @ViewBuilder func contextMenuItem(vocabulary: Vocabulary) -> some View {
+        Button {
+            var toggledVocabularies = selectedVocabularies
+            toggledVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
+            toggleLearnable(of: toggledVocabularies)
+        } label: {
+            Text("Toggle Learnable")
+        }
+        
+        Button {
+            var checkedVocabularies = selectedVocabularies
+            checkedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
+            checkLearnable(of: checkedVocabularies)
+        } label: {
+            Text("Check Learnable")
+        }
+        
+        Button {
+            var uncheckedVocabularies = selectedVocabularies
+            uncheckedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
+            uncheckLearnable(of: uncheckedVocabularies)
+        } label: {
+            Text("Uncheck Learnable")
+        }
+        
+        Divider()
+        
+        Button {
+            //                            #error("When I delete a vocabulary, that´s text field is focused, the preview crashes!")
+            var deletedVocabularies = selectedVocabularies
+            deletedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
+            deleteVocabularies(deletedVocabularies)
+        } label: {
+            Text("Remove")
+        }
     }
 
     private func deleteVocabularies(_ vocabularies: Array<Vocabulary>) {
@@ -197,7 +222,9 @@ struct ListTableView: View {
     
     private func addVocabulary() {
         let newVocabulary = Vocabulary(word: "", translatedWord: "", wordGroup: .noun)
+        context.insert(newVocabulary)
         list.addVocabulary(newVocabulary)
+        
         focusedVocabulary = .word(newVocabulary.id)
         selectedVocabularyIdentifiers = [newVocabulary.id]
     }
@@ -274,7 +301,7 @@ fileprivate struct WordGroupPicker: View {
         Menu(vocabulary.wordGroup.rawValue) {
             ForEach(WordGroup.allCases, id: \.rawValue) { wordGroup in
                 Button {
-                    vocabulary.wordGroup = wordGroup
+                    selectWordGroup(wordGroup)
                 } label: {
                     Text(wordGroup.rawValue)
                 }
@@ -282,6 +309,10 @@ fileprivate struct WordGroupPicker: View {
             }
         }
         .menuStyle(BorderlessButtonMenuStyle())
+    }
+    
+    private func selectWordGroup(_ wordGroup: WordGroup) {
+        vocabulary.wordGroup = wordGroup
     }
 }
 
@@ -293,7 +324,7 @@ fileprivate struct TagMultiPicker: View {
         Menu {
             ForEach(tags) { tag in
                 Button {
-                    vocabulary.toggleTag(tag)
+                    selectTag(tag)
                 } label: {
                     HStack {
                         Image(systemName: "tag")
@@ -320,6 +351,10 @@ fileprivate struct TagMultiPicker: View {
         }
         .menuStyle(.borderlessButton)
     }
+    
+    private func selectTag(_ tag: Tag) {
+        vocabulary.toggleTag(tag)
+    }
 }
 
 fileprivate struct VocabularyInfoButton: View {
@@ -331,7 +366,7 @@ fileprivate struct VocabularyInfoButton: View {
     
     var body: some View {
         Button {
-            showPopover = true
+            onShowPopover()
         } label: {
             Image(systemName: "info.circle")
         }
@@ -359,6 +394,10 @@ fileprivate struct VocabularyInfoButton: View {
             .padding(.top, 5)
         }
         .foregroundStyle(.secondary)
+    }
+    
+    private func onShowPopover() {
+        showPopover = true
     }
 }
 

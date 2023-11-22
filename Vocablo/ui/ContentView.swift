@@ -109,11 +109,6 @@ fileprivate struct SidebarView: View {
     private func addList() {
         let newList = VocabularyList("New List")
         context.insert(newList)
-        
-        for i in 1...5 {
-            let newVocabulary = Vocabulary(word: "Englisch \(i)", translatedWord: "German \(i)", sentence: "This is a english word!", translatedSentence: "This is a german word!", wordGroup: .noun)
-            newList.addVocabulary(newVocabulary)
-        }
     }
     
     private func deleteList(_ deletingList: VocabularyList) {
@@ -135,7 +130,10 @@ fileprivate struct SidebarView: View {
             
             guard let vocabulary else { continue }
             if !list.containVocabulary(vocabulary) {
-                vocabulary.list = list
+                if let vocabularyList = vocabulary.list {
+                    vocabularyList.removeVocabulary(vocabulary)
+                }
+                list.addVocabulary(vocabulary)
             }
         }
         return true
