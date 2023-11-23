@@ -9,14 +9,14 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @State var selectedList: VocabularyList?
+    @State var selectedLists: Set<VocabularyList> = []
     
     var body: some View {
         NavigationSplitView {
-            SidebarView(selectedList: $selectedList)
+            SidebarView(selectedLists: $selectedLists)
         } detail: {
-            if let selectedList {
-                ListTableView(list: selectedList)
+            if let firstSelectedList = selectedLists.first {
+                ListTableView(list: firstSelectedList)
             } else {
                 ContentUnavailableView("No selected list!", systemImage: "book.pages", description: Text("Select a list on the sidebar."))
             }
@@ -42,10 +42,10 @@ fileprivate struct SidebarView: View {
     @Query var tags: Array<Tag>
     @Query var vocabularies: Array<Vocabulary>
     
-    @Binding var selectedList: VocabularyList?
+    @Binding var selectedLists: Set<VocabularyList>
     
     var body: some View {
-        List(selection: $selectedList){
+        List(selection: $selectedLists){
             Section("Lists") {
                 ForEach(lists, id: \.self) { list in
                     @Bindable var bindedList = list
@@ -56,7 +56,7 @@ fileprivate struct SidebarView: View {
                     }
                     .contextMenu {
                         Button {
-                            deleteList(list)
+                            deleteSelectedLists(and: list)
                         } label: {
                             Text("Remove")
                         }
@@ -111,8 +111,18 @@ fileprivate struct SidebarView: View {
         context.insert(newList)
     }
     
-    private func deleteList(_ deletingList: VocabularyList) {
-        context.delete(deletingList)
+//    private func deleteList(_ deletingList: VocabularyList) {
+//        context.delete(deletingList)
+//    }
+    
+    private func deleteSelectedLists(and list: VocabularyList) {
+        for selectedList in selectedLists {
+            guard selectedList != list else { continue }
+            
+            context.delete(selectedList)
+        }
+        
+        context.delete(list)
     }
     
     private func addTag() {
