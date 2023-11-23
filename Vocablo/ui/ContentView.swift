@@ -38,8 +38,8 @@ extension View {
 
 fileprivate struct SidebarView: View {
     @Environment(\.modelContext) var context: ModelContext
-    @Query var lists: Array<VocabularyList>
-    @Query var tags: Array<Tag>
+    @Query(sort: \VocabularyList.created, order: .forward) var lists: Array<VocabularyList>
+    @Query(sort: \Tag.name, order: .forward) var tags: Array<Tag>
     @Query var vocabularies: Array<Vocabulary>
     
     @Binding var selectedLists: Set<VocabularyList>

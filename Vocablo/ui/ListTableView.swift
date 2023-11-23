@@ -10,8 +10,6 @@ import SwiftData
 
 struct ListTableView: View {
     @Environment(\.modelContext) var context: ModelContext
-    @Query var tags: Array<Tag>
-    @Query var allVocabularies: Array<Vocabulary>
     
     @Bindable var list: VocabularyList
     
