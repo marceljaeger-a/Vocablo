@@ -9,11 +9,18 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @State var selectedLists: Set<VocabularyList> = []
+    @Query(sort: \VocabularyList.created, order: .forward) var lists: Array<VocabularyList>
+    
+    @State var selectedListIDs: Set<PersistentIdentifier> = []
+    var selectedLists: Array<VocabularyList> {
+        lists.filter { list in
+            selectedListIDs.contains(list.id)
+        }
+    }
     
     var body: some View {
         NavigationSplitView {
-            SidebarView(selectedLists: $selectedLists)
+            SidebarView(selectedListIDs: $selectedListIDs)
         } detail: {
             if let firstSelectedList = selectedLists.first {
                 ListTableView(list: firstSelectedList)
@@ -42,12 +49,18 @@ fileprivate struct SidebarView: View {
     @Query(sort: \Tag.name, order: .forward) var tags: Array<Tag>
     @Query var vocabularies: Array<Vocabulary>
     
-    @Binding var selectedLists: Set<VocabularyList>
+    @Binding var selectedListIDs: Set<PersistentIdentifier>
+    var selectedLists: Array<VocabularyList> {
+        lists.filter { list in
+            selectedListIDs.contains(list.id)
+        }
+    }
     
     var body: some View {
-        List(selection: $selectedLists){
+#warning("This was the problem of #16, because I do not use the id as selection. Maybe because of the List and the wrapped ForEach, but I do not now. But I know, that this was the problem of the duplicate key error!")
+        List(selection: $selectedListIDs){
             Section("Lists") {
-                ForEach(lists, id: \.self) { list in
+                ForEach(lists, id: \.id) { list in
                     @Bindable var bindedList = list
                     Label {
                         TextField("", text: $bindedList.name)
@@ -118,11 +131,11 @@ fileprivate struct SidebarView: View {
     private func deleteSelectedLists(and list: VocabularyList) {
         for selectedList in selectedLists {
             guard selectedList != list else { continue }
-            selectedLists.remove(selectedList)
+            selectedListIDs.remove(selectedList.id)
             context.delete(selectedList)
         }
         
-        selectedLists.remove(list)
+        selectedListIDs.remove(list.id)
         context.delete(list)
     }
     
