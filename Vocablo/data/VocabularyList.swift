@@ -12,7 +12,6 @@ import SwiftData
 class VocabularyList {
     var name: String
     var created: Date
-    let id = UUID()
     
     @Relationship(deleteRule: .nullify, inverse: \Vocabulary.list) var vocabularies: Array<Vocabulary>
     
@@ -21,10 +20,6 @@ class VocabularyList {
         self.created = Date.now
         self.vocabularies = vocabularies
     }
-    
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(self.id)
-//    }
 }
 
 extension VocabularyList {

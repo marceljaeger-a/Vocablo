@@ -222,7 +222,7 @@ struct ListTableView: View {
     
     private func addVocabulary() {
         let newVocabulary = Vocabulary(word: "", translatedWord: "", wordGroup: .noun)
-        context.insert(newVocabulary)
+        //context.insert(newVocabulary)
         list.addVocabulary(newVocabulary)
         
         focusedVocabulary = .word(newVocabulary.id)

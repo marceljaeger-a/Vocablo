@@ -118,10 +118,11 @@ fileprivate struct SidebarView: View {
     private func deleteSelectedLists(and list: VocabularyList) {
         for selectedList in selectedLists {
             guard selectedList != list else { continue }
-            
+            selectedLists.remove(selectedList)
             context.delete(selectedList)
         }
         
+        selectedLists.remove(list)
         context.delete(list)
     }
     
