@@ -57,7 +57,7 @@ fileprivate struct SidebarView: View {
     }
     
     var body: some View {
-#warning("This was the problem of #16, because I do not use the id as selection. Maybe because of the List and the wrapped ForEach, but I do not now. But I know, that this was the problem of the duplicate key error!")
+//        ("This was the problem of #16, because I do not use the id as selection. Maybe because of the List and the wrapped ForEach, but I do not now. But I know, that this was the problem of the duplicate key error!")
         List(selection: $selectedListIDs){
             Section("Lists") {
                 ForEach(lists, id: \.id) { list in

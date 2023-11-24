@@ -38,6 +38,7 @@ struct LearningView: View {
                     .padding()
                 }
         }else {
+            #warning("The reason of the console print `=== AttributeGraph: cycle detected through attribute 662336 ===` is the ContentUnavailableView! I do not why this is so, because when I put this View into the sheet modifier alone, this message is also printed in the console. Maybe it is a SwiftUI Bug! But this is only in a sheet. For example in a popover it is not. I test it on an iOS Project and it did not print. On a another macOS App with only a button it did print also!")
             ContentUnavailableView("No vocabulary to learn today!", systemImage: "calendar.badge.checkmark")
         }
     }
@@ -122,14 +123,18 @@ fileprivate struct LearnableSideView: View {
         self._isSideShowing = showSide
     }
     
+    var viewOpacity: Double {
+        isSideShowing ? 1.0 : 0
+    }
+    
     var body: some View {
         VStack(spacing: 10){
             Text(word)
-                .opacity(isSideShowing ? 1.0 : 0)
+                .opacity(viewOpacity)
             Divider()
-                .opacity(isSideShowing ? 1.0 : 0)
+                .opacity(viewOpacity)
             Text(sentence)
-                .opacity(isSideShowing ? 1.0 : 0)
+                .opacity(viewOpacity)
         }
         .font(.headline)
         .padding()

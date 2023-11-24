@@ -11,7 +11,7 @@ import SwiftData
 struct ListTableView: View {
     @Environment(\.modelContext) var context: ModelContext
     
-    @Bindable var list: VocabularyList
+    var list: VocabularyList
     
     @State var showLearningSheet: Bool = false
     
