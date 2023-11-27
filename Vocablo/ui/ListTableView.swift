@@ -59,8 +59,6 @@ struct ListTableView: View {
         }
     }
     
-    @State var isDraggable: Bool = false
-    
     @State var editingVocabulary: Vocabulary?
     
     var body: some View {
@@ -196,18 +194,6 @@ struct ListTableView: View {
                     VocabularySorting.pickerContent
                 } label: {
                     Text("\(sortState.rawValue)")
-                }
-            }
-            
-            ToolbarItem(placement: .status) {
-                Button {
-                    self.isDraggable.toggle()
-                } label: {
-                    if isDraggable {
-                        Image(systemName: "cursorarrow.and.square.on.square.dashed")
-                    }else {
-                        Image(.cursorarrowAndSquareOnSquareDashedSlash)
-                    }
                 }
             }
         }
