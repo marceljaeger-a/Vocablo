@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum LearningState: Codable, Equatable {
+enum LearningState: Codable, Equatable{
     case newly(LearningLevel)   //LearningLevel
     case repeatly(Date, Int, LearningLevel) //Last repetition, Count of repetitions, current level
     
@@ -99,8 +99,8 @@ enum LearningState: Codable, Equatable {
 extension LearningState {
     var currentLevel: LearningLevel {
         switch self {
-        case .newly:
-            return .min
+        case .newly(let currentLevel):
+            return currentLevel
         case .repeatly(_, _, let currentLevel):
             return currentLevel
         }
@@ -139,4 +139,12 @@ extension LearningState {
     mutating func levelDown() {
         self = .repeatly(.now, self.repetitionCount + 1, downLevel)
     }
+    
+    mutating func reset() {
+        self = .newly(.lvl1)
+    }
+}
+
+extension LearningState: Hashable {
+    
 }

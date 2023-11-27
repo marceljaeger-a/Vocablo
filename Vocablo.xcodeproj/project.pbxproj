@@ -13,6 +13,12 @@
 		9F46EFBC2AE81F5D0006E5F3 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBB2AE81F5D0006E5F3 /* Tag.swift */; };
 		9F46EFBF2AE83C510006E5F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBE2AE83C510006E5F3 /* ContentView.swift */; };
 		9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */; };
+		9F77411A2B1343DC00565B42 /* EditVocabularyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7741192B1343DC00565B42 /* EditVocabularyView.swift */; };
+		9F77411D2B13457A00565B42 /* VocabularyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77411C2B13457A00565B42 /* VocabularyTextField.swift */; };
+		9F77411F2B1345B200565B42 /* VocabularyToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77411E2B1345B200565B42 /* VocabularyToggle.swift */; };
+		9F7741212B1345DA00565B42 /* WordGroupPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7741202B1345DA00565B42 /* WordGroupPicker.swift */; };
+		9F7741232B1345F100565B42 /* TagMultiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7741222B1345F100565B42 /* TagMultiPicker.swift */; };
+		9F7741252B134AC600565B42 /* LearningLevelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7741242B134AC500565B42 /* LearningLevelPicker.swift */; };
 		9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583152AE6F70900A56141 /* VocabloApp.swift */; };
 		9FC5831A2AE6F70A00A56141 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC583192AE6F70A00A56141 /* Assets.xcassets */; };
 		9FC5831E2AE6F70A00A56141 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC5831D2AE6F70A00A56141 /* Preview Assets.xcassets */; };
@@ -33,6 +39,12 @@
 		9F46EFBB2AE81F5D0006E5F3 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		9F46EFBE2AE83C510006E5F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
+		9F7741192B1343DC00565B42 /* EditVocabularyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVocabularyView.swift; sourceTree = "<group>"; };
+		9F77411C2B13457A00565B42 /* VocabularyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyTextField.swift; sourceTree = "<group>"; };
+		9F77411E2B1345B200565B42 /* VocabularyToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyToggle.swift; sourceTree = "<group>"; };
+		9F7741202B1345DA00565B42 /* WordGroupPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGroupPicker.swift; sourceTree = "<group>"; };
+		9F7741222B1345F100565B42 /* TagMultiPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMultiPicker.swift; sourceTree = "<group>"; };
+		9F7741242B134AC500565B42 /* LearningLevelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningLevelPicker.swift; sourceTree = "<group>"; };
 		9FAF88472AEAE9E000D81CE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9FC583122AE6F70900A56141 /* Vocablo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vocablo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FC583152AE6F70900A56141 /* VocabloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloApp.swift; sourceTree = "<group>"; };
@@ -85,6 +97,18 @@
 				9FFB36212AF0427F00E510CA /* LearningLevel.swift */,
 			);
 			path = types;
+			sourceTree = "<group>";
+		};
+		9F77411B2B13452D00565B42 /* view components */ = {
+			isa = PBXGroup;
+			children = (
+				9F77411C2B13457A00565B42 /* VocabularyTextField.swift */,
+				9F77411E2B1345B200565B42 /* VocabularyToggle.swift */,
+				9F7741202B1345DA00565B42 /* WordGroupPicker.swift */,
+				9F7741222B1345F100565B42 /* TagMultiPicker.swift */,
+				9F7741242B134AC500565B42 /* LearningLevelPicker.swift */,
+			);
+			path = "view components";
 			sourceTree = "<group>";
 		};
 		9FC583092AE6F70900A56141 = {
@@ -141,10 +165,12 @@
 		9FC583252AE707CB00A56141 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				9F77411B2B13452D00565B42 /* view components */,
 				9F0975E02AF590810001C9E3 /* view modifier */,
 				9F46EFBE2AE83C510006E5F3 /* ContentView.swift */,
 				9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */,
 				9FFB361D2AED9AE300E510CA /* LearningView.swift */,
+				9F7741192B1343DC00565B42 /* EditVocabularyView.swift */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -230,16 +256,22 @@
 			files = (
 				9FFB36222AF0427F00E510CA /* LearningLevel.swift in Sources */,
 				9F46EFBC2AE81F5D0006E5F3 /* Tag.swift in Sources */,
+				9F7741212B1345DA00565B42 /* WordGroupPicker.swift in Sources */,
 				9F0975E22AF590C10001C9E3 /* ButtomToolbar.swift in Sources */,
+				9F7741232B1345F100565B42 /* TagMultiPicker.swift in Sources */,
 				9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */,
 				9FF0F6A02B0401F400693857 /* VocabularyPack UTType.swift in Sources */,
+				9F7741252B134AC600565B42 /* LearningLevelPicker.swift in Sources */,
 				9FC5832B2AE7088B00A56141 /* WordGroup.swift in Sources */,
 				9F23D9412B0BF53200C90BBB /* Array.swift in Sources */,
 				9FC583272AE7080E00A56141 /* VocabularyList.swift in Sources */,
 				9FFB36182AED93A500E510CA /* Learnable.swift in Sources */,
 				9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */,
 				9FFB361E2AED9AE300E510CA /* LearningView.swift in Sources */,
+				9F77411D2B13457A00565B42 /* VocabularyTextField.swift in Sources */,
 				9F2767322B0525A900C99231 /* Vocabulary UTType.swift in Sources */,
+				9F77411F2B1345B200565B42 /* VocabularyToggle.swift in Sources */,
+				9F77411A2B1343DC00565B42 /* EditVocabularyView.swift in Sources */,
 				9FC583292AE7085400A56141 /* Vocabulary.swift in Sources */,
 				9F46EFBF2AE83C510006E5F3 /* ContentView.swift in Sources */,
 				9FFB361A2AED952C00E510CA /* LearningState.swift in Sources */,

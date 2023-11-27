@@ -55,10 +55,12 @@ struct ListTableView: View {
     
     @State var isDraggable: Bool = false
     
+    @State var editingVocabulary: Vocabulary?
+    
     var body: some View {
         Table(of: Vocabulary.self, selection: $selectedVocabularyIdentifiers) {
             TableColumn("Learnable") { vocabulary in
-                VocabularyToggle(vocabulary: vocabulary, property: \.isLearnable)
+                VocabularyToggle(vocabulary: vocabulary, value: \.isLearnable)
             }
             .width(60)
             
@@ -172,9 +174,21 @@ struct ListTableView: View {
         .sheet(isPresented: $showLearningSheet, content: {
             LearningView(list: list)
         })
+        .sheet(item: $editingVocabulary) { vocabulary in
+            EditVocabularyView(vocabulary: vocabulary)
+                .frame(width: 600, height: 650)
+        }
     }
     
     @ViewBuilder func contextMenuItem(vocabulary: Vocabulary) -> some View {
+        Button {
+            editingVocabulary = vocabulary
+        } label: {
+            Text("Edit")
+        }
+        
+        Divider()
+        
         Button {
             var toggledVocabularies = selectedVocabularies
             toggledVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
@@ -248,17 +262,6 @@ struct ListTableView: View {
     }
 }
 
-fileprivate struct VocabularyTextField: View {
-    @Bindable var vocabulary: Vocabulary
-    let value: KeyPath<Bindable<Vocabulary>, Binding<String>>
-    let placeholder: String
-    
-    var body: some View {
-        TextField("", text: $vocabulary[keyPath: value], prompt: Text(placeholder))
-            .bold()
-    }
-}
-
 fileprivate struct LearningStateLabel: View {
     let vocabulary: Vocabulary
     let learningState: KeyPath<Vocabulary, LearningState>
@@ -279,79 +282,6 @@ fileprivate struct LearningStateLabel: View {
                 Image(systemName: "b.square")
             }
         }
-    }
-}
-
-fileprivate struct VocabularyToggle: View {
-    @Bindable var vocabulary: Vocabulary
-    var property: KeyPath<Bindable<Vocabulary>, Binding<Bool>>
-    var body: some View {
-        Toggle(isOn: $vocabulary[keyPath: property]) {
-            
-        }
-    }
-}
-
-fileprivate struct WordGroupPicker: View {
-    @Bindable var vocabulary: Vocabulary
-    
-    var body: some View {
-        Menu(vocabulary.wordGroup.rawValue) {
-            ForEach(WordGroup.allCases, id: \.rawValue) { wordGroup in
-                Button {
-                    selectWordGroup(wordGroup)
-                } label: {
-                    Text(wordGroup.rawValue)
-                }
-                .disabled(vocabulary.wordGroup == wordGroup)
-            }
-        }
-        .menuStyle(BorderlessButtonMenuStyle())
-    }
-    
-    private func selectWordGroup(_ wordGroup: WordGroup) {
-        vocabulary.wordGroup = wordGroup
-    }
-}
-
-fileprivate struct TagMultiPicker: View {
-    @Bindable var vocabulary: Vocabulary
-    let tags: Array<Tag>
-    
-    var body: some View {
-        Menu {
-            ForEach(tags) { tag in
-                Button {
-                    selectTag(tag)
-                } label: {
-                    HStack {
-                        Image(systemName: "tag")
-                            .symbolVariant(vocabulary.hasTag(tag) ? .fill : .none)
-                        
-                        Text(tag.name)
-                    }
-                }
-            }
-        } label: {
-            let tagListString = { () -> String in
-                var tagsString = ""
-                for tag in vocabulary.tags {
-                    if tagsString.isEmpty {
-                        tagsString += tag.name
-                    }else {
-                        tagsString += ", \(tag.name)"
-                    }
-                }
-                return tagsString
-            }()
-            
-            Text(tagListString)
-        }
-        .menuStyle(.borderlessButton)
-    }
-    
-    private func selectTag(_ tag: Tag) {
-        vocabulary.toggleTag(tag)
     }
 }
 
