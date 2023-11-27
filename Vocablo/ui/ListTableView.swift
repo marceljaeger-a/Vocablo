@@ -27,6 +27,12 @@ struct ListTableView: View {
             selectedVocabularyIdentifiers.contains(element.id)
         }
     }
+    func getVocabularies(ids: Set<PersistentIdentifier>) -> Array<Vocabulary> {
+        let vocabularies = list.vocabularies
+        return vocabularies.filter { element in
+            ids.contains(element.id)
+        }
+    }
     
     @State var sortState: VocabularySorting = .newest
     enum VocabularySorting: String {
@@ -58,7 +64,7 @@ struct ListTableView: View {
     @State var editingVocabulary: Vocabulary?
     
     var body: some View {
-        Table(of: Vocabulary.self, selection: $selectedVocabularyIdentifiers) {
+        Table(list.vocabularies.sorted(using: sortState.sortComparator), selection: $selectedVocabularyIdentifiers) {
             TableColumn("Learnable") { vocabulary in
                 VocabularyToggle(vocabulary: vocabulary, value: \.isLearnable)
             }
@@ -117,23 +123,57 @@ struct ListTableView: View {
                 VocabularyInfoButton(vocabulary: vocabulary)
             }
             .width(20)
-        } rows: {
-            ForEach(list.vocabularies.sorted(using: sortState.sortComparator)) { vocabulary in
-                if isDraggable {
-                    TableRow(vocabulary)
-                        .draggable(vocabulary.transferType)
-                        .contextMenu {
-                            contextMenuItem(vocabulary: vocabulary)
-                        }
-                }else {
-                    TableRow(vocabulary)
-                        .contextMenu {
-                            contextMenuItem(vocabulary: vocabulary)
-                        }
-                }
-            }
         }
         .tableStyle(.inset)
+        .contextMenu(forSelectionType: Vocabulary.ID.self, menu: { vocabularyIDs in
+            if vocabularyIDs.isEmpty {
+                Button {
+                    addVocabulary()
+                } label: {
+                    Text("New vocabulary")
+                }
+            }else {
+                if vocabularyIDs.count == 1 {
+                    Button {
+                        guard let firstVocabulary = getVocabularies(ids: vocabularyIDs).first else { return }
+                        openEditVocabularyView(for: firstVocabulary)
+                    } label: {
+                        Text("Edit")
+                    }
+                    
+                    Divider()
+                }
+                
+                Button {
+                    checkLearnable(of: getVocabularies(ids: vocabularyIDs))
+                } label: {
+                    Text("To learn")
+                }
+                
+                Button {
+                    uncheckLearnable(of: getVocabularies(ids: vocabularyIDs))
+                } label: {
+                    Text("Not to learn")
+                }
+                
+                Divider()
+                
+                Button {
+                    deleteVocabularies(getVocabularies(ids: vocabularyIDs))
+                } label: {
+                    if vocabularyIDs.count == 1 {
+                        Text("Delete")
+                    }else {
+                        Text("Delete selected")
+                    }
+                }
+            }
+        }, primaryAction: { vocabularyIDs in
+            if vocabularyIDs.count == 1 {
+                guard let firstVocabulary = getVocabularies(ids: vocabularyIDs).first else { return }
+                openEditVocabularyView(for: firstVocabulary)
+            }
+        })
         .textFieldStyle(.plain)
         .autocorrectionDisabled(true)
         .toolbar {
@@ -179,49 +219,8 @@ struct ListTableView: View {
         }
     }
     
-    @ViewBuilder func contextMenuItem(vocabulary: Vocabulary) -> some View {
-        Button {
-            editingVocabulary = vocabulary
-        } label: {
-            Text("Edit")
-        }
-        
-        Divider()
-        
-        Button {
-            var toggledVocabularies = selectedVocabularies
-            toggledVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
-            toggleLearnable(of: toggledVocabularies)
-        } label: {
-            Text("Toggle Learnable")
-        }
-        
-        Button {
-            var checkedVocabularies = selectedVocabularies
-            checkedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
-            checkLearnable(of: checkedVocabularies)
-        } label: {
-            Text("Check Learnable")
-        }
-        
-        Button {
-            var uncheckedVocabularies = selectedVocabularies
-            uncheckedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
-            uncheckLearnable(of: uncheckedVocabularies)
-        } label: {
-            Text("Uncheck Learnable")
-        }
-        
-        Divider()
-        
-        Button {
-            //                            #error("When I delete a vocabulary, that´s text field is focused, the preview crashes!")
-            var deletedVocabularies = selectedVocabularies
-            deletedVocabularies.append(vocabulary){ !$0.contains { $0 == vocabulary } }
-            deleteVocabularies(deletedVocabularies)
-        } label: {
-            Text("Remove")
-        }
+    func openEditVocabularyView(for vocabulary: Vocabulary) {
+        editingVocabulary = vocabulary
     }
 
     private func deleteVocabularies(_ vocabularies: Array<Vocabulary>) {
