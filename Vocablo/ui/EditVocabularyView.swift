@@ -49,6 +49,7 @@ struct EditVocabularyView: View {
             LearningStateSection(header: "Learning state of '\(vocabulary.translatedWord)'", state: $vocabulary.translatedLearningState)
         }
         .formStyle(.grouped)
+        .frame(width: 600, height: 650)
     }
 }
 

@@ -176,7 +176,6 @@ struct ListTableView: View {
         })
         .sheet(item: $editingVocabulary) { vocabulary in
             EditVocabularyView(vocabulary: vocabulary)
-                .frame(width: 600, height: 650)
         }
     }
     
