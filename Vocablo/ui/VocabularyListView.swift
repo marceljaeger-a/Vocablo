@@ -84,25 +84,18 @@ struct VocabularyListView: View {
             }
         })
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
+            ToolbarItem(placement: .principal) {
                 Button {
                     addVocabulary()
                 } label: {
                     Image(.wordPlus)
                 }
             }
-            ToolbarItem(placement: .primaryAction) {
+            ToolbarItem(placement: .principal) {
                 Button {
                     self.showLearningSheet = true
                 } label: {
                     Image(.wordlistPlay)
-                }
-            }
-            ToolbarItem(placement: .status) {
-                Picker(selection: $list.sorting) {
-                    VocabularyList.VocabularySorting.pickerContent
-                } label: {
-                    Text("\(list.sorting.rawValue)")
                 }
             }
         }

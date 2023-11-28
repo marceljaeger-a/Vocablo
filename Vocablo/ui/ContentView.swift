@@ -112,6 +112,12 @@ fileprivate struct SidebarView: View {
                         Image(systemName: "book.pages")
                     }
                     .contextMenu {
+                        Picker("Sort by", selection: $bindedList.sorting) {
+                            VocabularyList.VocabularySorting.pickerContent
+                        }
+                        
+                        Divider()
+                        
                         Button {
                             deleteSelectedLists(and: list)
                         } label: {
