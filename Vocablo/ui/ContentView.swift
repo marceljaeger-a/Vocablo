@@ -9,7 +9,9 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) var context: ModelContext
     @Query(sort: \VocabularyList.created, order: .forward) var lists: Array<VocabularyList>
+    @Query(sort: \Vocabulary.word) var allVocabularies: Array<Vocabulary>
     
     @State var selectedListIDs: Set<PersistentIdentifier> = []
     var selectedLists: Array<VocabularyList> {
@@ -18,17 +20,59 @@ struct ContentView: View {
         }
     }
     
+    @State var selectedVocabularyIDs: Set<PersistentIdentifier> = []
+    var selectedVocabularies: Array<Vocabulary> {
+        allVocabularies.filter { item in
+            selectedVocabularyIDs.contains(item.id)
+        }
+    }
+    var selectedVocabularyTransfers: Array<Vocabulary.TransferType> {
+        selectedVocabularies.map({ $0.transferType })
+    }
+    
     var body: some View {
         NavigationSplitView {
             SidebarView(selectedListIDs: $selectedListIDs)
         } detail: {
             if let firstSelectedList = selectedLists.first {
-                ListTableView(list: firstSelectedList)
+                VocabularyListView(list: firstSelectedList, selectedVocabularyIDs: $selectedVocabularyIDs)
             } else {
                 ContentUnavailableView("No selected list!", systemImage: "book.pages", description: Text("Select a list on the sidebar."))
             }
         }
         .navigationTitle("")
+        .onDeleteCommand(perform: {
+            guard let list = selectedLists.first else { return }
+            context.deleteVocabularies(selectedVocabularies)
+        })
+        .copyable(selectedVocabularyTransfers)
+        .cuttable(for: Vocabulary.TransferType.self) {
+            cutVocabularies()
+        }
+        .pasteDestination(for: Vocabulary.TransferType.self) { pastedValues in
+            pasteVocabularies(pastedValues)
+        }
+    }
+    
+    private func cutVocabularies() -> Array<Vocabulary.TransferType> {
+        guard let list = selectedLists.first else { return [] }
+        let cuttedVocabularies = selectedVocabularies
+        let cuttedVocabularyTransfers = cuttedVocabularies.map{ $0.transferType }
+        
+        for cuttedVocabulary in cuttedVocabularies {
+            list.removeVocabulary(cuttedVocabulary)
+            context.delete(cuttedVocabulary)
+        }
+        
+        return cuttedVocabularyTransfers
+    }
+    
+    private func pasteVocabularies(_ vocabularyTransfers: Array<Vocabulary.TransferType>) {
+        guard let list = selectedLists.first else { return }
+        for vocabularyTransfer in vocabularyTransfers{
+            let pastedVocabulary = vocabularyTransfer.newObject
+            list.addVocabulary(pastedVocabulary)
+        }
     }
 }
 
@@ -74,9 +118,7 @@ fileprivate struct SidebarView: View {
                             Text("Remove")
                         }
                     }
-                    .dropDestination(for: Vocabulary.TransferType.self) {
-                        dropVocabulariesOnList(on: list, items: $0, location: $1)
-                    }
+                    //TODO: Remove this!
                 }
             }
             Section("Tags") {
@@ -94,9 +136,6 @@ fileprivate struct SidebarView: View {
                         } label: {
                             Text("Remove")
                         }
-                    }
-                    .dropDestination(for: Vocabulary.TransferType.self) {
-                        dropVocabulariesOnTag(on: tag, items: $0, location: $1)
                     }
                 }
                 .selectionDisabled()
@@ -146,31 +185,5 @@ fileprivate struct SidebarView: View {
     
     private func deleteTag(_ deletingTag: Tag) {
         context.delete(deletingTag)
-    }
-    
-    private func dropVocabulariesOnList(on list: VocabularyList, items: [Vocabulary.TransferType], location: CGPoint) -> Bool {
-        for item in items {
-            let vocabulary: Optional<Vocabulary> = item.pickObject(fetched: vocabularies)
-            
-            guard let vocabulary else { continue }
-            if !list.containVocabulary(vocabulary) {
-                if let vocabularyList = vocabulary.list {
-                    vocabularyList.removeVocabulary(vocabulary)
-                }
-                list.addVocabulary(vocabulary)
-            }
-        }
-        return true
-    }
-    
-    private func dropVocabulariesOnTag(on tag: Tag, items: [Vocabulary.TransferType], location: CGPoint) -> Bool {
-        for item in items {
-            let vocabulary = item.pickObject(fetched: vocabularies)
-            
-            guard let vocabulary else { continue }
-            vocabulary.safelyTag(tag)
-        }
-        
-        return true
     }
 }

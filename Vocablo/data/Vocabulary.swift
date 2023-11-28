@@ -74,24 +74,32 @@ extension Vocabulary {
 
 extension Vocabulary{
     struct TransferType: Codable, Transferable {
-        var id: PersistentIdentifier
+        //Learnable
+        var isLearnable: Bool = false
+        var learningState: LearningState = LearningState.newly(.lvl1)
+        var translatedLearningState: LearningState = LearningState.newly(.lvl1)
+        var word: String = ""
+        var translatedWord: String = ""
+        var sentence: String = ""
+        var translatedSentence: String = ""
         
-        func pickObject(fetched objects: Array<Vocabulary>) -> Vocabulary? {
-            for object in objects {
-                if object.id == self.id {
-                    return object
-                }
-            }
-            return nil
-        }
+        //Mdeol
+        var wordGroup: WordGroup = .noun
+        var explenation: String = ""
+        var translatedExplenation = ""
+        #warning("Tags transfer is not implemented!")
         
         static var transferRepresentation: some TransferRepresentation {
             CodableRepresentation(for: TransferType.self, contentType: .vocabulary)
         }
+        
+        var newObject: Vocabulary {
+            Vocabulary(word: word, translatedWord: translatedWord, sentence: sentence, translatedSentence: translatedSentence, wordGroup: wordGroup, explenation: explenation, translatedExplenation: translatedExplenation, list: nil, tags: [])
+        }
     }
     
     var transferType: TransferType {
-        TransferType(id: self.id)
+        TransferType(isLearnable: isLearnable, learningState: learningState, translatedLearningState: translatedLearningState, word: word, translatedWord: translatedWord, sentence: sentence, translatedSentence: translatedSentence, wordGroup: wordGroup, explenation: explenation)
     }
 }
 
