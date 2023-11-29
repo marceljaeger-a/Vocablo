@@ -22,6 +22,7 @@
 		9F7F6C432B168D75001B266A /* ModelContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7F6C422B168D75001B266A /* ModelContext.swift */; };
 		9F7F6C452B177E7D001B266A /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7F6C442B177E7D001B266A /* SidebarView.swift */; };
 		9F7F6C472B1781E2001B266A /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7F6C462B1781E2001B266A /* Badge.swift */; };
+		9F7F6C492B1784ED001B266A /* LearningStateInfoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7F6C482B1784ED001B266A /* LearningStateInfoButton.swift */; };
 		9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583152AE6F70900A56141 /* VocabloApp.swift */; };
 		9FC5831A2AE6F70A00A56141 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC583192AE6F70A00A56141 /* Assets.xcassets */; };
 		9FC5831E2AE6F70A00A56141 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC5831D2AE6F70A00A56141 /* Preview Assets.xcassets */; };
@@ -52,6 +53,7 @@
 		9F7F6C422B168D75001B266A /* ModelContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContext.swift; sourceTree = "<group>"; };
 		9F7F6C442B177E7D001B266A /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		9F7F6C462B1781E2001B266A /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		9F7F6C482B1784ED001B266A /* LearningStateInfoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStateInfoButton.swift; sourceTree = "<group>"; };
 		9FAF88472AEAE9E000D81CE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9FC583122AE6F70900A56141 /* Vocablo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vocablo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FC583152AE6F70900A56141 /* VocabloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloApp.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				9F7741202B1345DA00565B42 /* WordGroupPicker.swift */,
 				9F7741222B1345F100565B42 /* TagMultiPicker.swift */,
 				9F7741242B134AC500565B42 /* LearningLevelPicker.swift */,
+				9F7F6C482B1784ED001B266A /* LearningStateInfoButton.swift */,
 			);
 			path = "view components";
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				9F7741212B1345DA00565B42 /* WordGroupPicker.swift in Sources */,
 				9F0975E22AF590C10001C9E3 /* ButtomToolbar.swift in Sources */,
 				9F7741232B1345F100565B42 /* TagMultiPicker.swift in Sources */,
+				9F7F6C492B1784ED001B266A /* LearningStateInfoButton.swift in Sources */,
 				9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */,
 				9FF0F6A02B0401F400693857 /* VocabularyPack UTType.swift in Sources */,
 				9F7741252B134AC600565B42 /* LearningLevelPicker.swift in Sources */,

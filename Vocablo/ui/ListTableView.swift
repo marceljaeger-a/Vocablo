@@ -118,7 +118,7 @@ struct ListTableView: View {
             .width(100)
             
             TableColumn("") { vocabulary in
-                VocabularyInfoButton(vocabulary: vocabulary)
+                LearningStateInfoButton(vocabulary: vocabulary)
             }
             .width(20)
         }
@@ -243,73 +243,6 @@ struct ListTableView: View {
             guard vocabulary.isLearnable else { continue }
             vocabulary.uncheckLearnable()
         }
-    }
-}
-
-fileprivate struct LearningStateLabel: View {
-    let vocabulary: Vocabulary
-    let learningState: KeyPath<Vocabulary, LearningState>
-    let arrow: ArrowSymbole
-    
-    enum ArrowSymbole: String {
-        case arrowRight = "arrow.right"
-        case arrowLeft = "arrow.left"
-    }
-    
-    var body: some View {
-        Label {
-            Text("\(vocabulary[keyPath: learningState].currentLevel.rawValue) / \(vocabulary[keyPath: learningState].remainingTimeLabel)")
-        } icon: {
-            HStack(spacing: 0) {
-                Image(systemName: "a.square")
-                Image(systemName: arrow.rawValue)
-                Image(systemName: "b.square")
-            }
-        }
-    }
-}
-
-fileprivate struct VocabularyInfoButton: View {
-    @Query var tags: Array<Tag>
-    
-    let vocabulary: Vocabulary
-    
-    @State var showPopover: Bool = false
-    
-    var body: some View {
-        Button {
-            onShowPopover()
-        } label: {
-            Image(systemName: "info.circle")
-        }
-        .popover(isPresented: $showPopover, arrowEdge: .trailing) {
-            infoPopover
-        }
-    }
-    
-    var infoPopover: some View {
-        VStack(alignment: .leading) {
-            VStack {
-                LearningStateLabel(vocabulary: vocabulary, learningState: \.learningState, arrow: .arrowRight)
-                LearningStateLabel(vocabulary: vocabulary, learningState: \.translatedLearningState, arrow: .arrowLeft)
-            }
-            .padding([.top, .horizontal] , 15)
-            .padding(.bottom, 5)
-            
-            Divider()
-            
-            HStack {
-                Image(systemName: "tag")
-                TagMultiPicker(vocabulary: vocabulary, tags: tags)
-            }
-            .padding([.bottom, .horizontal] , 15)
-            .padding(.top, 5)
-        }
-        .foregroundStyle(.secondary)
-    }
-    
-    private func onShowPopover() {
-        showPopover = true
     }
 }
 

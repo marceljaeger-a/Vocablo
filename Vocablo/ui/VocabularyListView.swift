@@ -141,6 +141,15 @@ fileprivate struct VocabularyItem: View {
     @Bindable var vocabulary: Vocabulary
     @FocusState.Binding var textFieldFocus: VocabularyTextFieldFocusState?
     
+    @State var showLearningStateInfoButton: Bool = false
+    var learningStateInfoButtonOpacity: Double {
+        if showLearningStateInfoButton {
+            return 1
+        }else {
+            return 0
+        }
+    }
+    
     var body: some View {
         HStack(spacing: 20){
             VocabularyToggle(vocabulary: vocabulary, value: \.isLearnable)
@@ -167,10 +176,20 @@ fileprivate struct VocabularyItem: View {
                     .foregroundStyle(.secondary)
                     .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedSentenced(vocabulary.id))
             }
+            
+            LearningStateInfoButton(vocabulary: vocabulary)
+                .buttonStyle(.borderless)
+                .foregroundStyle(.secondary)
+                .opacity(learningStateInfoButtonOpacity)
         }
         .padding(6)
         .textFieldStyle(.plain)
         .autocorrectionDisabled(true)
+        .onHover{ hovering in
+            withAnimation(.easeInOut) {
+                showLearningStateInfoButton = hovering
+            }
+        }
     }
 }
 
