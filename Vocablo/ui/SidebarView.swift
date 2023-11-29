@@ -51,25 +51,25 @@ struct SidebarView: View {
                     //TODO: Remove this!
                 }
             }
-            Section("Tags") {
-                ForEach(tags) { tag in
-                    @Bindable var bindedTag = tag
-                    
-                    Label {
-                        TextField("", text: $bindedTag.name)
-                    } icon: {
-                        Image(systemName: "tag")
-                    }
-                    .contextMenu {
-                        Button {
-                            deleteTag(tag)
-                        } label: {
-                            Text("Remove")
-                        }
-                    }
-                }
-                .selectionDisabled()
-            }
+//            Section("Tags") {
+//                ForEach(tags) { tag in
+//                    @Bindable var bindedTag = tag
+//                    
+//                    Label {
+//                        TextField("", text: $bindedTag.name)
+//                    } icon: {
+//                        Image(systemName: "tag")
+//                    }
+//                    .contextMenu {
+//                        Button {
+//                            deleteTag(tag)
+//                        } label: {
+//                            Text("Remove")
+//                        }
+//                    }
+//                }
+//                .selectionDisabled()
+//            }
         }
         .buttomToolbar(leftButton: {
             Button {
@@ -79,12 +79,13 @@ struct SidebarView: View {
             }
             .buttonStyle(.borderless)
         }, rightButton: {
-            Button {
-                addTag()
-            } label: {
-                Image(.tagPlus)
-            }
-            .buttonStyle(.borderless)
+            Text("")
+//            Button {
+//                addTag()
+//            } label: {
+//                Image(.tagPlus)
+//            }
+//            .buttonStyle(.borderless)
         })
     }
     
@@ -108,12 +109,12 @@ struct SidebarView: View {
         context.delete(list)
     }
     
-    private func addTag() {
-        let newTag = Tag("New Tag")
-        context.insert(newTag)
-    }
-    
-    private func deleteTag(_ deletingTag: Tag) {
-        context.delete(deletingTag)
-    }
+//    private func addTag() {
+//        let newTag = Tag("New Tag")
+//        context.insert(newTag)
+//    }
+//    
+//    private func deleteTag(_ deletingTag: Tag) {
+//        context.delete(deletingTag)
+//    }
 }

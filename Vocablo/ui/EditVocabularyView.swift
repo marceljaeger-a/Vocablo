@@ -38,10 +38,7 @@ struct EditVocabularyView: View {
             Section {
                 WordGroupPicker(vocabulary: vocabulary)
                 
-                TagMultiPicker(vocabulary: vocabulary, tags: tags)
-            }
-            
-            Section {
+//                TagMultiPicker(vocabulary: vocabulary, tags: tags)
                 VocabularyToggle(vocabulary: vocabulary, value: \.isLearnable, label: Text("To learn"))
             }
             
