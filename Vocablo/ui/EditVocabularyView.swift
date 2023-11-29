@@ -19,20 +19,21 @@ struct EditVocabularyView: View {
     var body: some View {
         Form {
             Section {
-                VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Enter a word...")
+                VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Word...")
                 
-                VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Enter the translated word...")
+                VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Translated word...")
             }
             
             Section {
-                VocabularyTextField(vocabulary: vocabulary, value: \.sentence, placeholder: "Enter a sentence...")
+                VocabularyTextField(vocabulary: vocabulary, value: \.sentence, placeholder: "Sentence...")
                 
-                VocabularyTextField(vocabulary: vocabulary, value: \.translatedSentence, placeholder: "Enter the translated sentence...")
+                VocabularyTextField(vocabulary: vocabulary, value: \.translatedSentence, placeholder: "Translated sentence...")
             }
             
-            Section {
-                VocabularyTextField(vocabulary: vocabulary, value: \.explenation, placeholder: "Enter an explenation...")
-            }
+//            Section {
+//                VocabularyTextField(vocabulary: vocabulary, value: \.explenation, placeholder: "Explenation...")
+//                VocabularyTextField(vocabulary: vocabulary, value: \.translatedExplanation, placeholder: "Translated explenation...")
+//            }
             
             Section {
                 WordGroupPicker(vocabulary: vocabulary)
@@ -49,7 +50,7 @@ struct EditVocabularyView: View {
             LearningStateSection(header: "Learning state of '\(vocabulary.translatedWord)'", state: $vocabulary.translatedLearningState)
         }
         .formStyle(.grouped)
-        .frame(width: 600, height: 650)
+        .frame(width: 600)
     }
 }
 

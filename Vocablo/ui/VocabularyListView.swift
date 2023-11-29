@@ -147,10 +147,10 @@ fileprivate struct VocabularyItem: View {
                 .toggleStyle(.checkbox)
 
             VStack(alignment: .leading){
-                VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Enter a word...")
+                VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Word...")
                     .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.word(vocabulary.id))
                 
-                VocabularyTextField(vocabulary: vocabulary, value: \.sentence, placeholder: "Enter a sentence...")
+                VocabularyTextField(vocabulary: vocabulary, value: \.sentence, placeholder: "Sentence...")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.sentence(vocabulary.id))
@@ -159,10 +159,10 @@ fileprivate struct VocabularyItem: View {
             Divider()
             
             VStack(alignment: .leading){
-                VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Enter the translation..")
+                VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Translated word..")
                     .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedWord(vocabulary.id))
                 
-                VocabularyTextField(vocabulary: vocabulary, value: \.translatedSentence, placeholder: "Enter the translation..")
+                VocabularyTextField(vocabulary: vocabulary, value: \.translatedSentence, placeholder: "Translated sentence..")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedSentenced(vocabulary.id))
