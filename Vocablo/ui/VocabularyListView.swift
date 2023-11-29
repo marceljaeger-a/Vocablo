@@ -27,6 +27,8 @@ struct VocabularyListView: View {
     
     @FocusState private var textFieldFocus: VocabularyTextFieldFocusState?
     
+    @Binding var showVocabulariesDeletingConfirmationDialog: Bool
+    
     var body: some View {
         List(list.sortedVocabularies, id: \.id, selection: $selectedVocabularyIDs){ vocabulary in
             VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
@@ -68,7 +70,7 @@ struct VocabularyListView: View {
                 Divider()
                 
                 Button {
-                    context.deleteVocabularies(getVocabularies(ids: vocabularyIDs))
+                    showVocabulariesDeletingConfirmationDialog = true
                 } label: {
                     if vocabularyIDs.count == 1 {
                         Text("Delete")
@@ -194,6 +196,6 @@ fileprivate struct VocabularyItem: View {
 }
 
 #Preview {
-    VocabularyListView( list: VocabularyList("Preview List"), selectedVocabularyIDs: .constant([]))
+    VocabularyListView( list: VocabularyList("Preview List"), selectedVocabularyIDs: .constant([]), showVocabulariesDeletingConfirmationDialog: .constant(false))
 }
 

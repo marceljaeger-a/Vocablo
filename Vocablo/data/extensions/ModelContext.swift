@@ -15,4 +15,10 @@ extension ModelContext {
             self.delete(deletingVocabulary)
         }
     }
+    
+    func deleteVocabularyLists(_ deletingVocabularyLists: Array<VocabularyList>) {
+        for deletingVocabularyList in deletingVocabularyLists {
+            self.delete(deletingVocabularyList)
+        }
+    }
 }

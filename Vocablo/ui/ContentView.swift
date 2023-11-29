@@ -30,20 +30,29 @@ struct ContentView: View {
         selectedVocabularies.map({ $0.transferType })
     }
     
+    @State var showVocabulariesDeletingConfirmationDialog = false
+    var vocabularyDeletingConfirmationDialogText: String {
+        if selectedVocabularies.count > 1 {
+            "Do you want to delete the selected vocabularies?"
+        }else {
+            "Do you want to delete the vocabulary?"
+        }
+    }
+    
     var body: some View {
         NavigationSplitView {
             SidebarView(selectedListIDs: $selectedListIDs)
         } detail: {
             if let firstSelectedList = selectedLists.first {
-                VocabularyListView(list: firstSelectedList, selectedVocabularyIDs: $selectedVocabularyIDs)
+                VocabularyListView(list: firstSelectedList, selectedVocabularyIDs: $selectedVocabularyIDs, showVocabulariesDeletingConfirmationDialog: $showVocabulariesDeletingConfirmationDialog)
             } else {
                 ContentUnavailableView("No selected list!", systemImage: "book.pages", description: Text("Select a list on the sidebar."))
             }
         }
         .navigationTitle("")
         .onDeleteCommand(perform: {
-            guard let list = selectedLists.first else { return }
-            context.deleteVocabularies(selectedVocabularies)
+            guard selectedVocabularies.count > 0 else { return }
+            showVocabulariesDeletingConfirmationDialog = true
         })
         .copyable(selectedVocabularyTransfers)
         .cuttable(for: Vocabulary.TransferType.self) {
@@ -52,6 +61,11 @@ struct ContentView: View {
         .pasteDestination(for: Vocabulary.TransferType.self) { pastedValues in
             pasteVocabularies(pastedValues)
         }
+        .deletingConfirmationDialog(isPresented: $showVocabulariesDeletingConfirmationDialog, title: vocabularyDeletingConfirmationDialogText, cancelAction: {
+            showVocabulariesDeletingConfirmationDialog = false
+        }, deletingAction: {
+            context.deleteVocabularies(selectedVocabularies)
+        })
     }
     
     private func cutVocabularies() -> Array<Vocabulary.TransferType> {

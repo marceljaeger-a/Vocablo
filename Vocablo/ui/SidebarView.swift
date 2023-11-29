@@ -22,6 +22,15 @@ struct SidebarView: View {
         }
     }
     
+    @State var showListDeleteConfirmationDialog: Bool = false
+    var listDeletingConfirmationDialogText: String {
+        if selectedLists.count > 1 {
+            "Do you want to delete the selected lists?"
+        }else {
+            "Do you want to delete the list?"
+        }
+    }
+    
     var body: some View {
 //        ("This was the problem of #16, because I do not use the id as selection. Maybe because of the List and the wrapped ForEach, but I do not now. But I know, that this was the problem of the duplicate key error!")
         List(selection: $selectedListIDs){
@@ -35,20 +44,6 @@ struct SidebarView: View {
                     }
                     .badge(list.learningVocabulariesTodayCount, prominece: .increased)
                     .badge("\(list.vocabularies.count)", prominece: .decreased)
-                    .contextMenu {
-                        Picker("Sort by", selection: $bindedList.sorting) {
-                            VocabularyList.VocabularySorting.pickerContent
-                        }
-                        
-                        Divider()
-                        
-                        Button {
-                            deleteSelectedLists(and: list)
-                        } label: {
-                            Text("Remove")
-                        }
-                    }
-                    //TODO: Remove this!
                 }
             }
 //            Section("Tags") {
@@ -87,6 +82,40 @@ struct SidebarView: View {
 //            }
 //            .buttonStyle(.borderless)
         })
+        .contextMenu(forSelectionType: PersistentIdentifier.self) { vocabularyIDs in
+            if vocabularyIDs.isEmpty {
+                Button {
+                    addList()
+                } label: {
+                    Text("New list")
+                }
+            }else {
+                if vocabularyIDs.count == 1 {
+                    if let firstList = selectedLists.first {
+                        @Bindable var bindedList = firstList
+                        Picker("Sort by", selection: $bindedList.sorting) {
+                            VocabularyList.VocabularySorting.pickerContent
+                        }
+                        
+                        Divider()
+                    }
+                }
+                Button {
+                    showListDeleteConfirmationDialog = true
+                } label: {
+                    if vocabularyIDs.count > 1 {
+                        Text("Delete selected")
+                    }else {
+                        Text("Delete")
+                    }
+                }
+            }
+        }
+        .deletingConfirmationDialog(isPresented: $showListDeleteConfirmationDialog, title: listDeletingConfirmationDialogText) {
+            showListDeleteConfirmationDialog = false
+        } deletingAction: {
+            deleteLists()
+        }
     }
     
     private func addList() {
@@ -94,19 +123,12 @@ struct SidebarView: View {
         context.insert(newList)
     }
     
-//    private func deleteList(_ deletingList: VocabularyList) {
-//        context.delete(deletingList)
-//    }
-    
-    private func deleteSelectedLists(and list: VocabularyList) {
-        for selectedList in selectedLists {
-            guard selectedList != list else { continue }
-            selectedListIDs.remove(selectedList.id)
-            context.delete(selectedList)
+    private func deleteLists() {
+        let deletingLists = selectedLists
+        for deletingList in deletingLists {
+            selectedListIDs.remove(deletingList.id)
         }
-        
-        selectedListIDs.remove(list.id)
-        context.delete(list)
+        context.deleteVocabularyLists(deletingLists)
     }
     
 //    private func addTag() {
