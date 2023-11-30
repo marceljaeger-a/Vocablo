@@ -106,12 +106,12 @@ extension LearningState {
         }
     }
     
-    var downLevel: LearningLevel {
+    var previousLevel: LearningLevel {
         switch self {
         case .newly:
             return .min
         case .repeatly(_, _, let currentLevel):
-            if let downLevel = currentLevel.downLevel() {
+            if let downLevel = currentLevel.previousLevel() {
                 return downLevel
             }else {
                 return .min
@@ -132,12 +132,12 @@ extension LearningState {
         }
     }
     
-    mutating func levelUp() {
+    mutating func increaseLevel() {
         self = .repeatly(.now, self.repetitionCount + 1, nextLevel)
     }
     
-    mutating func levelDown() {
-        self = .repeatly(.now, self.repetitionCount + 1, downLevel)
+    mutating func decreaseLevel() {
+        self = .repeatly(.now, self.repetitionCount + 1, previousLevel)
     }
     
     mutating func reset() {

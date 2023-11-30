@@ -78,48 +78,31 @@ class Vocabulary: Learnable, TransferConvertable {
     }
 }
 
-extension Vocabulary {
-    func hasTag(_ tag: Tag) -> Bool {
-        tags.contains { element in
-            element == tag
-        }
-    }
-    
-    func safelyTag(_ tag: Tag) {
-        guard !hasTag(tag) else { return }
-        tags.append(tag)
-    }
-    
-    func safelyUntag(_ tag: Tag){
-        guard hasTag(tag) else { return }
-        tags.removeAll { element in
-            element == tag
-        }
-    }
-    
-    func toggleTag(_ tag: Tag) {
-        if hasTag(tag) {
-            self.safelyUntag(tag)
-        }else {
-            self.safelyTag(tag)
-        }
-    }
-}
+//extension Vocabulary {
+//    func hasTag(_ tag: Tag) -> Bool {
+//        tags.contains { element in
+//            element == tag
+//        }
+//    }
+//    
+//    func safelyTag(_ tag: Tag) {
+//        guard !hasTag(tag) else { return }
+//        tags.append(tag)
+//    }
+//    
+//    func safelyUntag(_ tag: Tag){
+//        guard hasTag(tag) else { return }
+//        tags.removeAll { element in
+//            element == tag
+//        }
+//    }
+//    
+//    func toggleTag(_ tag: Tag) {
+//        if hasTag(tag) {
+//            self.safelyUntag(tag)
+//        }else {
+//            self.safelyTag(tag)
+//        }
+//    }
+//}
 
-extension Vocabulary {
-    func checkLearnable() {
-        self.isLearnable = true
-    }
-    
-    func uncheckLearnable() {
-        self.isLearnable = false
-    }
-    
-    func toggleLearnable() {
-        if isLearnable {
-            uncheckLearnable()
-        }else {
-            checkLearnable()
-        }
-    }
-}

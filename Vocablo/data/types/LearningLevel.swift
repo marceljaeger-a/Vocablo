@@ -44,7 +44,7 @@ enum LearningLevel: String, Codable, CaseIterable {
     }
     
     ///Nil when the level is lvl1!
-    func downLevel() -> Self? {
+    func previousLevel() -> Self? {
         switch self {
         case .lvl1: return nil
         case .lvl2: return .lvl1

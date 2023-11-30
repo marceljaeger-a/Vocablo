@@ -175,7 +175,7 @@ fileprivate struct LearnableAnswersView: View {
                 Button {
                     onFalse()
                 } label: {
-                    Label(learningState.downLevel.repeatIntervalLabel, systemImage: "hand.thumbsdown.fill")
+                    Label(learningState.previousLevel.repeatIntervalLabel, systemImage: "hand.thumbsdown.fill")
                         .foregroundStyle(.red)
                         .frame(minWidth: 75, minHeight: 25)
                 }
@@ -195,12 +195,12 @@ fileprivate struct LearnableAnswersView: View {
     }
     
     private func onFalse() {
-        learningState.levelDown()
+        learningState.decreaseLevel()
         showTranslation = false
     }
     
     private func onTrue() {
-        learningState.levelUp()
+        learningState.increaseLevel()
         showTranslation = false
     }
 }
