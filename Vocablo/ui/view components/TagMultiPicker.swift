@@ -20,7 +20,7 @@ struct TagMultiPicker: View {
                 } label: {
                     HStack {
                         Image(systemName: "tag")
-                            .symbolVariant(vocabulary.hasTag(tag) ? .fill : .none)
+                            //.symbolVariant(vocabulary.hasTag(tag) ? .fill : .none)
                         
                         Text(tag.name)
                     }
@@ -45,6 +45,6 @@ struct TagMultiPicker: View {
     }
     
     private func selectTag(_ tag: Tag) {
-        vocabulary.toggleTag(tag)
+        //vocabulary.toggleTag(tag)
     }
 }

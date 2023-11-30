@@ -60,12 +60,14 @@ struct VocabularyListView: View {
                 } label: {
                     Text("To learn")
                 }
+                .disabled(vocabularyIDs.count == 1 && getVocabularies(ids: vocabularyIDs).first!.isLearnable)
                 
                 Button {
                     uncheckLearnable(of: getVocabularies(ids: vocabularyIDs))
                 } label: {
                     Text("Not to learn")
                 }
+                .disabled(vocabularyIDs.count == 1 && !getVocabularies(ids: vocabularyIDs).first!.isLearnable)
                 
                 Divider()
                 
