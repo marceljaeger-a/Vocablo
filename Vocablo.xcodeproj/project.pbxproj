@@ -24,6 +24,7 @@
 		9F7F6C472B1781E2001B266A /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7F6C462B1781E2001B266A /* Badge.swift */; };
 		9F7F6C492B1784ED001B266A /* LearningStateInfoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7F6C482B1784ED001B266A /* LearningStateInfoButton.swift */; };
 		9F7F6C4B2B178EC7001B266A /* DeletingConfirmationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7F6C4A2B178EC7001B266A /* DeletingConfirmationDialog.swift */; };
+		9F7F6C4D2B17A188001B266A /* TransferConvertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7F6C4C2B17A188001B266A /* TransferConvertable.swift */; };
 		9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583152AE6F70900A56141 /* VocabloApp.swift */; };
 		9FC5831A2AE6F70A00A56141 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC583192AE6F70A00A56141 /* Assets.xcassets */; };
 		9FC5831E2AE6F70A00A56141 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC5831D2AE6F70A00A56141 /* Preview Assets.xcassets */; };
@@ -56,6 +57,7 @@
 		9F7F6C462B1781E2001B266A /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		9F7F6C482B1784ED001B266A /* LearningStateInfoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStateInfoButton.swift; sourceTree = "<group>"; };
 		9F7F6C4A2B178EC7001B266A /* DeletingConfirmationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletingConfirmationDialog.swift; sourceTree = "<group>"; };
+		9F7F6C4C2B17A188001B266A /* TransferConvertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferConvertable.swift; sourceTree = "<group>"; };
 		9FAF88472AEAE9E000D81CE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9FC583122AE6F70900A56141 /* Vocablo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vocablo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FC583152AE6F70900A56141 /* VocabloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloApp.swift; sourceTree = "<group>"; };
@@ -94,6 +96,14 @@
 			path = "view modifier";
 			sourceTree = "<group>";
 		};
+		9F1C25292B17EA3900E407C1 /* archiev */ = {
+			isa = PBXGroup;
+			children = (
+				9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */,
+			);
+			path = archiev;
+			sourceTree = "<group>";
+		};
 		9F23D93F2B0BF52800C90BBB /* extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,9 +117,10 @@
 			isa = PBXGroup;
 			children = (
 				9FC5832A2AE7088B00A56141 /* WordGroup.swift */,
-				9FFB36172AED93A500E510CA /* Learnable.swift */,
 				9FFB36192AED952C00E510CA /* LearningState.swift */,
 				9FFB36212AF0427F00E510CA /* LearningLevel.swift */,
+				9FFB36172AED93A500E510CA /* Learnable.swift */,
+				9F7F6C4C2B17A188001B266A /* TransferConvertable.swift */,
 			);
 			path = types;
 			sourceTree = "<group>";
@@ -150,6 +161,7 @@
 				9FC583152AE6F70900A56141 /* VocabloApp.swift */,
 				9FC583252AE707CB00A56141 /* ui */,
 				9FC583242AE707C600A56141 /* data */,
+				9F1C25292B17EA3900E407C1 /* archiev */,
 				9FC583192AE6F70A00A56141 /* Assets.xcassets */,
 				9FC5831B2AE6F70A00A56141 /* Vocablo.entitlements */,
 				9FC5831C2AE6F70A00A56141 /* Preview Content */,
@@ -188,7 +200,6 @@
 				9FF01AAB2B152EB30038BEAE /* VocabularyListView.swift */,
 				9FFB361D2AED9AE300E510CA /* LearningView.swift */,
 				9F7741192B1343DC00565B42 /* EditVocabularyView.swift */,
-				9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -288,6 +299,7 @@
 				9FC583272AE7080E00A56141 /* VocabularyList.swift in Sources */,
 				9FFB36182AED93A500E510CA /* Learnable.swift in Sources */,
 				9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */,
+				9F7F6C4D2B17A188001B266A /* TransferConvertable.swift in Sources */,
 				9FFB361E2AED9AE300E510CA /* LearningView.swift in Sources */,
 				9F77411D2B13457A00565B42 /* VocabularyTextField.swift in Sources */,
 				9F2767322B0525A900C99231 /* Vocabulary UTType.swift in Sources */,

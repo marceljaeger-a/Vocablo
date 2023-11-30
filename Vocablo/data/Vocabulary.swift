@@ -11,7 +11,8 @@ import SwiftData
 import UniformTypeIdentifiers
 
 @Model
-class Vocabulary: Learnable {
+class Vocabulary: Learnable, TransferConvertable {
+    
     //Learnable implementation
     var isLearnable: Bool = false
     var learningState: LearningState = LearningState.newly(.lvl1)
@@ -42,6 +43,39 @@ class Vocabulary: Learnable {
         self.explenation = explenation
         self.translatedExplanation = translatedExplenation
     }
+    
+    
+    //TransferConvertable implementation
+    required convenience init(from value: VocabularyTransfer) {
+        self.init(word: value.word, translatedWord: value.translatedWord, sentence: value.sentence, translatedSentence: value.translatedSentence, wordGroup: value.wordGroup, explenation: value.explenation, translatedExplenation: value.translatedExplenation, list: nil, tags: [])
+        self.isLearnable = value.isLearnable
+        self.learningState = value.learningState
+        self.translatedLearningState = value.translatedLearningState
+    }
+    
+    func convert() -> VocabularyTransfer{
+        VocabularyTransfer.init(isLearnable: isLearnable, learningState: learningState, translatedLearningState: translatedLearningState, word: word, translatedWord: translatedWord, sentence: sentence, translatedSentence: translatedSentence, wordGroup: wordGroup, explenation: explenation, translatedExplenation: translatedExplanation)
+    }
+    
+    struct VocabularyTransfer: TransferType {
+        //Learnable
+        var isLearnable: Bool
+        var learningState: LearningState
+        var translatedLearningState: LearningState
+        var word: String
+        var translatedWord: String
+        var sentence: String
+        var translatedSentence: String
+
+        //Model
+        var wordGroup: WordGroup
+        var explenation: String
+        var translatedExplenation: String
+        
+        static var transferRepresentation: some TransferRepresentation {
+            CodableRepresentation(for: Self.self, contentType: .vocabulary)
+        }
+    }
 }
 
 extension Vocabulary {
@@ -69,37 +103,6 @@ extension Vocabulary {
         }else {
             self.safelyTag(tag)
         }
-    }
-}
-
-extension Vocabulary{
-    struct TransferType: Codable, Transferable {
-        //Learnable
-        var isLearnable: Bool = false
-        var learningState: LearningState = LearningState.newly(.lvl1)
-        var translatedLearningState: LearningState = LearningState.newly(.lvl1)
-        var word: String = ""
-        var translatedWord: String = ""
-        var sentence: String = ""
-        var translatedSentence: String = ""
-        
-        //Mdeol
-        var wordGroup: WordGroup = .noun
-        var explenation: String = ""
-        var translatedExplenation = ""
-        #warning("Tags transfer is not implemented!")
-        
-        static var transferRepresentation: some TransferRepresentation {
-            CodableRepresentation(for: TransferType.self, contentType: .vocabulary)
-        }
-        
-        var newObject: Vocabulary {
-            Vocabulary(word: word, translatedWord: translatedWord, sentence: sentence, translatedSentence: translatedSentence, wordGroup: wordGroup, explenation: explenation, translatedExplenation: translatedExplenation, list: nil, tags: [])
-        }
-    }
-    
-    var transferType: TransferType {
-        TransferType(isLearnable: isLearnable, learningState: learningState, translatedLearningState: translatedLearningState, word: word, translatedWord: translatedWord, sentence: sentence, translatedSentence: translatedSentence, wordGroup: wordGroup, explenation: explenation)
     }
 }
 

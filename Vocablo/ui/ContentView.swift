@@ -26,8 +26,8 @@ struct ContentView: View {
             selectedVocabularyIDs.contains(item.id)
         }
     }
-    var selectedVocabularyTransfers: Array<Vocabulary.TransferType> {
-        selectedVocabularies.map({ $0.transferType })
+    var selectedVocabularyTransfers: Array<Vocabulary.VocabularyTransfer> {
+        selectedVocabularies.map{ $0.convert() }
     }
     
     @State var showVocabulariesDeletingConfirmationDialog = false
@@ -55,10 +55,10 @@ struct ContentView: View {
             showVocabulariesDeletingConfirmationDialog = true
         })
         .copyable(selectedVocabularyTransfers)
-        .cuttable(for: Vocabulary.TransferType.self) {
+        .cuttable(for: Vocabulary.VocabularyTransfer.self) {
             cutVocabularies()
         }
-        .pasteDestination(for: Vocabulary.TransferType.self) { pastedValues in
+        .pasteDestination(for: Vocabulary.VocabularyTransfer.self) { pastedValues in
             pasteVocabularies(pastedValues)
         }
         .deletingConfirmationDialog(isPresented: $showVocabulariesDeletingConfirmationDialog, title: vocabularyDeletingConfirmationDialogText, cancelAction: {
@@ -66,26 +66,29 @@ struct ContentView: View {
         }, deletingAction: {
             context.deleteVocabularies(selectedVocabularies)
         })
+        .onChange(of: selectedListIDs) {
+            selectedVocabularyIDs = []
+        }
     }
     
-    private func cutVocabularies() -> Array<Vocabulary.TransferType> {
+    private func cutVocabularies() -> Array<Vocabulary.VocabularyTransfer> {
         guard let list = selectedLists.first else { return [] }
         let cuttedVocabularies = selectedVocabularies
-        let cuttedVocabularyTransfers = cuttedVocabularies.map{ $0.transferType }
-        
-        for cuttedVocabulary in cuttedVocabularies {
-            list.removeVocabulary(cuttedVocabulary)
-            context.delete(cuttedVocabulary)
+       
+        defer {
+            for cuttedVocabulary in cuttedVocabularies {
+                list.removeVocabulary(cuttedVocabulary)
+                context.delete(cuttedVocabulary)
+            }
         }
-        
-        return cuttedVocabularyTransfers
+
+        return cuttedVocabularies.map{ $0.convert() }
     }
     
-    private func pasteVocabularies(_ vocabularyTransfers: Array<Vocabulary.TransferType>) {
+    private func pasteVocabularies(_ vocabularyTransfers: Array<Vocabulary.VocabularyTransfer>) {
         guard let list = selectedLists.first else { return }
         for vocabularyTransfer in vocabularyTransfers{
-            let pastedVocabulary = vocabularyTransfer.newObject
-            list.addVocabulary(pastedVocabulary)
+            list.addVocabulary(Vocabulary(from: vocabularyTransfer))
         }
     }
 }
