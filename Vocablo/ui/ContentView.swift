@@ -39,6 +39,8 @@ struct ContentView: View {
         }
     }
     
+    @State var showContextSaveErrorAlert: Bool = false
+    
     var body: some View {
         NavigationSplitView {
             SidebarView(selectedListIDs: $selectedListIDs)
@@ -68,6 +70,28 @@ struct ContentView: View {
         })
         .onChange(of: selectedListIDs) {
             selectedVocabularyIDs = []
+        }
+        .toolbar {
+            ToolbarItem(placement: .secondaryAction) {
+                Button {
+                    do {
+                        try context.save()
+                    } catch {
+                        print(error.localizedDescription)
+                        showContextSaveErrorAlert = true
+                    }
+                } label: {
+                    Image(systemName: "square.and.arrow.down")
+                        .symbolEffect(.pulse , options: .repeating.speed(3), isActive: context.hasChanges)
+                }
+            }
+        }
+        .alert("Save failed!", isPresented: $showContextSaveErrorAlert) {
+            Button {
+                showContextSaveErrorAlert = false
+            } label: {
+                Text("Ok")
+            }
         }
     }
     
