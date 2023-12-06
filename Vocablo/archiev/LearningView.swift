@@ -15,19 +15,7 @@ struct LearningView: View {
         if let firstLearningVocabulary = list.learningVocabulariesToday.first {
             LearnableView(learnable: firstLearningVocabulary.0, reverse: firstLearningVocabulary.isReverse)
                 .overlay {
-                    var showNewVocabularyLabel: Bool {
-                        switch firstLearningVocabulary.isReverse {
-                        case true:
-                            return firstLearningVocabulary.0.translatedLearningState.isNewly
-                        case false:
-                            return firstLearningVocabulary.0.learningState.isNewly
-                        }
-                    }
-                    
                     VStack {
-                        NewVocabularyLabel()
-                            .opacity(showNewVocabularyLabel ? 1.0 : 0.0)
-                    
                         Spacer()
                         
                         HStack {
@@ -38,20 +26,8 @@ struct LearningView: View {
                     .padding()
                 }
         }else {
-            #warning("The reason of the console print `=== AttributeGraph: cycle detected through attribute 662336 ===` is the ContentUnavailableView! I do not why this is so, because when I put this View into the sheet modifier alone, this message is also printed in the console. Maybe it is a SwiftUI Bug! But this is only in a sheet. For example in a popover it is not. I test it on an iOS Project and it did not print. On a another macOS App with only a button it did print also!")
+#warning("The reason of the console print `=== AttributeGraph: cycle detected through attribute 662336 ===` is the ContentUnavailableView! I do not why this is so, because when I put this View into the sheet modifier alone, this message is also printed in the console. Maybe it is a SwiftUI Bug! But this is only in a sheet. For example in a popover it is not. I test it on an iOS Project and it did not print. On a another macOS App with only a button it did print also!")
             ContentUnavailableView("No vocabulary to learn today!", systemImage: "calendar.badge.checkmark")
-        }
-    }
-    
-    private struct NewVocabularyLabel: View {
-        var body: some View {
-            Text("NEW")
-                .font(.largeTitle)
-                .bold()
-                .foregroundStyle(.blue.gradient)
-                .fontDesign(.rounded)
-                .shadow(color: .blue, radius: 8)
-                .padding()
         }
     }
     
@@ -63,6 +39,19 @@ struct LearningView: View {
                 .fontDesign(.monospaced)
                 .foregroundStyle(.secondary)
         }
+    }
+}
+
+fileprivate struct NewVocabularyLabel: View {
+    var body: some View {
+        Text("NEW")
+            .font(.title2)
+            .bold()
+            .foregroundStyle(.blue.gradient)
+            .fontDesign(.rounded)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 7)
+            .background(.blue.opacity(0.4), in: .rect(cornerRadius: 8))
     }
 }
 
@@ -79,7 +68,24 @@ fileprivate struct LearnableView: View {
             return (learnable.word, learnable.sentence, learnable.translatedWord, learnable.translatedSentence)
         }
     }
-    var learnableLearningState: Binding<LearningState> {
+    var learnableLearningState: LearningState {
+        get {
+            if reverse {
+                return learnable.translatedLearningState
+            }else {
+                return learnable.learningState
+            }
+        }
+        set {
+            if reverse {
+                learnable.translatedLearningState = newValue
+            }else {
+                learnable.learningState = newValue
+            }
+        }
+    }
+    
+    var bindedLearnableLearningState: Binding<LearningState> {
         if reverse {
             return Binding {
                 learnable.translatedLearningState
@@ -99,15 +105,25 @@ fileprivate struct LearnableView: View {
         VStack(spacing: 20) {
             LearnableSideView(word: learnableContext.word, sentence: learnableContext.sentence)
             
+            Divider()
+            
             LearnableSideView(word: learnableContext.reverseWord, sentence: learnableContext.reverseSentence, showSide: $showTranslation)
         }
         .padding()
         .frame(width: 1000, height: 800)
         .overlay {
             LearnableAnswersView(
-                learningState: learnableLearningState,
+                learningState: bindedLearnableLearningState,
                 showTranslation: $showTranslation
             )
+        }
+        .overlay {
+            VStack {
+                NewVocabularyLabel()
+                    .opacity(learnableLearningState.isNewly ? 1.0 : 0.0)
+                Spacer()
+            }
+            .padding(10)
         }
     }
 }
@@ -130,17 +146,16 @@ fileprivate struct LearnableSideView: View {
     var body: some View {
         VStack(spacing: 10){
             Text(word)
-                .opacity(viewOpacity)
-            Divider()
+                .font(.title2)
+                .bold()
                 .opacity(viewOpacity)
             Text(sentence)
+                .font(.headline)
+                .foregroundStyle(.secondary)
                 .opacity(viewOpacity)
         }
-        .font(.headline)
         .padding()
         .frame(minHeight: 250)
-        .background(in: .rect(cornerRadius: 15))
-        .backgroundStyle(.thickMaterial)
         .overlay {
             if !isSideShowing {
                 Button {
@@ -207,4 +222,79 @@ fileprivate struct LearnableAnswersView: View {
 
 #Preview {
     LearningView(list: .init("Preview"))
+}
+
+extension VocabularyList {
+    typealias LearningWrappedVocabulary = (Learnable, isReverse: Bool)
+    
+    var learningVocabulariesToday: Array<LearningWrappedVocabulary> {
+        //Algorytm
+        //1. Newly before Repeatly
+        //1.1 Newly: Normal before Reverse
+        //1.1.1 nextRepetition sorting
+        //1.2 Repeatly: nextRepetition sorting
+        
+        //All Vocabularies and sort it to learnable Vocabularies
+        let vocabularies = vocabularies.filter{ $0.isLearnable }
+        
+        //Newly Vocabularies
+        let newlyVocabularies = vocabularies.filter{ $0.learningState.isNewly && $0.learningState.isNextRepetitionExpired
+        }.map {
+            return ($0, isReverse: false)
+        }.sorted(using: KeyPathComparator(\.0.learningState.nextRepetition))
+        
+        let newlyReverseVocabularies = vocabularies.filter {
+            $0.translatedLearningState.isNewly && $0.translatedLearningState.isNextRepetitionExpired
+        }.map {
+            return ($0, isReverse: true)
+        }.sorted(using: KeyPathComparator(\.0.translatedLearningState.nextRepetition))
+        
+        //Repeatly Vocabularies
+        let repeatlyVocabularies = vocabularies.filter {
+            $0.learningState.isRepeatly && $0.learningState.isNextRepetitionExpired
+        }.map {
+            return ($0, isReverse: false)
+        }
+        
+        let repeatlyReverseVocabularies = vocabularies.filter {
+            $0.translatedLearningState.isRepeatly && $0.translatedLearningState.isNextRepetitionExpired
+        }.map {
+            return ($0, isReverse: true)
+        }
+        
+        //Repeatly Combined and sorted
+        let allRepeatlyVocabularies = (repeatlyVocabularies + repeatlyReverseVocabularies).sorted { firstVocabulary, secondVocabulary in
+            
+            let firstVocabularyNextRepetition: Date
+            switch firstVocabulary {
+            case (let vocabulary, false):
+                firstVocabularyNextRepetition = vocabulary.learningState.nextRepetition
+            case (let vocabulary, true):
+                firstVocabularyNextRepetition = vocabulary.translatedLearningState.nextRepetition
+            }
+            
+            let secondVocabularyNextRepetition: Date
+            switch secondVocabulary {
+            case (let vocabulary, false):
+                secondVocabularyNextRepetition = vocabulary.learningState.nextRepetition
+            case (let vocabulary, true):
+                secondVocabularyNextRepetition = vocabulary.translatedLearningState.nextRepetition
+            }
+            
+            if firstVocabularyNextRepetition <= secondVocabularyNextRepetition {
+                return true
+            }else {
+                return false
+            }
+        }
+        
+        //Combine all learnable Vocabularies
+        let allVocabularies = newlyVocabularies + newlyReverseVocabularies + allRepeatlyVocabularies
+        
+        return allVocabularies
+    }
+    
+    var learningVocabulariesTodayCount: Int {
+        learningVocabulariesToday.count
+    }
 }

@@ -31,6 +31,7 @@
 		9FC583272AE7080E00A56141 /* VocabularyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583262AE7080E00A56141 /* VocabularyList.swift */; };
 		9FC583292AE7085400A56141 /* Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583282AE7085400A56141 /* Vocabulary.swift */; };
 		9FC5832B2AE7088B00A56141 /* WordGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC5832A2AE7088B00A56141 /* WordGroup.swift */; };
+		9FDE39DB2B1E78E7000EC63E /* LearnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDE39DA2B1E78E7000EC63E /* LearnView.swift */; };
 		9FF01AAC2B152EB30038BEAE /* VocabularyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF01AAB2B152EB30038BEAE /* VocabularyListView.swift */; };
 		9FF0F6A02B0401F400693857 /* VocabularyPack UTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF0F69F2B0401F400693857 /* VocabularyPack UTType.swift */; };
 		9FFB36182AED93A500E510CA /* Learnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB36172AED93A500E510CA /* Learnable.swift */; };
@@ -67,6 +68,7 @@
 		9FC583262AE7080E00A56141 /* VocabularyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyList.swift; sourceTree = "<group>"; };
 		9FC583282AE7085400A56141 /* Vocabulary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vocabulary.swift; sourceTree = "<group>"; };
 		9FC5832A2AE7088B00A56141 /* WordGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGroup.swift; sourceTree = "<group>"; };
+		9FDE39DA2B1E78E7000EC63E /* LearnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnView.swift; sourceTree = "<group>"; };
 		9FF01AAB2B152EB30038BEAE /* VocabularyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyListView.swift; sourceTree = "<group>"; };
 		9FF0F69F2B0401F400693857 /* VocabularyPack UTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VocabularyPack UTType.swift"; sourceTree = "<group>"; };
 		9FFB36172AED93A500E510CA /* Learnable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Learnable.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		9F1C25292B17EA3900E407C1 /* archiev */ = {
 			isa = PBXGroup;
 			children = (
+				9FFB361D2AED9AE300E510CA /* LearningView.swift */,
 				9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */,
 			);
 			path = archiev;
@@ -198,7 +201,7 @@
 				9F46EFBE2AE83C510006E5F3 /* ContentView.swift */,
 				9F7F6C442B177E7D001B266A /* SidebarView.swift */,
 				9FF01AAB2B152EB30038BEAE /* VocabularyListView.swift */,
-				9FFB361D2AED9AE300E510CA /* LearningView.swift */,
+				9FDE39DA2B1E78E7000EC63E /* LearnView.swift */,
 				9F7741192B1343DC00565B42 /* EditVocabularyView.swift */,
 			);
 			path = ui;
@@ -308,6 +311,7 @@
 				9F77411A2B1343DC00565B42 /* EditVocabularyView.swift in Sources */,
 				9FC583292AE7085400A56141 /* Vocabulary.swift in Sources */,
 				9F7F6C472B1781E2001B266A /* Badge.swift in Sources */,
+				9FDE39DB2B1E78E7000EC63E /* LearnView.swift in Sources */,
 				9F46EFBF2AE83C510006E5F3 /* ContentView.swift in Sources */,
 				9FF01AAC2B152EB30038BEAE /* VocabularyListView.swift in Sources */,
 				9FFB361A2AED952C00E510CA /* LearningState.swift in Sources */,
@@ -464,10 +468,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.marceljaeger.Vocablo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -504,10 +508,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.marceljaeger.Vocablo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

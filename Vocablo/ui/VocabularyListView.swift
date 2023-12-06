@@ -104,7 +104,7 @@ struct VocabularyListView: View {
             }
         }
         .sheet(isPresented: $showLearningSheet, content: {
-            LearningView(list: list)
+            LearnView(list: list)
         })
         .sheet(item: $editingVocabulary) { vocabulary in
             EditVocabularyView(vocabulary: vocabulary)
