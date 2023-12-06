@@ -69,6 +69,16 @@ struct VocabularyListView: View {
                 }
                 .disabled(vocabularyIDs.count == 1 && !getVocabularies(ids: vocabularyIDs).first!.isLearnable)
                 
+                Button {
+                    resetVocabularies(getVocabularies(ids:vocabularyIDs))
+                } label: {
+                    if vocabularyIDs.count == 1 {
+                        Text("Reset")
+                    }else {
+                        Text("Reset selected")
+                    }
+                }
+                
                 Divider()
                 
                 Button {
@@ -134,6 +144,13 @@ struct VocabularyListView: View {
     
     func openEditVocabularyView(for vocabulary: Vocabulary) {
         editingVocabulary = vocabulary
+    }
+    
+    private func resetVocabularies(_ vocabularies: Array<Vocabulary>) {
+        for vocabulary in vocabularies {
+            vocabulary.learningState.reset()
+            vocabulary.translatedLearningState.reset()
+        }
     }
 }
 
