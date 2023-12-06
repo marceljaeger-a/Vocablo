@@ -22,6 +22,16 @@ struct SidebarView: View {
         }
     }
     
+    private func getLists(ids: Set<PersistentIdentifier>) -> Array<VocabularyList> {
+        var pickedLists: Array<VocabularyList> = []
+        for list in lists {
+            pickedLists.append(list) { _ in
+                ids.contains(list.id)
+            }
+        }
+        return pickedLists
+    }
+    
     @State var showListDeleteConfirmationDialog: Bool = false
     var listDeletingConfirmationDialogText: String {
         if selectedLists.count > 1 {
@@ -100,6 +110,19 @@ struct SidebarView: View {
                         Divider()
                     }
                 }
+                
+                Button {
+                    resetLists(getLists(ids: vocabularyIDs))
+                } label: {
+                    if vocabularyIDs.count > 1 {
+                        Text("Reset selected")
+                    }else {
+                        Text("Reset")
+                    }
+                }
+                
+                Divider()
+                
                 Button {
                     showListDeleteConfirmationDialog = true
                 } label: {
@@ -129,6 +152,15 @@ struct SidebarView: View {
             selectedListIDs.remove(deletingList.id)
         }
         context.deleteVocabularyLists(deletingLists)
+    }
+    
+    private func resetLists(_ lists: Array<VocabularyList>) {
+        for list in lists {
+            for vocabulary in list.vocabularies {
+                vocabulary.learningState.reset()
+                vocabulary.translatedLearningState.reset()
+            }
+        }
     }
     
 //    private func addTag() {
