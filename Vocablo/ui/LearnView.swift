@@ -254,6 +254,7 @@ fileprivate struct QuestionOverlayModfier: ViewModifier {
                 }
             } label: {
                 Image(systemName: "questionmark")
+                    .symbolEffect(.pulse)
                     .imageScale(.large)
                     .font(.largeTitle)
                     .fontDesign(.rounded)
