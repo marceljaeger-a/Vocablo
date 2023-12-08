@@ -9,44 +9,34 @@ import SwiftUI
 import SwiftData
 
 struct VocabularyListView: View {
-    @Environment(\.modelContext) var context: ModelContext
-    @Query(sort: \Vocabulary.word) var allVocabularies: Array<Vocabulary>
-    
     @Bindable var list: VocabularyList
+    @Binding var selectedVocabularyIDs: Set<PersistentIdentifier>
     
-    @Binding var selectedVocabularyIDs: Set<PersistentIdentifier> 
-    func getVocabularies(ids: Set<PersistentIdentifier>) -> Array<Vocabulary> {
-        let vocabularies = list.vocabularies
-        return vocabularies.filter { element in
-            ids.contains(element.id)
-        }
-    }
+    @Environment(\.modelContext) var context: ModelContext
     
     @State var showLearningSheet: Bool = false
     @State var editingVocabulary: Vocabulary?
     
     @FocusState private var textFieldFocus: VocabularyTextFieldFocusState?
     
-    @Binding var showVocabulariesDeletingConfirmationDialog: Bool
-    
     var body: some View {
         List(list.sortedVocabularies, id: \.id, selection: $selectedVocabularyIDs){ vocabulary in
             VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
                 .onSubmit {
-                    addVocabulary()
+                    addNewVocabulary()
                 }
         }
         .contextMenu(forSelectionType: Vocabulary.ID.self, menu: { vocabularyIDs in
             if vocabularyIDs.isEmpty {
                 Button {
-                    addVocabulary()
+                    addNewVocabulary()
                 } label: {
                     Text("New vocabulary")
                 }
             }else {
                 if vocabularyIDs.count == 1 {
                     Button {
-                        guard let firstVocabulary = getVocabularies(ids: vocabularyIDs).first else { return }
+                        guard let firstVocabulary: Vocabulary = context.fetch(ids: vocabularyIDs).first else { return }
                         openEditVocabularyView(for: firstVocabulary)
                     } label: {
                         Text("Edit")
@@ -56,21 +46,19 @@ struct VocabularyListView: View {
                 }
                 
                 Button {
-                    checkLearnable(of: getVocabularies(ids: vocabularyIDs))
+                    context.toLearn(for: context.fetch(ids: vocabularyIDs))
                 } label: {
                     Text("To learn")
                 }
-                .disabled(vocabularyIDs.count == 1 && getVocabularies(ids: vocabularyIDs).first!.isLearnable)
-                
+            
                 Button {
-                    uncheckLearnable(of: getVocabularies(ids: vocabularyIDs))
+                    context.notToLearn(for: context.fetch<Vocabulary>(ids: vocabularyIDs))
                 } label: {
                     Text("Not to learn")
                 }
-                .disabled(vocabularyIDs.count == 1 && !getVocabularies(ids: vocabularyIDs).first!.isLearnable)
                 
                 Button {
-                    resetVocabularies(getVocabularies(ids:vocabularyIDs))
+                    context.resetVocabularies(context.fetch(ids:vocabularyIDs))
                 } label: {
                     if vocabularyIDs.count == 1 {
                         Text("Reset")
@@ -82,7 +70,7 @@ struct VocabularyListView: View {
                 Divider()
                 
                 Button {
-                    showVocabulariesDeletingConfirmationDialog = true
+                    context.deleteVocabularies(context.fetch(ids: vocabularyIDs))
                 } label: {
                     if vocabularyIDs.count == 1 {
                         Text("Delete")
@@ -93,14 +81,14 @@ struct VocabularyListView: View {
             }
         }, primaryAction: { vocabularyIDs in
             if vocabularyIDs.count == 1 {
-                guard let firstVocabulary = getVocabularies(ids: vocabularyIDs).first else { return }
+                guard let firstVocabulary: Vocabulary = context.fetch(ids: vocabularyIDs).first else { return }
                 openEditVocabularyView(for: firstVocabulary)
             }
         })
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Button {
-                    addVocabulary()
+                    addNewVocabulary()
                 } label: {
                     Image(.wordPlus)
                 }
@@ -121,36 +109,15 @@ struct VocabularyListView: View {
         }
     }
     
-    private func addVocabulary() {
+    private func openEditVocabularyView(for vocabulary: Vocabulary) {
+        editingVocabulary = vocabulary
+    }
+    
+    private func addNewVocabulary() {
         let newVocabulary = Vocabulary(word: "", translatedWord: "", wordGroup: .noun)
         list.addVocabulary(newVocabulary)
         textFieldFocus = .word(newVocabulary.id)
         selectedVocabularyIDs = []
-    }
-    
-    private func checkLearnable(of vocabularies: Array<Vocabulary>) {
-        for vocabulary in vocabularies {
-            guard !vocabulary.isLearnable else { continue }
-            vocabulary.checkLearnable()
-        }
-    }
-    
-    private func uncheckLearnable(of vocabularies: Array<Vocabulary>) {
-        for vocabulary in vocabularies {
-            guard vocabulary.isLearnable else { continue }
-            vocabulary.uncheckLearnable()
-        }
-    }
-    
-    func openEditVocabularyView(for vocabulary: Vocabulary) {
-        editingVocabulary = vocabulary
-    }
-    
-    private func resetVocabularies(_ vocabularies: Array<Vocabulary>) {
-        for vocabulary in vocabularies {
-            vocabulary.learningState.reset()
-            vocabulary.translatedLearningState.reset()
-        }
     }
 }
 
@@ -215,6 +182,6 @@ fileprivate struct VocabularyItem: View {
 }
 
 #Preview {
-    VocabularyListView( list: VocabularyList("Preview List"), selectedVocabularyIDs: .constant([]), showVocabulariesDeletingConfirmationDialog: .constant(false))
+    VocabularyListView( list: VocabularyList("Preview List"), selectedVocabularyIDs: .constant([]))
 }
 
