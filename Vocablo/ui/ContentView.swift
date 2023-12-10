@@ -12,8 +12,9 @@ struct ContentView: View {
     @Environment(\.modelContext) var context: ModelContext
     @Query(sort: \VocabularyList.created, order: .forward) var lists: Array<VocabularyList>
     
-    @State var selectedListIDs: Set<PersistentIdentifier> = []
-    @State var selectedVocabularyIDs: Set<PersistentIdentifier> = []
+    @Binding var selectedListIDs: Set<PersistentIdentifier>
+    @Binding var selectedVocabularyIDs: Set<PersistentIdentifier>
+    @Binding var showLearningSheet: Bool
 
     @State var showContextSaveErrorAlert: Bool = false
     
@@ -22,7 +23,7 @@ struct ContentView: View {
             SidebarView(selectedListIDs: $selectedListIDs)
         } detail: {
             if let firstSelectedList: VocabularyList = context.fetch(ids: selectedListIDs).first {
-                VocabularyListView(list: firstSelectedList, selectedVocabularyIDs: $selectedVocabularyIDs)
+                VocabularyListView(list: firstSelectedList, selectedVocabularyIDs: $selectedVocabularyIDs, showLearningSheet: $showLearningSheet)
             } else {
                 ContentUnavailableView("No selected list!", systemImage: "book.pages", description: Text("Select a list on the sidebar."))
             }
@@ -64,7 +65,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(selectedListIDs: .constant([]), selectedVocabularyIDs: .constant([]), showLearningSheet: .constant(false))
         .previewModelContainer()
 }
 

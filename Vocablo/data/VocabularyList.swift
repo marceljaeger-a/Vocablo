@@ -8,9 +8,12 @@
 import Foundation
 import SwiftData
 import SwiftUI
+import Combine
 
 @Model
 class VocabularyList {
+    @Transient let addVocabularyPublisher: PassthroughSubject<Vocabulary, Never> = PassthroughSubject()
+    
     enum VocabularySorting: String, Codable {
         case newest = "Newest", oldest = "Oldest", word = "Word", translatedWord = "Translated Word"
         
@@ -59,6 +62,7 @@ class VocabularyList {
 extension VocabularyList {
     func addVocabulary(_ vocabulary: Vocabulary) {
         self.vocabularies.append(vocabulary)
+        addVocabularyPublisher.send(vocabulary)
     }
     
     func containVocabulary(_ vocabulary: Vocabulary) -> Bool {
@@ -71,6 +75,11 @@ extension VocabularyList {
         self.vocabularies.removeAll { element in
             element == vocabulary
         }
+    }
+    
+    func addNewVocabulary() {
+        let newVocabulary = Vocabulary(word: "", translatedWord: "", wordGroup: .noun)
+        addVocabulary(newVocabulary)
     }
 }
 

@@ -14,7 +14,7 @@ struct VocabularyListView: View {
     
     @Environment(\.modelContext) var context: ModelContext
     
-    @State var showLearningSheet: Bool = false
+    @Binding var showLearningSheet: Bool 
     @State var editingVocabulary: Vocabulary?
     
     @FocusState private var textFieldFocus: VocabularyTextFieldFocusState?
@@ -23,13 +23,13 @@ struct VocabularyListView: View {
         List(list.sortedVocabularies, id: \.id, selection: $selectedVocabularyIDs){ vocabulary in
             VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
                 .onSubmit {
-                    addNewVocabulary()
+                    list.addNewVocabulary()
                 }
         }
         .contextMenu(forSelectionType: Vocabulary.ID.self, menu: { vocabularyIDs in
             if vocabularyIDs.isEmpty {
                 Button {
-                    addNewVocabulary()
+                    list.addNewVocabulary()
                 } label: {
                     Text("New vocabulary")
                 }
@@ -88,7 +88,7 @@ struct VocabularyListView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Button {
-                    addNewVocabulary()
+                    list.addNewVocabulary()
                 } label: {
                     Image(.wordPlus)
                 }
@@ -107,17 +107,14 @@ struct VocabularyListView: View {
         .sheet(item: $editingVocabulary) { vocabulary in
             EditVocabularyView(vocabulary: vocabulary)
         }
+        .onAddVocabulary(to: list, action: { newVocabulary in
+            textFieldFocus = .word(newVocabulary.id)
+            selectedVocabularyIDs = []
+        })
     }
     
     private func openEditVocabularyView(for vocabulary: Vocabulary) {
         editingVocabulary = vocabulary
-    }
-    
-    private func addNewVocabulary() {
-        let newVocabulary = Vocabulary(word: "", translatedWord: "", wordGroup: .noun)
-        list.addVocabulary(newVocabulary)
-        textFieldFocus = .word(newVocabulary.id)
-        selectedVocabularyIDs = []
     }
 }
 
@@ -182,6 +179,6 @@ fileprivate struct VocabularyItem: View {
 }
 
 #Preview {
-    VocabularyListView( list: VocabularyList("Preview List"), selectedVocabularyIDs: .constant([]))
+    VocabularyListView( list: VocabularyList("Preview List"), selectedVocabularyIDs: .constant([]), showLearningSheet: .constant(false))
 }
 

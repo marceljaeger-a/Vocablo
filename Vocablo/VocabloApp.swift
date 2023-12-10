@@ -35,13 +35,11 @@ struct VocabloApp: App {
     }
     
     var body: some Scene {
-        WindowGroup {
-            ContentView()
-            #if DEBUG
-                .modelContainer(developContainer)
-            #else
-                .modelContainer(mainContainer)
-            #endif
-        }
+        VocabloScene()
+        #if DEBUG
+        .modelContainer(developContainer)
+        #else
+        .modelContainer(mainContainer)
+        #endif
     }
 }

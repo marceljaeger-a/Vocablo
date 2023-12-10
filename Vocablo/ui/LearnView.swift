@@ -262,6 +262,7 @@ fileprivate struct QuestionOverlayModfier: ViewModifier {
                     .opacity(overlayOpacity)
             }
             .buttonStyle(.plain)
+            .keyboardShortcut(KeyEquivalent("s"), modifiers: .command)
         }
     }
 }
@@ -334,7 +335,6 @@ fileprivate struct AnswerView: View {
                         .foregroundStyle(.green.gradient)
                         .frame(width: 65)
                 }
-
             }
             .buttonStyle(.bordered)
             .controlSize(.extraLarge)
