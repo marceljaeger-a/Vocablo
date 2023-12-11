@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 import SwiftUI
+import Combine
 
 //Fetching
 extension ModelContext {
@@ -41,6 +42,7 @@ extension ModelContext {
     func addList(_ name: String) {
         let newList = VocabularyList(name)
         insert(newList)
+        ModelContext.addListPublisher.send(newList)
     }
 }
 
@@ -93,5 +95,9 @@ extension ModelContext {
             vocabulary.uncheckLearnable()
         }
     }
+}
+
+extension ModelContext {
+    static let addListPublisher: PassthroughSubject<VocabularyList, Never> = PassthroughSubject()
 }
 

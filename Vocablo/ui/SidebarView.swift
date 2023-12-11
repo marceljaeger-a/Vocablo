@@ -32,6 +32,8 @@ struct SidebarView: View {
         }
     }
     
+    @FocusState var focusedList: PersistentIdentifier?
+    
     var body: some View {
 //        ("This was the problem of #16, because I do not use the id as selection. Maybe because of the List and the wrapped ForEach, but I do not now. But I know, that this was the problem of the duplicate key error!")
         List(selection: $selectedListIDs){
@@ -40,6 +42,7 @@ struct SidebarView: View {
                     @Bindable var bindedList = list
                     Label {
                         TextField("", text: $bindedList.name)
+                            .focused($focusedList, equals: list.id)
                     } icon: {
                         Image(systemName: "book.pages")
                     }
@@ -129,6 +132,14 @@ struct SidebarView: View {
             listDeleteConfirmationDialogState = (false, [])
         } deletingAction: {
             deleteLists(listDeleteConfirmationDialogState.deletingLists)
+        }
+        .onAddList { list in
+            focusedList = nil //This helps for the "AttributeGraph" message!
+            selectedListIDs = []
+            selectedListIDs.insert(list.id) //This causes an "AttributeGraph" message!
+            Task {  //This helps for the nonfocsuing, when an other list is focued, while I add a new list.
+                focusedList = list.id
+            }
         }
     }
     

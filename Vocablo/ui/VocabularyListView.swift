@@ -108,8 +108,12 @@ struct VocabularyListView: View {
             EditVocabularyView(vocabulary: vocabulary)
         }
         .onAddVocabulary(to: list, action: { newVocabulary in
-            textFieldFocus = .word(newVocabulary.id)
+            textFieldFocus = nil //This helps for the "AttributeGraph" message!
             selectedVocabularyIDs = []
+            selectedVocabularyIDs.insert(newVocabulary.id) //This causes an "AttributeGraph" message!
+            Task { //This helps for the nonfocsuing, when an other list is focued, while I add a new list.
+                textFieldFocus = .word(newVocabulary.id)
+            }
         })
     }
     
