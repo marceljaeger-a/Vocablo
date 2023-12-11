@@ -58,7 +58,7 @@ fileprivate struct LearningStateSection: View {
     @State var showResetAlert = false
     
     var body: some View {
-        Section(header) {
+        Section {
             HStack {
                 LearningLevelPicker(state: $state)
                 
@@ -75,6 +75,15 @@ fileprivate struct LearningStateSection: View {
             }
             
             Text("Next repetition in \(state.remainingTimeLabel)")
+        }header: {
+            HStack {
+                Text(header)
+                
+                Spacer()
+                
+                InfoPopoverButton()
+            }
+            .foregroundStyle(.secondary)
         }
     }
 }
