@@ -17,9 +17,18 @@ struct VocabloScene: Scene {
     @State var selectedVocabularyIDs: Set<PersistentIdentifier> = []
     @State var showLearningSheet: Bool = false
     
+    @State var showContextSaveErrorAlert: Bool = false
+    
     var body: some Scene {
         WindowGroup {
             ContentView(selectedListIDs: $selectedListIDs, selectedVocabularyIDs: $selectedVocabularyIDs, showLearningSheet: $showLearningSheet)
+                .alert("Save failed!", isPresented: $showContextSaveErrorAlert) {
+                    Button {
+                        showContextSaveErrorAlert = false
+                    } label: {
+                        Text("Ok")
+                    }
+                }
         }
         .commands {
             CommandGroup(replacing: .newItem) {
@@ -34,7 +43,19 @@ struct VocabloScene: Scene {
                 }
                 .keyboardShortcut(KeyEquivalent("n"), modifiers: .command)
                 .disabled(selectedListIDs.isEmpty)
+                
+                Button("Save") {
+                    do {
+                        try context.save()
+                    } catch {
+                        print(error.localizedDescription)
+                        showContextSaveErrorAlert = true
+                    }
+                }
+                .keyboardShortcut(KeyEquivalent("s"), modifiers: .command)
+                .disabled(!context.hasChanges)
             }
+            
             CommandGroup(after: .pasteboard) {
                 Divider()
                 

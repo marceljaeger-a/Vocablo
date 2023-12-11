@@ -262,7 +262,7 @@ fileprivate struct QuestionOverlayModfier: ViewModifier {
                     .opacity(overlayOpacity)
             }
             .buttonStyle(.plain)
-            .keyboardShortcut(KeyEquivalent("s"), modifiers: .command)
+            .keyboardShortcut(KeyEquivalent("d"), modifiers: .command)
         }
     }
 }

@@ -88,16 +88,19 @@ struct VocabularyListView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Button {
-                    list.addNewVocabulary()
-                } label: {
-                    Image(.wordPlus)
-                }
-            }
-            ToolbarItem(placement: .principal) {
-                Button {
                     self.showLearningSheet = true
                 } label: {
                     Image(.wordlistPlay)
+                }
+            }
+            
+            ToolbarItemGroup(placement: .primaryAction) {
+                Spacer()
+                
+                Button {
+                    list.addNewVocabulary()
+                } label: {
+                    Image(systemName: "plus")
                 }
             }
         }

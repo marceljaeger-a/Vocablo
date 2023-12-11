@@ -15,8 +15,6 @@ struct ContentView: View {
     @Binding var selectedListIDs: Set<PersistentIdentifier>
     @Binding var selectedVocabularyIDs: Set<PersistentIdentifier>
     @Binding var showLearningSheet: Bool
-
-    @State var showContextSaveErrorAlert: Bool = false
     
     var body: some View {
         NavigationSplitView {
@@ -38,28 +36,6 @@ struct ContentView: View {
         .vocabularyiesPasteDestination(into: context.fetch(ids: selectedListIDs).first)
         .onChange(of: selectedListIDs) {
             selectedVocabularyIDs = []
-        }
-        .toolbar {
-            ToolbarItem(placement: .secondaryAction) {
-                Button {
-                    do {
-                        try context.save()
-                    } catch {
-                        print(error.localizedDescription)
-                        showContextSaveErrorAlert = true
-                    }
-                } label: {
-                    Image(systemName: "square.and.arrow.down")
-                        .symbolEffect(.pulse , options: .repeating.speed(3), isActive: context.hasChanges)
-                }
-            }
-        }
-        .alert("Save failed!", isPresented: $showContextSaveErrorAlert) {
-            Button {
-                showContextSaveErrorAlert = false
-            } label: {
-                Text("Ok")
-            }
         }
     }
 }
