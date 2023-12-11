@@ -19,6 +19,7 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             SidebarView(selectedListIDs: $selectedListIDs)
+                .navigationSplitViewColumnWidth(min: 200, ideal: 250)
         } detail: {
             if let firstSelectedList: VocabularyList = context.fetch(ids: selectedListIDs).first {
                 VocabularyListView(list: firstSelectedList, selectedVocabularyIDs: $selectedVocabularyIDs, showLearningSheet: $showLearningSheet)
