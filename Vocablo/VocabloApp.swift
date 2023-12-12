@@ -11,6 +11,8 @@ import SwiftData
 @main
 struct VocabloApp: App {
     
+    @State var showWelcomeSheet: Bool = true
+    
     @MainActor
     var  mainContainer: ModelContainer {
         var container: ModelContainer
@@ -35,11 +37,16 @@ struct VocabloApp: App {
     }
     
     var body: some Scene {
-        VocabloScene()
+        VocabloScene(showWelcomeSheet: $showWelcomeSheet)
         #if DEBUG
         .modelContainer(developContainer)
         #else
         .modelContainer(mainContainer)
         #endif
+        
+        Settings {
+            SettingsView(showWelcomeSheet: $showWelcomeSheet)
+        }
+        .defaultSize(width: 400, height: 500)
     }
 }

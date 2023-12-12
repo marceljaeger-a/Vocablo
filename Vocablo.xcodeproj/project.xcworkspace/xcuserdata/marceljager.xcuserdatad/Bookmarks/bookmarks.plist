@@ -10,15 +10,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>22</string>
+					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>46</string>
+					<string>122</string>
 					<key>StartingColumnNumber</key>
-					<string>16</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>46</string>
+					<string>121</string>
 					<key>Timestamp</key>
-					<string>723981620.415612</string>
+					<string>724082775.953959</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,19 +34,114 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>Button</string>
+				<string>                Button("Save") {
+</string>
 				<key>leading</key>
 				<string>                .disabled(selectedListIDs.isEmpty)
                 
-                </string>
+</string>
 				<key>trailing</key>
-				<string>("Save") {
-                    do {
+				<string>                    do {
                         try context.save()
+                    } catch {
 </string>
 			</dict>
 			<key>title</key>
 			<string>Temporaly solution for the SwiftData bug, that the context auto save after a few seconds.</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>63</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>62</string>
+					<key>Timestamp</key>
+					<string>724082708.856793</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Vocablo/VocabloScene.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>//                                    .foregroundStyle(.accent)
+</string>
+				<key>leading</key>
+				<string>//                                    .symbolVariant(.fill)
+//                                    .font(.largeTitle)
+</string>
+				<key>trailing</key>
+				<string>                                
+                                VStack(alignment: .leading){
+                                    Text("Add lists with vocabularies")
+</string>
+			</dict>
+			<key>title</key>
+			<string>When the system accent color is an other, this is still the app´s accent color.</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>84</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>83</string>
+					<key>Timestamp</key>
+					<string>724082775.953975</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Vocablo/VocabloScene.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>//                                    .foregroundStyle(.accent)
+</string>
+				<key>leading</key>
+				<string>//                                    .symbolVariant(.fill)
+//                                    .font(.largeTitle)
+</string>
+				<key>trailing</key>
+				<string>                                
+                                VStack(alignment: .leading){
+                                    Text("Learn vocabularies")
+</string>
+			</dict>
+			<key>title</key>
+			<string>When the system accent color is an other, this is still the app´s accent color.</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>
