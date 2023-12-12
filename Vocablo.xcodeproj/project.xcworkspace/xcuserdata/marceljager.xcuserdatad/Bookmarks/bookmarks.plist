@@ -12,53 +12,6 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>122</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>121</string>
-					<key>Timestamp</key>
-					<string>724082775.953959</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>Vocablo/VocabloScene.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>                Button("Save") {
-</string>
-				<key>leading</key>
-				<string>                .disabled(selectedListIDs.isEmpty)
-                
-</string>
-				<key>trailing</key>
-				<string>                    do {
-                        try context.save()
-                    } catch {
-</string>
-			</dict>
-			<key>title</key>
-			<string>Temporaly solution for the SwiftData bug, that the context auto save after a few seconds.</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
 					<string>63</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>

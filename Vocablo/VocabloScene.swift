@@ -118,17 +118,6 @@ struct VocabloScene: Scene {
                 }
                 .keyboardShortcut(KeyEquivalent("n"), modifiers: .command)
                 .disabled(selectedListIDs.isEmpty)
-                
-                Button("Save") {
-                    do {
-                        try context.save()
-                    } catch {
-                        print(error.localizedDescription)
-                        showContextSaveErrorAlert = true
-                    }
-                }
-                .keyboardShortcut(KeyEquivalent("s"), modifiers: .command)
-                .disabled(!context.hasChanges)
             }
             
             CommandGroup(after: .pasteboard) {
