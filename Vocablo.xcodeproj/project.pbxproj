@@ -16,6 +16,7 @@
 		9F11D7982B22762C0050A3AD /* VocabulariesPasteDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F11D7972B22762C0050A3AD /* VocabulariesPasteDestination.swift */; };
 		9F23D9412B0BF53200C90BBB /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F23D9402B0BF53200C90BBB /* Array.swift */; };
 		9F2767322B0525A900C99231 /* Vocabulary UTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2767312B0525A900C99231 /* Vocabulary UTType.swift */; };
+		9F3C66B72B2A572B00E75793 /* LinkUndoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3C66B62B2A572B00E75793 /* LinkUndoManager.swift */; };
 		9F46EFBC2AE81F5D0006E5F3 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBB2AE81F5D0006E5F3 /* Tag.swift */; };
 		9F46EFBF2AE83C510006E5F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBE2AE83C510006E5F3 /* ContentView.swift */; };
 		9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */; };
@@ -58,6 +59,7 @@
 		9F11D7972B22762C0050A3AD /* VocabulariesPasteDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabulariesPasteDestination.swift; sourceTree = "<group>"; };
 		9F23D9402B0BF53200C90BBB /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		9F2767312B0525A900C99231 /* Vocabulary UTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Vocabulary UTType.swift"; sourceTree = "<group>"; };
+		9F3C66B62B2A572B00E75793 /* LinkUndoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkUndoManager.swift; sourceTree = "<group>"; };
 		9F46EFBB2AE81F5D0006E5F3 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		9F46EFBE2AE83C510006E5F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				9F11D7972B22762C0050A3AD /* VocabulariesPasteDestination.swift */,
 				9FEAC8122B26033A00AA7133 /* OnAddVocabulary.swift */,
 				9F1019A42B2707AF0041CB7D /* OnAddList.swift */,
+				9F3C66B62B2A572B00E75793 /* LinkUndoManager.swift */,
 			);
 			path = "view modifier";
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				9F1019A72B2710B10041CB7D /* InfoPopoverButton.swift in Sources */,
 				9F2767322B0525A900C99231 /* Vocabulary UTType.swift in Sources */,
 				9F7F6C452B177E7D001B266A /* SidebarView.swift in Sources */,
+				9F3C66B72B2A572B00E75793 /* LinkUndoManager.swift in Sources */,
 				9F77411F2B1345B200565B42 /* VocabularyToggle.swift in Sources */,
 				9F77411A2B1343DC00565B42 /* EditVocabularyView.swift in Sources */,
 				9FC583292AE7085400A56141 /* Vocabulary.swift in Sources */,

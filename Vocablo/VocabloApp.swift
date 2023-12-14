@@ -17,8 +17,10 @@ struct VocabloApp: App {
     var  mainContainer: ModelContainer {
         var container: ModelContainer
         do {
-            container = try ModelContainer(for: VocabularyList.self, Tag.self, configurations: ModelConfiguration("vocablo_datastorage_main", isStoredInMemoryOnly: false))
-            container.mainContext.undoManager = UndoManager()
+            let schema = Schema([VocabularyList.self, Tag.self])
+            let configuration = ModelConfiguration("vocablo_datastorage_main", schema: schema)
+            container = try ModelContainer(for: schema, configurations: [configuration])
+            
             container.mainContext.autosaveEnabled = true
         } catch {
             fatalError()
@@ -26,23 +28,34 @@ struct VocabloApp: App {
         return container
     }
     
+    @MainActor
     var developContainer: ModelContainer {
         var container: ModelContainer
         do {
-            container = try ModelContainer(for: VocabularyList.self, Tag.self, configurations: .init("vocablo_datastorage_develop", isStoredInMemoryOnly: false))
+            let schema = Schema([VocabularyList.self, Tag.self])
+            let configuration = ModelConfiguration("vocablo_datastorage_develop", schema: schema)
+            container = try ModelContainer(for: schema, configurations: [configuration])
+            
+            container.mainContext.autosaveEnabled = true
+            container.mainContext.undoManager = UndoManager()
         } catch {
             fatalError()
         }
         return container
     }
     
+    @MainActor
+    var container: ModelContainer {
+        #if DEBUG
+            developContainer
+        #else
+            mainContainer
+        #endif
+    }
+    
     var body: some Scene {
         VocabloScene(showWelcomeSheet: $showWelcomeSheet)
-        #if DEBUG
-        .modelContainer(developContainer)
-        #else
-        .modelContainer(mainContainer)
-        #endif
+            .modelContainer(container)
         
         Settings {
             SettingsView(showWelcomeSheet: $showWelcomeSheet)

@@ -140,8 +140,6 @@ struct VocabloScene: Scene {
                     }
                     .disabled(selectedListIDs.count != 1)
                 }
-                    
-                
             }
             
             CommandMenu("Learning") {

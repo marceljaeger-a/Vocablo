@@ -11,16 +11,23 @@ import SwiftData
 struct VocabularyListView: View {
     @Bindable var list: VocabularyList
     @Binding var selectedVocabularyIDs: Set<PersistentIdentifier>
+    @Binding var showLearningSheet: Bool
     
     @Environment(\.modelContext) var context: ModelContext
-    
-    @Binding var showLearningSheet: Bool 
+    @Query var vocabularies: Array<Vocabulary>
     @State var editingVocabulary: Vocabulary?
-    
     @FocusState private var textFieldFocus: VocabularyTextFieldFocusState?
     
+    var filteredVocabularies: Array<Vocabulary> {
+        vocabularies
+            .filter { element in
+                element.list == list
+            }
+            .sorted(using: list.sorting.sortComparator)
+    }
+    
     var body: some View {
-        List(list.sortedVocabularies, id: \.id, selection: $selectedVocabularyIDs){ vocabulary in
+        List(filteredVocabularies, id: \.id, selection: $selectedVocabularyIDs){ vocabulary in
             VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
                 .onSubmit {
                     list.addNewVocabulary()

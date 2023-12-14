@@ -10,12 +10,13 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) var context: ModelContext
+    @Environment(\.undoManager) var undoManager: UndoManager?
     @Query(sort: \VocabularyList.created, order: .forward) var lists: Array<VocabularyList>
     
     @Binding var selectedListIDs: Set<PersistentIdentifier>
     @Binding var selectedVocabularyIDs: Set<PersistentIdentifier>
     @Binding var showLearningSheet: Bool
-    
+  
     var body: some View {
         NavigationSplitView {
             SidebarView(selectedListIDs: $selectedListIDs)
@@ -27,6 +28,7 @@ struct ContentView: View {
                 ContentUnavailableView("No selected list!", systemImage: "book.pages", description: Text("Select a list on the sidebar."))
             }
         }
+        .linkContextUndoManager(context: context, with: undoManager)
         .navigationTitle("")
         .onDeleteCommand(perform: {
             guard context.fetchVocabularyCount(ids: selectedVocabularyIDs) > 0 else { return }
