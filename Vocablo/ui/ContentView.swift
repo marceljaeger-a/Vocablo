@@ -23,7 +23,7 @@ struct ContentView: View {
                 .navigationSplitViewColumnWidth(min: 200, ideal: 250)
         } detail: {
             if let firstSelectedList: VocabularyList = context.fetch(ids: selectedListIDs).first {
-                VocabularyListView(list: firstSelectedList, selectedVocabularyIDs: $selectedVocabularyIDs, showLearningSheet: $showLearningSheet)
+                DetailView(list: firstSelectedList, selectedVocabularyIDs: $selectedVocabularyIDs, showLearningSheet: $showLearningSheet)
             } else {
                 ContentUnavailableView("No selected list!", systemImage: "book.pages", description: Text("Select a list on the sidebar."))
             }

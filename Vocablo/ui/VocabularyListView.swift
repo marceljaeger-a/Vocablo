@@ -2,197 +2,32 @@
 //  VocabularyListView.swift
 //  Vocablo
 //
-//  Created by Marcel Jäger on 27.11.23.
+//  Created by Marcel Jäger on 14.12.23.
 //
 
+import Foundation
 import SwiftUI
 import SwiftData
 
 struct VocabularyListView: View {
-    @Bindable var list: VocabularyList
-    @Binding var selectedVocabularyIDs: Set<PersistentIdentifier>
-    @Binding var showLearningSheet: Bool
+    @Query var allVocabularies: Array<Vocabulary>
     
-    @Environment(\.modelContext) var context: ModelContext
-    @Query var vocabularies: Array<Vocabulary>
-    @State var editingVocabulary: Vocabulary?
-    @FocusState private var textFieldFocus: VocabularyTextFieldFocusState?
-    
-    var filteredVocabularies: Array<Vocabulary> {
-        vocabularies
-            .filter { element in
-                element.list == list
-            }
-            .sorted(using: list.sorting.sortComparator)
-    }
+    let vocabularies: Array<Vocabulary>
+    @Binding var selection: Set<PersistentIdentifier>
+    @FocusState.Binding var textFieldFocus: VocabularyTextFieldFocusState?
+    let onSubmitAction: () -> Void
     
     var body: some View {
-        List(filteredVocabularies, id: \.id, selection: $selectedVocabularyIDs){ vocabulary in
+        List(vocabularies, id: \.id, selection: $selection){ vocabulary in
             VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
                 .onSubmit {
-                    list.addNewVocabulary()
+                    onSubmitAction()
                 }
         }
-        .contextMenu(forSelectionType: Vocabulary.ID.self, menu: { vocabularyIDs in
-            if vocabularyIDs.isEmpty {
-                Button {
-                    list.addNewVocabulary()
-                } label: {
-                    Text("New vocabulary")
-                }
-            }else {
-                if vocabularyIDs.count == 1 {
-                    Button {
-                        guard let firstVocabulary: Vocabulary = context.fetch(ids: vocabularyIDs).first else { return }
-                        openEditVocabularyView(for: firstVocabulary)
-                    } label: {
-                        Text("Edit")
-                    }
-                    
-                    Divider()
-                }
-                
-                Button {
-                    context.toLearn(for: context.fetch(ids: vocabularyIDs))
-                } label: {
-                    Text("To learn")
-                }
-            
-                Button {
-                    context.notToLearn(for: context.fetch<Vocabulary>(ids: vocabularyIDs))
-                } label: {
-                    Text("Not to learn")
-                }
-                
-                Button {
-                    context.resetVocabularies(context.fetch(ids:vocabularyIDs))
-                } label: {
-                    if vocabularyIDs.count == 1 {
-                        Text("Reset")
-                    }else {
-                        Text("Reset selected")
-                    }
-                }
-                
-                Divider()
-                
-                Button {
-                    context.deleteVocabularies(context.fetch(ids: vocabularyIDs))
-                } label: {
-                    if vocabularyIDs.count == 1 {
-                        Text("Delete")
-                    }else {
-                        Text("Delete selected")
-                    }
-                }
-            }
-        }, primaryAction: { vocabularyIDs in
-            if vocabularyIDs.count == 1 {
-                guard let firstVocabulary: Vocabulary = context.fetch(ids: vocabularyIDs).first else { return }
-                openEditVocabularyView(for: firstVocabulary)
-            }
-        })
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Button {
-                    self.showLearningSheet = true
-                } label: {
-                    Image(.wordlistPlay)
-                }
-            }
-            
-            ToolbarItemGroup(placement: .primaryAction) {
-                Spacer()
-                
-                Button {
-                    list.addNewVocabulary()
-                } label: {
-                    Image(systemName: "plus")
-                }
-            }
-        }
-        .sheet(isPresented: $showLearningSheet, content: {
-            LearnView(list: list)
-        })
-        .sheet(item: $editingVocabulary) { vocabulary in
-            EditVocabularyView(vocabulary: vocabulary)
-        }
-        .onAddVocabulary(to: list, action: { newVocabulary in
-            textFieldFocus = nil //This helps for the "AttributeGraph" message!
-            selectedVocabularyIDs = []
-            selectedVocabularyIDs.insert(newVocabulary.id) //This causes an "AttributeGraph" message!
-            Task { //This helps for the nonfocsuing, when an other list is focued, while I add a new list.
-                textFieldFocus = .word(newVocabulary.id)
-            }
-        })
-    }
-    
-    private func openEditVocabularyView(for vocabulary: Vocabulary) {
-        editingVocabulary = vocabulary
-    }
-}
-
-fileprivate enum VocabularyTextFieldFocusState: Hashable{
-    case word(PersistentIdentifier), translatedWord(PersistentIdentifier), sentence(PersistentIdentifier), translatedSentenced(PersistentIdentifier)
-}
-
-fileprivate struct VocabularyItem: View {
-    @Bindable var vocabulary: Vocabulary
-    @FocusState.Binding var textFieldFocus: VocabularyTextFieldFocusState?
-    
-    @State var showLearningStateInfoButton: Bool = false
-    var learningStateInfoButtonOpacity: Double {
-        if showLearningStateInfoButton {
-            return 1
-        }else {
-            return 0
-        }
-    }
-    
-    var body: some View {
-        HStack(spacing: 20){
-            VocabularyToggle(vocabulary: vocabulary, value: \.isLearnable)
-                .toggleStyle(.checkbox)
-
-            VStack(alignment: .leading){
-                VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Word...")
-                    .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.word(vocabulary.id))
-                
-                VocabularyTextField(vocabulary: vocabulary, value: \.sentence, placeholder: "Sentence...")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.sentence(vocabulary.id))
-            }
-            
-            Divider()
-            
-            VStack(alignment: .leading){
-                VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Translated word..")
-                    .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedWord(vocabulary.id))
-                
-                VocabularyTextField(vocabulary: vocabulary, value: \.translatedSentence, placeholder: "Translated sentence..")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedSentenced(vocabulary.id))
-            }
-            
-            LearningStateInfoButton(vocabulary: vocabulary)
-                .buttonStyle(.borderless)
-                .foregroundStyle(.secondary)
-                .opacity(learningStateInfoButtonOpacity)
-        }
-        .padding(6)
-        .textFieldStyle(.plain)
-        .autocorrectionDisabled(true)
-        .onHover{ hovering in
-            withAnimation(.easeInOut) {
-                showLearningStateInfoButton = hovering
-            }
+        .onAppear {
+            print("\(allVocabularies.count)")
         }
     }
 }
 
-#Preview {
-    VocabularyListView( list: VocabularyList("Preview List"), selectedVocabularyIDs: .constant([]), showLearningSheet: .constant(false))
-}
 

@@ -133,28 +133,32 @@ struct SidebarView: View {
         } deletingAction: {
             deleteLists(listDeleteConfirmationDialogState.deletingLists)
         }
-        .onAddList { list in
-            focusedList = nil //This helps for the "AttributeGraph" message!
-            selectedListIDs = []
-            selectedListIDs.insert(list.id) //This causes an "AttributeGraph" message!
-            Task {  //This helps for the nonfocsuing, when an other list is focued, while I add a new list.
-                focusedList = list.id
-            }
+        .onAddList { newList in
+            onAddList(list: newList)
         }
     }
     
-    private func listsContainVocabulary(_ lists: Array<VocabularyList>) -> Bool {
+    private func onAddList(list: VocabularyList) {
+        focusedList = nil //This helps for the "AttributeGraph" message!
+        selectedListIDs = []
+        selectedListIDs.insert(list.id) //This causes an "AttributeGraph" message!
+        Task {  //This helps for the nonfocsuing, when an other list is focued, while I add a new list.
+            focusedList = list.id
+        }
+    }
+    
+    private func listsAreEmpty(_ lists: Array<VocabularyList>) -> Bool {
         for list in lists {
             if !list.vocabularies.isEmpty {
-                return true
+                return false
             }
         }
-        return false
+        return true
     }
     
     private func pressDeleteButton(listIDs: Set<PersistentIdentifier>) {
         let lists: Array<VocabularyList> = context.fetch(ids: listIDs)
-        if listsContainVocabulary(lists) {
+        if listsAreEmpty(lists) {
             listDeleteConfirmationDialogState = (true, lists)
         }else {
             deleteLists(lists)
