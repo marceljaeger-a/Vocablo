@@ -10,6 +10,8 @@ import Foundation
 enum LearningLevel: String, Codable, CaseIterable {
     typealias Minutes = Int
     
+    //MARK: - Cases (Levels)
+    
     case lvl1 = "Level 1"
     case lvl2 = "Level 2"
     case lvl3 = "Level 3"
@@ -26,32 +28,21 @@ enum LearningLevel: String, Codable, CaseIterable {
     case lvl14 = "Level 14"
     case lvl15 = "Level 15"
     
+    //MARK: - Type Properties
+    
+    ///Returns the lowest LearningLevel.
     static var min: Self {
         .lvl1
     }
     
+    ///Return the highest LearningLevel.
     static var max: Self {
         .lvl15
     }
     
-    ///Nil when the level is lvl15!
-    func nextLevel() -> Self? {
-        let currentIndex = Self.allCases.firstIndex(of: self)
-        guard let currentIndex else { return nil }
-        let nextIndex = currentIndex + 1
-        guard Self.allCases.count > nextIndex  else { return nil }
-        return Self.allCases[nextIndex]
-    }
-    
-    ///Nil when the level is lvl1!
-    func previousLevel() -> Self? {
-        switch self {
-        case .lvl1: return nil
-        case .lvl2: return .lvl1
-        default: return .lvl2
-        }
-    }
-    
+    //MARK: - Instanz Properties
+
+    ///Returns the duration between the last repetition and the next repetition.
     var repeatInterval: Minutes {
         switch self {
         case .lvl1:
@@ -87,6 +78,7 @@ enum LearningLevel: String, Codable, CaseIterable {
         }
     }
     
+    ///Returns a calculated String label for the current duration between the last repetition and the next repetition.
     var repeatIntervalLabel: String {
        switch self.repeatInterval {
        case 0..<60:
@@ -97,4 +89,26 @@ enum LearningLevel: String, Codable, CaseIterable {
            return "\((self.repeatInterval / 60) / 24)d"
        }
    }
+    
+    //MARK: - Instanz Methodes
+    
+    ///Returns the next level.
+    ///Returns nil when the level is the highest.
+    func nextLevel() -> Self? {
+        let currentIndex = Self.allCases.firstIndex(of: self)
+        guard let currentIndex else { return nil }
+        let nextIndex = currentIndex + 1
+        guard Self.allCases.count > nextIndex  else { return nil }
+        return Self.allCases[nextIndex]
+    }
+    
+    ///Returns the previous level.
+    ///Returns niil when the current level is the lowest.
+    func previousLevel() -> Self? {
+        switch self {
+        case .lvl1: return nil
+        case .lvl2: return .lvl1
+        default: return .lvl2
+        }
+    }
 }

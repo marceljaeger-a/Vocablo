@@ -9,9 +9,40 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-fileprivate struct LearningStateLabel: View {
+struct LearningStateInfoButton: View {
+    
     let vocabulary: Vocabulary
-    let learningState: KeyPath<Vocabulary, LearningState>
+    
+    @State private var isPopoverShowed: Bool = false
+    
+    private func showPopover() {
+        isPopoverShowed = true
+    }
+    
+    var body: some View {
+        Button {
+            showPopover()
+        } label: {
+            Image(systemName: "info.circle")
+        }
+        .popover(isPresented: $isPopoverShowed, arrowEdge: .trailing) {
+            VStack(alignment: .leading) {
+                VStack {
+                    LearningStateLabel(vocabulary: vocabulary, state: \.learningState, label: "Word")
+                    LearningStateLabel(vocabulary: vocabulary, state: \.translatedLearningState, label: "Translated word")
+                }
+            }
+            .foregroundStyle(.secondary)
+            .padding(10)
+        }
+    }
+}
+
+
+
+struct LearningStateLabel: View {
+    let vocabulary: Vocabulary
+    let state: KeyPath<Vocabulary, LearningState>
     let label: String
     
     var body: some View {
@@ -22,41 +53,7 @@ fileprivate struct LearningStateLabel: View {
             
             Divider()
             
-            Text("\(vocabulary[keyPath: learningState].currentLevel.rawValue) / \(vocabulary[keyPath: learningState].remainingTimeLabel)")
+            Text("\(vocabulary[keyPath: state].currentLevel.rawValue) / \(vocabulary[keyPath: state].remainingTimeLabel)")
         }
-    }
-}
-
-struct LearningStateInfoButton: View {
-    @Query var tags: Array<Tag>
-    
-    let vocabulary: Vocabulary
-    
-    @State var showPopover: Bool = false
-    
-    var body: some View {
-        Button {
-            onShowPopover()
-        } label: {
-            Image(systemName: "info.circle")
-        }
-        .popover(isPresented: $showPopover, arrowEdge: .trailing) {
-            infoPopover
-        }
-    }
-    
-    var infoPopover: some View {
-        VStack(alignment: .leading) {
-            VStack {
-                LearningStateLabel(vocabulary: vocabulary, learningState: \.learningState, label: "Word")
-                LearningStateLabel(vocabulary: vocabulary, learningState: \.translatedLearningState, label: "Translated word")
-            }
-        }
-        .foregroundStyle(.secondary)
-        .padding(10)
-    }
-    
-    private func onShowPopover() {
-        showPopover = true
     }
 }

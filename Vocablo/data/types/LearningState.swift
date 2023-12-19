@@ -8,8 +8,13 @@
 import Foundation
 
 enum LearningState: Codable, Equatable{
+    
+    //MARK: - Cases
+    
     case newly(LearningLevel)   //LearningLevel
     case repeatly(Date, Int, LearningLevel) //Last repetition, Count of repetitions, current level
+    
+    //MARK: - Instanz Properties
     
     var isNewly: Bool {
         switch self {
@@ -95,6 +100,10 @@ enum LearningState: Codable, Equatable{
         return false
     }
 }
+
+
+
+//MARK: - Wrapped LearningLevel Properties & Methodes
 
 extension LearningState {
     var currentLevel: LearningLevel {

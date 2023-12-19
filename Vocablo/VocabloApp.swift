@@ -11,10 +11,12 @@ import SwiftData
 @main
 struct VocabloApp: App {
     
-    @State var showWelcomeSheet: Bool = true
+    //MARK: - Properties
+    
+    @State private var isWelcomeSheetShowed: Bool = true
     
     @MainActor
-    var  mainContainer: ModelContainer {
+    private var  mainContainer: ModelContainer {
         var container: ModelContainer
         do {
             let schema = Schema([VocabularyList.self, Tag.self])
@@ -29,7 +31,7 @@ struct VocabloApp: App {
     }
     
     @MainActor
-    var developContainer: ModelContainer {
+    private var debugingContainer: ModelContainer {
         var container: ModelContainer
         do {
             let schema = Schema([VocabularyList.self, Tag.self])
@@ -45,21 +47,30 @@ struct VocabloApp: App {
     }
     
     @MainActor
-    var container: ModelContainer {
+    private var compilingContainer: ModelContainer {
         #if DEBUG
-            developContainer
+            debugingContainer
         #else
             mainContainer
         #endif
     }
     
+    //MARK: - Body
+    
     var body: some Scene {
-        VocabloScene(showWelcomeSheet: $showWelcomeSheet)
-            .modelContainer(container)
+        VocabloScene(showWelcomeSheet: $isWelcomeSheetShowed)
+            .modelContainer(compilingContainer)
         
-        Settings {
-            SettingsView(showWelcomeSheet: $showWelcomeSheet)
-        }
-        .defaultSize(width: 400, height: 500)
+        SettingsScene(isWelcomeSheetShowed: $isWelcomeSheetShowed)
+            .defaultSize(width: 400, height: 500)
+    }
+}
+
+
+
+extension View {
+    func previewModelContainer() -> some View {
+        self.modelContainer(for: [VocabularyList.self, Vocabulary.self, Tag.self], inMemory: true)
+
     }
 }

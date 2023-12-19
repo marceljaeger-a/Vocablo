@@ -9,49 +9,70 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) var context: ModelContext
-    @Environment(\.undoManager) var undoManager: UndoManager?
-    @Query(sort: \VocabularyList.created, order: .forward) var lists: Array<VocabularyList>
     
-    @Binding var selectedListIDs: Set<PersistentIdentifier>
-    @Binding var selectedVocabularyIDs: Set<PersistentIdentifier>
-    @Binding var showLearningSheet: Bool
+    //MARK: - Properties
+    
+    @Binding var selectedListIdentifiers: Set<PersistentIdentifier>
+    @Binding var selectedVocabularyIdentifiers: Set<PersistentIdentifier>
+    @Binding var isLearningSheetShowed: Bool
+    
+    @Environment(\.modelContext) private var context: ModelContext
+    @Environment(\.undoManager) private var viewUndoManager: UndoManager?
+    @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
   
+    //MARK: - Methodes
+    
+    private func deleteSelectedVocabularies() {
+        guard context.fetchVocabularyCount(by: selectedVocabularyIdentifiers) > 0 else { return }
+        context.deleteVocabularies(context.fetch(by: selectedVocabularyIdentifiers))
+    }
+    
+    //MARK: - Body
+    
     var body: some View {
         NavigationSplitView {
-            SidebarView(selectedListIDs: $selectedListIDs)
+            SidebarView(selectedListIdentifiers: $selectedListIdentifiers)
                 .navigationSplitViewColumnWidth(min: 200, ideal: 250)
         } detail: {
-            if let firstSelectedList: VocabularyList = context.fetch(ids: selectedListIDs).first {
-                DetailView(list: firstSelectedList, selectedVocabularyIDs: $selectedVocabularyIDs, showLearningSheet: $showLearningSheet)
+            
+            if let firstSelectedList: VocabularyList = context.fetch(by: selectedListIdentifiers).first {
+                DetailView(selectedList: firstSelectedList, selectedVocabularyIdentifiers: $selectedVocabularyIdentifiers, isLearningSheetShowed: $isLearningSheetShowed)
             } else {
-                ContentUnavailableView("No selected list!", systemImage: "book.pages", description: Text("Select a list on the sidebar."))
+                NoSelectedListView()
             }
+    
         }
-        .linkContextUndoManager(context: context, with: undoManager)
         .navigationTitle("")
-        .onDeleteCommand(perform: {
-            guard context.fetchVocabularyCount(ids: selectedVocabularyIDs) > 0 else { return }
-            context.deleteVocabularies(context.fetch(ids: selectedVocabularyIDs))
-        })
-        .copyableVocabularies(context.fetch(ids: selectedVocabularyIDs))
-        .cuttableVocabularies(context.fetch(ids: selectedVocabularyIDs), context: context)
-        .vocabularyiesPasteDestination(into: context.fetch(ids: selectedListIDs).first)
-        .onChange(of: selectedListIDs) {
-            selectedVocabularyIDs = []
+        .linkContextUndoManager(context: context, with: viewUndoManager)
+        .copyableVocabularies(context.fetch(by: selectedVocabularyIdentifiers))
+        .cuttableVocabularies(context.fetch(by: selectedVocabularyIdentifiers), context: context)
+        .vocabulariesPasteDestination(into: context.fetch(by: selectedListIdentifiers).first)
+        .onDeleteCommand {
+            deleteSelectedVocabularies()
+        }
+        .onChange(of: selectedListIdentifiers) {
+            selectedVocabularyIdentifiers = []
         }
     }
 }
+
+
+
+//MARK: - Subviews
+extension ContentView {
+    struct NoSelectedListView: View {
+        var body: some View {
+            ContentUnavailableView("No selected list!", systemImage: "book.pages", description: Text("Select a list on the sidebar."))
+        }
+    }
+}
+
+
+
+//MARK: - Preview
 
 #Preview {
-    ContentView(selectedListIDs: .constant([]), selectedVocabularyIDs: .constant([]), showLearningSheet: .constant(false))
+    ContentView(selectedListIdentifiers: .constant([]), selectedVocabularyIdentifiers: .constant([]), isLearningSheetShowed: .constant(false))
         .previewModelContainer()
 }
-
-extension View {
-    func previewModelContainer() -> some View {
-        self.modelContainer(for: [VocabularyList.self, Vocabulary.self, Tag.self], inMemory: true)
-    }
-}
-
 

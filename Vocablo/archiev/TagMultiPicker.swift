@@ -7,14 +7,15 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct TagMultiPicker: View {
     @Bindable var vocabulary: Vocabulary
-    let tags: Array<Tag>
+    @Query(sort: \Tag.name) var allTags: Array<Tag>
     
     var body: some View {
         Menu {
-            ForEach(tags) { tag in
+            ForEach(allTags) { tag in
                 Button {
                     selectTag(tag)
                 } label: {

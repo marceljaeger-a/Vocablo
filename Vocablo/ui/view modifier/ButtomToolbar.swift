@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 extension List {
-    func buttomToolbar(leftButton: () -> some View, rightButton: () -> some View) -> some View {
+    func buttomButtons(onLeft leftButton: () -> some View = { Text("") }, onRight rightButton: () -> some View = { Text("") }) -> some View {
         self.overlay {
             ZStack(alignment: .topLeading){
                 Color.gray.opacity(0)
@@ -19,9 +19,7 @@ extension List {
                         
                     HStack{
                         leftButton()
-                        
                         Spacer()
-                        
                         rightButton()
                     }
                     .padding(8)

@@ -8,13 +8,16 @@
 import Foundation
 import SwiftUI
 
-//TODO: This picker should set the learningState.
-//- if the current is newly -> set the state to repeatly(newLevel , .now) , when you choose a higher level than level 1.
-//- if the current is repeatly -> set always to repeatly( newLevel, _)
-
-
 struct LearningLevelPicker: View {
     @Binding var state: LearningState
+    
+    private func selectLearningState(level: LearningLevel) {
+        if state.isNewly {
+            state = LearningState.repeatly(.now, 0, level)
+        }else {
+            state = LearningState.repeatly(state.lastRepetition ?? .now, state.repetitionCount, level)
+        }
+    }
     
     var body: some View {
         Menu(state.currentLevel.rawValue) {
@@ -28,13 +31,5 @@ struct LearningLevelPicker: View {
             }
         }
         .menuStyle(.borderlessButton)
-    }
-    
-    private func selectLearningState(level: LearningLevel) {
-        if state.isNewly {
-            state = LearningState.repeatly(.now, 0, level)
-        }else {
-            state = LearningState.repeatly(state.lastRepetition ?? .now, state.repetitionCount, level)
-        }
     }
 }

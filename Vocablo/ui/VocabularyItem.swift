@@ -9,45 +9,44 @@ import Foundation
 import SwiftUI
 import SwiftData
 
+
+//MARK: - Types
+
+enum VocabularyTextFieldFocusState: Hashable{
+    case word(PersistentIdentifier), translatedWord(PersistentIdentifier), sentence(PersistentIdentifier), translatedSentenced(PersistentIdentifier)
+}
+
+
+
 struct VocabularyItem: View {
+    
+    //MARK: - Properties
+    
     @Bindable var vocabulary: Vocabulary
     @FocusState.Binding var textFieldFocus: VocabularyTextFieldFocusState?
     
-    @State var showLearningStateInfoButton: Bool = false
-    var learningStateInfoButtonOpacity: Double {
-        if showLearningStateInfoButton {
+    @State private var isLearningStateInfoButtonShowed: Bool = false
+    
+    private var learningStateInfoButtonOpacity: Double {
+        if isLearningStateInfoButtonShowed {
             return 1
         }else {
             return 0
         }
     }
     
+    //MARK: - Body
+    
     var body: some View {
         HStack(spacing: 20){
-            VocabularyToggle(vocabulary: vocabulary, value: \.isLearnable)
+            VocabularyToggle(vocabulary: vocabulary, value: \.isToLearn)
                 .toggleStyle(.checkbox)
 
-            VStack(alignment: .leading){
-                VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Word...")
-                    .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.word(vocabulary.id))
-                
-                VocabularyTextField(vocabulary: vocabulary, value: \.sentence, placeholder: "Sentence...")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.sentence(vocabulary.id))
-            }
+            wordAndSentenceVStack
             
             Divider()
             
-            VStack(alignment: .leading){
-                VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Translated word..")
-                    .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedWord(vocabulary.id))
-                
-                VocabularyTextField(vocabulary: vocabulary, value: \.translatedSentence, placeholder: "Translated sentence..")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedSentenced(vocabulary.id))
-            }
+            translatedWordAndSentenceVStack
             
             LearningStateInfoButton(vocabulary: vocabulary)
                 .buttonStyle(.borderless)
@@ -57,14 +56,39 @@ struct VocabularyItem: View {
         .padding(6)
         .textFieldStyle(.plain)
         .autocorrectionDisabled(true)
-        .onHover{ hovering in
+        .onHover{ isHovering in
             withAnimation(.easeInOut) {
-                showLearningStateInfoButton = hovering
+                isLearningStateInfoButtonShowed = isHovering
             }
         }
     }
 }
 
-enum VocabularyTextFieldFocusState: Hashable{
-    case word(PersistentIdentifier), translatedWord(PersistentIdentifier), sentence(PersistentIdentifier), translatedSentenced(PersistentIdentifier)
+
+
+//MARK: - Subviews
+extension VocabularyItem {
+    var wordAndSentenceVStack: some View {
+        VStack(alignment: .leading){
+            VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Word...")
+                .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.word(vocabulary.id))
+            
+            VocabularyTextField(vocabulary: vocabulary, value: \.sentence, placeholder: "Sentence...")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.sentence(vocabulary.id))
+        }
+    }
+    
+    var translatedWordAndSentenceVStack: some View {
+        VStack(alignment: .leading){
+            VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Translated word..")
+                .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedWord(vocabulary.id))
+            
+            VocabularyTextField(vocabulary: vocabulary, value: \.translatedSentence, placeholder: "Translated sentence..")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedSentenced(vocabulary.id))
+        }
+    }
 }

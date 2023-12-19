@@ -9,6 +9,8 @@ import Foundation
 import UniformTypeIdentifiers
 
 extension UTType {
+    
+    ///Returns the UTType for the Vocabulary class.
     static var vocabulary: UTType {
         UTType(exportedAs: "com.marceljaeger.vocabulary")
     }

@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>63</string>
+					<string>69</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>62</string>
+					<string>68</string>
 					<key>Timestamp</key>
-					<string>724161476.772566</string>
+					<string>724624987.480715</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -27,27 +27,27 @@
 					<key>payload</key>
 					<dict>
 						<key>relative-path</key>
-						<string>Vocablo/VocabloScene.swift</string>
+						<string>Vocablo/ui/SidebarView.swift</string>
 					</dict>
 				</dict>
 			</dict>
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>//                                    .foregroundStyle(.accent)
+				<string>        List(selection: $selectedListIdentifiers){
 </string>
 				<key>leading</key>
-				<string>//                                    .symbolVariant(.fill)
-//                                    .font(.largeTitle)
+				<string>    
+    var body: some View {
 </string>
 				<key>trailing</key>
-				<string>                                
-                                VStack(alignment: .leading){
-                                    Text("Add lists with vocabularies")
+				<string>            listSection
+        }
+        .buttomButtons(onLeft: {
 </string>
 			</dict>
 			<key>title</key>
-			<string>When the system accent color is an other, this is still the app´s accent color.</string>
+			<string>This was the problem of #16, because I do not use the id as selection. Maybe because of the List and the wrapped ForEach, but I do not now. But I know, that this was the problem of the duplicate key error!</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>
@@ -57,15 +57,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>0</string>
+					<string>26</string>
 					<key>EndingLineNumber</key>
-					<string>84</string>
+					<string>10</string>
 					<key>StartingColumnNumber</key>
-					<string>0</string>
+					<string>7</string>
 					<key>StartingLineNumber</key>
-					<string>83</string>
+					<string>10</string>
 					<key>Timestamp</key>
-					<string>724161476.772594</string>
+					<string>724416114.843954</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -74,27 +74,26 @@
 					<key>payload</key>
 					<dict>
 						<key>relative-path</key>
-						<string>Vocablo/VocabloScene.swift</string>
+						<string>Vocablo/ui/view components/LearningLevelPicker.swift</string>
 					</dict>
 				</dict>
 			</dict>
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>//                                    .foregroundStyle(.accent)
-</string>
+				<string>LearningLevelPicker</string>
 				<key>leading</key>
-				<string>//                                    .symbolVariant(.fill)
-//                                    .font(.largeTitle)
-</string>
+				<string>import SwiftUI
+
+struct </string>
 				<key>trailing</key>
-				<string>                                
-                                VStack(alignment: .leading){
-                                    Text("Learn vocabularies")
+				<string>: View {
+    @Binding var state: LearningState
+    
 </string>
 			</dict>
 			<key>title</key>
-			<string>When the system accent color is an other, this is still the app´s accent color.</string>
+			<string>Refactore later</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

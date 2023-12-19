@@ -10,10 +10,15 @@ import SwiftData
 
 @Model
 class Tag {
+    
+    //MARK: - Instanz Properties
+    
     var name: String
     var created: Date
     
     @Relationship(deleteRule: .nullify, inverse: \Vocabulary.tags) var vocabularies: Array<Vocabulary>
+    
+    //MARK: - Initialiser
     
     init(_ name: String, vocabularies: Array<Vocabulary> = []) {
         self.name = name

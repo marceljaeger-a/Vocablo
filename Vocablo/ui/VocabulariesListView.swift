@@ -9,13 +9,17 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct VocabularyListView: View {
-    @Query var allVocabularies: Array<Vocabulary>
+struct VocabulariesListView: View {
+    
+    //MARK: - Properties
     
     let vocabularies: Array<Vocabulary>
     @Binding var selection: Set<PersistentIdentifier>
     @FocusState.Binding var textFieldFocus: VocabularyTextFieldFocusState?
     let onSubmitAction: () -> Void
+    
+    
+    //MARK: - Body
     
     var body: some View {
         List(vocabularies, id: \.id, selection: $selection){ vocabulary in
@@ -23,9 +27,6 @@ struct VocabularyListView: View {
                 .onSubmit {
                     onSubmitAction()
                 }
-        }
-        .onAppear {
-            print("\(allVocabularies.count)")
         }
     }
 }

@@ -235,7 +235,7 @@ extension VocabularyList {
         //1.2 Repeatly: nextRepetition sorting
         
         //All Vocabularies and sort it to learnable Vocabularies
-        let vocabularies = vocabularies.filter{ $0.isLearnable }
+        let vocabularies = vocabularies.filter{ $0.isToLearn }
         
         //Newly Vocabularies
         let newlyVocabularies = vocabularies.filter{ $0.learningState.isNewly && $0.learningState.isNextRepetitionExpired

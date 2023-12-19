@@ -8,18 +8,18 @@
 import Foundation
 import SwiftUI
 
-struct InfoPopoverButton: View {
-    @State var showPopover = false
+struct LearningStateExplenationPopover: View {
+    @State private var isPopoverShowed = false
     
     var body: some View {
         Button {
-            showPopover.toggle()
+            isPopoverShowed.toggle()
         } label: {
             Image(systemName: "questionmark.circle")
                 .foregroundStyle(.tertiary)
         }
         .buttonStyle(.plain)
-        .popover(isPresented: $showPopover, content: {
+        .popover(isPresented: $isPopoverShowed, content: {
             VStack(spacing: 5){
                 Text("What is a learning state?")
                     .font(.subheadline)

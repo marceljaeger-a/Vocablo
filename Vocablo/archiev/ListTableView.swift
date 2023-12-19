@@ -64,7 +64,7 @@ struct ListTableView: View {
     var body: some View {
         Table(list.vocabularies.sorted(using: sortState.sortComparator), selection: $selectedVocabularyIdentifiers) {
             TableColumn("Learnable") { vocabulary in
-                VocabularyToggle(vocabulary: vocabulary, value: \.isLearnable)
+                VocabularyToggle(vocabulary: vocabulary, value: \.isToLearn)
             }
             .width(60)
             
@@ -201,7 +201,7 @@ struct ListTableView: View {
             LearningView(list: list)
         })
         .sheet(item: $editingVocabulary) { vocabulary in
-            EditVocabularyView(vocabulary: vocabulary)
+            EditVocabularyView(editingVocabulary: vocabulary)
         }
     }
     
@@ -227,21 +227,21 @@ struct ListTableView: View {
     
     private func toggleLearnable(of vocabularies: Array<Vocabulary>) {
         for vocabulary in vocabularies {
-            vocabulary.toggleLearnable()
+            vocabulary.toogleToLearn()
         }
     }
     
     private func checkLearnable(of vocabularies: Array<Vocabulary>) {
         for vocabulary in vocabularies {
-            guard !vocabulary.isLearnable else { continue }
-            vocabulary.checkLearnable()
+            guard !vocabulary.isToLearn else { continue }
+            vocabulary.checkToLearn()
         }
     }
     
     private func uncheckLearnable(of vocabularies: Array<Vocabulary>) {
         for vocabulary in vocabularies {
-            guard vocabulary.isLearnable else { continue }
-            vocabulary.uncheckLearnable()
+            guard vocabulary.isToLearn else { continue }
+            vocabulary.uncheckToLearn()
         }
     }
 }

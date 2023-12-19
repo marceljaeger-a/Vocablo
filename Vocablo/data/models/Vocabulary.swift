@@ -13,8 +13,9 @@ import UniformTypeIdentifiers
 @Model
 class Vocabulary: Learnable, TransferConvertable {
     
-    //Learnable implementation
-    var isLearnable: Bool = false
+    //MARK: - Instanz Properties of Learnable
+    
+    var isToLearn: Bool = false
     var learningState: LearningState = LearningState.newly(.lvl1)
     var translatedLearningState: LearningState = LearningState.newly(.lvl1)
     var word: String
@@ -22,7 +23,8 @@ class Vocabulary: Learnable, TransferConvertable {
     var sentence: String
     var translatedSentence: String
     
-    //Model implementation
+    //MARK: - Instanz Properties
+    
     var wordGroup: WordGroup
     var created: Date
     var explenation: String
@@ -30,6 +32,8 @@ class Vocabulary: Learnable, TransferConvertable {
     
     @Relationship(deleteRule: .nullify )var list: VocabularyList?
     @Relationship(deleteRule: .nullify) var tags: Array<Tag>
+    
+    //MARK: - Initialiser
     
     init(word: String, translatedWord: String, sentence: String = "", translatedSentence: String = "", wordGroup: WordGroup, explenation: String = "", translatedExplenation: String = "", list: VocabularyList? = nil, tags: [Tag] = []) {
         self.word = word
@@ -44,18 +48,7 @@ class Vocabulary: Learnable, TransferConvertable {
         self.translatedExplanation = translatedExplenation
     }
     
-    
-    //TransferConvertable implementation
-    required convenience init(from value: VocabularyTransfer) {
-        self.init(word: value.word, translatedWord: value.translatedWord, sentence: value.sentence, translatedSentence: value.translatedSentence, wordGroup: value.wordGroup, explenation: value.explenation, translatedExplenation: value.translatedExplenation, list: nil, tags: [])
-        self.isLearnable = value.isLearnable
-        self.learningState = value.learningState
-        self.translatedLearningState = value.translatedLearningState
-    }
-    
-    func convert() -> VocabularyTransfer{
-        VocabularyTransfer.init(isLearnable: isLearnable, learningState: learningState, translatedLearningState: translatedLearningState, word: word, translatedWord: translatedWord, sentence: sentence, translatedSentence: translatedSentence, wordGroup: wordGroup, explenation: explenation, translatedExplenation: translatedExplanation)
-    }
+    //MARK: - TransferConvertable implementation
     
     struct VocabularyTransfer: TransferType {
         //Learnable
@@ -76,7 +69,21 @@ class Vocabulary: Learnable, TransferConvertable {
             CodableRepresentation(for: Self.self, contentType: .vocabulary)
         }
     }
+  
+    required convenience init(from value: VocabularyTransfer) {
+        self.init(word: value.word, translatedWord: value.translatedWord, sentence: value.sentence, translatedSentence: value.translatedSentence, wordGroup: value.wordGroup, explenation: value.explenation, translatedExplenation: value.translatedExplenation, list: nil, tags: [])
+        self.isToLearn = value.isLearnable
+        self.learningState = value.learningState
+        self.translatedLearningState = value.translatedLearningState
+    }
+    
+    ///Returns a VocabularyTransfer instanz, which has the same properties as that Vocabulary instanz.
+    func convert() -> VocabularyTransfer{
+        VocabularyTransfer.init(isLearnable: isToLearn, learningState: learningState, translatedLearningState: translatedLearningState, word: word, translatedWord: translatedWord, sentence: sentence, translatedSentence: translatedSentence, wordGroup: wordGroup, explenation: explenation, translatedExplenation: translatedExplanation)
+    }
 }
+
+
 
 //extension Vocabulary {
 //    func hasTag(_ tag: Tag) -> Bool {

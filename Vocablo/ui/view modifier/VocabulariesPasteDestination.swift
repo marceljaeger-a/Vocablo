@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 extension View {
-    func vocabularyiesPasteDestination(into list: VocabularyList?) -> some View {
+    func vocabulariesPasteDestination(into list: VocabularyList?) -> some View {
         self.pasteDestination(for: Vocabulary.VocabularyTransfer.self) { vocabularyTransfers in
             if let list {
                 for vocabularyTransfer in vocabularyTransfers{

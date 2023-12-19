@@ -10,26 +10,31 @@ import SwiftData
 import SwiftUI
 import Combine
 
-//Fetching
+//MARK: - Methodes for fetching
+
 extension ModelContext {
-    func fetch<T: PersistentModel>(ids: Set<PersistentIdentifier>) -> Array<T> {
-        let descriptor = FetchDescriptor<T>(predicate: #Predicate { ids.contains($0.persistentModelID) })
+    
+    ///Returns a Array of fetched models by the identifiers.
+    func fetch<T: PersistentModel>(by identifiers: Set<PersistentIdentifier>) -> Array<T> {
+        let descriptor = FetchDescriptor<T>(predicate: #Predicate { identifiers.contains($0.persistentModelID) })
         if let fetchedData = try? self.fetch<T>(descriptor) {
             return fetchedData
         }
         return []
     }
     
-    func fetchListCound(ids: Set<PersistentIdentifier>) -> Int {
-        let descriptor = FetchDescriptor<VocabularyList>(predicate: #Predicate{ ids.contains($0.persistentModelID) })
+    ///Returns the count of fetched VocabularyList instances by the identifiers.
+    func fetchListCound(by identifiers: Set<PersistentIdentifier>) -> Int {
+        let descriptor = FetchDescriptor<VocabularyList>(predicate: #Predicate{ identifiers.contains($0.persistentModelID) })
         if let fetchedListCount = try? self.fetchCount(descriptor) {
             return fetchedListCount
         }
         return 0
     }
     
-    func fetchVocabularyCount(ids: Set<PersistentIdentifier>) -> Int {
-        let descriptor = FetchDescriptor<Vocabulary>(predicate: #Predicate{ ids.contains($0.persistentModelID) })
+    ///Returns the count of fetched Vocabulary instances by the identifiers.
+    func fetchVocabularyCount(by identifiers: Set<PersistentIdentifier>) -> Int {
+        let descriptor = FetchDescriptor<Vocabulary>(predicate: #Predicate{ identifiers.contains($0.persistentModelID) })
         if let fetchedVocabularyCount = try? self.fetchCount(descriptor) {
             return fetchedVocabularyCount
         }
@@ -37,8 +42,14 @@ extension ModelContext {
     }
 }
 
-//Adding
+
+
+//MARK: - Methodes for adding
+
 extension ModelContext {
+    
+    ///Inserts a new list with the given name into the model context.
+    ///Sends a publisher message with the new list instance to subcribers.
     func addList(_ name: String) {
         let newList = VocabularyList(name)
         insert(newList)
@@ -46,8 +57,13 @@ extension ModelContext {
     }
 }
 
-//Deleting
+
+
+//MARK: - Methodes for deleting
+
 extension ModelContext {
+    
+    ///Deletes vocabularies from the model context.
     func deleteVocabularies(_ deletingVocabularies: Array<Vocabulary>) {
         for deletingVocabulary in deletingVocabularies {
             if let list = deletingVocabulary.list {
@@ -57,6 +73,7 @@ extension ModelContext {
         }
     }
     
+    ///Deletes lists from the model context.
     func deleteLists(_ deletingVocabularyLists: Array<VocabularyList>) {
         for deletingVocabularyList in deletingVocabularyLists {
             deleteVocabularies(deletingVocabularyList.vocabularies)
@@ -65,9 +82,14 @@ extension ModelContext {
     }
 }
 
-//Learnable functionality
+
+
+//MARK: - Methodes for learning functionality
+
 extension ModelContext {
-    func resetList(_ lists: Array<VocabularyList>) {
+    
+    ///Resets the learningState and translatedLearningState  of all list´s vocabularies.
+    func resetLearningStates(of lists: Array<VocabularyList>) {
         for list in lists {
             for vocabulary in list.vocabularies {
                 vocabulary.learningState.reset()
@@ -76,28 +98,34 @@ extension ModelContext {
         }
     }
     
-    func resetVocabularies(_ vocabularies: Array<Vocabulary>) {
+    ///Resets the learningState and translatedLearningState of all vocabularies.
+    func resetLearningStates(of vocabularies: Array<Vocabulary>) {
         for vocabulary in vocabularies {
             vocabulary.learningState.reset()
             vocabulary.translatedLearningState.reset()
         }
     }
     
-    func toLearn(for vocabularies: Array<Vocabulary>) {
+    ///Sets the toLearn property of all vocabularies to true.
+    func checkToLearn(of vocabularies: Array<Vocabulary>) {
         for vocabulary in vocabularies {
-            guard !vocabulary.isLearnable else { continue }
-            vocabulary.checkLearnable()
+            guard !vocabulary.isToLearn else { continue }
+            vocabulary.checkToLearn()
         }
     }
     
-    func notToLearn(for vocabularies: Array<Vocabulary>) {
+    ///Sets the toLearn property of all vocabularies to false.
+    func uncheckToLearn(of vocabularies: Array<Vocabulary>) {
         for vocabulary in vocabularies {
-            guard vocabulary.isLearnable else { continue }
-            vocabulary.uncheckLearnable()
+            guard vocabulary.isToLearn else { continue }
+            vocabulary.uncheckToLearn()
         }
     }
 }
 
+
+
+//MARK: - Type Properties (Publisher)
 extension ModelContext {
     static let addListPublisher: PassthroughSubject<VocabularyList, Never> = PassthroughSubject()
 }

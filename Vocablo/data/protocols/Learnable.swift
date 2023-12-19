@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Learnable: AnyObject {
-    var isLearnable: Bool { get set }
+    var isToLearn: Bool { get set }
     var learningState: LearningState { get set }
     var translatedLearningState: LearningState { get set }
     var word: String { get set }
@@ -19,19 +19,19 @@ protocol Learnable: AnyObject {
 }
 
 extension Learnable {
-    func checkLearnable() {
-        self.isLearnable = true
+    func checkToLearn() {
+        self.isToLearn = true
     }
     
-    func uncheckLearnable() {
-        self.isLearnable = false
+    func uncheckToLearn() {
+        self.isToLearn = false
     }
     
-    func toggleLearnable() {
-        if isLearnable {
-            uncheckLearnable()
+    func toogleToLearn() {
+        if isToLearn {
+            uncheckToLearn()
         }else {
-            checkLearnable()
+            checkToLearn()
         }
     }
 }
