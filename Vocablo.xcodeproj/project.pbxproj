@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		9F0975E22AF590C10001C9E3 /* ButtomToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0975E12AF590C10001C9E3 /* ButtomToolbar.swift */; };
 		9F1019A52B2707AF0041CB7D /* OnAddList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1019A42B2707AF0041CB7D /* OnAddList.swift */; };
-		9F1019A72B2710B10041CB7D /* LearningStateExplenationPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1019A62B2710B10041CB7D /* LearningStateExplenationPopover.swift */; };
+		9F1019A72B2710B10041CB7D /* LearningStateExplenationPopoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1019A62B2710B10041CB7D /* LearningStateExplenationPopoverButton.swift */; };
 		9F11D7942B22726B0050A3AD /* CopyableVocabularies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F11D7932B22726B0050A3AD /* CopyableVocabularies.swift */; };
 		9F11D7962B2274BC0050A3AD /* CuttableVocabularies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F11D7952B2274BC0050A3AD /* CuttableVocabularies.swift */; };
 		9F11D7982B22762C0050A3AD /* VocabulariesPasteDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F11D7972B22762C0050A3AD /* VocabulariesPasteDestination.swift */; };
@@ -57,7 +57,7 @@
 /* Begin PBXFileReference section */
 		9F0975E12AF590C10001C9E3 /* ButtomToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtomToolbar.swift; sourceTree = "<group>"; };
 		9F1019A42B2707AF0041CB7D /* OnAddList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnAddList.swift; sourceTree = "<group>"; };
-		9F1019A62B2710B10041CB7D /* LearningStateExplenationPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStateExplenationPopover.swift; sourceTree = "<group>"; };
+		9F1019A62B2710B10041CB7D /* LearningStateExplenationPopoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStateExplenationPopoverButton.swift; sourceTree = "<group>"; };
 		9F11D7932B22726B0050A3AD /* CopyableVocabularies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableVocabularies.swift; sourceTree = "<group>"; };
 		9F11D7952B2274BC0050A3AD /* CuttableVocabularies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuttableVocabularies.swift; sourceTree = "<group>"; };
 		9F11D7972B22762C0050A3AD /* VocabulariesPasteDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabulariesPasteDestination.swift; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 				9F7741202B1345DA00565B42 /* WordGroupPicker.swift */,
 				9F7741242B134AC500565B42 /* LearningLevelPicker.swift */,
 				9F7F6C482B1784ED001B266A /* LearningStateInfoButton.swift */,
-				9F1019A62B2710B10041CB7D /* LearningStateExplenationPopover.swift */,
+				9F1019A62B2710B10041CB7D /* LearningStateExplenationPopoverButton.swift */,
 			);
 			path = "view components";
 			sourceTree = "<group>";
@@ -389,7 +389,7 @@
 				9F11D7942B22726B0050A3AD /* CopyableVocabularies.swift in Sources */,
 				9F77411D2B13457A00565B42 /* VocabularyTextField.swift in Sources */,
 				9F7FBC982B2CFF790033EBAC /* SettingsScene.swift in Sources */,
-				9F1019A72B2710B10041CB7D /* LearningStateExplenationPopover.swift in Sources */,
+				9F1019A72B2710B10041CB7D /* LearningStateExplenationPopoverButton.swift in Sources */,
 				9F2767322B0525A900C99231 /* Vocabulary UTType.swift in Sources */,
 				9F7F6C452B177E7D001B266A /* SidebarView.swift in Sources */,
 				9F3C66B72B2A572B00E75793 /* LinkUndoManager.swift in Sources */,

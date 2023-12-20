@@ -36,24 +36,15 @@ struct LearningState: Codable, Equatable, Hashable {
     }
     
     var remainingMinutes: Int {
-        if remainingSeconds > 0 {
-            return remainingSeconds / 60
-        }
-        return 0
+        return remainingSeconds / 60
     }
 
     var remainingHours: Int {
-        if remainingMinutes > 0 {
-            return remainingMinutes / 60
-        }
-        return 0
+        return remainingMinutes / 60
     }
 
     var remainingDays: Int {
-        if remainingHours > 0 {
-            return remainingHours / 24
-        }
-        return 0
+        return remainingHours / 24
     }
 
     var remainingTimeLabel: String {

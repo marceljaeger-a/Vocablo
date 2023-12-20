@@ -25,9 +25,9 @@ struct EditVocabularyView: View {
             
             wordGroupAndLearnableSection
             
-            LearningStateSection(header: "Learning state of '\(editingVocabulary.baseWord)'", state: $editingVocabulary.baseState)
+            LearningStateSection(header: "Learning settings of translating the base word", state: $editingVocabulary.baseState)
             
-            LearningStateSection(header: "Learning state of '\(editingVocabulary.translationWord)'", state: $editingVocabulary.translationState)
+            LearningStateSection(header: "Learning settings of translating the translated word", state: $editingVocabulary.translationState)
         }
         .formStyle(.grouped)
         .frame(width: 600)
@@ -78,31 +78,28 @@ extension EditVocabularyView {
         
         var body: some View {
             Section {
+                
+                LearningLevelPicker(level: $state.level)
+
+                Text("Next repetition in \(state.remainingTimeLabel)")
+            }header: {
                 HStack {
-                    LearningLevelPicker(level: $state.level)
+                    Text(header)
+                        .foregroundStyle(.secondary)
                     
-                    Divider()
+                    Spacer()
                     
                     Button {
                         isResetLearningStateConfirmationDialogShowed = true
                     } label: {
                         Text("Reset")
                     }
-                    .confirmationDialog("Do you really want to reset the learning state?", isPresented: $isResetLearningStateConfirmationDialogShowed, actions: {
+                    .buttonStyle(.plain)
+                    .confirmationDialog("Do you really want to reset the learning states?", isPresented: $isResetLearningStateConfirmationDialogShowed, actions: {
                         ResetLearningStateConfirmationDialogButtons(isAlertShowed: $isResetLearningStateConfirmationDialogShowed, state: $state)
                     })
                 }
                 
-                Text("Next repetition in \(state.remainingTimeLabel)")
-            }header: {
-                HStack {
-                    Text(header)
-                    
-                    Spacer()
-                    
-                    LearningStateExplenationPopover()
-                }
-                .foregroundStyle(.secondary)
             }
         }
     }

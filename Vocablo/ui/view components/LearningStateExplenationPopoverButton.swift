@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct LearningStateExplenationPopover: View {
+struct LearningStateExplenationPopoverButton: View {
     @State private var isPopoverShowed = false
     
     var body: some View {
