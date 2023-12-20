@@ -67,13 +67,14 @@ struct VocabularyItem: View {
 
 
 //MARK: - Subviews
+
 extension VocabularyItem {
     var wordAndSentenceVStack: some View {
         VStack(alignment: .leading){
-            VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Word...")
+            VocabularyTextField(vocabulary: vocabulary, value: \.baseWord, placeholder: "Word...")
                 .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.word(vocabulary.id))
             
-            VocabularyTextField(vocabulary: vocabulary, value: \.sentence, placeholder: "Sentence...")
+            VocabularyTextField(vocabulary: vocabulary, value: \.baseSentence, placeholder: "Sentence...")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.sentence(vocabulary.id))
@@ -82,10 +83,10 @@ extension VocabularyItem {
     
     var translatedWordAndSentenceVStack: some View {
         VStack(alignment: .leading){
-            VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Translated word..")
+            VocabularyTextField(vocabulary: vocabulary, value: \.translationWord, placeholder: "Translated word..")
                 .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedWord(vocabulary.id))
             
-            VocabularyTextField(vocabulary: vocabulary, value: \.translatedSentence, placeholder: "Translated sentence..")
+            VocabularyTextField(vocabulary: vocabulary, value: \.translationSentence, placeholder: "Translated sentence..")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedSentenced(vocabulary.id))

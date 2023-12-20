@@ -45,9 +45,9 @@ struct ListTableView: View {
             case .oldest:
                 KeyPathComparator(\Vocabulary.created, order: .forward)
             case .word:
-                KeyPathComparator(\Vocabulary.word)
+                KeyPathComparator(\Vocabulary.baseWord)
             case .translatedWord:
-                KeyPathComparator(\Vocabulary.translatedWord)
+                KeyPathComparator(\Vocabulary.translationWord)
             }
         }
         
@@ -69,7 +69,7 @@ struct ListTableView: View {
             .width(60)
             
             TableColumn("Englisch word") { vocabulary in
-                VocabularyTextField(vocabulary: vocabulary, value: \.word, placeholder: "Word in english...")
+                VocabularyTextField(vocabulary: vocabulary, value: \.baseWord, placeholder: "Word in english...")
                     .bold()
                     .onSubmit {
                         addVocabulary()
@@ -79,7 +79,7 @@ struct ListTableView: View {
             .width(200)
             
             TableColumn("German word") { vocabulary in
-                VocabularyTextField(vocabulary: vocabulary, value: \.translatedWord, placeholder: "Word in german...")
+                VocabularyTextField(vocabulary: vocabulary, value: \.translationWord, placeholder: "Word in german...")
                     .onSubmit {
                         addVocabulary()
                     }
@@ -88,7 +88,7 @@ struct ListTableView: View {
             .width(200)
             
             TableColumn("Explanation") { vocabulary in
-                VocabularyTextField(vocabulary: vocabulary, value: \.explenation, placeholder: "Explenation in english...")
+                VocabularyTextField(vocabulary: vocabulary, value: \.baseExplenation, placeholder: "Explenation in english...")
                     .onSubmit {
                         addVocabulary()
                     }
@@ -97,7 +97,7 @@ struct ListTableView: View {
             .width(250)
             
             TableColumn("English Sentence") { vocabulary in
-                VocabularyTextField(vocabulary: vocabulary, value: \.sentence, placeholder: "Sentence in english...")
+                VocabularyTextField(vocabulary: vocabulary, value: \.baseSentence, placeholder: "Sentence in english...")
                     .onSubmit {
                         addVocabulary()
                     }
@@ -105,7 +105,7 @@ struct ListTableView: View {
             }
             
             TableColumn("German Sentence") { vocabulary in
-                VocabularyTextField(vocabulary: vocabulary, value: \.translatedSentence, placeholder: "Sentence in english...")
+                VocabularyTextField(vocabulary: vocabulary, value: \.translationSentence, placeholder: "Sentence in english...")
                     .onSubmit {
                         addVocabulary()
                     }
@@ -198,7 +198,7 @@ struct ListTableView: View {
             }
         }
         .sheet(isPresented: $showLearningSheet, content: {
-            LearningView(list: list)
+            //LearningView(list: list)
         })
         .sheet(item: $editingVocabulary) { vocabulary in
             EditVocabularyView(editingVocabulary: vocabulary)
@@ -217,7 +217,7 @@ struct ListTableView: View {
     }
     
     private func addVocabulary() {
-        let newVocabulary = Vocabulary(word: "", translatedWord: "", wordGroup: .noun)
+        let newVocabulary = Vocabulary(baseWord: "", translationWord: "", wordGroup: .noun)
         //context.insert(newVocabulary)
         list.addVocabulary(newVocabulary)
         

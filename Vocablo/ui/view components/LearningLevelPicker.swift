@@ -9,25 +9,21 @@ import Foundation
 import SwiftUI
 
 struct LearningLevelPicker: View {
-    @Binding var state: LearningState
+    @Binding var level: LearningLevel
     
-    private func selectLearningState(level: LearningLevel) {
-        if state.isNewly {
-            state = LearningState.repeatly(.now, 0, level)
-        }else {
-            state = LearningState.repeatly(state.lastRepetition ?? .now, state.repetitionCount, level)
-        }
+    private func selectLearningState(selection: LearningLevel) {
+        self.level = selection
     }
     
     var body: some View {
-        Menu(state.currentLevel.rawValue) {
-            ForEach(LearningLevel.allCases, id: \.rawValue) { level in
+        Menu(level.rawValue) {
+            ForEach(LearningLevel.allCases, id: \.rawValue) { levelCase in
                 Button {
-                    selectLearningState(level: level)
+                    selectLearningState(selection: levelCase)
                 } label: {
-                    Text("\(level.rawValue)")
+                    Text("\(levelCase.rawValue)")
                 }
-                .disabled(level == state.currentLevel)
+                .disabled(levelCase == level)
             }
         }
         .menuStyle(.borderlessButton)

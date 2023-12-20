@@ -19,10 +19,10 @@ struct VocabloApp: App {
     private var  mainContainer: ModelContainer {
         var container: ModelContainer
         do {
-            let schema = Schema([VocabularyList.self, Tag.self])
+            let schema = Schema([VocabularyList.self, Vocabulary.self, Tag.self])
             let configuration = ModelConfiguration("vocablo_datastorage_main", schema: schema)
             container = try ModelContainer(for: schema, configurations: [configuration])
-            
+
             container.mainContext.autosaveEnabled = true
         } catch {
             fatalError()
@@ -31,15 +31,14 @@ struct VocabloApp: App {
     }
     
     @MainActor
-    private var debugingContainer: ModelContainer {
+    private var debugContainer: ModelContainer {
         var container: ModelContainer
         do {
-            let schema = Schema([VocabularyList.self, Tag.self])
-            let configuration = ModelConfiguration("vocablo_datastorage_develop", schema: schema)
+            let schema = Schema([VocabularyList.self, Vocabulary.self, Tag.self])
+            let configuration = ModelConfiguration("vocablo_datastorage_debug", schema: schema)
             container = try ModelContainer(for: schema, configurations: [configuration])
             
             container.mainContext.autosaveEnabled = true
-            container.mainContext.undoManager = UndoManager()
         } catch {
             fatalError()
         }
@@ -49,7 +48,7 @@ struct VocabloApp: App {
     @MainActor
     private var compilingContainer: ModelContainer {
         #if DEBUG
-            debugingContainer
+            debugContainer
         #else
             mainContainer
         #endif
@@ -58,7 +57,7 @@ struct VocabloApp: App {
     //MARK: - Body
     
     var body: some Scene {
-        VocabloScene(showWelcomeSheet: $isWelcomeSheetShowed)
+        VocabloScene(isWelcomeSheetShowed: $isWelcomeSheetShowed)
             .modelContainer(compilingContainer)
         
         SettingsScene(isWelcomeSheetShowed: $isWelcomeSheetShowed)

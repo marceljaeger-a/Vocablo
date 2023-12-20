@@ -19,6 +19,7 @@ struct SidebarView: View {
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
     @FocusState private var focusedList: PersistentIdentifier?
     @State private var listDeleteConfirmationDialogState: (isShowing: Bool, deletingLists: Array<VocabularyList>) = (false, [])
+    let learningValueCounter: LearningValueManager = LearningValueManager()
     private var bindedIsShowingListDeleteConfirmationDialog: Binding<Bool> {
         Binding {
             listDeleteConfirmationDialogState.isShowing
@@ -104,7 +105,7 @@ extension SidebarView {
                 } icon: {
                     Image(systemName: "book.pages")
                 }
-                .badge(list.learningVocabulariesTodayCount, prominece: .increased)
+                .badge(learningValueCounter.algorithmedLearningValuesCount(of: list), prominece: .increased)
                 .badge("\(list.vocabularies.count)", prominece: .decreased)
             }
         }

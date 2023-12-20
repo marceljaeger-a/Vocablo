@@ -9,13 +9,13 @@ import Foundation
 
 protocol Learnable: AnyObject {
     var isToLearn: Bool { get set }
-    var learningState: LearningState { get set }
-    var translatedLearningState: LearningState { get set }
-    var word: String { get set }
-    var translatedWord: String { get set }
-    var sentence: String { get set }
-    var translatedSentence: String { get  set }
-    var explenation: String { get }
+    var baseState: LearningState { get set }
+    var translationState: LearningState { get set }
+    var baseWord: String { get set }
+    var translationWord: String { get set }
+    var baseSentence: String { get set }
+    var translationSentence: String { get  set }
+    var baseExplenation: String { get }
 }
 
 extension Learnable {

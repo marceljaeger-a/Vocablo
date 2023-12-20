@@ -92,8 +92,8 @@ extension ModelContext {
     func resetLearningStates(of lists: Array<VocabularyList>) {
         for list in lists {
             for vocabulary in list.vocabularies {
-                vocabulary.learningState.reset()
-                vocabulary.translatedLearningState.reset()
+                vocabulary.baseState.reset()
+                vocabulary.translationState.reset()
             }
         }
     }
@@ -101,8 +101,8 @@ extension ModelContext {
     ///Resets the learningState and translatedLearningState of all vocabularies.
     func resetLearningStates(of vocabularies: Array<Vocabulary>) {
         for vocabulary in vocabularies {
-            vocabulary.learningState.reset()
-            vocabulary.translatedLearningState.reset()
+            vocabulary.baseState.reset()
+            vocabulary.translationState.reset()
         }
     }
     

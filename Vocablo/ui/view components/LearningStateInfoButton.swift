@@ -28,8 +28,8 @@ struct LearningStateInfoButton: View {
         .popover(isPresented: $isPopoverShowed, arrowEdge: .trailing) {
             VStack(alignment: .leading) {
                 VStack {
-                    LearningStateLabel(vocabulary: vocabulary, state: \.learningState, label: "Word")
-                    LearningStateLabel(vocabulary: vocabulary, state: \.translatedLearningState, label: "Translated word")
+                    LearningStateLabel(vocabulary: vocabulary, state: \.baseState, label: "Word")
+                    LearningStateLabel(vocabulary: vocabulary, state: \.translationState, label: "Translated word")
                 }
             }
             .foregroundStyle(.secondary)

@@ -7,93 +7,73 @@
 
 import Foundation
 
-enum LearningState: Codable, Equatable{
-    
-    //MARK: - Cases
-    
-    case newly(LearningLevel)   //LearningLevel
-    case repeatly(Date, Int, LearningLevel) //Last repetition, Count of repetitions, current level
-    
-    //MARK: - Instanz Properties
+struct LearningState: Codable, Equatable, Hashable {
+    var lastRepetition: Date?
+    var level: LearningLevel = .lvl1
+    var repetitionCount: Int = 0
     
     var isNewly: Bool {
-        switch self {
-        case .newly(_): return true
-        case .repeatly(_, _, _): return false
+        if lastRepetition == nil {
+            return true
         }
+        return false
     }
     
     var isRepeatly: Bool {
-        switch self {
-        case .newly(_): return false
-        case .repeatly(_, _, _): return true
+        if lastRepetition == nil {
+            return false
         }
-    }
-    
-    var lastRepetition: Date? {
-        switch self {
-        case .newly(_):
-            return nil
-        case let .repeatly(repetitionDate, _, _):
-            return repetitionDate
-        }
+        return true
     }
     
     var nextRepetition: Date {
-        switch self {
-        case .newly(_):
-            return .now
-        case let .repeatly(lastRepetition, _, level):
-            return lastRepetition + (Double(level.repeatInterval) * 60)
-        }
+        guard let lastRepetition else { return .now }
+        return lastRepetition + (Double(level.repeatingInterval) * 60)
     }
     
-    var repetitionCount: Int {
-        switch self {
-        case .newly(_):
-            return 0
-        case let .repeatly(_, count, _):
-            return count
-        }
+    var remainingSeconds: Int {
+        Int(nextRepetition.timeIntervalSinceNow)
     }
     
     var remainingMinutes: Int {
-        switch self {
-        case .newly(_):
-            return 0
-        case .repeatly(_, _, _):
-            if Date.now >= nextRepetition {
-                return 0
-            }else {
-                return Int(nextRepetition.timeIntervalSinceNow / 60)
-            }
+        if remainingSeconds > 0 {
+            return remainingSeconds / 60
         }
+        return 0
     }
-    
+
     var remainingHours: Int {
-        remainingMinutes / 60
+        if remainingMinutes > 0 {
+            return remainingMinutes / 60
+        }
+        return 0
     }
-    
+
     var remainingDays: Int {
-        remainingHours / 24
+        if remainingHours > 0 {
+            return remainingHours / 24
+        }
+        return 0
     }
-    
+
     var remainingTimeLabel: String {
         if remainingDays >= 1 {
             return "\(remainingDays) d"
         }else if remainingHours >= 1 {
             return "\(remainingHours) h"
+        }else if remainingMinutes >= 1 {
+            return "\(remainingMinutes) min"
         }
-        return "\(remainingMinutes) min"
+       return "\(remainingSeconds) sec"
     }
     
     var isNextRepetitionExpired: Bool {
         let todayZeroDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: .now)
         let nextRepetititonZeroDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: nextRepetition)
-        
+
         guard let todayZeroDate else { return false }
         guard let nextRepetititonZeroDate else { return false }
-        
+
         if nextRepetititonZeroDate <= todayZeroDate {
             return true
         }
@@ -101,59 +81,35 @@ enum LearningState: Codable, Equatable{
     }
 }
 
-
-
-//MARK: - Wrapped LearningLevel Properties & Methodes
-
 extension LearningState {
     var currentLevel: LearningLevel {
-        switch self {
-        case .newly(let currentLevel):
-            return currentLevel
-        case .repeatly(_, _, let currentLevel):
-            return currentLevel
-        }
+        return level
     }
-    
+
     var previousLevel: LearningLevel {
-        switch self {
-        case .newly:
-            return .min
-        case .repeatly(_, _, let currentLevel):
-            if let downLevel = currentLevel.previousLevel() {
-                return downLevel
-            }else {
-                return .min
-            }
-        }
+        return level.previousLevel() ?? .min
     }
-    
+
     var nextLevel: LearningLevel {
-        switch self {
-        case .newly:
-            return .lvl2
-        case let .repeatly(_, _, currentLevel):
-            if let nextLevel = currentLevel.nextLevel() {
-                return nextLevel
-            }else {
-                return .max
-            }
-        }
+        return level.nextLevel() ?? .max
     }
-    
-    mutating func increaseLevel() {
-        self = .repeatly(.now, self.repetitionCount + 1, nextLevel)
+
+    mutating func repeatAndIncreaseLevel() {
+        lastRepetition = .now
+        level = nextLevel
+        repetitionCount += 1
     }
-    
-    mutating func decreaseLevel() {
-        self = .repeatly(.now, self.repetitionCount + 1, previousLevel)
+
+    mutating func repeatAndDecreaseLevel() {
+        lastRepetition = .now
+        level = previousLevel
+        repetitionCount += 1
     }
-    
+
     mutating func reset() {
-        self = .newly(.lvl1)
+        lastRepetition = nil
+        level = .lvl1
+        repetitionCount = 0
     }
 }
 
-extension LearningState: Hashable {
-    
-}

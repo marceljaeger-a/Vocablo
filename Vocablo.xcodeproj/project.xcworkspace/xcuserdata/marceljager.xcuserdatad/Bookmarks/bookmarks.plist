@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>69</string>
+					<string>70</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>68</string>
+					<string>69</string>
 					<key>Timestamp</key>
-					<string>724624987.480715</string>
+					<string>724764549.3028589</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -48,52 +48,6 @@
 			</dict>
 			<key>title</key>
 			<string>This was the problem of #16, because I do not use the id as selection. Maybe because of the List and the wrapped ForEach, but I do not now. But I know, that this was the problem of the duplicate key error!</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>26</string>
-					<key>EndingLineNumber</key>
-					<string>10</string>
-					<key>StartingColumnNumber</key>
-					<string>7</string>
-					<key>StartingLineNumber</key>
-					<string>10</string>
-					<key>Timestamp</key>
-					<string>724416114.843954</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>Vocablo/ui/view components/LearningLevelPicker.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>LearningLevelPicker</string>
-				<key>leading</key>
-				<string>import SwiftUI
-
-struct </string>
-				<key>trailing</key>
-				<string>: View {
-    @Binding var state: LearningState
-    
-</string>
-			</dict>
-			<key>title</key>
-			<string>Refactore later</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

@@ -25,9 +25,9 @@ struct EditVocabularyView: View {
             
             wordGroupAndLearnableSection
             
-            LearningStateSection(header: "Learning state of '\(editingVocabulary.word)'", state: $editingVocabulary.learningState)
+            LearningStateSection(header: "Learning state of '\(editingVocabulary.baseWord)'", state: $editingVocabulary.baseState)
             
-            LearningStateSection(header: "Learning state of '\(editingVocabulary.translatedWord)'", state: $editingVocabulary.translatedLearningState)
+            LearningStateSection(header: "Learning state of '\(editingVocabulary.translationWord)'", state: $editingVocabulary.translationState)
         }
         .formStyle(.grouped)
         .frame(width: 600)
@@ -41,24 +41,24 @@ struct EditVocabularyView: View {
 extension EditVocabularyView {
     var wordsSection: some View {
         Section {
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.word, placeholder: "Word...")
+            VocabularyTextField(vocabulary: editingVocabulary, value: \.baseWord, placeholder: "Word...")
             
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.translatedWord, placeholder: "Translated word...")
+            VocabularyTextField(vocabulary: editingVocabulary, value: \.translationWord, placeholder: "Translated word...")
         }
     }
     
     var sentencesSection: some View {
         Section {
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.sentence, placeholder: "Sentence...")
+            VocabularyTextField(vocabulary: editingVocabulary, value: \.baseSentence, placeholder: "Sentence...")
             
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.translatedSentence, placeholder: "Translated sentence...")
+            VocabularyTextField(vocabulary: editingVocabulary, value: \.translationSentence, placeholder: "Translated sentence...")
         }
     }
     
     var explenationSection: some View {
         Section {
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.explenation, placeholder: "Explenation...")
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.translatedExplanation, placeholder: "Translated explenation...")
+            VocabularyTextField(vocabulary: editingVocabulary, value: \.baseExplenation, placeholder: "Explenation...")
+            VocabularyTextField(vocabulary: editingVocabulary, value: \.translationExplanation, placeholder: "Translated explenation...")
         }
     }
     
@@ -74,23 +74,23 @@ extension EditVocabularyView {
         let header: String
         @Binding var state: LearningState
         
-        @State private var isResetAlertShowed = false
+        @State private var isResetLearningStateConfirmationDialogShowed = false
         
         var body: some View {
             Section {
                 HStack {
-                    LearningLevelPicker(state: $state)
+                    LearningLevelPicker(level: $state.level)
                     
                     Divider()
                     
                     Button {
-                        isResetAlertShowed = true
+                        isResetLearningStateConfirmationDialogShowed = true
                     } label: {
                         Text("Reset")
                     }
-                    .alert("Are you sure to reset the learning state?", isPresented: $isResetAlertShowed) {
-                        ResetLearningStateAlertView(isAlertShowed: $isResetAlertShowed, state: $state)
-                    }
+                    .confirmationDialog("Do you really want to reset the learning state?", isPresented: $isResetLearningStateConfirmationDialogShowed, actions: {
+                        ResetLearningStateConfirmationDialogButtons(isAlertShowed: $isResetLearningStateConfirmationDialogShowed, state: $state)
+                    })
                 }
                 
                 Text("Next repetition in \(state.remainingTimeLabel)")
@@ -107,7 +107,7 @@ extension EditVocabularyView {
         }
     }
     
-    struct ResetLearningStateAlertView: View {
+    struct ResetLearningStateConfirmationDialogButtons: View {
         @Binding var isAlertShowed: Bool
         @Binding var state: LearningState
         
@@ -132,5 +132,5 @@ extension EditVocabularyView {
 //MARK: - Preview
 
 #Preview {
-    EditVocabularyView(editingVocabulary: Vocabulary.init(word: "the tree", translatedWord: "der Baum", wordGroup: .noun))
+    EditVocabularyView(editingVocabulary: Vocabulary.init(baseWord: "the tree", translationWord: "der Baum", wordGroup: .noun))
 }

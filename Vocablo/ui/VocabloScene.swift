@@ -14,7 +14,7 @@ struct VocabloScene: Scene {
     
     //MARK: - Properties
     
-    @Binding var showWelcomeSheet: Bool
+    @Binding var isWelcomeSheetShowed: Bool
     
     @Environment(\.modelContext) private var context: ModelContext
     @State private var selectedListIdentifiers: Set<PersistentIdentifier> = []
@@ -26,8 +26,8 @@ struct VocabloScene: Scene {
     var body: some Scene {
         WindowGroup {
             ContentView(selectedListIdentifiers: $selectedListIdentifiers, selectedVocabularyIdentifiers: $selectedVocabularyIdentifiers, isLearningSheetShowed: $isLearningSheetShowed)
-                .sheet(isPresented: $showWelcomeSheet) {
-                    WelcomeSheet(isShowing: $showWelcomeSheet)
+                .sheet(isPresented: $isWelcomeSheetShowed) {
+                    WelcomeSheet(isShowing: $isWelcomeSheetShowed)
                 }
         }
         .commands {

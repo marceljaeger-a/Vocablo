@@ -7,28 +7,28 @@
 
 import SwiftUI
 
-//MARK: - LearningSheet -
+//MARK: - LearningSheet
 
 struct LearningSheet: View {
     
-    //MARK: - Properties
+    //MARK: - Properties of LearningSheet
     
     let learningList: VocabularyList
     private let learningManager: LearningValueManager
     
-    //MARK: - Initialiser
+    //MARK: - Initialiser of LearningSheet
     
     init(list: VocabularyList) {
         self.learningList = list
-        self.learningManager = LearningValueManager(managingList: list)
+        self.learningManager = LearningValueManager()
     }
     
-    //MARK: - Body
+    //MARK: - Body of LearningSheet
     
     var body: some View {
-        if let firstValue = learningManager.algorithmedLearnSideValues.first {
-            LearningPage(value: firstValue, isWordNew: OpacityBool(wrappedValue: firstValue.state.isNewly))
-                .environment(\.learningValuesCount, learningManager.algorithmedLearnSideValues.count)
+        if let firstValue = learningManager.algorithmedLearningValues(of: learningList).first {
+            LearningPage(value: firstValue, isWordNew: OpacityBool(wrappedValue: firstValue.askingState.isNewly))
+                .environment(\.learningValuesCount, learningManager.algorithmedLearningValuesCount(of: learningList))
         }else {
             NoVocabularyToLearnTodayView()
         }
@@ -37,7 +37,7 @@ struct LearningSheet: View {
 
 
 
-//MARK: - Subviews
+//MARK: - Subviews of Learning Sheet
 
 extension LearningSheet {
     struct NoVocabularyToLearnTodayView: View {
@@ -50,18 +50,18 @@ extension LearningSheet {
 
 
 
-//MARK: - LearnPage -
+//MARK: - LearningPage
 
 struct LearningPage: View {
     
-    //MARK: - Properties
+    //MARK: - Properties of LearningPage
     
     @LearningValue var value: Learnable
     @OpacityBool var isWordNew: Bool
     
     @State private var isOverlapping: Bool = true
     
-    //MARK: - Body
+    //MARK: - Body of LearningPage
     
     var body: some View {
         VStack {
@@ -69,13 +69,13 @@ struct LearningPage: View {
                 .opacity($isWordNew)
             
             //Word
-            WordView(word: $value.askedWord, sentence: $value.askedSentence)
+            WordView(word: $value.askingWord, sentence: $value.askingSentence)
                 .frame(minHeight: 175)
             
             Divider()
             
             //Translation
-            WordView(word: $value.answeredWord, sentence: $value.answeredSentence)
+            WordView(word: $value.answeringWord, sentence: $value.answeringSentence)
                 .frame(minHeight: 175)
                 .overlappedQuestionMark(isOverlapping: $isOverlapping)
             
@@ -91,7 +91,7 @@ struct LearningPage: View {
 
 
 
-//MARK: - Subviews
+//MARK: - Subviews of LearningPage
 
 extension LearningPage {
     struct WordView: View {
@@ -144,7 +144,7 @@ extension LearningPage {
                         $value.answerFalse()
                         isOverlapping = true
                     } label: {
-                        Label($value.previousRepeatIntervalLabel, systemImage: "hand.thumbsdown")
+                        Label($value.previousLevelRepeatingIntervalLabel, systemImage: "hand.thumbsdown")
                             .foregroundStyle(.red.gradient)
                             .frame(width: 65)
                     }
@@ -153,7 +153,7 @@ extension LearningPage {
                         $value.answerTrue()
                         isOverlapping = true
                     } label: {
-                        Label($value.nextRepeatIntervalLabel, systemImage: "hand.thumbsup")
+                        Label($value.nextLevelRepeatingIntervalLabel, systemImage: "hand.thumbsup")
                             .foregroundStyle(.green.gradient)
                             .frame(width: 65)
                     }
@@ -173,10 +173,10 @@ fileprivate struct OverlappingQuestionMarkModfier: ViewModifier {
     @Binding var isOverlapping: Bool
     
     func body(content: Content) -> some View {
-        let contextOpacity: Double = isOverlapping ? 0 : 1
+        let contentOpacity: Double = isOverlapping ? 0 : 1
         let overlayOpacity: Double = isOverlapping ? 1 : 0
         
-        return content.opacity(contextOpacity).overlay {
+        return content.opacity(contentOpacity).overlay {
             Button {
                 withAnimation {
                     isOverlapping = false
@@ -226,5 +226,5 @@ fileprivate extension EnvironmentValues {
 //MARK: - Preview
 
 #Preview {
-    LearningPage(value: LearningValue(learnableObject: Vocabulary(word: "the tree", translatedWord: "der Baum", sentence: "This is a nature contruct.", translatedSentence: "Das ist ein Naturkonstrukt!", wordGroup: .noun), asking: .word), isWordNew: OpacityBool(wrappedValue: true, onTrue: 1, onFalse: 0))
+    LearningPage(value: LearningValue(learnableObject: Vocabulary(baseWord: "the tree", translationWord: "der Baum", baseSentence: "This is a nature contruct.", translationSentence: "Das ist ein Naturkonstrukt!", wordGroup: .noun), asking: .base), isWordNew: OpacityBool(wrappedValue: true, onTrue: 1, onFalse: 0))
 }

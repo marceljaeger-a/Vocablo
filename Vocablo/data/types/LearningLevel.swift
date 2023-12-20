@@ -43,7 +43,7 @@ enum LearningLevel: String, Codable, CaseIterable {
     //MARK: - Instanz Properties
 
     ///Returns the duration between the last repetition and the next repetition.
-    var repeatInterval: Minutes {
+    var repeatingInterval: Minutes {
         switch self {
         case .lvl1:
             1
@@ -79,14 +79,14 @@ enum LearningLevel: String, Codable, CaseIterable {
     }
     
     ///Returns a calculated String label for the current duration between the last repetition and the next repetition.
-    var repeatIntervalLabel: String {
-       switch self.repeatInterval {
+    var repeatingIntervalLabel: String {
+       switch self.repeatingInterval {
        case 0..<60:
-           return "\(self.repeatInterval)min"
+           return "\(self.repeatingInterval)min"
        case 60..<(60*24):
-           return "\(self.repeatInterval / 60)h"
+           return "\(self.repeatingInterval / 60)h"
        default:
-           return "\((self.repeatInterval / 60) / 24)d"
+           return "\((self.repeatingInterval / 60) / 24)d"
        }
    }
     

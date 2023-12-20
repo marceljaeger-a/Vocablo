@@ -25,9 +25,9 @@ class VocabularyList {
             case .oldest:
                 KeyPathComparator(\Vocabulary.created, order: .forward)
             case .word:
-                KeyPathComparator(\Vocabulary.word)
+                KeyPathComparator(\Vocabulary.baseWord)
             case .translatedWord:
-                KeyPathComparator(\Vocabulary.translatedWord)
+                KeyPathComparator(\Vocabulary.translationWord)
             }
         }
         
@@ -101,7 +101,7 @@ extension VocabularyList {
     
     ///Add a new Vocabulary with empty strings and word group as noun.
     func addNewVocabulary() {
-        let newVocabulary = Vocabulary(word: "", translatedWord: "", wordGroup: .noun)
+        let newVocabulary = Vocabulary(baseWord: "", translationWord: "", wordGroup: .noun)
         addVocabulary(newVocabulary)
     }
 }

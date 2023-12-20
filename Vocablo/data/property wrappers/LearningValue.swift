@@ -12,14 +12,14 @@ struct LearningValue {
     
     //MARK: - Types
     
-    enum AskedWord {
-        case word, translatedWord
+    enum AskingLearningContent {
+        case base, translation
     }
     
     //MARK: - Instanz Properties
     
     var learnableObject: Learnable
-    var asking: AskedWord
+    var asking: AskingLearningContent
     
     ///Returns the wrapped Learnable instanz.
     var wrappedValue: Learnable {
@@ -36,92 +36,92 @@ struct LearningValue {
         self
     }
     
-    ///Returns the wrapped Learnable instanz´s word property, when the asking property is word.
-    ///Returns the wrapped Learnable instanz´s translatedWord propeerty, when the asking property is translatedWord.
-    var askedWord: String {
+    ///Returns the wrapped Learnable instanz´s word property, when the asking learning content is base.
+    ///Returns the wrapped Learnable instanz´s translatedWord propeerty, when the asking learning content is translation.
+    var askingWord: String {
         switch asking {
-        case .word:
-            learnableObject.word
-        case .translatedWord:
-            learnableObject.translatedWord
+        case .base:
+            learnableObject.baseWord
+        case .translation:
+            learnableObject.translationWord
         }
     }
     
-    ///Returns the wrapped Learnable instanz´s sentence property, when the asking property is word.
-    ///Returns the wrapped Learnable instanz´s translatedSentence property, when the asking property is translatedWord.
-    var askedSentence: String {
+    ///Returns the wrapped Learnable instanz´s sentence property, when the asking learning content is base.
+    ///Returns the wrapped Learnable instanz´s translatedSentence property, when the asking learning content is translation.
+    var askingSentence: String {
         switch asking {
-        case .word:
-            learnableObject.sentence
-        case .translatedWord:
-            learnableObject.translatedSentence
+        case .base:
+            learnableObject.baseSentence
+        case .translation:
+            learnableObject.translationSentence
         }
     }
     
-    ///Returns the wrapped Learnable instanz´s word property for the answer, when the asking property is translatedWord.
-    ///Returns the wrapped Learnable instanz´s translatedWord property for the answer, when the asking property is word.
-    var answeredWord: String {
+    ///Returns the wrapped Learnable instanz´s word property for the answer, when the asking learning content is translation.
+    ///Returns the wrapped Learnable instanz´s translatedWord property for the answer, when the asking learning content is base.
+    var answeringWord: String {
         switch asking {
-        case .word:
-            learnableObject.translatedWord
-        case .translatedWord:
-            learnableObject.word
+        case .base:
+            learnableObject.translationWord
+        case .translation:
+            learnableObject.baseWord
         }
     }
     
-    ///Returns the wrapped Learnable instanz´s word sentence for the answer, when the asking property is translatedWord.
-    ///Returns the wrapped Learnable instanz´s translatedSentence property for the answer, when the asking property is word.
-    var answeredSentence: String {
+    ///Returns the wrapped Learnable instanz´s word sentence for the answer, when the asking learning content is translation.
+    ///Returns the wrapped Learnable instanz´s translatedSentence property for the answer, when the asking learning content is base.
+    var answeringSentence: String {
         switch asking {
-        case .word:
-            learnableObject.translatedSentence
-        case .translatedWord:
-            learnableObject.sentence
+        case .base:
+            learnableObject.translationSentence
+        case .translation:
+            learnableObject.baseSentence
         }
     }
     
-    ///Returns the wrapped Learnable instanz´s learningState property, when the asking property is word.
-    ///Returns the wrapped Learnable instanz´s translatedLearningState property , when the asking property is translatedWord.
-    var state: LearningState {
+    ///Returns the wrapped Learnable instanz´s learningState property, when the asking learning content is base.
+    ///Returns the wrapped Learnable instanz´s translatedLearningState property , when the asking learning content is translation.
+    var askingState: LearningState {
         get {
             switch asking {
-            case .word:
-                learnableObject.learningState
-            case .translatedWord:
-                learnableObject.translatedLearningState
+            case .base:
+                learnableObject.baseState
+            case .translation:
+                learnableObject.translationState
             }
         }
     }
     
-    ///Returns the repeatIntervalLabel of the nextLevel of the current return value of the state property.
-    var nextRepeatIntervalLabel: String {
-        state.nextLevel.repeatIntervalLabel
+    ///Returns the repeatIntervalLabel of the nextLevel of the current return value of the asking state.
+    var nextLevelRepeatingIntervalLabel: String {
+        askingState.nextLevel.repeatingIntervalLabel
     }
     
-    ///Returns the repeatIntervalLabel of the previousLevell of the current return value of the state property.
-    var previousRepeatIntervalLabel: String {
-        state.previousLevel.repeatIntervalLabel
+    ///Returns the repeatIntervalLabel of the previousLevell of the current return value of the asking state.
+    var previousLevelRepeatingIntervalLabel: String {
+        askingState.previousLevel.repeatingIntervalLabel
     }
     
     //MARK: Instanz Methodes
     
-    ///Increase the level of the current return value of the state property.
+    ///Increase the level of the current return value of the asking state.
     func answerTrue() {
         switch asking {
-        case .word:
-            learnableObject.learningState.increaseLevel()
-        case .translatedWord:
-            learnableObject.translatedLearningState.increaseLevel()
+        case .base:
+            learnableObject.baseState.repeatAndIncreaseLevel()
+        case .translation:
+            learnableObject.translationState.repeatAndIncreaseLevel()
         }
     }
     
-    ///Decrease the level of the current return value of the state property.
+    ///Decrease the level of the current return value of the asking.
     func answerFalse() {
         switch asking {
-        case .word:
-            learnableObject.learningState.decreaseLevel()
-        case .translatedWord:
-            learnableObject.translatedLearningState.decreaseLevel()
+        case .base:
+            learnableObject.baseState.repeatAndDecreaseLevel()
+        case .translation:
+            learnableObject.translationState.repeatAndDecreaseLevel()
         }
     }
 }

@@ -26,10 +26,10 @@ struct LearningStateExplenationPopover: View {
                     .bold()
                 Text(
                     """
-                    It consists the level, how good you can translate the word,
-                    and the last repetition.
-                    With this attributes the app calculates the next repetition 
-                    of the word.
+                    It consists the level, how good you can translate the word
+                    to the translated word or reversed, and the last repetition.
+                    With this attributes the app calculates the next repetition
+                    of the word or translated word.
                     """
                 )
                 .font(.caption)
