@@ -83,59 +83,63 @@ struct DetailView: View {
 extension DetailView {
     @ViewBuilder 
     func contextMenuButtons(vocabularyIdentifiers: Set<PersistentIdentifier>) -> some View {
-        if vocabularyIdentifiers.isEmpty {
-            Button {
-                selectedList.addNewVocabulary()
-            } label: {
-                Text("New vocabulary")
-            }
-        }else {
-            if vocabularyIdentifiers.count == 1 {
-                Button {
-                    guard let firstVocabulary: Vocabulary = context.fetch(by: vocabularyIdentifiers).first else { return }
-                    openEditVocabularyView(for: firstVocabulary)
-                } label: {
-                    Text("Edit")
-                }
-                
-                Divider()
-            }
-            
-            Button {
-                context.checkToLearn(of: context.fetch(by: vocabularyIdentifiers))
-            } label: {
-                Text("To learn")
-            }
+        Button {
+            selectedList.addNewVocabulary()
+        } label: {
+            Text("New vocabulary")
+        }
+        .disabled(vocabularyIdentifiers.isEmpty == false)
+    
+        Divider()
+    
+        Button {
+            guard let firstFetchedVocabulary: Vocabulary = context.fetch(by: vocabularyIdentifiers).first else { return }
+            openEditVocabularyView(for: firstFetchedVocabulary)
+        } label: {
+            Text("Edit")
+        }
+        .disabled(vocabularyIdentifiers.count != 1)
         
-            Button {
-                context.uncheckToLearn(of: context.fetch(by: vocabularyIdentifiers))
-            } label: {
-                Text("Not to learn")
-            }
-            
-            Button {
-                let selectedVocabularies: Array<Vocabulary> = context.fetch(by: vocabularyIdentifiers)
-                context.resetLearningStates(of: selectedVocabularies)
-            } label: {
-                if vocabularyIdentifiers.count == 1 {
-                    Text("Reset")
-                }else {
-                    Text("Reset selected")
-                }
-            }
-            
-            Divider()
-            
-            Button {
-                context.deleteVocabularies(context.fetch(by: vocabularyIdentifiers))
-            } label: {
-                if vocabularyIdentifiers.count == 1 {
-                    Text("Delete")
-                }else {
-                    Text("Delete selected")
-                }
+        Divider()
+        
+        Button {
+            context.checkToLearn(of: context.fetch(by: vocabularyIdentifiers))
+        } label: {
+            Text("To learn")
+        }
+        .disabled(vocabularyIdentifiers.isEmpty == true)
+    
+        Button {
+            context.uncheckToLearn(of: context.fetch(by: vocabularyIdentifiers))
+        } label: {
+            Text("Not to learn")
+        }
+        .disabled(vocabularyIdentifiers.isEmpty == true)
+        
+        Divider()
+        
+        Button {
+            let fetchedSelectedVocabularies: Array<Vocabulary> = context.fetch(by: vocabularyIdentifiers)
+            context.resetLearningStates(of: fetchedSelectedVocabularies)
+        } label: {
+            if vocabularyIdentifiers.count == 1 {
+                Text("Reset")
+            }else {
+                Text("Reset selected")
             }
         }
+        .disabled(vocabularyIdentifiers.isEmpty == true)
+        
+        Button {
+            context.deleteVocabularies(context.fetch(by: vocabularyIdentifiers))
+        } label: {
+            if vocabularyIdentifiers.count == 1 {
+                Text("Delete")
+            }else {
+                Text("Delete selected")
+            }
+        }
+        .disabled(vocabularyIdentifiers.isEmpty == true)
     }
     
     @ToolbarContentBuilder 

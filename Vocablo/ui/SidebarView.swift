@@ -117,61 +117,66 @@ extension SidebarView {
     }
     
     @ViewBuilder func contextMenuButtons(listIdfentifiers: Set<PersistentIdentifier>) -> some View {
-        if listIdfentifiers.isEmpty {
-            Button {
-                context.addList("New List")
-            } label: {
-                Text("New list")
+        Button {
+            context.addList("New List")
+        } label: {
+            Text("New list")
+        }
+        .disabled(listIdfentifiers.isEmpty == false)
+        
+        Divider()
+
+        Button {
+            guard let firstFetchedList: VocabularyList = context.fetch(by: listIdfentifiers).first else { return }
+            showLearningSheet(learningList: firstFetchedList)
+        } label: {
+            Text("Start learning")
+        }
+        .disabled(listIdfentifiers.count != 1)
+        
+        Divider()
+        
+        if let firstFetchedList: VocabularyList = context.fetch(by: listIdfentifiers).first {
+            @Bindable var bindedFirstFetchedList = firstFetchedList
+            Picker("Sort by", selection: $bindedFirstFetchedList.sorting) {
+                VocabularyList.VocabularySorting.pickerContent
             }
+            .disabled(listIdfentifiers.count != 1)
         }else {
-            if listIdfentifiers.count == 1 {
-                if let firstList: VocabularyList = context.fetch(by: listIdfentifiers).first {
-                    Button {
-                        showLearningSheet(learningList: firstList)
-                    } label: {
-                        Text("Start learning")
-                    }
-                    
-                    Divider()
-                    
-                    @Bindable var bindedList = firstList
-                    Picker("Sort by", selection: $bindedList.sorting) {
-                        VocabularyList.VocabularySorting.pickerContent
-                    }
-                    
-                    Divider()
-                }
-            }
-            
-            Button {
-                let selectedLists: Array<VocabularyList> = context.fetch(by: listIdfentifiers)
-                context.resetLearningStates(of: selectedLists)
-            } label: {
-                if listIdfentifiers.count > 1 {
-                    Text("Reset selected")
-                }else {
-                    Text("Reset")
-                }
-            }
-            
-            Divider()
-            
-            Button {
-                let fetchedLists: Array<VocabularyList> = context.fetch(by: listIdfentifiers)
-                
-                if areListsEmtpy(fetchedLists) {
-                    listDeleteConfirmationDialogState = (true, fetchedLists)
-                }else {
-                    deleteSelectedLists(fetchedLists)
-                }
-            } label: {
-                if listIdfentifiers.count > 1 {
-                    Text("Delete selected")
-                }else {
-                    Text("Delete")
-                }
+            Text("Sort by")
+                .disabled(listIdfentifiers.count != 1)
+        }
+        
+        Divider()
+        
+        Button {
+            let fetchedSelectedLists: Array<VocabularyList> = context.fetch(by: listIdfentifiers)
+            context.resetLearningStates(of: fetchedSelectedLists)
+        } label: {
+            if listIdfentifiers.count > 1 {
+                Text("Reset selected")
+            }else {
+                Text("Reset")
             }
         }
+        .disabled(listIdfentifiers.isEmpty == true)
+        
+        Button {
+            let fetchedSelectedLists: Array<VocabularyList> = context.fetch(by: listIdfentifiers)
+            
+            if areListsEmtpy(fetchedSelectedLists) {
+                listDeleteConfirmationDialogState = (true, fetchedSelectedLists)
+            }else {
+                deleteSelectedLists(fetchedSelectedLists)
+            }
+        } label: {
+            if listIdfentifiers.count > 1 {
+                Text("Delete selected")
+            }else {
+                Text("Delete")
+            }
+        }
+        .disabled(listIdfentifiers.isEmpty == true)
     }
     
     @ViewBuilder var listDeletingConfirmationDialgoButtons: some View {
