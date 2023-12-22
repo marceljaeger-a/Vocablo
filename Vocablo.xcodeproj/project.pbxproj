@@ -38,6 +38,7 @@
 		9F7FBC962B2CFE710033EBAC /* LearningValueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7FBC952B2CFE710033EBAC /* LearningValueManager.swift */; };
 		9F7FBC982B2CFF790033EBAC /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7FBC972B2CFF790033EBAC /* SettingsScene.swift */; };
 		9F9491142B3323B20018AF4C /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9491132B3323B20018AF4C /* Date.swift */; };
+		9FAE26E32B35BA9F0023E5C4 /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE26E22B35BA9F0023E5C4 /* AppVersionManager.swift */; };
 		9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583152AE6F70900A56141 /* VocabloApp.swift */; };
 		9FC5831A2AE6F70A00A56141 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC583192AE6F70A00A56141 /* Assets.xcassets */; };
 		9FC5831E2AE6F70A00A56141 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC5831D2AE6F70A00A56141 /* Preview Assets.xcassets */; };
@@ -87,6 +88,7 @@
 		9F7FBC952B2CFE710033EBAC /* LearningValueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningValueManager.swift; sourceTree = "<group>"; };
 		9F7FBC972B2CFF790033EBAC /* SettingsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		9F9491132B3323B20018AF4C /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		9FAE26E22B35BA9F0023E5C4 /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
 		9FAF88472AEAE9E000D81CE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9FC583122AE6F70900A56141 /* Vocablo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vocablo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FC583152AE6F70900A56141 /* VocabloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloApp.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				9F7FBC952B2CFE710033EBAC /* LearningValueManager.swift */,
+				9FAE26E22B35BA9F0023E5C4 /* AppVersionManager.swift */,
 			);
 			path = managers;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				9F23D9412B0BF53200C90BBB /* Array.swift in Sources */,
 				9FC583272AE7080E00A56141 /* VocabularyList.swift in Sources */,
 				9FFB36182AED93A500E510CA /* Learnable.swift in Sources */,
+				9FAE26E32B35BA9F0023E5C4 /* AppVersionManager.swift in Sources */,
 				9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */,
 				9F11D7962B2274BC0050A3AD /* CuttableVocabularies.swift in Sources */,
 				9F7F6C4D2B17A188001B266A /* TransferConvertable.swift in Sources */,
@@ -556,7 +560,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marceljaeger.Vocablo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -596,7 +600,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marceljaeger.Vocablo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

@@ -14,7 +14,7 @@ struct SettingsScene: Scene {
     var body: some Scene {
         Settings {
             Form {
-                Toggle("Show feature info sheet", isOn: $isWelcomeSheetShowed)
+                Toggle("Show welcome sheet", isOn: $isWelcomeSheetShowed)
             }
             .formStyle(.grouped)
             .padding()

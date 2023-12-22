@@ -44,7 +44,7 @@ extension WelcomeSheet {
                     .font(.largeTitle)
                     .fontDesign(.default)
                 
-                Text("Version 1.0")
+                Text(AppVersionManager.currentVersion != nil ? "Version \(AppVersionManager.currentVersion!)" : "")
                     .font(.title3)
                     .fontDesign(.default)
                     .foregroundStyle(.secondary)

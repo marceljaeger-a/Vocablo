@@ -8,24 +8,42 @@
 import Foundation
 
 struct LearningState: Codable, Equatable, Hashable {
-    var lastRepetition: Date? = nil
+    var repetitions: Array<Date> = []
     var level: LearningLevel = .lvl1
-    var repetitionCount: Int = 0
+    
+    var repetitionCount: Int {
+        repetitions.count
+    }
+    
+    var lastRepetition: Date? {
+        get {
+            repetitions.last
+        }
+        set(newDate){
+            if let newDate {
+                if repetitions.isEmpty {
+                    repetitions.append(newDate)
+                } else {
+                    repetitions[repetitionCount - 1] = newDate
+                }
+            }else {
+                repetitions.removeLast()
+            }
+        }
+    }
     
     var isNewly: Bool {
-        //Equal referenceDate, because SwiftData sets the optional date, which is nil, to the reference date after restarting the app.
-        if lastRepetition == nil || lastRepetition?.isReferenceDate == true {
+        if repetitions.isEmpty {
             return true
         }
         return false
     }
     
     var isRepeatly: Bool {
-        //Equal referenceDate, because SwiftData sets the optional date, which is nil, to the reference date after restarting the app.
-        if lastRepetition != nil && lastRepetition?.isReferenceDate == false {
-            return true
+        if repetitions.isEmpty {
+            return false
         }
-        return false
+        return true
     }
     
     var nextRepetition: Date {
@@ -90,21 +108,18 @@ extension LearningState {
     }
 
     mutating func repeatAndIncreaseLevel() {
-        lastRepetition = .now
+        repetitions.append(.now)
         level = nextLevel
-        repetitionCount += 1
     }
 
     mutating func repeatAndDecreaseLevel() {
-        lastRepetition = .now
+        repetitions.append(.now)
         level = previousLevel
-        repetitionCount += 1
     }
 
     mutating func reset() {
-        lastRepetition = nil
+        repetitions = []
         level = .lvl1
-        repetitionCount = 0
     }
 }
 
