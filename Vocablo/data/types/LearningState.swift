@@ -8,22 +8,24 @@
 import Foundation
 
 struct LearningState: Codable, Equatable, Hashable {
-    var lastRepetition: Date?
+    var lastRepetition: Date? = nil
     var level: LearningLevel = .lvl1
     var repetitionCount: Int = 0
     
     var isNewly: Bool {
-        if lastRepetition == nil {
+        //Equal referenceDate, because SwiftData sets the optional date, which is nil, to the reference date after restarting the app.
+        if lastRepetition == nil || lastRepetition?.isReferenceDate == true {
             return true
         }
         return false
     }
     
     var isRepeatly: Bool {
-        if lastRepetition == nil {
-            return false
+        //Equal referenceDate, because SwiftData sets the optional date, which is nil, to the reference date after restarting the app.
+        if lastRepetition != nil && lastRepetition?.isReferenceDate == false {
+            return true
         }
-        return true
+        return false
     }
     
     var nextRepetition: Date {
@@ -54,8 +56,10 @@ struct LearningState: Codable, Equatable, Hashable {
             return "\(remainingHours) h"
         }else if remainingMinutes >= 1 {
             return "\(remainingMinutes) min"
+        }else if remainingSeconds >= 1 {
+            return "\(remainingSeconds) sec"
         }
-       return "\(remainingSeconds) sec"
+        return "0 sec"
     }
     
     var isNextRepetitionExpired: Bool {

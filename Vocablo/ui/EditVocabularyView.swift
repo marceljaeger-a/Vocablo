@@ -82,6 +82,8 @@ extension EditVocabularyView {
                 LearningLevelPicker(level: $state.level)
 
                 Text("Next repetition in \(state.remainingTimeLabel)")
+                
+                LastRepetitionDatePicker(state: $state)
             }header: {
                 HStack {
                     Text(header)
@@ -119,6 +121,39 @@ extension EditVocabularyView {
                 state.reset()
             } label: {
                 Text("Reset")
+            }
+        }
+    }
+    
+    struct LastRepetitionDatePicker: View {
+        @Binding var state: LearningState
+        
+        var body: some View {
+            if state.isNewly == false {
+                var bindedLastRepetition: Binding<Date> {
+                    Binding {
+                        state.lastRepetition!
+                    } set: { newDate in
+                        state.lastRepetition = newDate
+                    }
+                    
+                }
+                
+                DatePicker("Last repetition", selection: bindedLastRepetition)
+                    .datePickerStyle(.stepperField)
+                
+            }else {
+                HStack {
+                    Text("Last repetition")
+                    
+                    Spacer()
+                    
+                    Button {
+                        state.lastRepetition = .now
+                    } label: {
+                        Text("Set")
+                    }
+                }
             }
         }
     }

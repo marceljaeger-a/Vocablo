@@ -37,6 +37,7 @@
 		9F7FBC942B2CFBB60033EBAC /* LearningValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7FBC932B2CFBB60033EBAC /* LearningValue.swift */; };
 		9F7FBC962B2CFE710033EBAC /* LearningValueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7FBC952B2CFE710033EBAC /* LearningValueManager.swift */; };
 		9F7FBC982B2CFF790033EBAC /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7FBC972B2CFF790033EBAC /* SettingsScene.swift */; };
+		9F9491142B3323B20018AF4C /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9491132B3323B20018AF4C /* Date.swift */; };
 		9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583152AE6F70900A56141 /* VocabloApp.swift */; };
 		9FC5831A2AE6F70A00A56141 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC583192AE6F70A00A56141 /* Assets.xcassets */; };
 		9FC5831E2AE6F70A00A56141 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC5831D2AE6F70A00A56141 /* Preview Assets.xcassets */; };
@@ -85,6 +86,7 @@
 		9F7FBC932B2CFBB60033EBAC /* LearningValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningValue.swift; sourceTree = "<group>"; };
 		9F7FBC952B2CFE710033EBAC /* LearningValueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningValueManager.swift; sourceTree = "<group>"; };
 		9F7FBC972B2CFF790033EBAC /* SettingsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
+		9F9491132B3323B20018AF4C /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		9FAF88472AEAE9E000D81CE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9FC583122AE6F70900A56141 /* Vocablo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vocablo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FC583152AE6F70900A56141 /* VocabloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloApp.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			children = (
 				9F23D9402B0BF53200C90BBB /* Array.swift */,
 				9F7F6C422B168D75001B266A /* ModelContext.swift */,
+				9F9491132B3323B20018AF4C /* Date.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				9F7F6C432B168D75001B266A /* ModelContext.swift in Sources */,
 				9FC5832B2AE7088B00A56141 /* WordGroup.swift in Sources */,
 				9F11D7982B22762C0050A3AD /* VocabulariesPasteDestination.swift in Sources */,
+				9F9491142B3323B20018AF4C /* Date.swift in Sources */,
 				9F23D9412B0BF53200C90BBB /* Array.swift in Sources */,
 				9FC583272AE7080E00A56141 /* VocabularyList.swift in Sources */,
 				9FFB36182AED93A500E510CA /* Learnable.swift in Sources */,

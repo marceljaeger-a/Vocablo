@@ -85,7 +85,7 @@ extension VocabloScene {
     
     var learningMenu: some Commands {
         CommandMenu("Learning") {
-            Button("Learn") {
+            Button("Start learning") {
                 isLearningSheetShowed = true
             }
             .disabled(selectedListIdentifiers.count != 1)
