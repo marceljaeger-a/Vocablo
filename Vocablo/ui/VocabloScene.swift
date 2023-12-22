@@ -19,16 +19,22 @@ struct VocabloScene: Scene {
     @Environment(\.modelContext) private var context: ModelContext
     @State private var selectedListIdentifiers: Set<PersistentIdentifier> = []
     @State private var selectedVocabularyIdentifiers: Set<PersistentIdentifier> = []
-    @State private var isLearningSheetShowed: Bool = false
+    @State private var learningList: VocabularyList?
     
     //MARK: - Body
     
     var body: some Scene {
         WindowGroup {
-            ContentView(selectedListIdentifiers: $selectedListIdentifiers, selectedVocabularyIdentifiers: $selectedVocabularyIdentifiers, isLearningSheetShowed: $isLearningSheetShowed)
+            ContentView(selectedListIdentifiers: $selectedListIdentifiers, selectedVocabularyIdentifiers: $selectedVocabularyIdentifiers, learningList: $learningList)
                 .sheet(isPresented: $isWelcomeSheetShowed) {
                     WelcomeSheet(isShowing: $isWelcomeSheetShowed)
                 }
+                .sheet(item: $learningList) {
+                    
+                } content: { learningList in
+                    LearningSheet(list: learningList)
+                }
+
         }
         .commands {
             fileMenu
@@ -86,7 +92,9 @@ extension VocabloScene {
     var learningMenu: some Commands {
         CommandMenu("Learning") {
             Button("Start learning") {
-                isLearningSheetShowed = true
+                if let firstList: VocabularyList = context.fetch(by: selectedListIdentifiers).first {
+                    self.learningList = firstList
+                }
             }
             .disabled(selectedListIdentifiers.count != 1)
             

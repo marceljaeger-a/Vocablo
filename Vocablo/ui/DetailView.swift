@@ -14,7 +14,7 @@ struct DetailView: View {
     
     @Bindable var selectedList: VocabularyList
     @Binding var selectedVocabularyIdentifiers: Set<PersistentIdentifier>
-    @Binding var isLearningSheetShowed: Bool
+    @Binding var learningList: VocabularyList?
     
     @Environment(\.modelContext) private var context: ModelContext
     @Query private var allVocabularies: Array<Vocabulary>
@@ -45,7 +45,7 @@ struct DetailView: View {
     }
     
     private func showLearningSheet() {
-        self.isLearningSheetShowed = true
+        self.learningList = selectedList
     }
     
     private func contextMenuPrimaryAction(vocabularyIDs: Set<PersistentIdentifier>) {
@@ -67,9 +67,6 @@ struct DetailView: View {
             .toolbar {
                 toolbarButtons
             }
-            .sheet(isPresented: $isLearningSheetShowed, content: {
-                LearningSheet(list: selectedList)
-            })
             .sheet(item: $editingVocabulary) { vocabulary in
                 EditVocabularyView(editingVocabulary: vocabulary)
             }
@@ -167,6 +164,6 @@ extension DetailView {
 
 //MARK: - Preview
 #Preview {
-    DetailView( selectedList: VocabularyList("Preview List"), selectedVocabularyIdentifiers: .constant([]), isLearningSheetShowed: .constant(false))
+    DetailView( selectedList: VocabularyList("Preview List"), selectedVocabularyIdentifiers: .constant([]), learningList: .constant(nil))
 }
 

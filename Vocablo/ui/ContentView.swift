@@ -14,7 +14,7 @@ struct ContentView: View {
     
     @Binding var selectedListIdentifiers: Set<PersistentIdentifier>
     @Binding var selectedVocabularyIdentifiers: Set<PersistentIdentifier>
-    @Binding var isLearningSheetShowed: Bool
+    @Binding var learningList: VocabularyList?
     
     @Environment(\.modelContext) private var context: ModelContext
     @Environment(\.undoManager) private var viewUndoManager: UndoManager?
@@ -31,12 +31,12 @@ struct ContentView: View {
     
     var body: some View {
         NavigationSplitView {
-            SidebarView(selectedListIdentifiers: $selectedListIdentifiers)
+            SidebarView(selectedListIdentifiers: $selectedListIdentifiers, learningList: $learningList)
                 .navigationSplitViewColumnWidth(min: 200, ideal: 250)
         } detail: {
             
             if let firstSelectedList: VocabularyList = context.fetch(by: selectedListIdentifiers).first {
-                DetailView(selectedList: firstSelectedList, selectedVocabularyIdentifiers: $selectedVocabularyIdentifiers, isLearningSheetShowed: $isLearningSheetShowed)
+                DetailView(selectedList: firstSelectedList, selectedVocabularyIdentifiers: $selectedVocabularyIdentifiers, learningList: $learningList)
             } else {
                 NoSelectedListView()
             }
@@ -72,7 +72,7 @@ extension ContentView {
 //MARK: - Preview
 
 #Preview {
-    ContentView(selectedListIdentifiers: .constant([]), selectedVocabularyIdentifiers: .constant([]), isLearningSheetShowed: .constant(false))
+    ContentView(selectedListIdentifiers: .constant([]), selectedVocabularyIdentifiers: .constant([]), learningList: .constant(nil))
         .previewModelContainer()
 }
 

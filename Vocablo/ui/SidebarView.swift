@@ -14,6 +14,7 @@ struct SidebarView: View {
     //MARK: - Properties
     
     @Binding var selectedListIdentifiers: Set<PersistentIdentifier>
+    @Binding var learningList: VocabularyList?
     
     @Environment(\.modelContext) private var context: ModelContext
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
@@ -62,6 +63,10 @@ struct SidebarView: View {
             selectedListIdentifiers.remove(deletingList.id)
         }
         context.deleteLists(deletingLists)
+    }
+    
+    private func showLearningSheet(learningList: VocabularyList) {
+        self.learningList = learningList
     }
     
     //MARK: - Body
@@ -121,6 +126,14 @@ extension SidebarView {
         }else {
             if listIdfentifiers.count == 1 {
                 if let firstList: VocabularyList = context.fetch(by: listIdfentifiers).first {
+                    Button {
+                        showLearningSheet(learningList: firstList)
+                    } label: {
+                        Text("Start learning")
+                    }
+                    
+                    Divider()
+                    
                     @Bindable var bindedList = firstList
                     Picker("Sort by", selection: $bindedList.sorting) {
                         VocabularyList.VocabularySorting.pickerContent
