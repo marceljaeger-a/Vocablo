@@ -66,8 +66,12 @@ extension ModelContext {
     ///Deletes vocabularies from the model context.
     func deleteVocabularies(_ deletingVocabularies: Array<Vocabulary>) {
         for deletingVocabulary in deletingVocabularies {
+            if let list = deletingVocabulary.list {
+                list.removeVocabulary(deletingVocabulary)
+            }
             self.delete(deletingVocabulary)
         }
+        //try? self.save()
     }
     
     ///Deletes lists from the model context.

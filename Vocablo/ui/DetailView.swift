@@ -21,14 +21,6 @@ struct DetailView: View {
     @State private var editingVocabulary: Vocabulary?
     @FocusState private var textFieldFocus: VocabularyTextFieldFocusState?
     
-    private var filteredVocabularies: Array<Vocabulary> {
-        allVocabularies
-            .filter { element in
-                element.list == selectedList
-            }
-            .sorted(using: selectedList.sorting.sortComparator)
-    }
-    
     //MARK: - Methodes
     
     private func focusAndSelectNewVocabulary(_ vocabulary: Vocabulary) {
@@ -58,7 +50,7 @@ struct DetailView: View {
     //MARK: - Body
     
     var body: some View {
-        VocabulariesListView(vocabularies: filteredVocabularies, selection: $selectedVocabularyIdentifiers, textFieldFocus: $textFieldFocus, onSubmitAction: selectedList.addNewVocabulary)
+        VocabulariesListView(vocabularies: selectedList.sortedVocabularies, selection: $selectedVocabularyIdentifiers, textFieldFocus: $textFieldFocus, onSubmitAction: selectedList.addNewVocabulary)
             .contextMenu(forSelectionType: Vocabulary.ID.self) { vocabularyIDs in
                 contextMenuButtons(vocabularyIdentifiers: vocabularyIDs)
             } primaryAction: { vocabularyIdentifiers in
