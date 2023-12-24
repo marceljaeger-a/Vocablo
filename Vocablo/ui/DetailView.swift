@@ -35,7 +35,7 @@ struct DetailView: View {
         textFieldFocus = nil //This helps for the "AttributeGraph" message!
         selectedVocabularyIdentifiers = []
         selectedVocabularyIdentifiers.insert(vocabulary.id) //This causes an "AttributeGraph" message!
-        Task { //This helps for the nonfocsuing, when an other list is focued, while I add a new list.
+        Task { //This helps for the nonfocsuing, when an other vocabulary is focued, while I add a new list.
             textFieldFocus = .word(vocabulary.id)
         }
     }

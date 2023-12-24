@@ -47,7 +47,7 @@ extension SchemaV1 {
         var created: Date
         var sorting: VocabularySorting = VocabularySorting.newest
         
-        @Relationship(deleteRule: .nullify, inverse: \Vocabulary.list) var vocabularies: Array<Vocabulary>
+        @Relationship(deleteRule: .cascade, inverse: \Vocabulary.list) var vocabularies: Array<Vocabulary>
         
         ///Returns a sorted array with Vocabularyies by the sorting property.
         var sortedVocabularies: Array<Vocabulary> {
