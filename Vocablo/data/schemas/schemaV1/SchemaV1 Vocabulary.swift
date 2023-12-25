@@ -31,7 +31,7 @@ extension SchemaV1 {
         var baseExplenation: String
         var translationExplanation: String
         
-        @Relationship(deleteRule: .nullify )var list: VocabularyList?
+        @Relationship(deleteRule: .nullify) var list: VocabularyList?
         @Relationship(deleteRule: .nullify) var tags: Array<Tag>
         
         //MARK: - Initialiser

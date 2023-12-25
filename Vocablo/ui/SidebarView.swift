@@ -39,13 +39,8 @@ struct SidebarView: View {
     
     //MARK: - Methodes
     
-    private func focusAndSelectNewList(_ list: VocabularyList) {
-        focusedList = nil //This helps for the "AttributeGraph" message!
-        selectedListIdentifiers = []
-        selectedListIdentifiers.insert(list.id) //This causes an "AttributeGraph" message!
-        Task {  //This helps for the nonfocsuing, when an other list is focued, while I add a new list.
-            focusedList = list.id
-        }
+    private func focusNewList(_ list: VocabularyList) {
+        focusedList = list.id
     }
     
     private func areListsEmtpy(_ lists: Array<VocabularyList>) -> Bool {
@@ -90,7 +85,7 @@ struct SidebarView: View {
             listDeletingConfirmationDialgoButtons
         }
         .onAddList { newList in
-            focusAndSelectNewList(newList)
+            focusNewList(newList)
         }
     }
 }

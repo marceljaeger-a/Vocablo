@@ -76,6 +76,9 @@ extension SchemaV1 {
         ///Sends a publisher message with the new vocabulary instance to subscribers.
         func addVocabulary(_ vocabulary: Vocabulary) {
             self.vocabularies.append(vocabulary)
+            if let context = vocabulary.modelContext {
+                try? context.save()
+            }
             addVocabularyPublisher.send(vocabulary)
         }
         

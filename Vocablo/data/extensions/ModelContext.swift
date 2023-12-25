@@ -53,6 +53,7 @@ extension ModelContext {
     func addList(_ name: String) {
         let newList = VocabularyList(name)
         insert(newList)
+        try? save() //Because the persistend identifier has a other value after saving.
         ModelContext.addListPublisher.send(newList)
     }
 }
@@ -65,13 +66,17 @@ extension ModelContext {
     
     ///Deletes vocabularies from the model context.
     func deleteVocabularies(_ deletingVocabularies: Array<Vocabulary>) {
+        //let fetchDescriptor = FetchDescriptor<Vocabulary>()
+        //print(try? fetchCount(fetchDescriptor))
+        
         for deletingVocabulary in deletingVocabularies {
             if let list = deletingVocabulary.list {
                 list.removeVocabulary(deletingVocabulary)
             }
             self.delete(deletingVocabulary)
         }
-        //try? self.save()
+        //print(try? fetchCount(fetchDescriptor))
+        //try? save()
     }
     
     ///Deletes lists from the model context.

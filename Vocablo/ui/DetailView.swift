@@ -23,13 +23,8 @@ struct DetailView: View {
     
     //MARK: - Methodes
     
-    private func focusAndSelectNewVocabulary(_ vocabulary: Vocabulary) {
-        textFieldFocus = nil //This helps for the "AttributeGraph" message!
-        selectedVocabularyIdentifiers = []
-        selectedVocabularyIdentifiers.insert(vocabulary.id) //This causes an "AttributeGraph" message!
-        Task { //This helps for the nonfocsuing, when an other vocabulary is focued, while I add a new list.
-            textFieldFocus = .word(vocabulary.id)
-        }
+    private func focusNewVocabulary(_ vocabulary: Vocabulary) {
+        textFieldFocus = .word(vocabulary.id)
     }
     
     private func openEditVocabularyView(for vocabulary: Vocabulary) {
@@ -63,7 +58,7 @@ struct DetailView: View {
                 EditVocabularyView(editingVocabulary: vocabulary)
             }
             .onAddVocabulary(to: selectedList) { newVocabulary in
-                focusAndSelectNewVocabulary(newVocabulary)
+                focusNewVocabulary(newVocabulary)
             }
     }
 }
