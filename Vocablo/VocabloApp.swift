@@ -20,8 +20,7 @@ struct VocabloApp: App {
         var container: ModelContainer
         do {
             let schema = Schema([VocabularyList.self, Vocabulary.self, Tag.self])
-            let configuration = ModelConfiguration("vocablo_datastorage_main", schema: schema)
-            container = try ModelContainer(for: schema, configurations: [configuration])
+            container = try ModelContainer(for: schema, configurations: [])
 
             container.mainContext.autosaveEnabled = true
         } catch {

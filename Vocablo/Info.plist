@@ -10,19 +10,15 @@
 			<key>CFBundleTypeIconSystemGenerated</key>
 			<integer>1</integer>
 			<key>CFBundleTypeName</key>
-			<string>Vocabulary pack</string>
+			<string></string>
 			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
+			<string>None</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.marceljaeger.vocablo.vocabularypack</string>
-			</array>
+			<array/>
 		</dict>
 	</array>
-	<key>CFBundleIdentifier</key>
-	<string></string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -51,24 +47,20 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<array>
-				<string>com.apple.package</string>
-			</array>
+			<array/>
 			<key>UTTypeDescription</key>
-			<string>Vocabulary pack</string>
+			<string></string>
 			<key>UTTypeIcons</key>
 			<dict>
 				<key>UTTypeIconBadgeName</key>
 				<string></string>
 			</dict>
 			<key>UTTypeIdentifier</key>
-			<string>com.marceljaeger.vocablo.vocabularypack</string>
+			<string></string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
-				<array>
-					<string>vocablo</string>
-				</array>
+				<array/>
 			</dict>
 		</dict>
 	</array>

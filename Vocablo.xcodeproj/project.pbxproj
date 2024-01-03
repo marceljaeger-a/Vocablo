@@ -51,7 +51,6 @@
 		9FEAC8082B24D06100AA7133 /* VocabloScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAC8072B24D06100AA7133 /* VocabloScene.swift */; };
 		9FEAC8132B26033A00AA7133 /* OnAddVocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAC8122B26033A00AA7133 /* OnAddVocabulary.swift */; };
 		9FF01AAC2B152EB30038BEAE /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF01AAB2B152EB30038BEAE /* DetailView.swift */; };
-		9FF0F6A02B0401F400693857 /* VocabularyPack UTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF0F69F2B0401F400693857 /* VocabularyPack UTType.swift */; };
 		9FFB36182AED93A500E510CA /* Learnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB36172AED93A500E510CA /* Learnable.swift */; };
 		9FFB361A2AED952C00E510CA /* LearningState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB36192AED952C00E510CA /* LearningState.swift */; };
 		9FFB361E2AED9AE300E510CA /* LearningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB361D2AED9AE300E510CA /* LearningView.swift */; };
@@ -106,7 +105,6 @@
 		9FEAC8072B24D06100AA7133 /* VocabloScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloScene.swift; sourceTree = "<group>"; };
 		9FEAC8122B26033A00AA7133 /* OnAddVocabulary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnAddVocabulary.swift; sourceTree = "<group>"; };
 		9FF01AAB2B152EB30038BEAE /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
-		9FF0F69F2B0401F400693857 /* VocabularyPack UTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VocabularyPack UTType.swift"; sourceTree = "<group>"; };
 		9FFB36172AED93A500E510CA /* Learnable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Learnable.swift; sourceTree = "<group>"; };
 		9FFB36192AED952C00E510CA /* LearningState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningState.swift; sourceTree = "<group>"; };
 		9FFB361D2AED9AE300E510CA /* LearningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningView.swift; sourceTree = "<group>"; };
@@ -304,7 +302,6 @@
 		9FF0F69E2B0401E200693857 /* uttypes */ = {
 			isa = PBXGroup;
 			children = (
-				9FF0F69F2B0401F400693857 /* VocabularyPack UTType.swift */,
 				9F2767312B0525A900C99231 /* Vocabulary UTType.swift */,
 			);
 			path = uttypes;
@@ -392,7 +389,6 @@
 				9FDB9CE22B37242200646B67 /* current model typealias.swift in Sources */,
 				9FEAC8082B24D06100AA7133 /* VocabloScene.swift in Sources */,
 				9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */,
-				9FF0F6A02B0401F400693857 /* VocabularyPack UTType.swift in Sources */,
 				9F7741252B134AC600565B42 /* LearningLevelPicker.swift in Sources */,
 				9F1019A52B2707AF0041CB7D /* OnAddList.swift in Sources */,
 				9F7FBC912B2CFB760033EBAC /* OpacityBool.swift in Sources */,
@@ -553,6 +549,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Appicon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Vocablo/Vocablo.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Vocablo/Preview Content\"";
@@ -579,6 +576,7 @@
 				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marceljaeger.Vocablo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = macosx;
 				SUPPORTS_MACCATALYST = NO;
@@ -593,6 +591,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = Appicon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Vocablo/Vocablo.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Vocablo/Preview Content\"";
@@ -619,6 +618,7 @@
 				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marceljaeger.Vocablo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = macosx;
 				SUPPORTS_MACCATALYST = NO;
