@@ -60,10 +60,10 @@ extension SchemaV1 {
             var translationWord: String
             var baseSentence: String
             var translationSentence: String
+            var baseExplenation: String
             
             //Model
             var wordGroup: WordGroup
-            var baseExplenation: String
             var translationExplenation: String
             
             static var transferRepresentation: some TransferRepresentation {
@@ -80,7 +80,7 @@ extension SchemaV1 {
         
         ///Returns a VocabularyTransfer instanz, which has the same properties as that Vocabulary instanz.
         func convert() -> VocabularyTransfer{
-            VocabularyTransfer.init(isLearnable: isToLearn, baseState: baseState, translationState: translationState, baseWord: baseWord, translationWord: translationWord, baseSentence: baseSentence, translationSentence: translationSentence, wordGroup: wordGroup, baseExplenation: baseExplenation, translationExplenation: translationExplanation)
+            VocabularyTransfer.init(isLearnable: isToLearn, baseState: baseState, translationState: translationState, baseWord: baseWord, translationWord: translationWord, baseSentence: baseSentence, translationSentence: translationSentence, baseExplenation: baseExplenation, wordGroup: wordGroup, translationExplenation: translationExplanation)
         }
     }
 }

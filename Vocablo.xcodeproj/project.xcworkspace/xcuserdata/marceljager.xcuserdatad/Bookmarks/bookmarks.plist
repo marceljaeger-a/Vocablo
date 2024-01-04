@@ -51,6 +51,52 @@
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>8</string>
+					<key>EndingLineNumber</key>
+					<string>9</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>9</string>
+					<key>Timestamp</key>
+					<string>726079384.3895431</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Vocablo/data/protocols/Learnable.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>protocol</string>
+				<key>leading</key>
+				<string>import Foundation
+
+</string>
+				<key>trailing</key>
+				<string> Learnable: AnyObject {
+    var isToLearn: Bool { get set }
+    var baseState: LearningState { get set }
+</string>
+			</dict>
+			<key>title</key>
+			<string>Think about, whether this protocl is nesecarry. If it stays in the app, put all properties in the protocol or refactore it.</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
 	</array>
 </dict>
 </plist>

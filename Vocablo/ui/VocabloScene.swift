@@ -36,6 +36,7 @@ struct VocabloScene: Scene {
                 }
 
         }
+        .defaultSize(width: 1280, height: 720)
         .commands {
             fileMenu
             editMenu
