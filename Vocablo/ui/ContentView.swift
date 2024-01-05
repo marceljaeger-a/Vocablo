@@ -47,7 +47,7 @@ struct ContentView: View {
         .copyableVocabularies(context.fetch(by: selectedVocabularyIdentifiers))
         .cuttableVocabularies(context.fetch(by: selectedVocabularyIdentifiers), context: context)
         .vocabulariesPasteDestination(into: context.fetch(by: selectedListIdentifiers).first)
-        .onDeleteCommand {
+        .onDeleteCommand { //⌫ & Delete Menu command, when no vocabulary is selected.
             deleteSelectedVocabularies()
         }
         .onChange(of: selectedListIdentifiers) {

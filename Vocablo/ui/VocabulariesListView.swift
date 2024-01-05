@@ -18,15 +18,34 @@ struct VocabulariesListView: View {
     @FocusState.Binding var textFieldFocus: VocabularyTextFieldFocusState?
     let onSubmitAction: () -> Void
     
+    @Environment(\.modelContext) var context: ModelContext
+    
+    //MARK: - Methodes
+    
+    private func delete(indexSet: IndexSet) {
+        let deletingVocabularies = vocabularies[indexSet]
+        
+        for deletingVocabulary in deletingVocabularies {
+            guard selection.contains(deletingVocabulary.id) else { break }
+            selection.remove(deletingVocabulary.id)
+        }
+
+        context.deleteVocabularies(deletingVocabularies)
+    }
     
     //MARK: - Body
     
     var body: some View {
-        List(vocabularies, id: \.id, selection: $selection){ vocabulary in
-            VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
-                .onSubmit {
-                    onSubmitAction()
-                }
+        List(selection: $selection) {
+            ForEach(vocabularies, id: \.id) { vocabulary in
+                VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
+                    .onSubmit {
+                        onSubmitAction()
+                    }
+            }
+            .onDelete { indexSet in //Swipe & Delete menu command, when a vocabulary is slected.
+                delete(indexSet: indexSet)
+            }
         }
     }
 }

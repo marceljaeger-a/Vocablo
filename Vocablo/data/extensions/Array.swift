@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftData
 
 extension Array {
     
@@ -14,5 +15,27 @@ extension Array {
         if when(self) {
             self.append(newElement)
         }
+    }
+    
+    subscript(indexSet: IndexSet) -> Self {
+        var returnedArray: Array<Element> = []
+        for index in indexSet {
+            if index < self.count {
+                returnedArray.append(self[index])
+            }
+        }
+        
+        return returnedArray
+    }
+}
+
+extension Array where Element: PersistentModel{
+    subscript(byIDs ids: Set<PersistentIdentifier>) -> Array<Element> {
+        var returnedArray: Array<Element> = []
+        for item in self {
+            guard ids.contains(item.id) else { break }
+            returnedArray.append(item)
+        }
+        return returnedArray
     }
 }
