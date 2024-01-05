@@ -13,9 +13,9 @@ struct SidebarView: View {
     
     //MARK: - Properties
     
-    @Binding var selectedListIdentifiers: Set<PersistentIdentifier>
     @Binding var learningList: VocabularyList?
     
+    @Environment(\.selections) private var selections
     @Environment(\.modelContext) private var context: ModelContext
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
     @FocusState private var focusedList: PersistentIdentifier?
@@ -30,7 +30,7 @@ struct SidebarView: View {
 
     }
     private var listDeletingConfirmationDialogText: String {
-        if selectedListIdentifiers.count > 1 {
+        if selections.selectedListIdentifiers.count > 1 {
             "Do you want to delete the selected lists?"
         }else {
             "Do you want to delete the list?"
@@ -55,7 +55,7 @@ struct SidebarView: View {
     private func deleteSelectedLists(_ lists: Array<VocabularyList>) {
         let deletingLists = lists
         for deletingList in deletingLists {
-            selectedListIdentifiers.remove(deletingList.id)
+            selections.selectedListIdentifiers.remove(deletingList.id)
         }
         context.deleteLists(deletingLists)
     }
@@ -67,7 +67,7 @@ struct SidebarView: View {
     //MARK: - Body
     
     var body: some View {
-        List(selection: $selectedListIdentifiers){
+        List(selection: selections.bindable.selectedListIdentifiers){
             listSection
         }
         .buttomButtons(onLeft: {

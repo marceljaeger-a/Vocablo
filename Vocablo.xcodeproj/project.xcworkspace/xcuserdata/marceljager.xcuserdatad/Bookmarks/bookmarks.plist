@@ -18,7 +18,7 @@
 					<key>StartingLineNumber</key>
 					<string>69</string>
 					<key>Timestamp</key>
-					<string>725215972.274374</string>
+					<string>726147149.230677</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,7 +34,7 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>        List(selection: $selectedListIdentifiers){
+				<string>        List(selection: selections.bindable.selectedListIdentifiers){
 </string>
 				<key>leading</key>
 				<string>    

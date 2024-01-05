@@ -14,11 +14,11 @@ struct VocabulariesListView: View {
     //MARK: - Properties
     
     let vocabularies: Array<Vocabulary>
-    @Binding var selection: Set<PersistentIdentifier>
     @FocusState.Binding var textFieldFocus: VocabularyTextFieldFocusState?
     let onSubmitAction: () -> Void
     
     @Environment(\.modelContext) var context: ModelContext
+    @Environment(\.selections) var selections: SelectionContext
     
     //MARK: - Methodes
     
@@ -26,8 +26,8 @@ struct VocabulariesListView: View {
         let deletingVocabularies = vocabularies[indexSet]
         
         for deletingVocabulary in deletingVocabularies {
-            guard selection.contains(deletingVocabulary.id) else { break }
-            selection.remove(deletingVocabulary.id)
+            guard selections.selectedVocabularyIdentifiers.contains(deletingVocabulary.id) else { break }
+            selections.selectedVocabularyIdentifiers.remove(deletingVocabulary.id)
         }
         
         context.deleteVocabularies(deletingVocabularies)
@@ -36,7 +36,7 @@ struct VocabulariesListView: View {
     //MARK: - Body
     
     var body: some View {
-        List(selection: $selection) {
+        List(selection: selections.bindable.selectedVocabularyIdentifiers) {
             ForEach(vocabularies, id: \.id) { vocabulary in
                 VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
                     .onSubmit {

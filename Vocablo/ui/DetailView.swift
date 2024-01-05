@@ -13,9 +13,9 @@ struct DetailView: View {
     //MARK: - Properties
     
     @Bindable var selectedList: VocabularyList
-    @Binding var selectedVocabularyIdentifiers: Set<PersistentIdentifier>
     @Binding var learningList: VocabularyList?
     
+    @Environment(\.selections) private var  selections: SelectionContext
     @Environment(\.modelContext) private var context: ModelContext
     @Query private var allVocabularies: Array<Vocabulary>
     @State private var editingVocabulary: Vocabulary?
@@ -45,7 +45,7 @@ struct DetailView: View {
     //MARK: - Body
     
     var body: some View {
-        VocabulariesListView(vocabularies: selectedList.sortedVocabularies, selection: $selectedVocabularyIdentifiers, textFieldFocus: $textFieldFocus, onSubmitAction: selectedList.addNewVocabulary)
+        VocabulariesListView(vocabularies: selectedList.sortedVocabularies, textFieldFocus: $textFieldFocus, onSubmitAction: selectedList.addNewVocabulary)
             .contextMenu(forSelectionType: Vocabulary.ID.self) { vocabularyIDs in
                 contextMenuButtons(vocabularyIdentifiers: vocabularyIDs)
             } primaryAction: { vocabularyIdentifiers in
@@ -155,6 +155,6 @@ extension DetailView {
 
 //MARK: - Preview
 #Preview {
-    DetailView( selectedList: VocabularyList("Preview List"), selectedVocabularyIdentifiers: .constant([]), learningList: .constant(nil))
+    DetailView( selectedList: VocabularyList("Preview List"), learningList: .constant(nil))
 }
 
