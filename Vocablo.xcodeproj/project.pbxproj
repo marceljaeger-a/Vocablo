@@ -51,6 +51,7 @@
 		9FEAC8082B24D06100AA7133 /* VocabloScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAC8072B24D06100AA7133 /* VocabloScene.swift */; };
 		9FEAC8132B26033A00AA7133 /* OnAddVocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAC8122B26033A00AA7133 /* OnAddVocabulary.swift */; };
 		9FF01AAC2B152EB30038BEAE /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF01AAB2B152EB30038BEAE /* DetailView.swift */; };
+		9FF78ED12B481718006F6756 /* ModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF78ED02B481718006F6756 /* ModelContainer.swift */; };
 		9FFB36182AED93A500E510CA /* Learnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB36172AED93A500E510CA /* Learnable.swift */; };
 		9FFB361A2AED952C00E510CA /* LearningState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB36192AED952C00E510CA /* LearningState.swift */; };
 		9FFB361E2AED9AE300E510CA /* LearningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB361D2AED9AE300E510CA /* LearningView.swift */; };
@@ -105,6 +106,7 @@
 		9FEAC8072B24D06100AA7133 /* VocabloScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloScene.swift; sourceTree = "<group>"; };
 		9FEAC8122B26033A00AA7133 /* OnAddVocabulary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnAddVocabulary.swift; sourceTree = "<group>"; };
 		9FF01AAB2B152EB30038BEAE /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		9FF78ED02B481718006F6756 /* ModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContainer.swift; sourceTree = "<group>"; };
 		9FFB36172AED93A500E510CA /* Learnable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Learnable.swift; sourceTree = "<group>"; };
 		9FFB36192AED952C00E510CA /* LearningState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningState.swift; sourceTree = "<group>"; };
 		9FFB361D2AED9AE300E510CA /* LearningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningView.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				9F23D9402B0BF53200C90BBB /* Array.swift */,
 				9F7F6C422B168D75001B266A /* ModelContext.swift */,
 				9F9491132B3323B20018AF4C /* Date.swift */,
+				9FF78ED02B481718006F6756 /* ModelContainer.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -391,6 +394,7 @@
 				9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */,
 				9F7741252B134AC600565B42 /* LearningLevelPicker.swift in Sources */,
 				9F1019A52B2707AF0041CB7D /* OnAddList.swift in Sources */,
+				9FF78ED12B481718006F6756 /* ModelContainer.swift in Sources */,
 				9F7FBC912B2CFB760033EBAC /* OpacityBool.swift in Sources */,
 				9F334D9E2B2BAADD0004AAC9 /* VocabularyItem.swift in Sources */,
 				9F7F6C432B168D75001B266A /* ModelContext.swift in Sources */,

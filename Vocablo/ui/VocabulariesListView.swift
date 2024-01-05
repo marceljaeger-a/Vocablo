@@ -29,7 +29,7 @@ struct VocabulariesListView: View {
             guard selection.contains(deletingVocabulary.id) else { break }
             selection.remove(deletingVocabulary.id)
         }
-
+        
         context.deleteVocabularies(deletingVocabularies)
     }
     
