@@ -30,12 +30,16 @@ extension Array {
 }
 
 extension Array where Element: PersistentModel{
-    subscript(byIDs ids: Set<PersistentIdentifier>) -> Array<Element> {
+    subscript(byIdentifiers identifiers: Set<PersistentIdentifier>) -> Array<Element> {
         var returnedArray: Array<Element> = []
         for item in self {
-            guard ids.contains(item.id) else { break }
+            guard identifiers.contains(item.id) else { continue }
             returnedArray.append(item)
         }
         return returnedArray
+    }
+    
+    var identifiers: Set<PersistentIdentifier> {
+        return Set(self.map { $0.id })
     }
 }

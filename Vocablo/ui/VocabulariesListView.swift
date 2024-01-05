@@ -24,12 +24,7 @@ struct VocabulariesListView: View {
     
     private func delete(indexSet: IndexSet) {
         let deletingVocabularies = vocabularies[indexSet]
-        
-        for deletingVocabulary in deletingVocabularies {
-            guard selections.selectedVocabularyIdentifiers.contains(deletingVocabulary.id) else { break }
-            selections.selectedVocabularyIdentifiers.remove(deletingVocabulary.id)
-        }
-        
+        _ = selections.unselectVocabularies(deletingVocabularies.identifiers)
         context.deleteVocabularies(deletingVocabularies)
     }
     

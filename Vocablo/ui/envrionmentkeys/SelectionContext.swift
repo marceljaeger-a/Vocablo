@@ -22,7 +22,49 @@ class SelectionContext {
         return _bindableContext
     }
     
+    var isAnyListSelected: Bool {
+        if selectedListIdentifiers.isEmpty == false {
+            return true
+        }
+        return false
+    }
+    
+    var isAnyVocabularySelected: Bool {
+        if selectedVocabularyIdentifiers.isEmpty == false {
+            return true
+        }
+        return false
+    }
+    
     //MARK: - Methodes
+    
+    func unselectLists(_ identifiers: Set<PersistentIdentifier>) -> Set<PersistentIdentifier> {
+        selectedListIdentifiers.remove(members: identifiers)
+    }
+    
+    func unselectVocabularies(_ identifiers: Set<PersistentIdentifier>) -> Set<PersistentIdentifier> {
+        selectedVocabularyIdentifiers.remove(members: identifiers)
+    }
+    
+    func unselectAllLists() -> Set<PersistentIdentifier> {
+        let selectedLists = selectedListIdentifiers
+        selectedListIdentifiers = []
+        return selectedLists
+    }
+    
+    func unselectAllVocabularies() -> Set<PersistentIdentifier> {
+        let selectedVocabularies = selectedVocabularyIdentifiers
+        selectedVocabularyIdentifiers = []
+        return selectedVocabularies
+    }
+    
+    func isListSelected(_ identifier: PersistentIdentifier) -> Bool {
+        selectedListIdentifiers.contains(identifier)
+    }
+    
+    func isVocabularySelected(_ identifier: PersistentIdentifier) -> Bool {
+        selectedVocabularyIdentifiers.contains(identifier)
+    }
 }
 
 

@@ -37,7 +37,7 @@ struct DetailView: View {
     
     private func contextMenuPrimaryAction(vocabularyIDs: Set<PersistentIdentifier>) {
         if vocabularyIDs.count == 1 {
-            guard let firstVocabulary: Vocabulary = context.fetch(by: vocabularyIDs).first else { return }
+            guard let firstVocabulary: Vocabulary = allVocabularies[byIdentifiers: vocabularyIDs].first else { return }
             openEditVocabularyView(for: firstVocabulary)
         }
     }
@@ -118,7 +118,10 @@ extension DetailView {
         .disabled(vocabularyIdentifiers.isEmpty == true)
         
         Button {
-            context.deleteVocabularies(context.fetch(by: vocabularyIdentifiers))
+            context.deleteVocabularies(
+                allVocabularies[byIdentifiers: selections.unselectVocabularies(vocabularyIdentifiers)
+                ]
+            )
         } label: {
             if vocabularyIdentifiers.count == 1 {
                 Text("Delete")

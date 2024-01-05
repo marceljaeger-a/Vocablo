@@ -17,13 +17,7 @@ struct ContentView: View {
     @Environment(\.modelContext) private var context: ModelContext
     @Environment(\.undoManager) private var viewUndoManager: UndoManager? 
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
-  
-    //MARK: - Methodes
-    
-    private func deleteSelectedVocabularies() {
-        guard context.fetchVocabularyCount(by: selections.selectedVocabularyIdentifiers) > 0 else { return }
-        context.deleteVocabularies(context.fetch(by: selections.selectedVocabularyIdentifiers))
-    }
+    @Query private var allVocabularies: Array<Vocabulary>
     
     //MARK: - Body
     
@@ -46,10 +40,14 @@ struct ContentView: View {
         .cuttableVocabularies(context.fetch(by: selections.selectedVocabularyIdentifiers), context: context)
         .vocabulariesPasteDestination(into: context.fetch(by: selections.selectedListIdentifiers).first)
         .onDeleteCommand { //⌫ & Delete Menu command, when no vocabulary is selected.
-            deleteSelectedVocabularies()
+            context.deleteVocabularies(
+                allVocabularies[
+                    byIdentifiers: selections.unselectAllVocabularies()
+                ]
+            )
         }
         .onChange(of: selections.selectedListIdentifiers) {
-            selections.selectedVocabularyIdentifiers = []
+            _ = selections.unselectAllVocabularies()
         }
     }
 }

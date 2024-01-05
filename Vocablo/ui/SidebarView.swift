@@ -53,11 +53,8 @@ struct SidebarView: View {
     }
     
     private func deleteSelectedLists(_ lists: Array<VocabularyList>) {
-        let deletingLists = lists
-        for deletingList in deletingLists {
-            selections.selectedListIdentifiers.remove(deletingList.id)
-        }
-        context.deleteLists(deletingLists)
+        _ = selections.unselectLists(lists.identifiers)
+        context.deleteLists(lists)
     }
     
     private func showLearningSheet(learningList: VocabularyList) {
