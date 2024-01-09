@@ -21,6 +21,9 @@
 		9F46EFBC2AE81F5D0006E5F3 /* SchemaV1 Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBB2AE81F5D0006E5F3 /* SchemaV1 Tag.swift */; };
 		9F46EFBF2AE83C510006E5F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBE2AE83C510006E5F3 /* ContentView.swift */; };
 		9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */; };
+		9F6C1B102B4C584F008717D5 /* VocabloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C1B0F2B4C584F008717D5 /* VocabloTests.swift */; };
+		9F6C1B172B4C58D1008717D5 /* ModelContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C1B162B4C58D1008717D5 /* ModelContextTests.swift */; };
+		9F6C1B192B4C59A5008717D5 /* ModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C1B182B4C59A5008717D5 /* ModelContainer.swift */; };
 		9F77411A2B1343DC00565B42 /* EditVocabularyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7741192B1343DC00565B42 /* EditVocabularyView.swift */; };
 		9F77411D2B13457A00565B42 /* VocabularyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77411C2B13457A00565B42 /* VocabularyTextField.swift */; };
 		9F77411F2B1345B200565B42 /* VocabularyToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77411E2B1345B200565B42 /* VocabularyToggle.swift */; };
@@ -60,6 +63,16 @@
 		9FFB36222AF0427F00E510CA /* LearningLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFB36212AF0427F00E510CA /* LearningLevel.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9F6C1B112B4C584F008717D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9FC5830A2AE6F70900A56141 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9FC583112AE6F70900A56141;
+			remoteInfo = Vocablo;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		9F0975E12AF590C10001C9E3 /* ButtomToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtomToolbar.swift; sourceTree = "<group>"; };
 		9F1019A42B2707AF0041CB7D /* OnAddList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnAddList.swift; sourceTree = "<group>"; };
@@ -75,6 +88,10 @@
 		9F46EFBB2AE81F5D0006E5F3 /* SchemaV1 Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SchemaV1 Tag.swift"; sourceTree = "<group>"; };
 		9F46EFBE2AE83C510006E5F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
+		9F6C1B0D2B4C584F008717D5 /* VocabloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VocabloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F6C1B0F2B4C584F008717D5 /* VocabloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloTests.swift; sourceTree = "<group>"; };
+		9F6C1B162B4C58D1008717D5 /* ModelContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContextTests.swift; sourceTree = "<group>"; };
+		9F6C1B182B4C59A5008717D5 /* ModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContainer.swift; sourceTree = "<group>"; };
 		9F7741192B1343DC00565B42 /* EditVocabularyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVocabularyView.swift; sourceTree = "<group>"; };
 		9F77411C2B13457A00565B42 /* VocabularyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyTextField.swift; sourceTree = "<group>"; };
 		9F77411E2B1345B200565B42 /* VocabularyToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyToggle.swift; sourceTree = "<group>"; };
@@ -118,6 +135,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9F6C1B0A2B4C584F008717D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9FC5830F2AE6F70900A56141 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -175,6 +199,24 @@
 			path = types;
 			sourceTree = "<group>";
 		};
+		9F6C1B0E2B4C584F008717D5 /* VocabloTests */ = {
+			isa = PBXGroup;
+			children = (
+				9F6C1B1A2B4C59B7008717D5 /* extensions */,
+				9F6C1B0F2B4C584F008717D5 /* VocabloTests.swift */,
+				9F6C1B162B4C58D1008717D5 /* ModelContextTests.swift */,
+			);
+			path = VocabloTests;
+			sourceTree = "<group>";
+		};
+		9F6C1B1A2B4C59B7008717D5 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9F6C1B182B4C59A5008717D5 /* ModelContainer.swift */,
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
 		9F77411B2B13452D00565B42 /* view components */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				9FC583142AE6F70900A56141 /* Vocablo */,
+				9F6C1B0E2B4C584F008717D5 /* VocabloTests */,
 				9FC583132AE6F70900A56141 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -236,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				9FC583122AE6F70900A56141 /* Vocablo.app */,
+				9F6C1B0D2B4C584F008717D5 /* VocabloTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -327,6 +371,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		9F6C1B0C2B4C584F008717D5 /* VocabloTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9F6C1B152B4C584F008717D5 /* Build configuration list for PBXNativeTarget "VocabloTests" */;
+			buildPhases = (
+				9F6C1B092B4C584F008717D5 /* Sources */,
+				9F6C1B0A2B4C584F008717D5 /* Frameworks */,
+				9F6C1B0B2B4C584F008717D5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9F6C1B122B4C584F008717D5 /* PBXTargetDependency */,
+			);
+			name = VocabloTests;
+			productName = VocabloTests;
+			productReference = 9F6C1B0D2B4C584F008717D5 /* VocabloTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		9FC583112AE6F70900A56141 /* Vocablo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9FC583212AE6F70A00A56141 /* Build configuration list for PBXNativeTarget "Vocablo" */;
@@ -351,9 +413,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				LastSwiftUpdateCheck = 1510;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					9F6C1B0C2B4C584F008717D5 = {
+						CreatedOnToolsVersion = 15.1;
+						TestTargetID = 9FC583112AE6F70900A56141;
+					};
 					9FC583112AE6F70900A56141 = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
@@ -373,11 +439,19 @@
 			projectRoot = "";
 			targets = (
 				9FC583112AE6F70900A56141 /* Vocablo */,
+				9F6C1B0C2B4C584F008717D5 /* VocabloTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		9F6C1B0B2B4C584F008717D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9FC583102AE6F70900A56141 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -390,6 +464,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		9F6C1B092B4C584F008717D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F6C1B102B4C584F008717D5 /* VocabloTests.swift in Sources */,
+				9F6C1B192B4C59A5008717D5 /* ModelContainer.swift in Sources */,
+				9F6C1B172B4C58D1008717D5 /* ModelContextTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9FC5830E2AE6F70900A56141 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -448,7 +532,53 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		9F6C1B122B4C584F008717D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9FC583112AE6F70900A56141 /* Vocablo */;
+			targetProxy = 9F6C1B112B4C584F008717D5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		9F6C1B132B4C584F008717D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5B4LV69C8H;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marceljaeger.VocabloTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vocablo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Vocablo";
+			};
+			name = Debug;
+		};
+		9F6C1B142B4C584F008717D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5B4LV69C8H;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marceljaeger.VocabloTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vocablo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Vocablo";
+			};
+			name = Release;
+		};
 		9FC5831F2AE6F70A00A56141 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -650,6 +780,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9F6C1B152B4C584F008717D5 /* Build configuration list for PBXNativeTarget "VocabloTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F6C1B132B4C584F008717D5 /* Debug */,
+				9F6C1B142B4C584F008717D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9FC5830D2AE6F70900A56141 /* Build configuration list for PBXProject "Vocablo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

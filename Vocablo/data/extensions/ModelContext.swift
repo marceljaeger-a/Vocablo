@@ -23,22 +23,27 @@ extension ModelContext {
         return []
     }
     
-    ///Returns the count of fetched VocabularyList instances by the identifiers.
-    func fetchListCound(by identifiers: Set<PersistentIdentifier>) -> Int {
-        let descriptor = FetchDescriptor<VocabularyList>(predicate: #Predicate{ identifiers.contains($0.persistentModelID) })
-        if let fetchedListCount = try? self.fetchCount(descriptor) {
-            return fetchedListCount
+    ///Returns the count of fetched models by the identifiers.
+    func fetchCount<T: PersistentModel>(for : T.Type, by identifiers: Set<PersistentIdentifier>) -> Int {
+        let predicate: Predicate<T> = #Predicate { element in
+            identifiers.contains(element.persistentModelID)
+        }
+        let descriptor: FetchDescriptor<T> = FetchDescriptor(predicate: predicate)
+        
+        if let fetchedCount = try? self.fetchCount(descriptor) {
+            return fetchedCount
         }
         return 0
     }
     
+    ///Returns the count of fetched VocabularyList instances by the identifiers.
+    func fetchListCound(by identifiers: Set<PersistentIdentifier>) -> Int {
+        return fetchCount(for: VocabularyList.self, by: identifiers)
+    }
+    
     ///Returns the count of fetched Vocabulary instances by the identifiers.
     func fetchVocabularyCount(by identifiers: Set<PersistentIdentifier>) -> Int {
-        let descriptor = FetchDescriptor<Vocabulary>(predicate: #Predicate{ identifiers.contains($0.persistentModelID) })
-        if let fetchedVocabularyCount = try? self.fetchCount(descriptor) {
-            return fetchedVocabularyCount
-        }
-        return 0
+        return fetchCount(for: Vocabulary.self, by: identifiers)
     }
 }
 
@@ -83,6 +88,22 @@ extension ModelContext {
     func deleteLists(_ deletingVocabularyLists: Array<VocabularyList>) {
         for deletingVocabularyList in deletingVocabularyLists {
             self.delete(deletingVocabularyList)
+        }
+    }
+    
+    //Delete a array of model from the model context.
+    func delete(models: Array<any PersistentModel>) {
+        if let deletingVocabularies = models as? Array<Vocabulary> {
+            for deletingVocabulary in deletingVocabularies {
+                if let list = deletingVocabulary.list {
+                    list.removeVocabulary(deletingVocabulary)
+                }
+                self.delete(deletingVocabulary)
+            }
+        }else {
+            for model in models {
+                self.delete(model)
+            }
         }
     }
 }
