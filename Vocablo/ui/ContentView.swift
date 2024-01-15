@@ -26,13 +26,15 @@ struct ContentView: View {
             SidebarView(learningList: $learningList)
                 .navigationSplitViewColumnWidth(min: 200, ideal: 250)
         } detail: {
-            
-            if let firstSelectedList: VocabularyList = context.fetch(by: selections.selectedListIdentifiers).first {
-                DetailView(selectedList: firstSelectedList, learningList: $learningList)
-            } else {
-                NoSelectedListView()
+            if learningList == nil {
+                
+                if let firstSelectedList: VocabularyList = context.fetch(by: selections.selectedListIdentifiers).first {
+                    DetailView(selectedList: firstSelectedList, learningList: $learningList)
+                } else {
+                    NoSelectedListView()
+                }
+                
             }
-    
         }
         .navigationTitle("")
         .linkContextUndoManager(context: context, with: viewUndoManager)
