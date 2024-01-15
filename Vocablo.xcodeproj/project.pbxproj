@@ -21,9 +21,9 @@
 		9F46EFBC2AE81F5D0006E5F3 /* SchemaV1 Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBB2AE81F5D0006E5F3 /* SchemaV1 Tag.swift */; };
 		9F46EFBF2AE83C510006E5F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBE2AE83C510006E5F3 /* ContentView.swift */; };
 		9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */; };
-		9F6C1B102B4C584F008717D5 /* VocabloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C1B0F2B4C584F008717D5 /* VocabloTests.swift */; };
+		9F56C16E2B504CEB0013442E /* LearningValueManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F56C16D2B504CEB0013442E /* LearningValueManagerTests.swift */; };
+		9F6C1B102B4C584F008717D5 /* LearningValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C1B0F2B4C584F008717D5 /* LearningValueTests.swift */; };
 		9F6C1B172B4C58D1008717D5 /* ModelContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C1B162B4C58D1008717D5 /* ModelContextTests.swift */; };
-		9F6C1B192B4C59A5008717D5 /* ModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C1B182B4C59A5008717D5 /* ModelContainer.swift */; };
 		9F77411A2B1343DC00565B42 /* EditVocabularyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7741192B1343DC00565B42 /* EditVocabularyView.swift */; };
 		9F77411D2B13457A00565B42 /* VocabularyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77411C2B13457A00565B42 /* VocabularyTextField.swift */; };
 		9F77411F2B1345B200565B42 /* VocabularyToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F77411E2B1345B200565B42 /* VocabularyToggle.swift */; };
@@ -88,10 +88,10 @@
 		9F46EFBB2AE81F5D0006E5F3 /* SchemaV1 Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SchemaV1 Tag.swift"; sourceTree = "<group>"; };
 		9F46EFBE2AE83C510006E5F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
+		9F56C16D2B504CEB0013442E /* LearningValueManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningValueManagerTests.swift; sourceTree = "<group>"; };
 		9F6C1B0D2B4C584F008717D5 /* VocabloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VocabloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F6C1B0F2B4C584F008717D5 /* VocabloTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloTests.swift; sourceTree = "<group>"; };
+		9F6C1B0F2B4C584F008717D5 /* LearningValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningValueTests.swift; sourceTree = "<group>"; };
 		9F6C1B162B4C58D1008717D5 /* ModelContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContextTests.swift; sourceTree = "<group>"; };
-		9F6C1B182B4C59A5008717D5 /* ModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContainer.swift; sourceTree = "<group>"; };
 		9F7741192B1343DC00565B42 /* EditVocabularyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVocabularyView.swift; sourceTree = "<group>"; };
 		9F77411C2B13457A00565B42 /* VocabularyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyTextField.swift; sourceTree = "<group>"; };
 		9F77411E2B1345B200565B42 /* VocabularyToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyToggle.swift; sourceTree = "<group>"; };
@@ -202,19 +202,11 @@
 		9F6C1B0E2B4C584F008717D5 /* VocabloTests */ = {
 			isa = PBXGroup;
 			children = (
-				9F6C1B1A2B4C59B7008717D5 /* extensions */,
-				9F6C1B0F2B4C584F008717D5 /* VocabloTests.swift */,
+				9F6C1B0F2B4C584F008717D5 /* LearningValueTests.swift */,
+				9F56C16D2B504CEB0013442E /* LearningValueManagerTests.swift */,
 				9F6C1B162B4C58D1008717D5 /* ModelContextTests.swift */,
 			);
 			path = VocabloTests;
-			sourceTree = "<group>";
-		};
-		9F6C1B1A2B4C59B7008717D5 /* extensions */ = {
-			isa = PBXGroup;
-			children = (
-				9F6C1B182B4C59A5008717D5 /* ModelContainer.swift */,
-			);
-			path = extensions;
 			sourceTree = "<group>";
 		};
 		9F77411B2B13452D00565B42 /* view components */ = {
@@ -468,8 +460,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F6C1B102B4C584F008717D5 /* VocabloTests.swift in Sources */,
-				9F6C1B192B4C59A5008717D5 /* ModelContainer.swift in Sources */,
+				9F6C1B102B4C584F008717D5 /* LearningValueTests.swift in Sources */,
+				9F56C16E2B504CEB0013442E /* LearningValueManagerTests.swift in Sources */,
 				9F6C1B172B4C58D1008717D5 /* ModelContextTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

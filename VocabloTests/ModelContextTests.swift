@@ -12,11 +12,11 @@ import SwiftData
 
 final class ModelContextTests: XCTestCase {
     
-    //MARK: - Test Properties
+    //MARK: - Properties
     
     var context: ModelContext! = nil
     
-    //MARK: - Assisted Methodes
+    //MARK: - Assisted methodes
     
     func insertExampleLists(count: Int, into context: ModelContext) throws -> Array<VocabularyList> {
         var insertedLists: Array<VocabularyList> = []
@@ -57,13 +57,15 @@ final class ModelContextTests: XCTestCase {
     }
 
     
-    //MARK: - Test Setup Methodes
+    //MARK: - Setup methodes
     
     override func setUpWithError() throws {
-        let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: VocabularyList.self, Vocabulary.self, configurations: configuration)
-        
-        context = ModelContext(container)
+        if context == nil {
+            let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
+            let container = try ModelContainer(for: VocabularyList.self, Vocabulary.self, configurations: configuration)
+            
+            context = ModelContext(container)
+        }
     }
 
     override func tearDownWithError() throws {
@@ -72,7 +74,7 @@ final class ModelContextTests: XCTestCase {
     }
     
     
-    //MARK: - Test Methodes for Adding
+    //MARK: - Test methodes for Adding
     
     //addList(_name: String) -> Void
     func testAddingLists() throws {
