@@ -57,8 +57,9 @@ struct SidebarView: View {
         context.deleteLists(lists)
     }
     
-    private func showLearningSheet(learningList: VocabularyList) {
-        self.learningList = learningList
+    private func showLearningSheet(listIdentifiers: Set<PersistentIdentifier>) {
+        guard let firstFetchedList: VocabularyList = context.fetch(by: listIdentifiers).first else { return }
+        self.learningList = firstFetchedList
     }
     
     //MARK: - Body
@@ -119,8 +120,7 @@ extension SidebarView {
         Divider()
 
         Button {
-            guard let firstFetchedList: VocabularyList = context.fetch(by: listIdfentifiers).first else { return }
-            showLearningSheet(learningList: firstFetchedList)
+            showLearningSheet(listIdentifiers: listIdfentifiers)
         } label: {
             Text("Start learning")
         }

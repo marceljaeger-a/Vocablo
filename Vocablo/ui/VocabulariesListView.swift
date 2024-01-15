@@ -38,7 +38,7 @@ struct VocabulariesListView: View {
                         onSubmitAction()
                     }
             }
-            .onDelete { indexSet in //Swipe & Delete menu command, when a vocabulary is slected.
+            .onDelete { indexSet in //Swipe & Delete menu command(not the keypress), when a vocabulary is slected.
                 delete(indexSet: indexSet)
             }
         }
