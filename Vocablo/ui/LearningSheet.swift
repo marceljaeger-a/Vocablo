@@ -140,22 +140,32 @@ extension LearningPage {
                     .foregroundStyle(.tertiary)
                 
                 HStack(spacing: 15){
-                    Button {
-                        $value.answerFalse()
-                        isOverlapping = true
-                    } label: {
-                        Label($value.previousLevelRepeatingIntervalLabel, systemImage: "hand.thumbsdown")
-                            .foregroundStyle(.red.gradient)
-                            .frame(width: 65)
-                    }
-                    
-                    Button {
-                        $value.answerTrue()
-                        isOverlapping = true
-                    } label: {
-                        Label($value.nextLevelRepeatingIntervalLabel, systemImage: "hand.thumbsup")
-                            .foregroundStyle(.green.gradient)
-                            .frame(width: 65)
+                    if isOverlapping {
+                        Button {
+                            isOverlapping = false
+                        } label: {
+                            Label("Show answer", systemImage: "eye")
+                                .labelStyle(.titleOnly)
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }else {
+                        Button {
+                            $value.answerFalse()
+                            isOverlapping = true
+                        } label: {
+                            Label($value.previousLevelRepeatingIntervalLabel, systemImage: "hand.thumbsdown")
+                                .foregroundStyle(.red.gradient)
+                                .frame(width: 65)
+                        }
+                        
+                        Button {
+                            $value.answerTrue()
+                            isOverlapping = true
+                        } label: {
+                            Label($value.nextLevelRepeatingIntervalLabel, systemImage: "hand.thumbsup")
+                                .foregroundStyle(.green.gradient)
+                                .frame(width: 65)
+                        }
                     }
                 }
                 .buttonStyle(.bordered)
