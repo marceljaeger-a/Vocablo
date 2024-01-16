@@ -42,6 +42,11 @@ struct DetailView: View {
         }
     }
     
+    private func deleteSelectedVocabularies(vocabularyIdentifiers: Set<PersistentIdentifier>) {
+        _ = selections.unselectVocabularies(vocabularyIdentifiers)
+        context.deleteVocabularies(allVocabularies[byIdentifiers: vocabularyIdentifiers])
+    }
+    
     //MARK: - Body
     
     var body: some View {
@@ -118,10 +123,7 @@ extension DetailView {
         .disabled(vocabularyIdentifiers.isEmpty == true)
         
         Button {
-            context.deleteVocabularies(
-                allVocabularies[byIdentifiers: selections.unselectVocabularies(vocabularyIdentifiers)
-                ]
-            )
+            deleteSelectedVocabularies(vocabularyIdentifiers: vocabularyIdentifiers)
         } label: {
             if vocabularyIdentifiers.count == 1 {
                 Text("Delete")
