@@ -43,18 +43,29 @@ struct SidebarView: View {
         focusedList = list.id
     }
     
-    private func areListsEmtpy(_ lists: Array<VocabularyList>) -> Bool {
-        for list in lists {
-            if !list.vocabularies.isEmpty {
-                return false
+    private func deleteSelectedLists(listIdentifiers: Set<PersistentIdentifier>, withConfirmationDialog: Bool) {
+        func areListsEmtpy(_ lists: Array<VocabularyList>) -> Bool {
+            for list in lists {
+                if !list.vocabularies.isEmpty {
+                    return false
+                }
             }
+            return true
         }
-        return true
-    }
+        
+        let fetchedSelectedLists: Array<VocabularyList> = context.fetch(by: listIdentifiers)
+        
+        if withConfirmationDialog {
+            
+            if areListsEmtpy(fetchedSelectedLists) == false {
+                listDeleteConfirmationDialogState = (true, fetchedSelectedLists)
+                return
+            }
+            
+        }
     
-    private func deleteSelectedLists(_ lists: Array<VocabularyList>) {
-        _ = selections.unselectLists(lists.identifiers)
-        context.deleteLists(lists)
+        _ = selections.unselectLists(listIdentifiers)
+        context.deleteLists(fetchedSelectedLists)
     }
     
     private func showLearningSheet(listIdentifiers: Set<PersistentIdentifier>) {
@@ -81,6 +92,8 @@ struct SidebarView: View {
         }
         .confirmationDialog(listDeletingConfirmationDialogText, isPresented: bindedIsShowingListDeleteConfirmationDialog) {
             listDeletingConfirmationDialgoButtons
+        } message: {
+            Text("Contained vocabularies will be deleted!")
         }
         .onAddList { newList in
             focusNewList(newList)
@@ -106,6 +119,9 @@ extension SidebarView {
                 .badge(learningValueCounter.algorithmedLearningValuesCount(of: list), prominece: .increased)
                 .badge("\(list.vocabularies.count)", prominece: .decreased)
             }
+            .onDelete { indexSet in //Only when selected lists are focused! This condition is implicit by SwiftUI.
+                self.deleteSelectedLists(listIdentifiers: allLists[indexSet].identifiers, withConfirmationDialog: true)
+            }
         }
     }
     
@@ -120,7 +136,7 @@ extension SidebarView {
         Divider()
 
         Button {
-            showLearningSheet(listIdentifiers: listIdfentifiers)
+            self.showLearningSheet(listIdentifiers: listIdfentifiers)
         } label: {
             Text("Start learning")
         }
@@ -154,13 +170,7 @@ extension SidebarView {
         .disabled(listIdfentifiers.isEmpty == true)
         
         Button {
-            let fetchedSelectedLists: Array<VocabularyList> = context.fetch(by: listIdfentifiers)
-            
-            if areListsEmtpy(fetchedSelectedLists) {
-                listDeleteConfirmationDialogState = (true, fetchedSelectedLists)
-            }else {
-                deleteSelectedLists(fetchedSelectedLists)
-            }
+            self.deleteSelectedLists(listIdentifiers: listIdfentifiers, withConfirmationDialog: true)
         } label: {
             if listIdfentifiers.count > 1 {
                 Text("Delete selected")
@@ -173,13 +183,13 @@ extension SidebarView {
     
     @ViewBuilder var listDeletingConfirmationDialgoButtons: some View {
         Button(role: .cancel){
-            listDeleteConfirmationDialogState = (false, [])
+            self.listDeleteConfirmationDialogState = (false, [])
         } label: {
             Text("Cancel")
         }
         
         Button(role: .destructive){
-            deleteSelectedLists(listDeleteConfirmationDialogState.deletingLists)
+            self.deleteSelectedLists(listIdentifiers: listDeleteConfirmationDialogState.deletingLists.identifiers, withConfirmationDialog: false)
         } label: {
             Text("Delete")
         }
