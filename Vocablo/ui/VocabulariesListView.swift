@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 
+#warning("This view is not used!")
 struct VocabulariesListView: View {
     
     //MARK: - Properties

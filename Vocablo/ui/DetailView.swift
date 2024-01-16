@@ -21,6 +21,20 @@ struct DetailView: View {
     @State private var editingVocabulary: Vocabulary?
     @FocusState private var textFieldFocus: VocabularyTextFieldFocusState?
     
+    @Query var filteredAndSortedVocabulariesOfSelectedList: Array<Vocabulary>
+    
+    init(selectedList: VocabularyList, learningList: Binding<VocabularyList?>) {
+        self.selectedList = selectedList
+        self._learningList = learningList
+        
+        let filteringListIdentifier = selectedList.persistentModelID
+        let vocabulariesFilter = #Predicate<Vocabulary> { vocabulary in
+            vocabulary.list?.persistentModelID == filteringListIdentifier
+        }
+        let vocabulariesFetchDescriptor = FetchDescriptor<Vocabulary>(predicate: vocabulariesFilter, sortBy: [selectedList.sorting.sortDescriptor])
+        _filteredAndSortedVocabulariesOfSelectedList = Query(vocabulariesFetchDescriptor)
+    }
+    
     //MARK: - Methodes
     
     private func focusNewVocabulary(_ vocabulary: Vocabulary) {
@@ -50,21 +64,31 @@ struct DetailView: View {
     //MARK: - Body
     
     var body: some View {
-        VocabulariesListView(vocabularies: selectedList.sortedVocabularies, textFieldFocus: $textFieldFocus, onSubmitAction: selectedList.addNewVocabulary)
-            .contextMenu(forSelectionType: Vocabulary.ID.self) { vocabularyIDs in
-                contextMenuButtons(vocabularyIdentifiers: vocabularyIDs)
-            } primaryAction: { vocabularyIdentifiers in
-                contextMenuPrimaryAction(vocabularyIDs: vocabularyIdentifiers)
+        List(selection: selections.bindable.selectedVocabularyIdentifiers) {
+            ForEach(filteredAndSortedVocabulariesOfSelectedList, id: \.id) { vocabulary in
+                VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
+                    .onSubmit {
+                        selectedList.addNewVocabulary()
+                    }
             }
-            .toolbar {
-                toolbarButtons
+            .onDelete { indexSet in //Swipe & Delete menu command(not the keypress), when a vocabulary is slected.
+                deleteSelectedVocabularies(vocabularyIdentifiers: selectedList.vocabularies[indexSet].identifiers)
             }
-            .sheet(item: $editingVocabulary) { vocabulary in
-                EditVocabularyView(editingVocabulary: vocabulary)
-            }
-            .onAddVocabulary(to: selectedList) { newVocabulary in
-                focusNewVocabulary(newVocabulary)
-            }
+        }
+        .contextMenu(forSelectionType: Vocabulary.ID.self) { vocabularyIDs in
+            contextMenuButtons(vocabularyIdentifiers: vocabularyIDs)
+        } primaryAction: { vocabularyIdentifiers in
+            contextMenuPrimaryAction(vocabularyIDs: vocabularyIdentifiers)
+        }
+        .toolbar {
+            toolbarButtons
+        }
+        .sheet(item: $editingVocabulary) { vocabulary in
+            EditVocabularyView(editingVocabulary: vocabulary)
+        }
+        .onAddVocabulary(to: selectedList) { newVocabulary in
+            focusNewVocabulary(newVocabulary)
+        }
     }
 }
 
@@ -160,6 +184,6 @@ extension DetailView {
 
 //MARK: - Preview
 #Preview {
-    DetailView( selectedList: VocabularyList("Preview List"), learningList: .constant(nil))
+    DetailView(selectedList: VocabularyList("Preview List"), learningList: .constant(nil))
 }
 

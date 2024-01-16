@@ -18,7 +18,23 @@ extension SchemaV1 {
         enum VocabularySorting: String, Codable {
             case newest = "Newest", oldest = "Oldest", word = "Word", translatedWord = "Translated Word"
             
+            ///Returns a SortDescriptor created by the current case.
+            ///For a FetchDescriptor as example.
+            var sortDescriptor: SortDescriptor<Vocabulary> {
+                switch self {
+                case .newest:
+                    SortDescriptor(\Vocabulary.created, order: .reverse)
+                case .oldest:
+                    SortDescriptor(\Vocabulary.created, order: .forward)
+                case .word:
+                    SortDescriptor(\Vocabulary.baseWord)
+                case .translatedWord:
+                    SortDescriptor(\Vocabulary.translationWord)
+                }
+            }
+            
             ///Returns the KeyPathComparator by the current case.
+            ///For a collection methode as example.
             var sortComparator: KeyPathComparator<Vocabulary> {
                 switch self {
                 case .newest:
