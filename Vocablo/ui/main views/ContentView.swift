@@ -16,6 +16,7 @@ struct ContentView: View {
     @Environment(\.selections) private var selections: SelectionContext
     @Environment(\.modelContext) private var context: ModelContext
     @Environment(\.undoManager) private var viewUndoManager: UndoManager? 
+    
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
     @Query private var allVocabularies: Array<Vocabulary>
     
@@ -29,7 +30,8 @@ struct ContentView: View {
             if learningList == nil {
                 
                 if let firstSelectedList: VocabularyList = context.fetch(by: selections.selectedListIdentifiers).first {
-                    DetailView(selectedList: firstSelectedList, learningList: $learningList)
+                    //DetailView(selectedList: firstSelectedList, learningList: $learningList)
+                    VocabularyListDetailView(of: firstSelectedList, learningList: $learningList)
                 } else {
                     NoSelectedListView()
                 }
@@ -40,7 +42,7 @@ struct ContentView: View {
         .linkContextUndoManager(context: context, with: viewUndoManager)
         .copyableVocabularies(context.fetch(by: selections.selectedVocabularyIdentifiers))
         .cuttableVocabularies(context.fetch(by: selections.selectedVocabularyIdentifiers), context: context)
-        .vocabulariesPasteDestination(into: context.fetch(by: selections.selectedListIdentifiers).first)
+        .vocabulariesPasteDestination(into: context.fetch(by: selections.selectedListIdentifiers).first, context: context)
         .onDeleteCommand { //⌫ & Delete Menu command, when no vocabulary is selected.
             context.deleteVocabularies(
                 allVocabularies[

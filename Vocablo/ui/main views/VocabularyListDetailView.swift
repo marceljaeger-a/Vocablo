@@ -1,38 +1,50 @@
 //
-//  VocabularyListView.swift
+//  VocabularyListViewGeneric.swift
 //  Vocablo
 //
-//  Created by Marcel Jäger on 27.11.23.
+//  Created by Marcel Jäger on 19.01.24.
 //
 
+import Foundation
 import SwiftUI
 import SwiftData
 
-struct DetailView: View {
+struct VocabularyListDetailView: View {
     
     //MARK: - Properties
     
-    @Bindable var selectedList: VocabularyList
+    let selectedList: VocabularyList?
     @Binding var learningList: VocabularyList?
     
     @Environment(\.selections) private var  selections: SelectionContext
     @Environment(\.modelContext) private var context: ModelContext
+    
     @Query private var allVocabularies: Array<Vocabulary>
+    @Query var filteredAndSortedVocabulariesOfSelectedList: Array<Vocabulary>
+    
     @State private var editingVocabulary: Vocabulary?
     @FocusState private var textFieldFocus: VocabularyTextFieldFocusState?
     
-    @Query var filteredAndSortedVocabulariesOfSelectedList: Array<Vocabulary>
+    //MARK: - Initialiser
     
-    init(selectedList: VocabularyList, learningList: Binding<VocabularyList?>) {
+    ///Set the Query depend if you give a selectedList or not.
+    ///- You give: The view shows only vocabularies of the list sorted by its sorting.
+    ///- You don't give: The view shows all vocabularies sorted by baseWord.
+    init(of selectedList: VocabularyList?, learningList: Binding<VocabularyList?>) {
         self.selectedList = selectedList
         self._learningList = learningList
         
-        let filteringListIdentifier = selectedList.persistentModelID
-        let vocabulariesFilter = #Predicate<Vocabulary> { vocabulary in
-            vocabulary.list?.persistentModelID == filteringListIdentifier
+        if let selectedList {
+            let filteringListIdentifier = selectedList.persistentModelID
+            let vocabulariesFilter = #Predicate<Vocabulary> { vocabulary in
+                vocabulary.list?.persistentModelID == filteringListIdentifier
+            }
+            let vocabulariesFetchDescriptor = FetchDescriptor<Vocabulary>(predicate: vocabulariesFilter, sortBy: [selectedList.sorting.sortDescriptor])
+            
+            _filteredAndSortedVocabulariesOfSelectedList = Query(vocabulariesFetchDescriptor)
+        } else {
+            _filteredAndSortedVocabulariesOfSelectedList = Query(sort: \Vocabulary.baseWord)
         }
-        let vocabulariesFetchDescriptor = FetchDescriptor<Vocabulary>(predicate: vocabulariesFilter, sortBy: [selectedList.sorting.sortDescriptor])
-        _filteredAndSortedVocabulariesOfSelectedList = Query(vocabulariesFetchDescriptor)
     }
     
     //MARK: - Methodes
@@ -41,24 +53,30 @@ struct DetailView: View {
         textFieldFocus = .word(vocabulary.id)
     }
     
-    private func openEditVocabularyView(for vocabulary: Vocabulary) {
-        editingVocabulary = vocabulary
+    private func openEditVocabularyView(firstOf vocabularyIdentifiers: Set<PersistentIdentifier>) {
+        guard let firstFetchedVocabulary: Vocabulary = context.fetch(by: vocabularyIdentifiers).first else { return }
+        editingVocabulary = firstFetchedVocabulary
     }
     
     private func showLearningSheet() {
-        self.learningList = selectedList
-    }
-    
-    private func contextMenuPrimaryAction(vocabularyIDs: Set<PersistentIdentifier>) {
-        if vocabularyIDs.count == 1 {
-            guard let firstVocabulary: Vocabulary = allVocabularies[byIdentifiers: vocabularyIDs].first else { return }
-            openEditVocabularyView(for: firstVocabulary)
+        if let selectedList {
+            self.learningList = selectedList
         }
     }
     
     private func deleteSelectedVocabularies(vocabularyIdentifiers: Set<PersistentIdentifier>) {
         _ = selections.unselectVocabularies(vocabularyIdentifiers)
         context.deleteVocabularies(allVocabularies[byIdentifiers: vocabularyIdentifiers])
+    }
+    
+    private func addNewVocabulary() {
+        if let selectedList {
+            selectedList.addNewVocabulary()
+        }else {
+            let newVocabulary = Vocabulary(baseWord: "", translationWord: "", wordGroup: .noun)
+            context.insert(newVocabulary)
+            //try? context.save()
+        }
     }
     
     //MARK: - Body
@@ -68,17 +86,17 @@ struct DetailView: View {
             ForEach(filteredAndSortedVocabulariesOfSelectedList, id: \.id) { vocabulary in
                 VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
                     .onSubmit {
-                        selectedList.addNewVocabulary()
+                        addNewVocabulary()
                     }
             }
-            .onDelete { indexSet in //Swipe & Delete menu command(not the keypress), when a vocabulary is slected.
-                deleteSelectedVocabularies(vocabularyIdentifiers: selectedList.vocabularies[indexSet].identifiers)
+            .onDelete { indexSet in //Swipe & Delete menu command(not the keypress), when a vocabulary is selected.
+                deleteSelectedVocabularies(vocabularyIdentifiers: filteredAndSortedVocabulariesOfSelectedList[indexSet].identifiers)
             }
         }
         .contextMenu(forSelectionType: Vocabulary.ID.self) { vocabularyIDs in
             contextMenuButtons(vocabularyIdentifiers: vocabularyIDs)
         } primaryAction: { vocabularyIdentifiers in
-            contextMenuPrimaryAction(vocabularyIDs: vocabularyIdentifiers)
+            openEditVocabularyView(firstOf: vocabularyIdentifiers)
         }
         .toolbar {
             toolbarButtons
@@ -86,9 +104,9 @@ struct DetailView: View {
         .sheet(item: $editingVocabulary) { vocabulary in
             EditVocabularyView(editingVocabulary: vocabulary)
         }
-        .onAddVocabulary(to: selectedList) { newVocabulary in
-            focusNewVocabulary(newVocabulary)
-        }
+//        .onAddVocabulary(to: selectedList) { newVocabulary in
+//            focusNewVocabulary(newVocabulary)
+//        }
     }
 }
 
@@ -96,11 +114,11 @@ struct DetailView: View {
 
 //MARK: - Subviews
 
-extension DetailView {
-    @ViewBuilder 
+extension VocabularyListDetailView {
+    @ViewBuilder
     func contextMenuButtons(vocabularyIdentifiers: Set<PersistentIdentifier>) -> some View {
         Button {
-            selectedList.addNewVocabulary()
+            addNewVocabulary()
         } label: {
             Text("New vocabulary")
         }
@@ -109,8 +127,7 @@ extension DetailView {
         Divider()
     
         Button {
-            guard let firstFetchedVocabulary: Vocabulary = context.fetch(by: vocabularyIdentifiers).first else { return }
-            openEditVocabularyView(for: firstFetchedVocabulary)
+            openEditVocabularyView(firstOf: vocabularyIdentifiers)
         } label: {
             Text("Edit")
         }
@@ -158,7 +175,7 @@ extension DetailView {
         .disabled(vocabularyIdentifiers.isEmpty == true)
     }
     
-    @ToolbarContentBuilder 
+    @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .principal) {
             Button {
@@ -172,18 +189,10 @@ extension DetailView {
             Spacer()
             
             Button {
-                selectedList.addNewVocabulary()
+                addNewVocabulary()
             } label: {
                 Image(systemName: "plus")
             }
         }
     }
 }
-
-
-
-//MARK: - Preview
-#Preview {
-    DetailView(selectedList: VocabularyList("Preview List"), learningList: .constant(nil))
-}
-

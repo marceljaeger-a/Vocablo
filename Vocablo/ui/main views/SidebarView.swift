@@ -56,12 +56,10 @@ struct SidebarView: View {
         let fetchedSelectedLists: Array<VocabularyList> = context.fetch(by: listIdentifiers)
         
         if withConfirmationDialog {
-            
             if areListsEmtpy(fetchedSelectedLists) == false {
                 listDeleteConfirmationDialogState = (true, fetchedSelectedLists)
                 return
             }
-            
         }
     
         _ = selections.unselectLists(listIdentifiers)
@@ -76,7 +74,14 @@ struct SidebarView: View {
     //MARK: - Body
     
     var body: some View {
-        List(selection: selections.bindable.selectedListIdentifiers){
+        List(selection: selections.bindable.selectedListIdentifiers) {
+            NavigationLink {
+                VocabularyListDetailView(of: nil, learningList: $learningList)
+            } label: {
+                Label("All vocabularies", systemImage: "tray.full")
+                    .badge((try? context.fetchCount(FetchDescriptor<Vocabulary>())) ?? 0, prominece: .decreased)
+            }
+
             listSection
         }
         .buttomButtons(onLeft: {

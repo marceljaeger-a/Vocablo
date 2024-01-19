@@ -10,15 +10,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>0</string>
+					<string>70</string>
 					<key>EndingLineNumber</key>
-					<string>79</string>
+					<string>78</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
 					<string>78</string>
 					<key>Timestamp</key>
-					<string>727097687.613073</string>
+					<string>727353605.767899</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,16 +34,15 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>        List(selection: selections.bindable.selectedListIdentifiers){
-</string>
+				<string>        List(selection: selections.bindable.selectedListIdentifiers) {</string>
 				<key>leading</key>
 				<string>    
     var body: some View {
 </string>
 				<key>trailing</key>
-				<string>            listSection
-        }
-        .buttomButtons(onLeft: {
+				<string>
+            NavigationLink {
+                VocabularyListDetailView(of: nil, learningList: $learningList)
 </string>
 			</dict>
 			<key>title</key>
@@ -150,15 +149,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>15</string>
+					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>94</string>
+					<string>95</string>
 					<key>StartingColumnNumber</key>
-					<string>9</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
 					<string>94</string>
 					<key>Timestamp</key>
-					<string>726494777.688975</string>
+					<string>727366502.4324729</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -174,14 +173,15 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>delete</string>
+				<string>    func delete(models: Array&lt;any PersistentModel&gt;) {
+</string>
 				<key>leading</key>
 				<string>    
     //Delete a array of model from the model context.
-    func </string>
+</string>
 				<key>trailing</key>
-				<string>(models: Array&lt;any PersistentModel&gt;) {
-        if let deletingVocabularies = models as? Array&lt;Vocabulary&gt; {
+				<string>        if let deletingVocabularies = models as? Array&lt;Vocabulary&gt; {
+            
             for deletingVocabulary in deletingVocabularies {
 </string>
 			</dict>

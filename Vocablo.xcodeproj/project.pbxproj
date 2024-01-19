@@ -15,6 +15,7 @@
 		9F11D7982B22762C0050A3AD /* VocabulariesPasteDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F11D7972B22762C0050A3AD /* VocabulariesPasteDestination.swift */; };
 		9F23D9412B0BF53200C90BBB /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F23D9402B0BF53200C90BBB /* Array.swift */; };
 		9F2767322B0525A900C99231 /* Vocabulary UTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2767312B0525A900C99231 /* Vocabulary UTType.swift */; };
+		9F2935EB2B5A81D90016A413 /* VocabularyListDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2935EA2B5A81D90016A413 /* VocabularyListDetailView.swift */; };
 		9F334D9C2B2BA9E40004AAC9 /* VocabulariesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F334D9B2B2BA9E40004AAC9 /* VocabulariesListView.swift */; };
 		9F334D9E2B2BAADD0004AAC9 /* VocabularyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F334D9D2B2BAADD0004AAC9 /* VocabularyItem.swift */; };
 		9F3C66B72B2A572B00E75793 /* LinkUndoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3C66B62B2A572B00E75793 /* LinkUndoManager.swift */; };
@@ -82,6 +83,7 @@
 		9F11D7972B22762C0050A3AD /* VocabulariesPasteDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabulariesPasteDestination.swift; sourceTree = "<group>"; };
 		9F23D9402B0BF53200C90BBB /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		9F2767312B0525A900C99231 /* Vocabulary UTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Vocabulary UTType.swift"; sourceTree = "<group>"; };
+		9F2935EA2B5A81D90016A413 /* VocabularyListDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyListDetailView.swift; sourceTree = "<group>"; };
 		9F334D9B2B2BA9E40004AAC9 /* VocabulariesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabulariesListView.swift; sourceTree = "<group>"; };
 		9F334D9D2B2BAADD0004AAC9 /* VocabularyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyItem.swift; sourceTree = "<group>"; };
 		9F3C66B62B2A572B00E75793 /* LinkUndoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkUndoManager.swift; sourceTree = "<group>"; };
@@ -152,7 +154,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9F0975E02AF590810001C9E3 /* view modifier */ = {
+		9F0975E02AF590810001C9E3 /* view modifiers */ = {
 			isa = PBXGroup;
 			children = (
 				9F0975E12AF590C10001C9E3 /* ButtomToolbar.swift */,
@@ -164,12 +166,14 @@
 				9F1019A42B2707AF0041CB7D /* OnAddList.swift */,
 				9F3C66B62B2A572B00E75793 /* LinkUndoManager.swift */,
 			);
-			path = "view modifier";
+			path = "view modifiers";
 			sourceTree = "<group>";
 		};
 		9F1C25292B17EA3900E407C1 /* archiev */ = {
 			isa = PBXGroup;
 			children = (
+				9FF01AAB2B152EB30038BEAE /* DetailView.swift */,
+				9F334D9B2B2BA9E40004AAC9 /* VocabulariesListView.swift */,
 				9F7741222B1345F100565B42 /* TagMultiPicker.swift */,
 				9FFB361D2AED9AE300E510CA /* LearningView.swift */,
 				9F46EFC02AE83EB90006E5F3 /* ListTableView.swift */,
@@ -187,6 +191,29 @@
 				9FF78ED72B484B7D006F6756 /* Set.swift */,
 			);
 			path = extensions;
+			sourceTree = "<group>";
+		};
+		9F2935EC2B5A89E90016A413 /* main views */ = {
+			isa = PBXGroup;
+			children = (
+				9FEAC8072B24D06100AA7133 /* VocabloScene.swift */,
+				9F7FBC972B2CFF790033EBAC /* SettingsScene.swift */,
+				9F46EFBE2AE83C510006E5F3 /* ContentView.swift */,
+				9F7F6C442B177E7D001B266A /* SidebarView.swift */,
+				9F2935EA2B5A81D90016A413 /* VocabularyListDetailView.swift */,
+				9F7741192B1343DC00565B42 /* EditVocabularyView.swift */,
+				9F7FBC8E2B2BB7BC0033EBAC /* WelcomeSheet.swift */,
+				9FDE39DA2B1E78E7000EC63E /* LearningSheet.swift */,
+			);
+			path = "main views";
+			sourceTree = "<group>";
+		};
+		9F2935ED2B5A89EF0016A413 /* sub views */ = {
+			isa = PBXGroup;
+			children = (
+				9F334D9D2B2BAADD0004AAC9 /* VocabularyItem.swift */,
+			);
+			path = "sub views";
 			sourceTree = "<group>";
 		};
 		9F46EFBD2AE823D20006E5F3 /* types */ = {
@@ -316,17 +343,9 @@
 		9FC583252AE707CB00A56141 /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				9FEAC8072B24D06100AA7133 /* VocabloScene.swift */,
-				9F7FBC972B2CFF790033EBAC /* SettingsScene.swift */,
-				9F46EFBE2AE83C510006E5F3 /* ContentView.swift */,
-				9F7F6C442B177E7D001B266A /* SidebarView.swift */,
-				9FF01AAB2B152EB30038BEAE /* DetailView.swift */,
-				9F334D9B2B2BA9E40004AAC9 /* VocabulariesListView.swift */,
-				9F334D9D2B2BAADD0004AAC9 /* VocabularyItem.swift */,
-				9F7741192B1343DC00565B42 /* EditVocabularyView.swift */,
-				9F7FBC8E2B2BB7BC0033EBAC /* WelcomeSheet.swift */,
-				9FDE39DA2B1E78E7000EC63E /* LearningSheet.swift */,
-				9F0975E02AF590810001C9E3 /* view modifier */,
+				9F2935EC2B5A89E90016A413 /* main views */,
+				9F2935ED2B5A89EF0016A413 /* sub views */,
+				9F0975E02AF590810001C9E3 /* view modifiers */,
 				9F77411B2B13452D00565B42 /* view components */,
 				9FF78ED22B481C01006F6756 /* envrionmentkeys */,
 			);
@@ -480,6 +499,7 @@
 				9F7F6C492B1784ED001B266A /* LearningStateInfoButton.swift in Sources */,
 				9FEAC8132B26033A00AA7133 /* OnAddVocabulary.swift in Sources */,
 				9FDB9CE22B37242200646B67 /* current model typealias.swift in Sources */,
+				9F2935EB2B5A81D90016A413 /* VocabularyListDetailView.swift in Sources */,
 				9FEAC8082B24D06100AA7133 /* VocabloScene.swift in Sources */,
 				9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */,
 				9F7741252B134AC600565B42 /* LearningLevelPicker.swift in Sources */,

@@ -94,16 +94,20 @@ extension ModelContext {
     //Delete a array of model from the model context.
     func delete(models: Array<any PersistentModel>) {
         if let deletingVocabularies = models as? Array<Vocabulary> {
+            
             for deletingVocabulary in deletingVocabularies {
                 if let list = deletingVocabulary.list {
                     list.removeVocabulary(deletingVocabulary)
                 }
                 self.delete(deletingVocabulary)
             }
+            
         }else {
+            
             for model in models {
                 self.delete(model)
             }
+            
         }
     }
 }
