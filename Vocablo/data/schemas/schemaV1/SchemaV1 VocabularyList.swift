@@ -95,9 +95,22 @@ extension SchemaV1 {
         }
         
         ///Removes the Vocabulary from the list.
+        ///
+        ///> If you remove vocabularies without this methode, the UndoManager will not be able to register the unrelating!
         func removeVocabulary(_ vocabulary: Vocabulary) {
             self.vocabularies.removeAll { element in
                 element == vocabulary
+            }
+            
+            if let undoManager = self.modelContext?.undoManager {
+                undoManager.registerUndo(withTarget: self) { undoList in
+                    let removedVocabulary = vocabulary
+                    undoList.addVocabulary(removedVocabulary)
+                    undoManager.registerUndo(withTarget: undoList) { redoList in
+                        let addedVocabulary = removedVocabulary
+                        redoList.removeVocabulary(addedVocabulary)
+                    }
+                }
             }
         }
         

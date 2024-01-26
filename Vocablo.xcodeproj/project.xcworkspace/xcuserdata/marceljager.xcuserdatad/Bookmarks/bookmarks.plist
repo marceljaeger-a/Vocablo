@@ -151,13 +151,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>95</string>
+					<string>99</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>94</string>
+					<string>98</string>
 					<key>Timestamp</key>
-					<string>727712421.512036</string>
+					<string>727978971.599141</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -176,8 +176,8 @@
 				<string>    func delete(models: Array&lt;any PersistentModel&gt;) {
 </string>
 				<key>leading</key>
-				<string>    
-    //Delete a array of model from the model context.
+				<string>    ///
+    ///&gt; If you delete lists without this methode, the contained vocabularies will not be deleted and the UndoManager will not be able to register the unrelated so after undo the vocabularies will not be in the list!
 </string>
 				<key>trailing</key>
 				<string>        if let deletingVocabularies = models as? Array&lt;Vocabulary&gt; {

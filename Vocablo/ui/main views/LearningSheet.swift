@@ -16,6 +16,8 @@ struct LearningSheet: View {
     let learningList: VocabularyList
     private let learningManager: LearningValueManager
     
+//    @Environment(\.undoManager) var undoManager
+    
     //MARK: - Initialiser of LearningSheet
     
     init(list: VocabularyList) {
@@ -26,12 +28,15 @@ struct LearningSheet: View {
     //MARK: - Body of LearningSheet
     
     var body: some View {
-        if let firstValue = learningManager.algorithmedLearningValues(of: learningList).first {
-            LearningPage(value: firstValue, isWordNew: OpacityBool(wrappedValue: firstValue.askingState.isNewly))
-                .environment(\.learningValuesCount, learningManager.algorithmedLearningValuesCount(of: learningList))
-        }else {
-            NoVocabularyToLearnTodayView()
-        }
+//        Group {
+            if let firstValue = learningManager.algorithmedLearningValues(of: learningList).first {
+                LearningPage(value: firstValue, isWordNew: OpacityBool(wrappedValue: firstValue.askingState.isNewly))
+                    .environment(\.learningValuesCount, learningManager.algorithmedLearningValuesCount(of: learningList))
+            }else {
+                NoVocabularyToLearnTodayView()
+            }
+//        }
+//        .linkContextUndoManager(context: learningList.modelContext!, with: undoManager)
     }
 }
 
@@ -59,6 +64,7 @@ struct LearningPage: View {
     @LearningValue var value: Learnable
     @OpacityBool var isWordNew: Bool
     
+    @Environment(\.undoManager) var undoManager: UndoManager?
     @State private var isOverlapping: Bool = true
     
     //MARK: - Body of LearningPage

@@ -64,7 +64,7 @@ struct SidebarView: View {
         }
     
         _ = selections.unselectLists(listIdentifiers)
-        context.deleteLists(fetchedSelectedLists)
+        context.delete(models: fetchedSelectedLists)
     }
     
     private func showLearningSheet(listIdentifiers: Set<PersistentIdentifier>) {

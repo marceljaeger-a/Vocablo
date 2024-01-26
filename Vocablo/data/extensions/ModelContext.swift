@@ -91,7 +91,11 @@ extension ModelContext {
         }
     }
     
-    //Delete a array of model from the model context.
+    ///Delete a array of model from the model context.
+    ///
+    ///> If you delete vocabularies without this methode, the UndoManager will no be able to register the unrelating!
+    ///
+    ///> If you delete lists without this methode, the contained vocabularies will not be deleted and the UndoManager will not be able to register the unrelated so after undo the vocabularies will not be in the list!
     func delete(models: Array<any PersistentModel>) {
         if let deletingVocabularies = models as? Array<Vocabulary> {
             
@@ -102,13 +106,23 @@ extension ModelContext {
                 self.delete(deletingVocabulary)
             }
             
-        }else {
+        }else if let deletingLists = models as? Array<VocabularyList> {
+            
+            for deletingList in deletingLists {
+                delete(models: deletingList.vocabularies)
+                self.delete(deletingList)
+            }
+            
+        }
+        else {
             
             for model in models {
                 self.delete(model)
             }
             
         }
+        
+        try? self.save()
     }
 }
 

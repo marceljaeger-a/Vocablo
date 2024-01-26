@@ -82,6 +82,15 @@ extension SchemaV1 {
         func convert() -> VocabularyTransfer{
             VocabularyTransfer.init(isLearnable: isToLearn, baseState: baseState, translationState: translationState, baseWord: baseWord, translationWord: translationWord, baseSentence: baseSentence, translationSentence: translationSentence, baseExplenation: baseExplenation, wordGroup: wordGroup, translationExplenation: translationExplanation)
         }
+        
+        ///Removes that vocabulary from the list.
+        ///
+        ///> If you set the property to nil without this methode, the UndoManager will not be able to register the unrelating!
+        func removeList() {
+            if let list {
+                list.removeVocabulary(self)
+            }
+        }
     }
 }
 
