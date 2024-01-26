@@ -55,11 +55,11 @@ extension ModelContext {
     
     ///Inserts a new list with the given name into the model context.
     ///Sends a publisher message with the new list instance to subcribers.
-    func addList(_ name: String) {
+    func addList(_ name: String) -> VocabularyList {
         let newList = VocabularyList(name)
         insert(newList)
         try? save() //Because the persistend identifier has a other value after saving.
-        ModelContext.addListPublisher.send(newList)
+        return newList
     }
 }
 
@@ -157,6 +157,6 @@ extension ModelContext {
 
 //MARK: - Type Properties (Publisher)
 extension ModelContext {
-    static let addListPublisher: PassthroughSubject<VocabularyList, Never> = PassthroughSubject()
+    //static let addListPublisher: PassthroughSubject<VocabularyList, Never> = PassthroughSubject()
 }
 

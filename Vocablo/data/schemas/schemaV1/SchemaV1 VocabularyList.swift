@@ -75,9 +75,6 @@ extension SchemaV1 {
             vocabularies.filter{ $0.isToLearn }
         }
         
-        @Transient let addVocabularyPublisher: PassthroughSubject<Vocabulary, Never> = PassthroughSubject()
-        
-        
         //MARK: - Initialiser
         
         init(_ name: String, vocabularies: Array<Vocabulary> = []) {
@@ -95,7 +92,6 @@ extension SchemaV1 {
             if let context = vocabulary.modelContext {
                 try? context.save()
             }
-            addVocabularyPublisher.send(vocabulary)
         }
         
         ///Removes the Vocabulary from the list.

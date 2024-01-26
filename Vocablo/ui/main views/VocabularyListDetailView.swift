@@ -16,6 +16,7 @@ struct VocabularyListDetailView: View {
     let selectedList: VocabularyList?
     @Binding var learningList: VocabularyList?
     
+    @Environment(\.actionReactingService) private var actionPublisherService
     @Environment(\.selections) private var  selections: SelectionContext
     @Environment(\.modelContext) private var context: ModelContext
     
@@ -70,13 +71,17 @@ struct VocabularyListDetailView: View {
     }
     
     private func addNewVocabulary() {
+        let newVocabulary = Vocabulary(baseWord: "", translationWord: "", wordGroup: .noun)
+        
         if let selectedList {
-            selectedList.addNewVocabulary()
+            selectedList.addVocabulary(newVocabulary)
         }else {
-            let newVocabulary = Vocabulary(baseWord: "", translationWord: "", wordGroup: .noun)
             context.insert(newVocabulary)
-            //try? context.save()
         }
+        
+        try? context.save()
+        
+        actionPublisherService.send(action: \.addingVocabulary, input: newVocabulary)
     }
     
     //MARK: - Body
@@ -104,9 +109,9 @@ struct VocabularyListDetailView: View {
         .sheet(item: $editingVocabulary) { vocabulary in
             EditVocabularyView(editingVocabulary: vocabulary)
         }
-//        .onAddVocabulary(to: selectedList) { newVocabulary in
-//            focusNewVocabulary(newVocabulary)
-//        }
+        .onAction(\.addingVocabulary) { newVocabulary in
+            focusNewVocabulary(newVocabulary)
+        }
     }
 }
 

@@ -86,9 +86,9 @@ struct DetailView: View {
         .sheet(item: $editingVocabulary) { vocabulary in
             EditVocabularyView(editingVocabulary: vocabulary)
         }
-        .onAddVocabulary(to: selectedList) { newVocabulary in
-            focusNewVocabulary(newVocabulary)
-        }
+//        .onAddVocabulary(to: selectedList) { newVocabulary in
+//            focusNewVocabulary(newVocabulary)
+//        }
     }
 }
 

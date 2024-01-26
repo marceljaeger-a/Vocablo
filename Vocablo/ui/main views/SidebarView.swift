@@ -15,6 +15,7 @@ struct SidebarView: View {
     
     @Binding var learningList: VocabularyList?
     
+    @Environment(\.actionReactingService) private var actionPublisherService
     @Environment(\.selections) private var selections
     @Environment(\.modelContext) private var context: ModelContext
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
@@ -71,6 +72,11 @@ struct SidebarView: View {
         self.learningList = firstFetchedList
     }
     
+    private func addNewList() {
+        let newList = context.addList("New List")
+        actionPublisherService.send(action: \.addingList, input: newList)
+    }
+    
     //MARK: - Body
     
     var body: some View {
@@ -86,7 +92,7 @@ struct SidebarView: View {
         }
         .buttomButtons(onLeft: {
             Button {
-                context.addList("New List")
+                addNewList()
             } label: {
                 Label("New List", systemImage: "plus.circle")
             }
@@ -100,7 +106,7 @@ struct SidebarView: View {
         } message: {
             Text("Contained vocabularies will be deleted!")
         }
-        .onAddList { newList in
+        .onAction(\.addingList) { newList in
             focusNewList(newList)
         }
     }
@@ -132,7 +138,7 @@ extension SidebarView {
     
     @ViewBuilder func contextMenuButtons(listIdfentifiers: Set<PersistentIdentifier>) -> some View {
         Button {
-            context.addList("New List")
+            addNewList()
         } label: {
             Text("New list")
         }
