@@ -16,7 +16,9 @@ struct LearningSheet: View {
     let learningList: VocabularyList
     private let learningManager: LearningValueManager
     
-//    @Environment(\.undoManager) var undoManager
+    @Environment(\.undoManager) var undoManager
+    @State private var viewUpdateTrigger: Bool = false
+    @State private var isOverlapping = true
     
     //MARK: - Initialiser of LearningSheet
     
@@ -28,15 +30,29 @@ struct LearningSheet: View {
     //MARK: - Body of LearningSheet
     
     var body: some View {
-//        Group {
+        Group {
             if let firstValue = learningManager.algorithmedLearningValues(of: learningList).first {
-                LearningPage(value: firstValue, isWordNew: OpacityBool(wrappedValue: firstValue.askingState.isNewly))
+                LearningPage(value: firstValue, isWordNew: OpacityBool(wrappedValue: firstValue.askingState.isNewly), isOverlapping: $isOverlapping)
                     .environment(\.learningValuesCount, learningManager.algorithmedLearningValuesCount(of: learningList))
             }else {
                 NoVocabularyToLearnTodayView()
             }
-//        }
-//        .linkContextUndoManager(context: learningList.modelContext!, with: undoManager)
+        }
+        .overlay {
+            Text("\(viewUpdateTrigger.description)")
+                .opacity(0)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .NSUndoManagerDidUndoChange, object: undoManager), perform: { output in
+            print("Undo")
+            viewUpdateTrigger.toggle()
+            isOverlapping = true
+        })
+        .onReceive(NotificationCenter.default.publisher(for: .NSUndoManagerDidRedoChange, object: undoManager), perform: { output in
+            print("Redo")
+            viewUpdateTrigger.toggle()
+            isOverlapping = true
+        })
+        .linkContextUndoManager(context: learningList.modelContext!, with: undoManager)
     }
 }
 
@@ -63,9 +79,9 @@ struct LearningPage: View {
     
     @LearningValue var value: Learnable
     @OpacityBool var isWordNew: Bool
+    @Binding var isOverlapping: Bool
     
     @Environment(\.undoManager) var undoManager: UndoManager?
-    @State private var isOverlapping: Bool = true
     
     //MARK: - Body of LearningPage
     
@@ -242,5 +258,5 @@ fileprivate extension EnvironmentValues {
 //MARK: - Preview
 
 #Preview {
-    LearningPage(value: LearningValue(learnableObject: Vocabulary(baseWord: "the tree", translationWord: "der Baum", baseSentence: "This is a nature contruct.", translationSentence: "Das ist ein Naturkonstrukt!", wordGroup: .noun), asking: .base), isWordNew: OpacityBool(wrappedValue: true, onTrue: 1, onFalse: 0))
+    LearningPage(value: LearningValue(learnableObject: Vocabulary(baseWord: "the tree", translationWord: "der Baum", baseSentence: "This is a nature contruct.", translationSentence: "Das ist ein Naturkonstrukt!", wordGroup: .noun), asking: .base), isWordNew: OpacityBool(wrappedValue: true, onTrue: 1, onFalse: 0), isOverlapping: .constant(true))
 }
