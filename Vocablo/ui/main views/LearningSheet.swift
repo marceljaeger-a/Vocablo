@@ -16,6 +16,10 @@ struct LearningSheet: View {
     let learningList: VocabularyList
     private let learningManager: LearningValueManager
     
+    @Environment(\.undoManager) var undoManager
+    @State private var viewUpdateTrigger: Bool = false
+    @State private var isOverlapping = true
+    
     //MARK: - Initialiser of LearningSheet
     
     init(list: VocabularyList) {
@@ -26,12 +30,29 @@ struct LearningSheet: View {
     //MARK: - Body of LearningSheet
     
     var body: some View {
-        if let firstValue = learningManager.algorithmedLearningValues(of: learningList).first {
-            LearningPage(value: firstValue, isWordNew: OpacityBool(wrappedValue: firstValue.askingState.isNewly))
-                .environment(\.learningValuesCount, learningManager.algorithmedLearningValuesCount(of: learningList))
-        }else {
-            NoVocabularyToLearnTodayView()
+        Group {
+            if let firstValue = learningManager.algorithmedLearningValues(of: learningList).first {
+                LearningPage(value: firstValue, isWordNew: OpacityBool(wrappedValue: firstValue.askingState.isNewly), isOverlapping: $isOverlapping)
+                    .environment(\.learningValuesCount, learningManager.algorithmedLearningValuesCount(of: learningList))
+            }else {
+                NoVocabularyToLearnTodayView()
+            }
         }
+        .overlay {
+            Text("\(viewUpdateTrigger.description)")
+                .opacity(0)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .NSUndoManagerDidUndoChange, object: undoManager), perform: { output in
+            print("Undo")
+            viewUpdateTrigger.toggle()
+            isOverlapping = true
+        })
+        .onReceive(NotificationCenter.default.publisher(for: .NSUndoManagerDidRedoChange, object: undoManager), perform: { output in
+            print("Redo")
+            viewUpdateTrigger.toggle()
+            isOverlapping = true
+        })
+        .linkContextUndoManager(context: learningList.modelContext!, with: undoManager)
     }
 }
 
@@ -58,8 +79,9 @@ struct LearningPage: View {
     
     @LearningValue var value: Learnable
     @OpacityBool var isWordNew: Bool
+    @Binding var isOverlapping: Bool
     
-    @State private var isOverlapping: Bool = true
+    @Environment(\.undoManager) var undoManager: UndoManager?
     
     //MARK: - Body of LearningPage
     
@@ -140,22 +162,32 @@ extension LearningPage {
                     .foregroundStyle(.tertiary)
                 
                 HStack(spacing: 15){
-                    Button {
-                        $value.answerFalse()
-                        isOverlapping = true
-                    } label: {
-                        Label($value.previousLevelRepeatingIntervalLabel, systemImage: "hand.thumbsdown")
-                            .foregroundStyle(.red.gradient)
-                            .frame(width: 65)
-                    }
-                    
-                    Button {
-                        $value.answerTrue()
-                        isOverlapping = true
-                    } label: {
-                        Label($value.nextLevelRepeatingIntervalLabel, systemImage: "hand.thumbsup")
-                            .foregroundStyle(.green.gradient)
-                            .frame(width: 65)
+                    if isOverlapping {
+                        Button {
+                            isOverlapping = false
+                        } label: {
+                            Label("Show answer", systemImage: "eye")
+                                .labelStyle(.titleOnly)
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }else {
+                        Button {
+                            $value.answerFalse()
+                            isOverlapping = true
+                        } label: {
+                            Label($value.previousLevelRepeatingIntervalLabel, systemImage: "hand.thumbsdown")
+                                .foregroundStyle(.red.gradient)
+                                .frame(width: 65)
+                        }
+                        
+                        Button {
+                            $value.answerTrue()
+                            isOverlapping = true
+                        } label: {
+                            Label($value.nextLevelRepeatingIntervalLabel, systemImage: "hand.thumbsup")
+                                .foregroundStyle(.green.gradient)
+                                .frame(width: 65)
+                        }
                     }
                 }
                 .buttonStyle(.bordered)
@@ -226,5 +258,5 @@ fileprivate extension EnvironmentValues {
 //MARK: - Preview
 
 #Preview {
-    LearningPage(value: LearningValue(learnableObject: Vocabulary(baseWord: "the tree", translationWord: "der Baum", baseSentence: "This is a nature contruct.", translationSentence: "Das ist ein Naturkonstrukt!", wordGroup: .noun), asking: .base), isWordNew: OpacityBool(wrappedValue: true, onTrue: 1, onFalse: 0))
+    LearningPage(value: LearningValue(learnableObject: Vocabulary(baseWord: "the tree", translationWord: "der Baum", baseSentence: "This is a nature contruct.", translationSentence: "Das ist ein Naturkonstrukt!", wordGroup: .noun), asking: .base), isWordNew: OpacityBool(wrappedValue: true, onTrue: 1, onFalse: 0), isOverlapping: .constant(true))
 }

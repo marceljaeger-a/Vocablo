@@ -18,7 +18,23 @@ extension SchemaV1 {
         enum VocabularySorting: String, Codable {
             case newest = "Newest", oldest = "Oldest", word = "Word", translatedWord = "Translated Word"
             
+            ///Returns a SortDescriptor created by the current case.
+            ///For a FetchDescriptor as example.
+            var sortDescriptor: SortDescriptor<Vocabulary> {
+                switch self {
+                case .newest:
+                    SortDescriptor(\Vocabulary.created, order: .reverse)
+                case .oldest:
+                    SortDescriptor(\Vocabulary.created, order: .forward)
+                case .word:
+                    SortDescriptor(\Vocabulary.baseWord)
+                case .translatedWord:
+                    SortDescriptor(\Vocabulary.translationWord)
+                }
+            }
+            
             ///Returns the KeyPathComparator by the current case.
+            ///For a collection methode as example.
             var sortComparator: KeyPathComparator<Vocabulary> {
                 switch self {
                 case .newest:
@@ -59,9 +75,6 @@ extension SchemaV1 {
             vocabularies.filter{ $0.isToLearn }
         }
         
-        @Transient let addVocabularyPublisher: PassthroughSubject<Vocabulary, Never> = PassthroughSubject()
-        
-        
         //MARK: - Initialiser
         
         init(_ name: String, vocabularies: Array<Vocabulary> = []) {
@@ -79,13 +92,25 @@ extension SchemaV1 {
             if let context = vocabulary.modelContext {
                 try? context.save()
             }
-            addVocabularyPublisher.send(vocabulary)
         }
         
         ///Removes the Vocabulary from the list.
+        ///
+        ///> If you remove vocabularies without this methode, the UndoManager will not be able to register the unrelating!
         func removeVocabulary(_ vocabulary: Vocabulary) {
             self.vocabularies.removeAll { element in
                 element == vocabulary
+            }
+            
+            if let undoManager = self.modelContext?.undoManager {
+                undoManager.registerUndo(withTarget: self) { undoList in
+                    let removedVocabulary = vocabulary
+                    undoList.addVocabulary(removedVocabulary)
+                    undoManager.registerUndo(withTarget: undoList) { redoList in
+                        let addedVocabulary = removedVocabulary
+                        redoList.removeVocabulary(addedVocabulary)
+                    }
+                }
             }
         }
         

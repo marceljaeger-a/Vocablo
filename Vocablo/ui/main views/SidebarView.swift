@@ -13,9 +13,10 @@ struct SidebarView: View {
     
     //MARK: - Properties
     
-    @Binding var selectedListIdentifiers: Set<PersistentIdentifier>
     @Binding var learningList: VocabularyList?
     
+    @Environment(\.actionReactingService) private var actionPublisherService
+    @Environment(\.selections) private var selections
     @Environment(\.modelContext) private var context: ModelContext
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
     @FocusState private var focusedList: PersistentIdentifier?
@@ -30,7 +31,7 @@ struct SidebarView: View {
 
     }
     private var listDeletingConfirmationDialogText: String {
-        if selectedListIdentifiers.count > 1 {
+        if selections.selectedListIdentifiers.count > 1 {
             "Do you want to delete the selected lists?"
         }else {
             "Do you want to delete the list?"
@@ -43,36 +44,55 @@ struct SidebarView: View {
         focusedList = list.id
     }
     
-    private func areListsEmtpy(_ lists: Array<VocabularyList>) -> Bool {
-        for list in lists {
-            if !list.vocabularies.isEmpty {
-                return false
+    private func deleteSelectedLists(listIdentifiers: Set<PersistentIdentifier>, withConfirmationDialog: Bool) {
+        func areListsEmtpy(_ lists: Array<VocabularyList>) -> Bool {
+            for list in lists {
+                if !list.vocabularies.isEmpty {
+                    return false
+                }
+            }
+            return true
+        }
+        
+        let fetchedSelectedLists: Array<VocabularyList> = context.fetch(by: listIdentifiers)
+        
+        if withConfirmationDialog {
+            if areListsEmtpy(fetchedSelectedLists) == false {
+                listDeleteConfirmationDialogState = (true, fetchedSelectedLists)
+                return
             }
         }
-        return true
+    
+        _ = selections.unselectLists(listIdentifiers)
+        context.delete(models: fetchedSelectedLists)
     }
     
-    private func deleteSelectedLists(_ lists: Array<VocabularyList>) {
-        let deletingLists = lists
-        for deletingList in deletingLists {
-            selectedListIdentifiers.remove(deletingList.id)
-        }
-        context.deleteLists(deletingLists)
+    private func showLearningSheet(listIdentifiers: Set<PersistentIdentifier>) {
+        guard let firstFetchedList: VocabularyList = context.fetch(by: listIdentifiers).first else { return }
+        self.learningList = firstFetchedList
     }
     
-    private func showLearningSheet(learningList: VocabularyList) {
-        self.learningList = learningList
+    private func addNewList() {
+        let newList = context.addList("New List")
+        actionPublisherService.send(action: \.addingList, input: newList)
     }
     
     //MARK: - Body
     
     var body: some View {
-        List(selection: $selectedListIdentifiers){
+        List(selection: selections.bindable.selectedListIdentifiers) {
+            NavigationLink {
+                VocabularyListDetailView(of: nil, learningList: $learningList)
+            } label: {
+                Label("All vocabularies", systemImage: "tray.full")
+                    .badge((try? context.fetchCount(FetchDescriptor<Vocabulary>())) ?? 0, prominece: .decreased)
+            }
+
             listSection
         }
         .buttomButtons(onLeft: {
             Button {
-                context.addList("New List")
+                addNewList()
             } label: {
                 Label("New List", systemImage: "plus.circle")
             }
@@ -83,8 +103,10 @@ struct SidebarView: View {
         }
         .confirmationDialog(listDeletingConfirmationDialogText, isPresented: bindedIsShowingListDeleteConfirmationDialog) {
             listDeletingConfirmationDialgoButtons
+        } message: {
+            Text("Contained vocabularies will be deleted!")
         }
-        .onAddList { newList in
+        .onAction(\.addingList) { newList in
             focusNewList(newList)
         }
     }
@@ -108,12 +130,15 @@ extension SidebarView {
                 .badge(learningValueCounter.algorithmedLearningValuesCount(of: list), prominece: .increased)
                 .badge("\(list.vocabularies.count)", prominece: .decreased)
             }
+            .onDelete { indexSet in //Only when selected lists are focused! This condition is implicit by SwiftUI.
+                self.deleteSelectedLists(listIdentifiers: allLists[indexSet].identifiers, withConfirmationDialog: true)
+            }
         }
     }
     
     @ViewBuilder func contextMenuButtons(listIdfentifiers: Set<PersistentIdentifier>) -> some View {
         Button {
-            context.addList("New List")
+            addNewList()
         } label: {
             Text("New list")
         }
@@ -122,8 +147,7 @@ extension SidebarView {
         Divider()
 
         Button {
-            guard let firstFetchedList: VocabularyList = context.fetch(by: listIdfentifiers).first else { return }
-            showLearningSheet(learningList: firstFetchedList)
+            self.showLearningSheet(listIdentifiers: listIdfentifiers)
         } label: {
             Text("Start learning")
         }
@@ -157,13 +181,7 @@ extension SidebarView {
         .disabled(listIdfentifiers.isEmpty == true)
         
         Button {
-            let fetchedSelectedLists: Array<VocabularyList> = context.fetch(by: listIdfentifiers)
-            
-            if areListsEmtpy(fetchedSelectedLists) {
-                listDeleteConfirmationDialogState = (true, fetchedSelectedLists)
-            }else {
-                deleteSelectedLists(fetchedSelectedLists)
-            }
+            self.deleteSelectedLists(listIdentifiers: listIdfentifiers, withConfirmationDialog: true)
         } label: {
             if listIdfentifiers.count > 1 {
                 Text("Delete selected")
@@ -176,13 +194,13 @@ extension SidebarView {
     
     @ViewBuilder var listDeletingConfirmationDialgoButtons: some View {
         Button(role: .cancel){
-            listDeleteConfirmationDialogState = (false, [])
+            self.listDeleteConfirmationDialogState = (false, [])
         } label: {
             Text("Cancel")
         }
         
         Button(role: .destructive){
-            deleteSelectedLists(listDeleteConfirmationDialogState.deletingLists)
+            self.deleteSelectedLists(listIdentifiers: listDeleteConfirmationDialogState.deletingLists.identifiers, withConfirmationDialog: false)
         } label: {
             Text("Delete")
         }

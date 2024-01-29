@@ -13,13 +13,27 @@ struct DetailView: View {
     //MARK: - Properties
     
     @Bindable var selectedList: VocabularyList
-    @Binding var selectedVocabularyIdentifiers: Set<PersistentIdentifier>
     @Binding var learningList: VocabularyList?
     
+    @Environment(\.selections) private var  selections: SelectionContext
     @Environment(\.modelContext) private var context: ModelContext
     @Query private var allVocabularies: Array<Vocabulary>
     @State private var editingVocabulary: Vocabulary?
     @FocusState private var textFieldFocus: VocabularyTextFieldFocusState?
+    
+    @Query var filteredAndSortedVocabulariesOfSelectedList: Array<Vocabulary>
+    
+    init(selectedList: VocabularyList, learningList: Binding<VocabularyList?>) {
+        self.selectedList = selectedList
+        self._learningList = learningList
+        
+        let filteringListIdentifier = selectedList.persistentModelID
+        let vocabulariesFilter = #Predicate<Vocabulary> { vocabulary in
+            vocabulary.list?.persistentModelID == filteringListIdentifier
+        }
+        let vocabulariesFetchDescriptor = FetchDescriptor<Vocabulary>(predicate: vocabulariesFilter, sortBy: [selectedList.sorting.sortDescriptor])
+        _filteredAndSortedVocabulariesOfSelectedList = Query(vocabulariesFetchDescriptor)
+    }
     
     //MARK: - Methodes
     
@@ -37,29 +51,44 @@ struct DetailView: View {
     
     private func contextMenuPrimaryAction(vocabularyIDs: Set<PersistentIdentifier>) {
         if vocabularyIDs.count == 1 {
-            guard let firstVocabulary: Vocabulary = context.fetch(by: vocabularyIDs).first else { return }
+            guard let firstVocabulary: Vocabulary = allVocabularies[byIdentifiers: vocabularyIDs].first else { return }
             openEditVocabularyView(for: firstVocabulary)
         }
+    }
+    
+    private func deleteSelectedVocabularies(vocabularyIdentifiers: Set<PersistentIdentifier>) {
+        _ = selections.unselectVocabularies(vocabularyIdentifiers)
+        context.deleteVocabularies(allVocabularies[byIdentifiers: vocabularyIdentifiers])
     }
     
     //MARK: - Body
     
     var body: some View {
-        VocabulariesListView(vocabularies: selectedList.sortedVocabularies, selection: $selectedVocabularyIdentifiers, textFieldFocus: $textFieldFocus, onSubmitAction: selectedList.addNewVocabulary)
-            .contextMenu(forSelectionType: Vocabulary.ID.self) { vocabularyIDs in
-                contextMenuButtons(vocabularyIdentifiers: vocabularyIDs)
-            } primaryAction: { vocabularyIdentifiers in
-                contextMenuPrimaryAction(vocabularyIDs: vocabularyIdentifiers)
+        List(selection: selections.bindable.selectedVocabularyIdentifiers) {
+            ForEach(filteredAndSortedVocabulariesOfSelectedList, id: \.id) { vocabulary in
+                VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
+                    .onSubmit {
+                        selectedList.addNewVocabulary()
+                    }
             }
-            .toolbar {
-                toolbarButtons
+            .onDelete { indexSet in //Swipe & Delete menu command(not the keypress), when a vocabulary is selected.
+                deleteSelectedVocabularies(vocabularyIdentifiers: filteredAndSortedVocabulariesOfSelectedList[indexSet].identifiers)
             }
-            .sheet(item: $editingVocabulary) { vocabulary in
-                EditVocabularyView(editingVocabulary: vocabulary)
-            }
-            .onAddVocabulary(to: selectedList) { newVocabulary in
-                focusNewVocabulary(newVocabulary)
-            }
+        }
+        .contextMenu(forSelectionType: Vocabulary.ID.self) { vocabularyIDs in
+            contextMenuButtons(vocabularyIdentifiers: vocabularyIDs)
+        } primaryAction: { vocabularyIdentifiers in
+            contextMenuPrimaryAction(vocabularyIDs: vocabularyIdentifiers)
+        }
+        .toolbar {
+            toolbarButtons
+        }
+        .sheet(item: $editingVocabulary) { vocabulary in
+            EditVocabularyView(editingVocabulary: vocabulary)
+        }
+//        .onAddVocabulary(to: selectedList) { newVocabulary in
+//            focusNewVocabulary(newVocabulary)
+//        }
     }
 }
 
@@ -118,7 +147,7 @@ extension DetailView {
         .disabled(vocabularyIdentifiers.isEmpty == true)
         
         Button {
-            context.deleteVocabularies(context.fetch(by: vocabularyIdentifiers))
+            deleteSelectedVocabularies(vocabularyIdentifiers: vocabularyIdentifiers)
         } label: {
             if vocabularyIdentifiers.count == 1 {
                 Text("Delete")
@@ -155,6 +184,6 @@ extension DetailView {
 
 //MARK: - Preview
 #Preview {
-    DetailView( selectedList: VocabularyList("Preview List"), selectedVocabularyIdentifiers: .constant([]), learningList: .constant(nil))
+    DetailView(selectedList: VocabularyList("Preview List"), learningList: .constant(nil))
 }
 

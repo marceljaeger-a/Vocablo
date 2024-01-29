@@ -23,22 +23,27 @@ extension ModelContext {
         return []
     }
     
-    ///Returns the count of fetched VocabularyList instances by the identifiers.
-    func fetchListCound(by identifiers: Set<PersistentIdentifier>) -> Int {
-        let descriptor = FetchDescriptor<VocabularyList>(predicate: #Predicate{ identifiers.contains($0.persistentModelID) })
-        if let fetchedListCount = try? self.fetchCount(descriptor) {
-            return fetchedListCount
+    ///Returns the count of fetched models by the identifiers.
+    func fetchCount<T: PersistentModel>(for : T.Type, by identifiers: Set<PersistentIdentifier>) -> Int {
+        let predicate: Predicate<T> = #Predicate { element in
+            identifiers.contains(element.persistentModelID)
+        }
+        let descriptor: FetchDescriptor<T> = FetchDescriptor(predicate: predicate)
+        
+        if let fetchedCount = try? self.fetchCount(descriptor) {
+            return fetchedCount
         }
         return 0
     }
     
+    ///Returns the count of fetched VocabularyList instances by the identifiers.
+    func fetchListCound(by identifiers: Set<PersistentIdentifier>) -> Int {
+        return fetchCount(for: VocabularyList.self, by: identifiers)
+    }
+    
     ///Returns the count of fetched Vocabulary instances by the identifiers.
     func fetchVocabularyCount(by identifiers: Set<PersistentIdentifier>) -> Int {
-        let descriptor = FetchDescriptor<Vocabulary>(predicate: #Predicate{ identifiers.contains($0.persistentModelID) })
-        if let fetchedVocabularyCount = try? self.fetchCount(descriptor) {
-            return fetchedVocabularyCount
-        }
-        return 0
+        return fetchCount(for: Vocabulary.self, by: identifiers)
     }
 }
 
@@ -50,11 +55,11 @@ extension ModelContext {
     
     ///Inserts a new list with the given name into the model context.
     ///Sends a publisher message with the new list instance to subcribers.
-    func addList(_ name: String) {
+    func addList(_ name: String) -> VocabularyList {
         let newList = VocabularyList(name)
         insert(newList)
         try? save() //Because the persistend identifier has a other value after saving.
-        ModelContext.addListPublisher.send(newList)
+        return newList
     }
 }
 
@@ -84,6 +89,40 @@ extension ModelContext {
         for deletingVocabularyList in deletingVocabularyLists {
             self.delete(deletingVocabularyList)
         }
+    }
+    
+    ///Delete a array of model from the model context.
+    ///
+    ///> If you delete vocabularies without this methode, the UndoManager will no be able to register the unrelating!
+    ///
+    ///> If you delete lists without this methode, the contained vocabularies will not be deleted and the UndoManager will not be able to register the unrelated so after undo the vocabularies will not be in the list!
+    func delete(models: Array<any PersistentModel>) {
+        if let deletingVocabularies = models as? Array<Vocabulary> {
+            
+            for deletingVocabulary in deletingVocabularies {
+                if let list = deletingVocabulary.list {
+                    list.removeVocabulary(deletingVocabulary)
+                }
+                self.delete(deletingVocabulary)
+            }
+            
+        }else if let deletingLists = models as? Array<VocabularyList> {
+            
+            for deletingList in deletingLists {
+                delete(models: deletingList.vocabularies)
+                self.delete(deletingList)
+            }
+            
+        }
+        else {
+            
+            for model in models {
+                self.delete(model)
+            }
+            
+        }
+        
+        try? self.save()
     }
 }
 
@@ -132,6 +171,6 @@ extension ModelContext {
 
 //MARK: - Type Properties (Publisher)
 extension ModelContext {
-    static let addListPublisher: PassthroughSubject<VocabularyList, Never> = PassthroughSubject()
+    //static let addListPublisher: PassthroughSubject<VocabularyList, Never> = PassthroughSubject()
 }
 

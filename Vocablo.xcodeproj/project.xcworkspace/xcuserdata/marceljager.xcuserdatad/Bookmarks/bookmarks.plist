@@ -10,15 +10,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
 					<string>70</string>
+					<key>EndingLineNumber</key>
+					<string>78</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>69</string>
+					<string>78</string>
 					<key>Timestamp</key>
-					<string>725215972.274374</string>
+					<string>727353605.767899</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,20 +34,159 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>        List(selection: $selectedListIdentifiers){
-</string>
+				<string>        List(selection: selections.bindable.selectedListIdentifiers) {</string>
 				<key>leading</key>
 				<string>    
     var body: some View {
 </string>
 				<key>trailing</key>
-				<string>            listSection
-        }
-        .buttomButtons(onLeft: {
+				<string>
+            NavigationLink {
+                VocabularyListDetailView(of: nil, learningList: $learningList)
 </string>
 			</dict>
 			<key>title</key>
 			<string>This was the problem of #16, because I do not use the id as selection. Maybe because of the List and the wrapped ForEach, but I do not now. But I know, that this was the problem of the duplicate key error!</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>8</string>
+					<key>EndingLineNumber</key>
+					<string>9</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>9</string>
+					<key>Timestamp</key>
+					<string>726079384.3895431</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Vocablo/data/protocols/Learnable.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>protocol</string>
+				<key>leading</key>
+				<string>import Foundation
+
+</string>
+				<key>trailing</key>
+				<string> Learnable: AnyObject {
+    var isToLearn: Bool { get set }
+    var baseState: LearningState { get set }
+</string>
+			</dict>
+			<key>title</key>
+			<string>Think about, whether this protocl is nesecarry. If it stays in the app, put all properties in the protocol or refactore it.</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>27</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>26</string>
+					<key>Timestamp</key>
+					<string>726494847.709439</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Vocablo/data/extensions/ModelContext.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>    func fetchCount&lt;T: PersistentModel&gt;(for : T.Type, by identifiers: Set&lt;PersistentIdentifier&gt;) -&gt; Int {
+</string>
+				<key>leading</key>
+				<string>    
+    ///Returns the count of fetched models by the identifiers.
+</string>
+				<key>trailing</key>
+				<string>        let predicate: Predicate&lt;T&gt; = #Predicate { element in
+            identifiers.contains(element.persistentModelID)
+        }
+</string>
+			</dict>
+			<key>title</key>
+			<string>Replace the old methodes with this methode in the SwiftUI code and remove the others.</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>99</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>98</string>
+					<key>Timestamp</key>
+					<string>727978971.599141</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Vocablo/data/extensions/ModelContext.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>    func delete(models: Array&lt;any PersistentModel&gt;) {
+</string>
+				<key>leading</key>
+				<string>    ///
+    ///&gt; If you delete lists without this methode, the contained vocabularies will not be deleted and the UndoManager will not be able to register the unrelated so after undo the vocabularies will not be in the list!
+</string>
+				<key>trailing</key>
+				<string>        if let deletingVocabularies = models as? Array&lt;Vocabulary&gt; {
+            
+            for deletingVocabulary in deletingVocabularies {
+</string>
+			</dict>
+			<key>title</key>
+			<string>Replace the old delete methodes with this methode in the SwiftUI code and remove the others methodes.</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

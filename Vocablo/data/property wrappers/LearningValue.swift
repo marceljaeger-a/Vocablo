@@ -107,21 +107,67 @@ struct LearningValue {
     
     ///Increase the level of the current return value of the asking state.
     func answerTrue() {
+//        let oldValue = askingState
+        
         switch asking {
         case .base:
             learnableObject.baseState.repeatAndIncreaseLevel()
         case .translation:
             learnableObject.translationState.repeatAndIncreaseLevel()
         }
+        
+//        let newValue = askingState
+        
+//        if let vocabulary = learnableObject as? Vocabulary {
+//            if let context = vocabulary.modelContext {
+//                if let undoManager = context.undoManager {
+//                    undoManager.registerUndo(withTarget: vocabulary) { undoVocabulary in
+//                        switch asking {
+//                        case .base:
+//                            learnableObject.baseState = oldValue
+//                        case .translation:
+//                            learnableObject.translationState = oldValue
+//                        }
+//                        
+//                        undoManager.registerUndo(withTarget: undoVocabulary) { redoVocabulary in
+//                            answerTrue()
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
     
     ///Decrease the level of the current return value of the asking.
     func answerFalse() {
+//        let oldValue = askingState
+        
         switch asking {
         case .base:
             learnableObject.baseState.repeatAndDecreaseLevel()
         case .translation:
             learnableObject.translationState.repeatAndDecreaseLevel()
         }
+        
+//        let newValue = askingState
+        
+//        if let vocabulary = learnableObject as? Vocabulary {
+//            if let context = vocabulary.modelContext {
+//                if let undoManager = context.undoManager {
+//                    undoManager.registerUndo(withTarget: vocabulary) { undoVocabulary in
+//                        switch asking {
+//                        case .base:
+//                            learnableObject.baseState = oldValue
+//                        case .translation:
+//                            learnableObject.translationState = oldValue
+//                        }
+//                        
+//                        undoManager.registerUndo(withTarget: undoVocabulary) { redoVocabulary in
+//                            answerFalse()
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 }
