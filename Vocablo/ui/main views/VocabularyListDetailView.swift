@@ -15,15 +15,16 @@ struct VocabularyListDetailView: View {
     
     let selectedList: VocabularyList?
     @Binding var learningList: VocabularyList?
+    let isDuplicatesPopoverButtonAvailable: Bool
     
     @Environment(\.actionReactingService) private var actionPublisherService
     @Environment(\.selections) private var  selections: SelectionContext
     @Environment(\.modelContext) private var context: ModelContext
+    @Environment(\.sheetContext) private var sheetContext: SheetContext
     
     @Query private var allVocabularies: Array<Vocabulary>
     @Query var filteredAndSortedVocabulariesOfSelectedList: Array<Vocabulary>
     
-    @State private var editingVocabulary: Vocabulary?
     @FocusState private var textFieldFocus: VocabularyTextFieldFocusState?
     
     //MARK: - Initialiser
@@ -31,9 +32,10 @@ struct VocabularyListDetailView: View {
     ///Set the Query depend if you give a selectedList or not.
     ///- You give: The view shows only vocabularies of the list sorted by its sorting.
     ///- You don't give: The view shows all vocabularies sorted by baseWord.
-    init(of selectedList: VocabularyList?, learningList: Binding<VocabularyList?>) {
+    init(of selectedList: VocabularyList?, learningList: Binding<VocabularyList?>, isDuplicatesPopoverButtonAvailable: Bool) {
         self.selectedList = selectedList
         self._learningList = learningList
+        self.isDuplicatesPopoverButtonAvailable = isDuplicatesPopoverButtonAvailable
         
         if let selectedList {
             let filteringListIdentifier = selectedList.persistentModelID
@@ -56,7 +58,7 @@ struct VocabularyListDetailView: View {
     
     private func openEditVocabularyView(firstOf vocabularyIdentifiers: Set<PersistentIdentifier>) {
         guard let firstFetchedVocabulary: Vocabulary = context.fetch(by: vocabularyIdentifiers).first else { return }
-        editingVocabulary = firstFetchedVocabulary
+        sheetContext.editingVocabulary = firstFetchedVocabulary
     }
     
     private func showLearningSheet() {
@@ -89,7 +91,7 @@ struct VocabularyListDetailView: View {
     var body: some View {
         List(selection: selections.bindable.selectedVocabularyIdentifiers) {
             ForEach(filteredAndSortedVocabulariesOfSelectedList, id: \.id) { vocabulary in
-                VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
+                VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus, isDuplicateRecognitionLabelAvailable: isDuplicatesPopoverButtonAvailable)
                     .onSubmit {
                         addNewVocabulary()
                     }
@@ -106,7 +108,7 @@ struct VocabularyListDetailView: View {
         .toolbar {
             toolbarButtons
         }
-        .sheet(item: $editingVocabulary) { vocabulary in
+        .sheet(item: sheetContext.bindable.editingVocabulary) { vocabulary in
             EditVocabularyView(editingVocabulary: vocabulary)
         }
         .onAction(\.addingVocabulary) { newVocabulary in

@@ -24,7 +24,9 @@ struct VocabularyItem: View {
     
     @Bindable var vocabulary: Vocabulary
     @FocusState.Binding var textFieldFocus: VocabularyTextFieldFocusState?
+    let isDuplicateRecognitionLabelAvailable: Bool
     
+    @Query var allVocabularies: Array<Vocabulary>
     @State private var isLearningStateInfoButtonShowed: Bool = false
     
     private var learningStateInfoButtonOpacity: Double {
@@ -35,18 +37,35 @@ struct VocabularyItem: View {
         }
     }
     
+    let duplicateRecognicer = DuplicateRecognitionService()
+    
     //MARK: - Body
     
     var body: some View {
         HStack(spacing: 20){
             VocabularyToggle(vocabulary: vocabulary, value: \.isToLearn)
                 .toggleStyle(.checkbox)
-
-            wordAndSentenceVStack
             
-            Divider()
-            
-            translatedWordAndSentenceVStack
+            VStack(spacing: 10){
+                HStack {
+                    wordAndSentenceVStack
+                    
+                    Divider()
+                    
+                    translatedWordAndSentenceVStack
+                }
+                
+                if isDuplicateRecognitionLabelAvailable {
+                    if duplicateRecognicer.existDuplicate(of: vocabulary, within: allVocabularies) {
+                        HStack {
+                            DuplicateVocabulariesPopoverButton(duplicatesOf: vocabulary, within: allVocabularies)
+                                .buttonStyle(.plain)
+                            
+                            Spacer()
+                        }
+                    }
+                }
+            }
             
             LearningStateInfoButton(vocabulary: vocabulary)
                 .buttonStyle(.borderless)

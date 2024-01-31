@@ -51,11 +51,16 @@ An App for learning vocabularies with Spaced Repetition.
 - ``LearningLevelPicker``
 - ``LearningStateInfoButton``
 - ``LearningStateExplenationPopoverButton``
+- ``DuplicateWarningLabel``
+- ``DuplicateVocabulariesPopover``
+- ``DuplicateVocabulariesPopoverButton``
 
 ### View Utilities
 
 - ``SelectionContext``
 - ``SelectionContextEnvrionmentKey``
+- ``SheetContext``
+- ``SheetContextEnvironmentKey``
 - ``OpacityBool``
 
 ### Learning API
@@ -66,7 +71,7 @@ An App for learning vocabularies with Spaced Repetition.
 - ``LearningValue``
 - ``LearningValueManager``
 
-### ActionReactingService API
+### ActionReactingService 
 
 - <doc:Essentials-of-ActionReactingService>
 - ``ActionReactingService``
@@ -74,6 +79,11 @@ An App for learning vocabularies with Spaced Repetition.
 - ``ActionReactingServiceKey``
 - ``OnActionModifier``
 - <doc:Some-ActionPublisher>
+
+### DuplicateRecognitionService 
+
+- ``DuplicateRecognitionService``
+- ``Duplicateable``
 
 ### AppVersionManager API (Beta)
 

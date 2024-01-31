@@ -30,7 +30,7 @@ struct ContentView: View {
             if learningList == nil {
                 
                 if let firstSelectedList: VocabularyList = context.fetch(by: selections.selectedListIdentifiers).first {
-                    VocabularyListDetailView(of: firstSelectedList, learningList: $learningList)
+                    VocabularyListDetailView(of: firstSelectedList, learningList: $learningList, isDuplicatesPopoverButtonAvailable: true)
                 } else {
                     NoSelectedListView()
                 }

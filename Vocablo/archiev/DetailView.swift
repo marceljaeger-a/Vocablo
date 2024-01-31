@@ -66,7 +66,7 @@ struct DetailView: View {
     var body: some View {
         List(selection: selections.bindable.selectedVocabularyIdentifiers) {
             ForEach(filteredAndSortedVocabulariesOfSelectedList, id: \.id) { vocabulary in
-                VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus)
+                VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus, isDuplicateRecognitionLabelAvailable: true)
                     .onSubmit {
                         selectedList.addNewVocabulary()
                     }

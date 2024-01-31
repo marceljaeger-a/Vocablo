@@ -82,7 +82,7 @@ struct SidebarView: View {
     var body: some View {
         List(selection: selections.bindable.selectedListIdentifiers) {
             NavigationLink {
-                VocabularyListDetailView(of: nil, learningList: $learningList)
+                VocabularyListDetailView(of: nil, learningList: $learningList, isDuplicatesPopoverButtonAvailable: true)
             } label: {
                 Label("All vocabularies", systemImage: "tray.full")
                     .badge((try? context.fetchCount(FetchDescriptor<Vocabulary>())) ?? 0, prominece: .decreased)
