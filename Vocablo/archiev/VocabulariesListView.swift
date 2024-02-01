@@ -19,7 +19,7 @@ struct VocabulariesListView: View {
     let onSubmitAction: () -> Void
     
     @Environment(\.modelContext) var context: ModelContext
-    @Environment(\.selections) var selections: SelectionContext
+    @Environment(\.selectionContext) var selections: SelectionContext
     
     //MARK: - Methodes
     

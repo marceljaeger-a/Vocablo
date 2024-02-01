@@ -34,7 +34,7 @@ extension DuplicateVocabulariesPopover {
         
         @Environment(\.sheetContext) var sheetContext
         @Environment(\.modelContext) var modelContext
-        @Environment(\.selections) var selectionContext
+        @Environment(\.selectionContext) var selectionContext
         
         var body: some View {
             VStack {

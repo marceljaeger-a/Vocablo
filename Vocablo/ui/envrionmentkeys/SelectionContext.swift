@@ -80,7 +80,7 @@ struct SelectionContextEnvrionmentKey: EnvironmentKey {
 //MARK: - EnvrionmentValue
 
 extension EnvironmentValues {
-    var selections: SelectionContext {
+    var selectionContext: SelectionContext {
         get {
             return self[SelectionContextEnvrionmentKey.self]
         }
@@ -96,12 +96,12 @@ extension EnvironmentValues {
 
 extension Scene {
     func selectionContext(_ context: SelectionContext) -> some Scene {
-        self.environment(\.selections, context)
+        self.environment(\.selectionContext, context)
     }
 }
 
 extension View {
     func selectionContext(_ context: SelectionContext) -> some View {
-        self.environment(\.selections, context)
+        self.environment(\.selectionContext, context)
     }
 }

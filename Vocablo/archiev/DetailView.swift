@@ -15,7 +15,7 @@ struct DetailView: View {
     @Bindable var selectedList: VocabularyList
     @Binding var learningList: VocabularyList?
     
-    @Environment(\.selections) private var  selections: SelectionContext
+    @Environment(\.selectionContext) private var  selections: SelectionContext
     @Environment(\.modelContext) private var context: ModelContext
     @Query private var allVocabularies: Array<Vocabulary>
     @State private var editingVocabulary: Vocabulary?

@@ -17,27 +17,27 @@ struct VocabloScene: Scene {
     @Binding var isWelcomeSheetShowed: Bool
     
     @Environment(\.actionReactingService) private var actionPublisherService
-    @Environment(\.selections) private var selections: SelectionContext
-    @Environment(\.modelContext) private var context: ModelContext
+    @Environment(\.selectionContext) private var selectionContext: SelectionContext
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @State private var learningList: VocabularyList?
     
     //MARK: - Methodes
     
     private func addNewList() {
-        let newList = context.addList("New List")
+        let newList = modelContext.addList("New List")
         actionPublisherService.send(action: \.addingList, input: newList)
     }
     
     private func addNewVocabulary() {
         let newVocabulary = Vocabulary(baseWord: "", translationWord: "", wordGroup: .noun)
         
-        if let firstSelectedList: VocabularyList =  context.fetch(by: selections.selectedListIdentifiers).first {
+        if let firstSelectedList: VocabularyList =  modelContext.fetch(by: selectionContext.selectedListIdentifiers).first {
             firstSelectedList.addVocabulary(newVocabulary)
         }else {
-            context.insert(newVocabulary)
+            modelContext.insert(newVocabulary)
         }
         
-        try? context.save()
+        try? modelContext.save()
         
         actionPublisherService.send(action: \.addingVocabulary, input: newVocabulary)
     }
@@ -88,23 +88,23 @@ extension VocabloScene {
         CommandGroup(after: .pasteboard) {
             Divider()
             
-            CommandWordGroupPicker(vocabularies: context.fetch(by: selections.selectedVocabularyIdentifiers))
-                .disabled(selections.selectedVocabularyIdentifiers.isEmpty)
+            CommandWordGroupPicker(vocabularies: modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
+                .disabled(selectionContext.selectedVocabularyIdentifiers.isEmpty)
             
             Divider()
             
-            if let firstList: VocabularyList = context.fetch(by: selections.selectedListIdentifiers).first{
+            if let firstList: VocabularyList = modelContext.fetch(by: selectionContext.selectedListIdentifiers).first{
                 @Bindable var bindedList = firstList
                 
                 Picker("List sort by", selection: $bindedList.sorting) {
                     VocabularyList.VocabularySorting.pickerContent
                 }
-                .disabled(selections.selectedListIdentifiers.count != 1)
+                .disabled(selectionContext.selectedListIdentifiers.count != 1)
             }else {
                 Menu("List sort by") {
                     
                 }
-                .disabled(selections.selectedListIdentifiers.count != 1)
+                .disabled(selectionContext.selectedListIdentifiers.count != 1)
             }
         }
     }
@@ -112,39 +112,39 @@ extension VocabloScene {
     var learningMenu: some Commands {
         CommandMenu("Learning") {
             Button("Start learning") {
-                if let firstList: VocabularyList = context.fetch(by: selections.selectedListIdentifiers).first {
+                if let firstList: VocabularyList = modelContext.fetch(by: selectionContext.selectedListIdentifiers).first {
                     self.learningList = firstList
                 }
             }
-            .disabled(selections.selectedListIdentifiers.count != 1)
+            .disabled(selectionContext.selectedListIdentifiers.count != 1)
             
             Divider()
             
             Button("To learn"){
-                context.checkToLearn(of: context.fetch(by: selections.selectedVocabularyIdentifiers))
+                modelContext.checkToLearn(of: modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
             }
             .keyboardShortcut(KeyEquivalent("l"), modifiers: .command)
-            .disabled(selections.selectedVocabularyIdentifiers.isEmpty)
+            .disabled(selectionContext.selectedVocabularyIdentifiers.isEmpty)
             
             Button("Not to learn"){
-                context.uncheckToLearn(of: context.fetch(by: selections.selectedVocabularyIdentifiers))
+                modelContext.uncheckToLearn(of: modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
             }
             .keyboardShortcut(KeyEquivalent("l"), modifiers: .command.union(.shift))
-            .disabled(selections.selectedVocabularyIdentifiers.isEmpty)
+            .disabled(selectionContext.selectedVocabularyIdentifiers.isEmpty)
             
             Divider()
             
             Button("Reset lists") {
-                let selectedLists: Array<VocabularyList> = context.fetch(by: selections.selectedListIdentifiers)
-                context.resetLearningStates(of: selectedLists)
+                let selectedLists: Array<VocabularyList> = modelContext.fetch(by: selectionContext.selectedListIdentifiers)
+                modelContext.resetLearningStates(of: selectedLists)
             }
-            .disabled(selections.selectedListIdentifiers.isEmpty)
+            .disabled(selectionContext.selectedListIdentifiers.isEmpty)
             
             Button("Reset vocabularies") {
-                let selectedVocabularies: Array<Vocabulary> = context.fetch(by: selections.selectedVocabularyIdentifiers)
-                context.resetLearningStates(of: selectedVocabularies)
+                let selectedVocabularies: Array<Vocabulary> = modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers)
+                modelContext.resetLearningStates(of: selectedVocabularies)
             }
-            .disabled(selections.selectedVocabularyIdentifiers.isEmpty)
+            .disabled(selectionContext.selectedVocabularyIdentifiers.isEmpty)
         }
     }
 }

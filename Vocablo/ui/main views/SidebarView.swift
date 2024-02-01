@@ -16,8 +16,8 @@ struct SidebarView: View {
     @Binding var learningList: VocabularyList?
     
     @Environment(\.actionReactingService) private var actionPublisherService
-    @Environment(\.selections) private var selections
-    @Environment(\.modelContext) private var context: ModelContext
+    @Environment(\.selectionContext) private var selectionContext
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
     @FocusState private var focusedList: PersistentIdentifier?
     @State private var listDeleteConfirmationDialogState: (isShowing: Bool, deletingLists: Array<VocabularyList>) = (false, [])
@@ -31,7 +31,7 @@ struct SidebarView: View {
 
     }
     private var listDeletingConfirmationDialogText: String {
-        if selections.selectedListIdentifiers.count > 1 {
+        if selectionContext.selectedListIdentifiers.count > 1 {
             "Do you want to delete the selected lists?"
         }else {
             "Do you want to delete the list?"
@@ -54,7 +54,7 @@ struct SidebarView: View {
             return true
         }
         
-        let fetchedSelectedLists: Array<VocabularyList> = context.fetch(by: listIdentifiers)
+        let fetchedSelectedLists: Array<VocabularyList> = modelContext.fetch(by: listIdentifiers)
         
         if withConfirmationDialog {
             if areListsEmtpy(fetchedSelectedLists) == false {
@@ -63,29 +63,29 @@ struct SidebarView: View {
             }
         }
     
-        _ = selections.unselectLists(listIdentifiers)
-        context.delete(models: fetchedSelectedLists)
+        _ = selectionContext.unselectLists(listIdentifiers)
+        modelContext.delete(models: fetchedSelectedLists)
     }
     
     private func showLearningSheet(listIdentifiers: Set<PersistentIdentifier>) {
-        guard let firstFetchedList: VocabularyList = context.fetch(by: listIdentifiers).first else { return }
+        guard let firstFetchedList: VocabularyList = modelContext.fetch(by: listIdentifiers).first else { return }
         self.learningList = firstFetchedList
     }
     
     private func addNewList() {
-        let newList = context.addList("New List")
+        let newList = modelContext.addList("New List")
         actionPublisherService.send(action: \.addingList, input: newList)
     }
     
     //MARK: - Body
     
     var body: some View {
-        List(selection: selections.bindable.selectedListIdentifiers) {
+        List(selection: selectionContext.bindable.selectedListIdentifiers) {
             NavigationLink {
                 VocabularyListDetailView(of: nil, learningList: $learningList, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
             } label: {
                 Label("All vocabularies", systemImage: "tray.full")
-                    .badge((try? context.fetchCount(FetchDescriptor<Vocabulary>())) ?? 0, prominece: .decreased)
+                    .badge((try? modelContext.fetchCount(FetchDescriptor<Vocabulary>())) ?? 0, prominece: .decreased)
             }
 
             listSection
@@ -155,7 +155,7 @@ extension SidebarView {
         
         Divider()
         
-        if let firstFetchedList: VocabularyList = context.fetch(by: listIdfentifiers).first {
+        if let firstFetchedList: VocabularyList = modelContext.fetch(by: listIdfentifiers).first {
             @Bindable var bindedFirstFetchedList = firstFetchedList
             Picker("Sort by", selection: $bindedFirstFetchedList.sorting) {
                 VocabularyList.VocabularySorting.pickerContent
@@ -169,8 +169,8 @@ extension SidebarView {
         Divider()
         
         Button {
-            let fetchedSelectedLists: Array<VocabularyList> = context.fetch(by: listIdfentifiers)
-            context.resetLearningStates(of: fetchedSelectedLists)
+            let fetchedSelectedLists: Array<VocabularyList> = modelContext.fetch(by: listIdfentifiers)
+            modelContext.resetLearningStates(of: fetchedSelectedLists)
         } label: {
             if listIdfentifiers.count > 1 {
                 Text("Reset selected")

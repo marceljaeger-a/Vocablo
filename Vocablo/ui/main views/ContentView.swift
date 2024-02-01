@@ -13,8 +13,8 @@ struct ContentView: View {
     //MARK: - Properties
     @Binding var learningList: VocabularyList?
     
-    @Environment(\.selections) private var selections: SelectionContext
-    @Environment(\.modelContext) private var context: ModelContext
+    @Environment(\.selectionContext) private var selectionContext: SelectionContext
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @Environment(\.undoManager) private var viewUndoManager: UndoManager? 
     
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
@@ -29,7 +29,7 @@ struct ContentView: View {
         } detail: {
             if learningList == nil {
                 
-                if let firstSelectedList: VocabularyList = context.fetch(by: selections.selectedListIdentifiers).first {
+                if let firstSelectedList: VocabularyList = modelContext.fetch(by: selectionContext.selectedListIdentifiers).first {
                     VocabularyListDetailView(of: firstSelectedList, learningList: $learningList, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: false)
                 } else {
                     NoSelectedListView()
@@ -38,19 +38,19 @@ struct ContentView: View {
             }
         }
         .navigationTitle("")
-        .linkContextUndoManager(context: context, with: viewUndoManager)
-        .copyableVocabularies(context.fetch(by: selections.selectedVocabularyIdentifiers))
-        .cuttableVocabularies(context.fetch(by: selections.selectedVocabularyIdentifiers), context: context)
-        .vocabulariesPasteDestination(into: context.fetch(by: selections.selectedListIdentifiers).first, context: context)
+        .linkContextUndoManager(context: modelContext, with: viewUndoManager)
+        .copyableVocabularies(modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
+        .cuttableVocabularies(modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers), context: modelContext)
+        .vocabulariesPasteDestination(into: modelContext.fetch(by: selectionContext.selectedListIdentifiers).first, context: modelContext)
         .onDeleteCommand { //⌫ & Delete Menu command, when no vocabulary is selected.
-            context.deleteVocabularies(
+            modelContext.deleteVocabularies(
                 allVocabularies[
-                    byIdentifiers: selections.unselectAllVocabularies()
+                    byIdentifiers: selectionContext.unselectAllVocabularies()
                 ]
             )
         }
-        .onChange(of: selections.selectedListIdentifiers) {
-            _ = selections.unselectAllVocabularies()
+        .onChange(of: selectionContext.selectedListIdentifiers) {
+            _ = selectionContext.unselectAllVocabularies()
         }
     }
 }

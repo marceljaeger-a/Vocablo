@@ -19,8 +19,8 @@ struct VocabularyListDetailView: View {
     let isListLabelAvailable: Bool
     
     @Environment(\.actionReactingService) private var actionPublisherService
-    @Environment(\.selections) private var  selections: SelectionContext
-    @Environment(\.modelContext) private var context: ModelContext
+    @Environment(\.selectionContext) private var  selectionContext: SelectionContext
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @Environment(\.sheetContext) private var sheetContext: SheetContext
     
     @Query private var allVocabularies: Array<Vocabulary>
@@ -59,7 +59,7 @@ struct VocabularyListDetailView: View {
     }
     
     private func openEditVocabularyView(firstOf vocabularyIdentifiers: Set<PersistentIdentifier>) {
-        guard let firstFetchedVocabulary: Vocabulary = context.fetch(by: vocabularyIdentifiers).first else { return }
+        guard let firstFetchedVocabulary: Vocabulary = modelContext.fetch(by: vocabularyIdentifiers).first else { return }
         sheetContext.editingVocabulary = firstFetchedVocabulary
     }
     
@@ -70,8 +70,8 @@ struct VocabularyListDetailView: View {
     }
     
     private func deleteSelectedVocabularies(vocabularyIdentifiers: Set<PersistentIdentifier>) {
-        _ = selections.unselectVocabularies(vocabularyIdentifiers)
-        context.deleteVocabularies(allVocabularies[byIdentifiers: vocabularyIdentifiers])
+        _ = selectionContext.unselectVocabularies(vocabularyIdentifiers)
+        modelContext.deleteVocabularies(allVocabularies[byIdentifiers: vocabularyIdentifiers])
     }
     
     private func addNewVocabulary() {
@@ -80,10 +80,10 @@ struct VocabularyListDetailView: View {
         if let selectedList {
             selectedList.addVocabulary(newVocabulary)
         }else {
-            context.insert(newVocabulary)
+            modelContext.insert(newVocabulary)
         }
         
-        try? context.save()
+        try? modelContext.save()
         
         actionPublisherService.send(action: \.addingVocabulary, input: newVocabulary)
     }
@@ -91,7 +91,7 @@ struct VocabularyListDetailView: View {
     //MARK: - Body
     
     var body: some View {
-        List(selection: selections.bindable.selectedVocabularyIdentifiers) {
+        List(selection: selectionContext.bindable.selectedVocabularyIdentifiers) {
             ForEach(filteredAndSortedVocabulariesOfSelectedList, id: \.id) { vocabulary in
                 VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus, isDuplicateRecognitionLabelAvailable: isDuplicatesPopoverButtonAvailable, isListLabelAvailable: isListLabelAvailable)
                     .onSubmit {
@@ -146,14 +146,14 @@ extension VocabularyListDetailView {
         Divider()
         
         Button {
-            context.checkToLearn(of: context.fetch(by: vocabularyIdentifiers))
+            modelContext.checkToLearn(of: modelContext.fetch(by: vocabularyIdentifiers))
         } label: {
             Text("To learn")
         }
         .disabled(vocabularyIdentifiers.isEmpty == true)
     
         Button {
-            context.uncheckToLearn(of: context.fetch(by: vocabularyIdentifiers))
+            modelContext.uncheckToLearn(of: modelContext.fetch(by: vocabularyIdentifiers))
         } label: {
             Text("Not to learn")
         }
@@ -162,8 +162,8 @@ extension VocabularyListDetailView {
         Divider()
         
         Button {
-            let fetchedSelectedVocabularies: Array<Vocabulary> = context.fetch(by: vocabularyIdentifiers)
-            context.resetLearningStates(of: fetchedSelectedVocabularies)
+            let fetchedSelectedVocabularies: Array<Vocabulary> = modelContext.fetch(by: vocabularyIdentifiers)
+            modelContext.resetLearningStates(of: fetchedSelectedVocabularies)
         } label: {
             if vocabularyIdentifiers.count == 1 {
                 Text("Reset")
