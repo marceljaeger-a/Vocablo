@@ -102,6 +102,7 @@ struct VocabularyListDetailView: View {
                 deleteSelectedVocabularies(vocabularyIdentifiers: filteredAndSortedVocabulariesOfSelectedList[indexSet].identifiers)
             }
         }
+        .listStyle(.inset)
         .contextMenu(forSelectionType: Vocabulary.ID.self) { vocabularyIDs in
             contextMenuButtons(vocabularyIdentifiers: vocabularyIDs)
         } primaryAction: { vocabularyIdentifiers in
