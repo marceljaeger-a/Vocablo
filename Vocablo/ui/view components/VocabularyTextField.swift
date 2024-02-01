@@ -15,7 +15,6 @@ struct VocabularyTextField: View {
     
     var body: some View {
         TextField("", text: $vocabulary[keyPath: value], prompt: Text(placeholder))
-            .bold()
     }
 }
 

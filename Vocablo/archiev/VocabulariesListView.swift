@@ -34,7 +34,7 @@ struct VocabulariesListView: View {
     var body: some View {
         List(selection: selections.bindable.selectedVocabularyIdentifiers) {
             ForEach(vocabularies, id: \.id) { vocabulary in
-                VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus, isDuplicateRecognitionLabelAvailable: true)
+                VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus, isDuplicateRecognitionLabelAvailable: true, isListLabelAvailable: false)
                     .onSubmit {
                         onSubmitAction()
                     }

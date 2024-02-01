@@ -16,6 +16,7 @@ struct VocabularyListDetailView: View {
     let selectedList: VocabularyList?
     @Binding var learningList: VocabularyList?
     let isDuplicatesPopoverButtonAvailable: Bool
+    let isListLabelAvailable: Bool
     
     @Environment(\.actionReactingService) private var actionPublisherService
     @Environment(\.selections) private var  selections: SelectionContext
@@ -32,10 +33,11 @@ struct VocabularyListDetailView: View {
     ///Set the Query depend if you give a selectedList or not.
     ///- You give: The view shows only vocabularies of the list sorted by its sorting.
     ///- You don't give: The view shows all vocabularies sorted by baseWord.
-    init(of selectedList: VocabularyList?, learningList: Binding<VocabularyList?>, isDuplicatesPopoverButtonAvailable: Bool) {
+    init(of selectedList: VocabularyList?, learningList: Binding<VocabularyList?>, isDuplicatesPopoverButtonAvailable: Bool, isListLabelAvailable: Bool) {
         self.selectedList = selectedList
         self._learningList = learningList
         self.isDuplicatesPopoverButtonAvailable = isDuplicatesPopoverButtonAvailable
+        self.isListLabelAvailable = isListLabelAvailable
         
         if let selectedList {
             let filteringListIdentifier = selectedList.persistentModelID
@@ -91,7 +93,7 @@ struct VocabularyListDetailView: View {
     var body: some View {
         List(selection: selections.bindable.selectedVocabularyIdentifiers) {
             ForEach(filteredAndSortedVocabulariesOfSelectedList, id: \.id) { vocabulary in
-                VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus, isDuplicateRecognitionLabelAvailable: isDuplicatesPopoverButtonAvailable)
+                VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus, isDuplicateRecognitionLabelAvailable: isDuplicatesPopoverButtonAvailable, isListLabelAvailable: isListLabelAvailable)
                     .onSubmit {
                         addNewVocabulary()
                     }

@@ -11,7 +11,7 @@ import SwiftUI
 struct DuplicateWarningLabel: View {
     var body: some View {
         Label("Show Duplicates", image: .duplicateWarning)
-            .font(.subheadline)
+            .font(.callout)
             .symbolRenderingMode(.multicolor)
             .foregroundStyle(.yellow)
     }
