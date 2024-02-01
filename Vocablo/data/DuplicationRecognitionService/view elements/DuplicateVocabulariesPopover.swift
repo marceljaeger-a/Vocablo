@@ -29,12 +29,12 @@ struct DuplicateVocabulariesPopover: View {
 
 extension DuplicateVocabulariesPopover {
     struct DuplicateItem: View {
+        
         @Bindable var duplicate: Vocabulary
         
         @Environment(\.sheetContext) var sheetContext
         @Environment(\.modelContext) var modelContext
         @Environment(\.selections) var selectionContext
-        @Environment(\.colorScheme) var colorSchema
         
         var body: some View {
             VStack {

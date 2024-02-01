@@ -1,6 +1,6 @@
-# How to use ActionReactingService in an App
+# How to use ActionReactingService
 
-An article that explain how the API works and how you use it.
+An article that explain how the Service works and how you use it.
 
 @Metadata {
     @Available(macOS,introduced: "14.0")

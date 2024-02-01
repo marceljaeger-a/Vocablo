@@ -378,8 +378,8 @@
 		9FC583242AE707C600A56141 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				9FD513452B69163A00B7955B /* DuplicationRecognitionService */,
 				9F13D95C2B5FD9A800DEBDDF /* ActionPublisherService */,
+				9FD513452B69163A00B7955B /* DuplicationRecognitionService */,
 				9F7FBC8D2B2BB5610033EBAC /* protocols */,
 				9F7FBC8C2B2BB5310033EBAC /* schemas */,
 				9F46EFBD2AE823D20006E5F3 /* types */,

@@ -73,7 +73,7 @@ An App for learning vocabularies with Spaced Repetition.
 
 ### ActionReactingService 
 
-- <doc:Essentials-of-ActionReactingService>
+- <doc:How-to-use-ActionReactingService-in-the-App>
 - ``ActionReactingService``
 - ``ActionPublisher``
 - ``ActionReactingServiceKey``
@@ -82,6 +82,7 @@ An App for learning vocabularies with Spaced Repetition.
 
 ### DuplicateRecognitionService 
 
+- <doc:How-to-use-DuplicateRecognitionService>
 - ``DuplicateRecognitionService``
 - ``Duplicateable``
 

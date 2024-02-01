@@ -13,11 +13,11 @@ struct DuplicateVocabulariesPopoverButton: View {
     let duplicates: Array<Vocabulary>
     let duplicateRecogniser: DuplicateRecognitionService = .init()
     
+    @State var isDuplicatesPopoverShown: Bool = false
+    
     init(duplicatesOf vocabulary: Vocabulary, within otherVocabularies: Array<Vocabulary>) {
         self.duplicates = duplicateRecogniser.duplicates(of: vocabulary, within: otherVocabularies)
     }
-    
-    @State var isDuplicatesPopoverShown: Bool = false
     
     var body: some View {
         Button {
