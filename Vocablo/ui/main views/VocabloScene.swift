@@ -19,6 +19,7 @@ struct VocabloScene: Scene {
     @Environment(\.sheetContext) private var sheetContext
     @Environment(\.modelContext) private var modelContext: ModelContext
     @Query private var allVocabularies: Array<Vocabulary>
+    let duplicatesRecognizer = DuplicateRecognitionService()
     
     //MARK: - Methodes
     
@@ -110,13 +111,21 @@ extension VocabloScene {
     
     var learningMenu: some Commands {
         CommandMenu("Learning") {
-            Button("Start learning") {
+            Button("Start learning all") {
+                sheetContext.learningVocabularies = allVocabularies
+            }
+            
+            Button("Start learning of selected list") {
                 if let firstList: VocabularyList = modelContext.fetch(by: selectionContext.selectedListIdentifiers).first {
                     sheetContext.learningVocabularies = firstList.vocabularies
-                }else {
-                    sheetContext.learningVocabularies = allVocabularies
                 }
             }
+            .disabled(selectionContext.selectedListIdentifiers.isEmpty)
+            
+            Button("Start learning duplicates") {
+                sheetContext.learningVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
+            }
+            .disabled(duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).count == 0)
             
             Divider()
             

@@ -16,6 +16,7 @@ struct VocabularyListDetailView: View {
     let selectedList: VocabularyList?
     let isDuplicatesPopoverButtonAvailable: Bool
     let isListLabelAvailable: Bool
+    let isShown: Optional<(Vocabulary) -> Bool>
     
     @Environment(\.actionReactingService) private var actionPublisherService
     @Environment(\.selectionContext) private var  selectionContext: SelectionContext
@@ -25,6 +26,14 @@ struct VocabularyListDetailView: View {
     @Query private var allVocabularies: Array<Vocabulary>
     @Query var filteredAndSortedVocabulariesOfSelectedList: Array<Vocabulary>
     
+    var shownVocabularies: Array<Vocabulary> {
+        if let isShown {
+            return filteredAndSortedVocabulariesOfSelectedList.filter(isShown)
+        }else {
+            return filteredAndSortedVocabulariesOfSelectedList
+        }
+    }
+    
     @FocusState private var textFieldFocus: VocabularyTextFieldFocusState?
     
     //MARK: - Initialiser
@@ -32,10 +41,11 @@ struct VocabularyListDetailView: View {
     ///Set the Query depend if you give a selectedList or not.
     ///- You give: The view shows only vocabularies of the list sorted by its sorting.
     ///- You don't give: The view shows all vocabularies sorted by baseWord.
-    init(of selectedList: VocabularyList?, isDuplicatesPopoverButtonAvailable: Bool, isListLabelAvailable: Bool) {
+    init(of selectedList: VocabularyList?, isShown: Optional<(Vocabulary) -> Bool>, isDuplicatesPopoverButtonAvailable: Bool, isListLabelAvailable: Bool) {
         self.selectedList = selectedList
         self.isDuplicatesPopoverButtonAvailable = isDuplicatesPopoverButtonAvailable
         self.isListLabelAvailable = isListLabelAvailable
+        self.isShown = isShown
         
         if let selectedList {
             let filteringListIdentifier = selectedList.persistentModelID
@@ -62,7 +72,7 @@ struct VocabularyListDetailView: View {
     }
     
     private func showLearningSheet() {
-        sheetContext.learningVocabularies = filteredAndSortedVocabulariesOfSelectedList
+        sheetContext.learningVocabularies = shownVocabularies
     }
     
     private func deleteSelectedVocabularies(vocabularyIdentifiers: Set<PersistentIdentifier>) {
@@ -88,14 +98,14 @@ struct VocabularyListDetailView: View {
     
     var body: some View {
         List(selection: selectionContext.bindable.selectedVocabularyIdentifiers) {
-            ForEach(filteredAndSortedVocabulariesOfSelectedList, id: \.id) { vocabulary in
+            ForEach(shownVocabularies, id: \.id) { vocabulary in
                 VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus, isDuplicateRecognitionLabelAvailable: isDuplicatesPopoverButtonAvailable, isListLabelAvailable: isListLabelAvailable)
                     .onSubmit {
                         addNewVocabulary()
                     }
             }
             .onDelete { indexSet in //Swipe & Delete menu command(not the keypress), when a vocabulary is selected.
-                deleteSelectedVocabularies(vocabularyIdentifiers: filteredAndSortedVocabulariesOfSelectedList[indexSet].identifiers)
+                deleteSelectedVocabularies(vocabularyIdentifiers: shownVocabularies[indexSet].identifiers)
             }
         }
         .listStyle(.inset)

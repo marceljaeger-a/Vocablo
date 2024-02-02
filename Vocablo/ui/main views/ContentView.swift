@@ -30,7 +30,7 @@ struct ContentView: View {
             if sheetContext.learningVocabularies == nil {
                 
                 if let firstSelectedList: VocabularyList = modelContext.fetch(by: selectionContext.selectedListIdentifiers).first {
-                    VocabularyListDetailView(of: firstSelectedList, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: false)
+                    VocabularyListDetailView(of: firstSelectedList, isShown: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: false)
                 } else {
                     NoSelectedListView()
                 }

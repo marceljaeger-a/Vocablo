@@ -13,6 +13,8 @@ struct SidebarView: View {
     
     //MARK: - Properties
     
+    @AppStorage("isDuplicatesNavigationLinkAlwaysShown") var isDuplciatesNavigationLinkAlwaysShown: Bool = false
+    
     @Environment(\.actionReactingService) private var actionPublisherService
     @Environment(\.selectionContext) private var selectionContext
     @Environment(\.sheetContext) private var sheetContext
@@ -21,6 +23,7 @@ struct SidebarView: View {
     @Query private var allVocabularies: Array<Vocabulary>
     @FocusState private var focusedList: PersistentIdentifier?
     @State private var listDeleteConfirmationDialogState: (isShowing: Bool, deletingLists: Array<VocabularyList>) = (false, [])
+    let duplicatesRecognizer = DuplicateRecognitionService()
     let learningValueCounter: LearningValueManager = LearningValueManager()
     private var bindedIsShowingListDeleteConfirmationDialog: Binding<Bool> {
         Binding {
@@ -82,12 +85,20 @@ struct SidebarView: View {
     var body: some View {
         List(selection: selectionContext.bindable.selectedListIdentifiers) {
             NavigationLink {
-                VocabularyListDetailView(of: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
+                VocabularyListDetailView(of: nil, isShown: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
             } label: {
                 Label("All vocabularies", systemImage: "tray.full")
                     .badge(learningValueCounter.algorithmedLearningValuesCount(of: allVocabularies), prominece: .increased)
                     .badge((try? modelContext.fetchCount(FetchDescriptor<Vocabulary>())) ?? 0, prominece: .decreased)
-                    
+            }
+            if duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).isEmpty == false || isDuplciatesNavigationLinkAlwaysShown == true {
+                NavigationLink {
+                    VocabularyListDetailView(of: nil, isShown: { duplicatesRecognizer.existDuplicate(of: $0, within: allVocabularies)}, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
+                } label: {
+                    Label("Duplicates", image: .duplicateWarning)
+                        .badge(learningValueCounter.algorithmedLearningValuesCount(of: duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)), prominece: .increased)
+                        .badge(duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).count, prominece: .decreased)
+                }
             }
 
             listSection
