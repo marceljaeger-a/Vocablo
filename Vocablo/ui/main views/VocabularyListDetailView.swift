@@ -14,7 +14,6 @@ struct VocabularyListDetailView: View {
     //MARK: - Properties
     
     let selectedList: VocabularyList?
-    @Binding var learningList: VocabularyList?
     let isDuplicatesPopoverButtonAvailable: Bool
     let isListLabelAvailable: Bool
     
@@ -33,9 +32,8 @@ struct VocabularyListDetailView: View {
     ///Set the Query depend if you give a selectedList or not.
     ///- You give: The view shows only vocabularies of the list sorted by its sorting.
     ///- You don't give: The view shows all vocabularies sorted by baseWord.
-    init(of selectedList: VocabularyList?, learningList: Binding<VocabularyList?>, isDuplicatesPopoverButtonAvailable: Bool, isListLabelAvailable: Bool) {
+    init(of selectedList: VocabularyList?, isDuplicatesPopoverButtonAvailable: Bool, isListLabelAvailable: Bool) {
         self.selectedList = selectedList
-        self._learningList = learningList
         self.isDuplicatesPopoverButtonAvailable = isDuplicatesPopoverButtonAvailable
         self.isListLabelAvailable = isListLabelAvailable
         
@@ -64,9 +62,7 @@ struct VocabularyListDetailView: View {
     }
     
     private func showLearningSheet() {
-        if let selectedList {
-            self.learningList = selectedList
-        }
+        sheetContext.learningVocabularies = filteredAndSortedVocabulariesOfSelectedList
     }
     
     private func deleteSelectedVocabularies(vocabularyIdentifiers: Set<PersistentIdentifier>) {

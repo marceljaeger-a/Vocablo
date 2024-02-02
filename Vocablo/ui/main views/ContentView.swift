@@ -11,11 +11,11 @@ import SwiftData
 struct ContentView: View {
     
     //MARK: - Properties
-    @Binding var learningList: VocabularyList?
     
     @Environment(\.selectionContext) private var selectionContext: SelectionContext
     @Environment(\.modelContext) private var modelContext: ModelContext
-    @Environment(\.undoManager) private var viewUndoManager: UndoManager? 
+    @Environment(\.sheetContext) private var sheetContext
+    @Environment(\.undoManager) private var viewUndoManager: UndoManager?
     
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
     @Query private var allVocabularies: Array<Vocabulary>
@@ -24,13 +24,13 @@ struct ContentView: View {
     
     var body: some View {
         NavigationSplitView {
-            SidebarView(learningList: $learningList)
+            SidebarView()
                 .navigationSplitViewColumnWidth(min: 200, ideal: 250)
         } detail: {
-            if learningList == nil {
+            if sheetContext.learningVocabularies == nil {
                 
                 if let firstSelectedList: VocabularyList = modelContext.fetch(by: selectionContext.selectedListIdentifiers).first {
-                    VocabularyListDetailView(of: firstSelectedList, learningList: $learningList, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: false)
+                    VocabularyListDetailView(of: firstSelectedList, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: false)
                 } else {
                     NoSelectedListView()
                 }
@@ -71,7 +71,7 @@ extension ContentView {
 //MARK: - Preview
 
 #Preview {
-    ContentView(learningList: .constant(nil))
+    ContentView()
         .previewModelContainer()
 }
 

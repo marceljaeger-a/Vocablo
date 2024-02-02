@@ -13,10 +13,9 @@ struct SidebarView: View {
     
     //MARK: - Properties
     
-    @Binding var learningList: VocabularyList?
-    
     @Environment(\.actionReactingService) private var actionPublisherService
     @Environment(\.selectionContext) private var selectionContext
+    @Environment(\.sheetContext) private var sheetContext
     @Environment(\.modelContext) private var modelContext: ModelContext
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
     @FocusState private var focusedList: PersistentIdentifier?
@@ -69,7 +68,7 @@ struct SidebarView: View {
     
     private func showLearningSheet(listIdentifiers: Set<PersistentIdentifier>) {
         guard let firstFetchedList: VocabularyList = modelContext.fetch(by: listIdentifiers).first else { return }
-        self.learningList = firstFetchedList
+        sheetContext.learningVocabularies = firstFetchedList.vocabularies
     }
     
     private func addNewList() {
@@ -82,7 +81,7 @@ struct SidebarView: View {
     var body: some View {
         List(selection: selectionContext.bindable.selectedListIdentifiers) {
             NavigationLink {
-                VocabularyListDetailView(of: nil, learningList: $learningList, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
+                VocabularyListDetailView(of: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
             } label: {
                 Label("All vocabularies", systemImage: "tray.full")
                     .badge((try? modelContext.fetchCount(FetchDescriptor<Vocabulary>())) ?? 0, prominece: .decreased)
@@ -127,7 +126,7 @@ extension SidebarView {
                 } icon: {
                     Image(systemName: "book.pages")
                 }
-                .badge(learningValueCounter.algorithmedLearningValuesCount(of: list), prominece: .increased)
+                .badge(learningValueCounter.algorithmedLearningValuesCount(of: list.vocabularies), prominece: .increased)
                 .badge("\(list.vocabularies.count)", prominece: .decreased)
             }
             .onDelete { indexSet in //Only when selected lists are focused! This condition is implicit by SwiftUI.

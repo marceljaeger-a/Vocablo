@@ -15,15 +15,15 @@ struct LearningValueManager {
     /// - 1. New Vocabularies with base word as asking word.
     /// - 2. New Vocabularies with translation word as asking word.
     /// - 3. Repeating Vocabularies sorted by the next repetition date.
-    func algorithmedLearningValues(of managingList: VocabularyList) -> Array<LearningValue> {
+    func algorithmedLearningValues(of vocabularies: Array<Vocabulary>) -> Array<LearningValue> {
         //1 Newly
         let newlyFilters: Array<(LearningValue) -> Bool> = [{ $0.learnableObject.isToLearn }, { $0.askingState.isNewly }, { $0.askingState.isNextRepetitionExpired }]
         
         //1.1 Newly with base word
-        let newlyLearningValuesWithWord = learningValues(of: managingList, asking: .base, filters: newlyFilters, sorting: KeyPathComparator(\.askingState.nextRepetition))
+        let newlyLearningValuesWithWord = learningValues(of: vocabularies, asking: .base, filters: newlyFilters, sorting: KeyPathComparator(\.askingState.nextRepetition))
         
         //1.2 Newly with translation word
-        let newlyLearningValuesWithTranslatedWord = learningValues(of: managingList, asking: .translation, filters: newlyFilters, sorting: KeyPathComparator(\.askingState.nextRepetition))
+        let newlyLearningValuesWithTranslatedWord = learningValues(of: vocabularies, asking: .translation, filters: newlyFilters, sorting: KeyPathComparator(\.askingState.nextRepetition))
         
         
         
@@ -31,10 +31,10 @@ struct LearningValueManager {
         let repeatlyFilters: Array<(LearningValue) -> Bool> = [{ $0.learnableObject.isToLearn }, { $0.askingState.isRepeatly }, { $0.askingState.isNextRepetitionExpired }]
         
         //2.1 Repeatly with base word
-        let repeatlyLeaningValuesWithWord = learningValues(of: managingList, asking: .base, filters: repeatlyFilters)
+        let repeatlyLeaningValuesWithWord = learningValues(of: vocabularies, asking: .base, filters: repeatlyFilters)
         
         //2.2 Repeatly with translation word
-        let repeatlyLeaningValuesWithTranslatedWord = learningValues(of: managingList, asking: .translation, filters: repeatlyFilters)
+        let repeatlyLeaningValuesWithTranslatedWord = learningValues(of: vocabularies, asking: .translation, filters: repeatlyFilters)
         
         //2.3 Repeatly combined
         let repeatlyLearningValuesCombined = repeatlyLeaningValuesWithWord + repeatlyLeaningValuesWithTranslatedWord
@@ -53,15 +53,15 @@ struct LearningValueManager {
     }
     
     ///Returns the count of the algorithmedLearningValues.
-    func algorithmedLearningValuesCount(of managingList: VocabularyList) -> Int {
-        algorithmedLearningValues(of: managingList).count
+    func algorithmedLearningValuesCount(of vocabularies: Array<Vocabulary>) -> Int {
+        algorithmedLearningValues(of: vocabularies).count
     }
     
     //MARK: - Instanz Methodes
     
     ///Returns an Array of LearningValue instances with the managingList´s vocabularies sorted and filtered by the filsters and sorting parameter.
-    private func learningValues(of managingList: VocabularyList, asking: LearningValue.AskingLearningContent, filters: Array<(LearningValue) -> Bool >, sorting: KeyPathComparator<LearningValue>? = nil) -> Array<LearningValue> {
-        var values = managingList.vocabularies.map { element in
+    private func learningValues(of vocabularies: Array<Vocabulary>, asking: LearningValue.AskingLearningContent, filters: Array<(LearningValue) -> Bool >, sorting: KeyPathComparator<LearningValue>? = nil) -> Array<LearningValue> {
+        var values = vocabularies.map { element in
            LearningValue(learnableObject: element, asking: asking)
         }
         

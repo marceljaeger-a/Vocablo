@@ -79,7 +79,7 @@ final class LearningValueManagerTests: XCTestCase {
         
 
         //When
-        let algorythmedValues = valueManager.algorithmedLearningValues(of: list)
+        let algorythmedValues = valueManager.algorithmedLearningValues(of: list.vocabularies)
         
         //Then
         XCTAssertEqual(algorythmedValues[0].askingWord, value3B.askingWord)

@@ -13,27 +13,23 @@ struct LearningSheet: View {
     
     //MARK: - Properties of LearningSheet
     
-    let learningList: VocabularyList
-    private let learningManager: LearningValueManager
+    let learningVocabularies: Array<Vocabulary>
+    private let learningManager: LearningValueManager = LearningValueManager()
     
+    @Environment(\.modelContext) var context
     @Environment(\.undoManager) var undoManager
     @State private var viewUpdateTrigger: Bool = false
     @State private var isOverlapping = true
     
     //MARK: - Initialiser of LearningSheet
     
-    init(list: VocabularyList) {
-        self.learningList = list
-        self.learningManager = LearningValueManager()
-    }
-    
     //MARK: - Body of LearningSheet
     
     var body: some View {
         Group {
-            if let firstValue = learningManager.algorithmedLearningValues(of: learningList).first {
+            if let firstValue = learningManager.algorithmedLearningValues(of: learningVocabularies).first {
                 LearningPage(value: firstValue, isWordNew: OpacityBool(wrappedValue: firstValue.askingState.isNewly), isOverlapping: $isOverlapping)
-                    .environment(\.learningValuesCount, learningManager.algorithmedLearningValuesCount(of: learningList))
+                    .environment(\.learningValuesCount, learningManager.algorithmedLearningValuesCount(of: learningVocabularies))
             }else {
                 NoVocabularyToLearnTodayView()
             }
@@ -52,7 +48,7 @@ struct LearningSheet: View {
             viewUpdateTrigger.toggle()
             isOverlapping = true
         })
-        .linkContextUndoManager(context: learningList.modelContext!, with: undoManager)
+        .linkContextUndoManager(context: context, with: undoManager)
     }
 }
 

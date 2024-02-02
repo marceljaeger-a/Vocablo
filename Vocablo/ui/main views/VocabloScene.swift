@@ -18,8 +18,8 @@ struct VocabloScene: Scene {
     
     @Environment(\.actionReactingService) private var actionPublisherService
     @Environment(\.selectionContext) private var selectionContext: SelectionContext
+    @Environment(\.sheetContext) private var sheetContext
     @Environment(\.modelContext) private var modelContext: ModelContext
-    @State private var learningList: VocabularyList?
     
     //MARK: - Methodes
     
@@ -46,15 +46,15 @@ struct VocabloScene: Scene {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(learningList: $learningList)
+            ContentView()
                 .sheet(isPresented: $isWelcomeSheetShowed) {
                     WelcomeSheet(isShowing: $isWelcomeSheetShowed)
                 }
-                .sheet(item: $learningList) {
-                    
-                } content: { learningList in
-                    LearningSheet(list: learningList)
-                }
+                .sheet(isPresented: sheetContext.bindable.isLearningSheetShown, content: {
+                    if let learningVocabularies = sheetContext.learningVocabularies {
+                        LearningSheet(learningVocabularies: learningVocabularies)
+                    }
+                })
 
         }
         .defaultSize(width: 1280, height: 720)
@@ -113,7 +113,7 @@ extension VocabloScene {
         CommandMenu("Learning") {
             Button("Start learning") {
                 if let firstList: VocabularyList = modelContext.fetch(by: selectionContext.selectedListIdentifiers).first {
-                    self.learningList = firstList
+                    sheetContext.learningVocabularies = firstList.vocabularies
                 }
             }
             .disabled(selectionContext.selectedListIdentifiers.count != 1)
