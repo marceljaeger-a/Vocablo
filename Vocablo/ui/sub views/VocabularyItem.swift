@@ -61,7 +61,7 @@ struct VocabularyItem: View {
                         if isListLabelAvailable, let list = vocabulary.list {
                             VocabularyListLabel(list: list)
                         }
-                        if duplicateRecognicer.existDuplicate(of: vocabulary, within: allVocabularies) {
+                        if duplicateRecognicer.existDuplicate(of: vocabulary, within: allVocabularies) && isDuplicateRecognitionLabelAvailable {
                             DuplicateVocabulariesPopoverButton(duplicatesOf: vocabulary, within: allVocabularies)
                                 .buttonStyle(.plain)
                             

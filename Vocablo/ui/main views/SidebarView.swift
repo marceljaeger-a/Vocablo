@@ -93,7 +93,7 @@ struct SidebarView: View {
             }
             if duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).isEmpty == false || isDuplciatesNavigationLinkAlwaysShown == true {
                 NavigationLink {
-                    VocabularyListDetailView(of: nil, isShown: { duplicatesRecognizer.existDuplicate(of: $0, within: allVocabularies)}, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
+                    VocabularyListDetailView(of: nil, isShown: { duplicatesRecognizer.existDuplicate(of: $0, within: allVocabularies)}, isDuplicatesPopoverButtonAvailable: false, isListLabelAvailable: true)
                 } label: {
                     Label("Duplicates", image: .duplicateWarning)
                         .badge(learningValueCounter.algorithmedLearningValuesCount(of: duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)), prominece: .increased)
