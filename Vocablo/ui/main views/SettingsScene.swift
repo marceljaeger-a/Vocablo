@@ -9,12 +9,13 @@ import Foundation
 import SwiftUI
 
 struct SettingsScene: Scene {
-    @Binding var isWelcomeSheetShowed: Bool
+
+    @Environment(\.sheetContext) var sheetContext
     
     var body: some Scene {
         Settings {
             Form {
-                Toggle("Show welcome sheet", isOn: $isWelcomeSheetShowed)
+                Toggle("Show welcome sheet", isOn: sheetContext.bindable.isWelcomeSheetShown)
             }
             .formStyle(.grouped)
             .padding()

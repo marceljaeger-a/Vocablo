@@ -14,8 +14,6 @@ struct VocabloScene: Scene {
     
     //MARK: - Properties
     
-    @Binding var isWelcomeSheetShowed: Bool
-    
     @Environment(\.actionReactingService) private var actionPublisherService
     @Environment(\.selectionContext) private var selectionContext: SelectionContext
     @Environment(\.sheetContext) private var sheetContext
@@ -47,8 +45,8 @@ struct VocabloScene: Scene {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .sheet(isPresented: $isWelcomeSheetShowed) {
-                    WelcomeSheet(isShowing: $isWelcomeSheetShowed)
+                .sheet(isPresented: sheetContext.bindable.isWelcomeSheetShown) {
+                    WelcomeSheet(isShowing: sheetContext.bindable.isWelcomeSheetShown)
                 }
                 .sheet(isPresented: sheetContext.bindable.isLearningSheetShown, content: {
                     if let learningVocabularies = sheetContext.learningVocabularies {

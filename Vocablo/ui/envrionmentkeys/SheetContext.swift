@@ -11,8 +11,7 @@ import SwiftUI
 @Observable
 class SheetContext {
     var editingVocabulary: Vocabulary?
-    var learningVocabularies: Array<Vocabulary>? 
-    
+    var learningVocabularies: Array<Vocabulary>?
     var isLearningSheetShown: Bool {
         get {
             learningVocabularies != nil
@@ -26,6 +25,8 @@ class SheetContext {
             }
         }
     }
+    
+    var isWelcomeSheetShown: Bool = true
     
     var bindable: Bindable<SheetContext> {
         @Bindable var bindableContext = self
