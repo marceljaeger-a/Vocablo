@@ -18,6 +18,7 @@ struct SidebarView: View {
     @Environment(\.sheetContext) private var sheetContext
     @Environment(\.modelContext) private var modelContext: ModelContext
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
+    @Query private var allVocabularies: Array<Vocabulary>
     @FocusState private var focusedList: PersistentIdentifier?
     @State private var listDeleteConfirmationDialogState: (isShowing: Bool, deletingLists: Array<VocabularyList>) = (false, [])
     let learningValueCounter: LearningValueManager = LearningValueManager()
@@ -84,7 +85,9 @@ struct SidebarView: View {
                 VocabularyListDetailView(of: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
             } label: {
                 Label("All vocabularies", systemImage: "tray.full")
+                    .badge(learningValueCounter.algorithmedLearningValuesCount(of: allVocabularies), prominece: .increased)
                     .badge((try? modelContext.fetchCount(FetchDescriptor<Vocabulary>())) ?? 0, prominece: .decreased)
+                    
             }
 
             listSection

@@ -18,6 +18,7 @@ struct VocabloScene: Scene {
     @Environment(\.selectionContext) private var selectionContext: SelectionContext
     @Environment(\.sheetContext) private var sheetContext
     @Environment(\.modelContext) private var modelContext: ModelContext
+    @Query private var allVocabularies: Array<Vocabulary>
     
     //MARK: - Methodes
     
@@ -112,9 +113,10 @@ extension VocabloScene {
             Button("Start learning") {
                 if let firstList: VocabularyList = modelContext.fetch(by: selectionContext.selectedListIdentifiers).first {
                     sheetContext.learningVocabularies = firstList.vocabularies
+                }else {
+                    sheetContext.learningVocabularies = allVocabularies
                 }
             }
-            .disabled(selectionContext.selectedListIdentifiers.count != 1)
             
             Divider()
             
