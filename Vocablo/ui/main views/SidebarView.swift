@@ -185,7 +185,7 @@ extension SidebarView {
         
         Button {
             let fetchedSelectedLists: Array<VocabularyList> = modelContext.fetch(by: listIdfentifiers)
-            modelContext.resetLearningStates(of: fetchedSelectedLists)
+            modelContext.resetLearningStates(vocabulariesOf: fetchedSelectedLists)
         } label: {
             if listIdfentifiers.count > 1 {
                 Text("Reset selected")

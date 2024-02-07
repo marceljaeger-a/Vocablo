@@ -61,6 +61,7 @@ struct VocabloScene: Scene {
         .commands {
             fileMenu
             editMenu
+            viewMenu
             learningMenu
         }
     }
@@ -72,12 +73,12 @@ struct VocabloScene: Scene {
 extension VocabloScene {
     var fileMenu: some Commands {
         CommandGroup(replacing: .newItem) {
-            Button("Add list") {
+            Button("New list") {
                 addNewList()
             }
-            .keyboardShortcut(KeyEquivalent("n"), modifiers: .command.union(.option))
+            .keyboardShortcut(KeyEquivalent("n"), modifiers: .command.union(.shift))
             
-            Button("Add vocabulary") {
+            Button("New vocabulary") {
                 addNewVocabulary()
             }
             .keyboardShortcut(KeyEquivalent("n"), modifiers: .command)
@@ -88,55 +89,21 @@ extension VocabloScene {
         CommandGroup(after: .pasteboard) {
             Divider()
             
-            CommandWordGroupPicker(vocabularies: modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
-                .disabled(selectionContext.selectedVocabularyIdentifiers.isEmpty)
-            
-            Divider()
-            
-            if let selectedListIdentifiers = selectionContext.listSelections.listIdentifiers, let firstSelectedList: VocabularyList =  modelContext.fetch(by: selectedListIdentifiers).first{
-                @Bindable var bindedList = firstSelectedList
-                
-                Picker("List sort by", selection: $bindedList.sorting) {
-                    VocabularyList.VocabularySorting.pickerContent
-                }
-                .disabled(selectionContext.listSelections.listCount != 1)
+            if selectionContext.selectedVocabularyIdentifiers.isEmpty == false {
+                CommandWordGroupPicker(vocabularies: modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
             }else {
-                Menu("List sort by") {
-                    
-                }
-                .disabled(selectionContext.listSelections.listCount != 1)
+                Text("Set word group of selected vocabularies")
             }
-        }
-    }
-    
-    var learningMenu: some Commands {
-        CommandMenu("Learning") {
-            Button("Start learning all") {
-                sheetContext.learningVocabularies = allVocabularies
-            }
-            
-            Button("Start learning of selected list") {
-                guard let listIdentifiers = selectionContext.listSelections.listIdentifiers else { return }
-                if let firstList: VocabularyList = modelContext.fetch(by: listIdentifiers).first {
-                    sheetContext.learningVocabularies = firstList.vocabularies
-                }
-            }
-            .disabled(selectionContext.listSelections.isAnyListSelected == false)
-            
-            Button("Start learning duplicates") {
-                sheetContext.learningVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
-            }
-            .disabled(duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).count == 0)
             
             Divider()
             
-            Button("To learn"){
+            Button("Check selected vocabularies for learning"){
                 modelContext.checkToLearn(of: modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
             }
             .keyboardShortcut(KeyEquivalent("l"), modifiers: .command)
             .disabled(selectionContext.selectedVocabularyIdentifiers.isEmpty)
             
-            Button("Not to learn"){
+            Button("Uncheck selected vocabularies for learning"){
                 modelContext.uncheckToLearn(of: modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
             }
             .keyboardShortcut(KeyEquivalent("l"), modifiers: .command.union(.shift))
@@ -144,18 +111,66 @@ extension VocabloScene {
             
             Divider()
             
-            Button("Reset lists") {
-                guard let listIdentifiers = selectionContext.listSelections.listIdentifiers else { return }
-                let selectedLists: Array<VocabularyList> = modelContext.fetch(by: listIdentifiers)
-                modelContext.resetLearningStates(of: selectedLists)
-            }
-            .disabled(selectionContext.listSelections.isAnyListSelected == false)
-            
-            Button("Reset vocabularies") {
+            Button("Reset selected vocabularies") {
                 let selectedVocabularies: Array<Vocabulary> = modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers)
                 modelContext.resetLearningStates(of: selectedVocabularies)
             }
+            .keyboardShortcut(KeyEquivalent("r"), modifiers: .command)
             .disabled(selectionContext.selectedVocabularyIdentifiers.isEmpty)
+            
+            Button("Reset vocabularies of shown list") {
+                if selectionContext.listSelections.isAllVocabulariesSelected {
+                    modelContext.resetLearningStates(of: allVocabularies)
+                }else if selectionContext.listSelections.isDuplicatesSelected {
+                    modelContext.resetLearningStates(of: duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies))
+                }else if selectionContext.listSelections.isAnyListSelected{
+                    guard let listIdentifiers = selectionContext.listSelections.listIdentifiers else { return }
+                    guard let firstSelectedList: VocabularyList = modelContext.fetch(by: listIdentifiers).first else { return }
+                    modelContext.resetLearningStates(of: firstSelectedList.vocabularies)
+                }
+            }
+            .keyboardShortcut(KeyEquivalent("r"), modifiers: .command.union(.shift))
+            .disabled(selectionContext.listSelections.isAnySelected == false)
+
+        }
+    }
+    
+    var viewMenu: some Commands {
+        CommandGroup(before: .toolbar) {
+            if let selectedListIdentifiers = selectionContext.listSelections.listIdentifiers, let firstSelectedList: VocabularyList =  modelContext.fetch(by: selectedListIdentifiers).first{
+                @Bindable var bindedList = firstSelectedList
+                
+                Picker("Sort shown list by", selection: $bindedList.sorting) {
+                    VocabularyList.VocabularySorting.pickerContent
+                }
+            }else {
+                Text("Sort shown list by")
+            }
+            
+            Divider()
+        }
+    }
+    
+    var learningMenu: some Commands {
+        CommandMenu("Learning") {
+            Button("Learn shown list") {
+                if selectionContext.listSelections.isAllVocabulariesSelected {
+                    
+                    sheetContext.learningVocabularies = allVocabularies
+                    
+                }else if selectionContext.listSelections.isDuplicatesSelected {
+                    
+                    sheetContext.learningVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
+                    
+                } else if selectionContext.listSelections.isAnyListSelected {
+                    
+                    guard let listIdentifiers = selectionContext.listSelections.listIdentifiers else { return }
+                    guard let firstList: VocabularyList = modelContext.fetch(by: listIdentifiers).first else { return }
+                    sheetContext.learningVocabularies = firstList.vocabularies
+                    
+                }
+            }
+            .disabled(selectionContext.listSelections.isAnySelected == false)
         }
     }
 }

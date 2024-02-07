@@ -63,7 +63,6 @@ struct ListSelectionSet {
     var isAnySelected: Bool {
         selections.isEmpty == false
     }
-
 }
 
 

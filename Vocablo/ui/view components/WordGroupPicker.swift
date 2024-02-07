@@ -41,13 +41,16 @@ struct CommandWordGroupPicker: View {
     }
     
     var body: some View {
-        Menu("Word group") {
+        Menu("Set word group") {
             ForEach(WordGroup.allCases, id: \.rawValue) { wordGroup in
                 Button {
                     selectWordGroup(wordGroup)
                 } label: {
                     Text(wordGroup.rawValue)
                 }
+                .disabled(vocabularies.allSatisfy({ vocabulary in
+                    vocabulary.wordGroup == wordGroup
+                }))
             }
         }
         .menuStyle(BorderlessButtonMenuStyle())
