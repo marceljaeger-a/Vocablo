@@ -20,6 +20,8 @@ struct ContentView: View {
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
     @Query private var allVocabularies: Array<Vocabulary>
     
+    let duplicatesRecognizer = DuplicateRecognitionService()
+    
     //MARK: - Body
     
     var body: some View {
@@ -28,8 +30,12 @@ struct ContentView: View {
                 .navigationSplitViewColumnWidth(min: 200, ideal: 250)
         } detail: {
             if sheetContext.learningVocabularies == nil {
-                
-                if let firstSelectedList: VocabularyList = modelContext.fetch(by: selectionContext.selectedListIdentifiers).first {
+    
+                if selectionContext.listSelections.isAllVocabulariesSelected {
+                    VocabularyListDetailView(of: nil, isShown: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
+                }else if selectionContext.listSelections.isDuplicatesSelected {
+                    VocabularyListDetailView(of: nil, isShown: { duplicatesRecognizer.existDuplicate(of: $0, within: allVocabularies)}, isDuplicatesPopoverButtonAvailable: false, isListLabelAvailable: true)
+                } else if selectionContext.listSelections.isAnyListSelected, let firstSelectedList: VocabularyList = modelContext.fetch(by: selectionContext.listSelections.listIdentifiers ?? []).first {
                     VocabularyListDetailView(of: firstSelectedList, isShown: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: false)
                 } else {
                     NoSelectedListView()
@@ -41,7 +47,7 @@ struct ContentView: View {
         .linkContextUndoManager(context: modelContext, with: viewUndoManager)
         .copyableVocabularies(modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
         .cuttableVocabularies(modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers), context: modelContext)
-        .vocabulariesPasteDestination(into: modelContext.fetch(by: selectionContext.selectedListIdentifiers).first, context: modelContext)
+        .vocabulariesPasteDestination(into: modelContext.fetch(by: selectionContext.listSelections.listIdentifiers ?? []).first, context: modelContext)
         .onDeleteCommand { //⌫ & Delete Menu command, when no vocabulary is selected.
             modelContext.deleteVocabularies(
                 allVocabularies[
@@ -49,7 +55,7 @@ struct ContentView: View {
                 ]
             )
         }
-        .onChange(of: selectionContext.selectedListIdentifiers) {
+        .onChange(of: selectionContext.listSelections.selections) {
             _ = selectionContext.unselectAllVocabularies()
         }
     }

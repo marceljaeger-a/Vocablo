@@ -34,7 +34,7 @@ struct SidebarView: View {
 
     }
     private var listDeletingConfirmationDialogText: String {
-        if selectionContext.selectedListIdentifiers.count > 1 {
+        if selectionContext.listSelections.listCount > 1 {
             "Do you want to delete the selected lists?"
         }else {
             "Do you want to delete the list?"
@@ -66,7 +66,7 @@ struct SidebarView: View {
             }
         }
     
-        _ = selectionContext.unselectLists(listIdentifiers)
+        _ = selectionContext.listSelections.unselectLists(listIdentifiers)
         modelContext.delete(models: fetchedSelectedLists)
     }
     
@@ -83,25 +83,10 @@ struct SidebarView: View {
     //MARK: - Body
     
     var body: some View {
-        List(selection: selectionContext.bindable.selectedListIdentifiers) {
-            NavigationLink {
-                VocabularyListDetailView(of: nil, isShown: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
-            } label: {
-                Label("All vocabularies", systemImage: "tray.full")
-                    .badge(learningValueCounter.algorithmedLearningValuesCount(of: allVocabularies), prominece: .increased)
-                    .badge((try? modelContext.fetchCount(FetchDescriptor<Vocabulary>())) ?? 0, prominece: .decreased)
-            }
-            if duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).isEmpty == false || isDuplciatesNavigationLinkAlwaysShown == true {
-                NavigationLink {
-                    VocabularyListDetailView(of: nil, isShown: { duplicatesRecognizer.existDuplicate(of: $0, within: allVocabularies)}, isDuplicatesPopoverButtonAvailable: false, isListLabelAvailable: true)
-                } label: {
-                    Label("Duplicates", image: .duplicateWarning)
-                        .badge(learningValueCounter.algorithmedLearningValuesCount(of: duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)), prominece: .increased)
-                        .badge(duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).count, prominece: .decreased)
-                }
-            }
-
-            listSection
+        List(selection: selectionContext.bindable.listSelections.selections) {
+            appListsSection
+            
+            listsSection
         }
         .buttomButtons(onLeft: {
             Button {
@@ -111,8 +96,8 @@ struct SidebarView: View {
             }
             .buttonStyle(.borderless)
         })
-        .contextMenu(forSelectionType: PersistentIdentifier.self) { listIdentifiers in
-            contextMenuButtons(listIdfentifiers: listIdentifiers)
+        .contextMenu(forSelectionType: ListSelectionValue.self) { listSelectionValues in
+            contextMenuButtons(listIdfentifiers: ListSelectionSet(values: listSelectionValues).listIdentifiers ?? [])
         }
         .confirmationDialog(listDeletingConfirmationDialogText, isPresented: bindedIsShowingListDeleteConfirmationDialog) {
             listDeletingConfirmationDialgoButtons
@@ -130,7 +115,23 @@ struct SidebarView: View {
 //MARK: - Subviews
 
 extension SidebarView {
-    var listSection: some View {
+    var appListsSection: some View {
+        Group {
+            Label("All vocabularies", systemImage: "tray.full")
+                .badge(learningValueCounter.algorithmedLearningValuesCount(of: allVocabularies), prominece: .increased)
+                .badge((try? modelContext.fetchCount(FetchDescriptor<Vocabulary>())) ?? 0, prominece: .decreased)
+                .tag(ListSelectionValue.allVocabularies)
+            
+            if duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).isEmpty == false || isDuplciatesNavigationLinkAlwaysShown == true {
+                Label("Duplicates", image: .duplicateWarning)
+                    .badge(learningValueCounter.algorithmedLearningValuesCount(of: duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)), prominece: .increased)
+                    .badge(duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).count, prominece: .decreased)
+                    .tag(ListSelectionValue.duplicates)
+            }
+        }
+    }
+    
+    var listsSection: some View {
         Section("Lists") {
             ForEach(allLists, id: \.id) { list in
                 @Bindable var bindedList = list
@@ -142,6 +143,7 @@ extension SidebarView {
                 }
                 .badge(learningValueCounter.algorithmedLearningValuesCount(of: list.vocabularies), prominece: .increased)
                 .badge("\(list.vocabularies.count)", prominece: .decreased)
+                .tag(ListSelectionValue.list(identifier: list.id))
             }
             .onDelete { indexSet in //Only when selected lists are focused! This condition is implicit by SwiftUI.
                 self.deleteSelectedLists(listIdentifiers: allLists[indexSet].identifiers, withConfirmationDialog: true)

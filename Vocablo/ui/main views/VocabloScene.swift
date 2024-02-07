@@ -31,7 +31,7 @@ struct VocabloScene: Scene {
     private func addNewVocabulary() {
         let newVocabulary = Vocabulary(baseWord: "", translationWord: "", wordGroup: .noun)
         
-        if let firstSelectedList: VocabularyList =  modelContext.fetch(by: selectionContext.selectedListIdentifiers).first {
+        if let selectedListIdentifiers = selectionContext.listSelections.listIdentifiers, let firstSelectedList: VocabularyList =  modelContext.fetch(by: selectedListIdentifiers).first {
             firstSelectedList.addVocabulary(newVocabulary)
         }else {
             modelContext.insert(newVocabulary)
@@ -93,18 +93,18 @@ extension VocabloScene {
             
             Divider()
             
-            if let firstList: VocabularyList = modelContext.fetch(by: selectionContext.selectedListIdentifiers).first{
-                @Bindable var bindedList = firstList
+            if let selectedListIdentifiers = selectionContext.listSelections.listIdentifiers, let firstSelectedList: VocabularyList =  modelContext.fetch(by: selectedListIdentifiers).first{
+                @Bindable var bindedList = firstSelectedList
                 
                 Picker("List sort by", selection: $bindedList.sorting) {
                     VocabularyList.VocabularySorting.pickerContent
                 }
-                .disabled(selectionContext.selectedListIdentifiers.count != 1)
+                .disabled(selectionContext.listSelections.listCount != 1)
             }else {
                 Menu("List sort by") {
                     
                 }
-                .disabled(selectionContext.selectedListIdentifiers.count != 1)
+                .disabled(selectionContext.listSelections.listCount != 1)
             }
         }
     }
@@ -116,11 +116,12 @@ extension VocabloScene {
             }
             
             Button("Start learning of selected list") {
-                if let firstList: VocabularyList = modelContext.fetch(by: selectionContext.selectedListIdentifiers).first {
+                guard let listIdentifiers = selectionContext.listSelections.listIdentifiers else { return }
+                if let firstList: VocabularyList = modelContext.fetch(by: listIdentifiers).first {
                     sheetContext.learningVocabularies = firstList.vocabularies
                 }
             }
-            .disabled(selectionContext.selectedListIdentifiers.isEmpty)
+            .disabled(selectionContext.listSelections.isAnyListSelected == false)
             
             Button("Start learning duplicates") {
                 sheetContext.learningVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
@@ -144,10 +145,11 @@ extension VocabloScene {
             Divider()
             
             Button("Reset lists") {
-                let selectedLists: Array<VocabularyList> = modelContext.fetch(by: selectionContext.selectedListIdentifiers)
+                guard let listIdentifiers = selectionContext.listSelections.listIdentifiers else { return }
+                let selectedLists: Array<VocabularyList> = modelContext.fetch(by: listIdentifiers)
                 modelContext.resetLearningStates(of: selectedLists)
             }
-            .disabled(selectionContext.selectedListIdentifiers.isEmpty)
+            .disabled(selectionContext.listSelections.isAnyListSelected == false)
             
             Button("Reset vocabularies") {
                 let selectedVocabularies: Array<Vocabulary> = modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers)
