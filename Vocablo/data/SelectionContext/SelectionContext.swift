@@ -24,6 +24,7 @@ class SelectionContext {
         return _bindableContext
     }
     
+    ///Returns a boolean if **selectedVocabularyIdentifiers** contains values or not.
     var isAnyVocabularySelected: Bool {
         if selectedVocabularyIdentifiers.isEmpty == false {
             return true
@@ -33,16 +34,21 @@ class SelectionContext {
     
     //MARK: - Methodes
     
+    ///Removes the **identifiers** from **selectedVocabularyIdentifiers**.
+    ///Returns the removed identifiers those are contained in **selectedVocabularyIdentifiers**.
     func unselectVocabularies(_ identifiers: Set<PersistentIdentifier>) -> Set<PersistentIdentifier> {
         selectedVocabularyIdentifiers.remove(members: identifiers)
     }
     
+    ///Removes all identifiers from **selectedVocabularyIdentifiers**.
+    ///Returns all identifiers those are contained in **selectedVocabularyIdentifiers**.
     func unselectAllVocabularies() -> Set<PersistentIdentifier> {
         let selectedVocabularies = selectedVocabularyIdentifiers
         selectedVocabularyIdentifiers = []
         return selectedVocabularies
     }
     
+    ///Returns a boolean if **selectedVocabularyIdentifiers** contains the **identifier** or not.
     func isVocabularySelected(_ identifier: PersistentIdentifier) -> Bool {
         selectedVocabularyIdentifiers.contains(identifier)
     }

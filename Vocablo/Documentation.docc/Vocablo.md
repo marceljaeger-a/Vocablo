@@ -57,11 +57,16 @@ An App for learning vocabularies with Spaced Repetition.
 
 ### View Utilities
 
-- ``SelectionContext``
-- ``SelectionContextEnvrionmentKey``
 - ``SheetContext``
 - ``SheetContextEnvironmentKey``
 - ``OpacityBool``
+
+### Selections
+
+- ``SelectionContext``
+- ``SelectionContextEnvrionmentKey``
+- ``ListSelectionValue``
+- ``ListSelectionSet``
 
 ### Learning API
 
