@@ -47,6 +47,55 @@ struct SidebarView: View {
         focusedList = list.id
     }
     
+    private func addNewList() {
+        let newList = modelContext.addList("New List")
+        actionPublisherService.send(action: \.addingList, input: newList)
+    }
+    
+    private func showLearningSheet(listSelections: ListSelectionSet) {
+        var learningVocabularies: Array<Vocabulary> = []
+        
+        if listSelections.isAllVocabulariesSelected {
+            learningVocabularies.append(contentsOf: allVocabularies)
+            
+        }else if listSelections.isDuplicatesSelected {
+            
+            let duplicateVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
+            learningVocabularies.append(contentsOf: duplicateVocabularies)
+            
+        }else if listSelections.isAnyListSelected {
+            
+            guard let listIdentifiers = listSelections.listIdentifiers else { return }
+            
+            let fetchedLists: Array<VocabularyList> = modelContext.fetch(by: listIdentifiers)
+            
+            for fetchedList in fetchedLists {
+                learningVocabularies.append(contentsOf: fetchedList.vocabularies)
+            }
+            
+        }
+        
+        sheetContext.learningVocabularies = learningVocabularies    }
+    
+    private func resetLists(listSelections: ListSelectionSet) {
+        if listSelections.isAllVocabulariesSelected {
+        
+            modelContext.resetLearningStates(of: allVocabularies)
+            
+        }else if listSelections.isDuplicatesSelected {
+            
+            let duplicateVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
+            modelContext.resetLearningStates(of: duplicateVocabularies)
+            
+        }else if listSelections.isAnyListSelected {
+            
+            guard let listIdentifiers = listSelections.listIdentifiers else { return }
+            let lists: Array<VocabularyList> = modelContext.fetch(by: listIdentifiers)
+            modelContext.resetLearningStates(vocabulariesOf: lists)
+            
+        }
+    }
+    
     private func deleteSelectedLists(listIdentifiers: Set<PersistentIdentifier>, withConfirmationDialog: Bool) {
         func areListsEmtpy(_ lists: Array<VocabularyList>) -> Bool {
             for list in lists {
@@ -70,16 +119,6 @@ struct SidebarView: View {
         modelContext.delete(models: fetchedSelectedLists)
     }
     
-    private func showLearningSheet(listIdentifiers: Set<PersistentIdentifier>) {
-        guard let firstFetchedList: VocabularyList = modelContext.fetch(by: listIdentifiers).first else { return }
-        sheetContext.learningVocabularies = firstFetchedList.vocabularies
-    }
-    
-    private func addNewList() {
-        let newList = modelContext.addList("New List")
-        actionPublisherService.send(action: \.addingList, input: newList)
-    }
-    
     //MARK: - Body
     
     var body: some View {
@@ -97,7 +136,7 @@ struct SidebarView: View {
             .buttonStyle(.borderless)
         })
         .contextMenu(forSelectionType: ListSelectionValue.self) { listSelectionValues in
-            contextMenuButtons(listIdfentifiers: ListSelectionSet(values: listSelectionValues).listIdentifiers ?? [])
+            contextMenu(listSelections: .init(values: listSelectionValues))
         }
         .confirmationDialog(listDeletingConfirmationDialogText, isPresented: bindedIsShowingListDeleteConfirmationDialog) {
             listDeletingConfirmationDialgoButtons
@@ -151,62 +190,62 @@ extension SidebarView {
         }
     }
     
-    @ViewBuilder func contextMenuButtons(listIdfentifiers: Set<PersistentIdentifier>) -> some View {
-        Button {
+    @ViewBuilder func contextMenu(listSelections: ListSelectionSet) -> some View {
+        Button("New list") {
             addNewList()
-        } label: {
-            Text("New list")
         }
-        .disabled(listIdfentifiers.isEmpty == false)
+        .disabled(listSelections.isAnySelected)
         
         Divider()
-
+        
         Button {
-            self.showLearningSheet(listIdentifiers: listIdfentifiers)
-        } label: {
-            Text("Start learning")
+            showLearningSheet(listSelections: listSelections)
+        }label: {
+            if listSelections.listCount > 1 {
+                Text("Learn lists")
+            }else {
+                Text("Learn list")
+            }
         }
-        .disabled(listIdfentifiers.count != 1)
+        .disabled(listSelections.isAnySelected == false)
         
         Divider()
         
-        if let firstFetchedList: VocabularyList = modelContext.fetch(by: listIdfentifiers).first {
+        if let firstFetchedList: VocabularyList = modelContext.fetch(by: listSelections.listIdentifiers ?? []).first, listSelections.listCount == 1 {
             @Bindable var bindedFirstFetchedList = firstFetchedList
-            Picker("Sort by", selection: $bindedFirstFetchedList.sorting) {
+            Picker("Sort list by", selection: $bindedFirstFetchedList.sorting) {
                 VocabularyList.VocabularySorting.pickerContent
             }
-            .disabled(listIdfentifiers.count != 1)
         }else {
-            Text("Sort by")
-                .disabled(listIdfentifiers.count != 1)
+            Text("Sort list by")
         }
         
         Divider()
         
         Button {
-            let fetchedSelectedLists: Array<VocabularyList> = modelContext.fetch(by: listIdfentifiers)
-            modelContext.resetLearningStates(vocabulariesOf: fetchedSelectedLists)
-        } label: {
-            if listIdfentifiers.count > 1 {
-                Text("Reset selected")
+            resetLists(listSelections: listSelections)
+        }label: {
+            if listSelections.listCount > 1 {
+                Text("Reset lists")
             }else {
-                Text("Reset")
+                Text("Reset list")
             }
         }
-        .disabled(listIdfentifiers.isEmpty == true)
+        .disabled(listSelections.isAnySelected == false)
         
         Button {
-            self.deleteSelectedLists(listIdentifiers: listIdfentifiers, withConfirmationDialog: true)
+            guard let listIdentifiers = listSelections.listIdentifiers else { return }
+            deleteSelectedLists(listIdentifiers: listIdentifiers, withConfirmationDialog: true)
         } label: {
-            if listIdfentifiers.count > 1 {
-                Text("Delete selected")
+            if listSelections.listCount > 1 {
+                Text("Delete lists")
             }else {
-                Text("Delete")
+                Text("Delete list")
             }
         }
-        .disabled(listIdfentifiers.isEmpty == true)
+        .disabled(listSelections.isAnyListSelected == false)
     }
-    
+
     @ViewBuilder var listDeletingConfirmationDialgoButtons: some View {
         Button(role: .cancel){
             self.listDeleteConfirmationDialogState = (false, [])
