@@ -70,6 +70,7 @@
 		9FDB9CE22B37242200646B67 /* current model typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB9CE12B37242200646B67 /* current model typealias.swift */; };
 		9FDE39DB2B1E78E7000EC63E /* LearningSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDE39DA2B1E78E7000EC63E /* LearningSheet.swift */; };
 		9FEAC8082B24D06100AA7133 /* VocabloScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEAC8072B24D06100AA7133 /* VocabloScene.swift */; };
+		9FEDFF122B7B9D6300728D7C /* SearchingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEDFF112B7B9D6300728D7C /* SearchingText.swift */; };
 		9FF01AAC2B152EB30038BEAE /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF01AAB2B152EB30038BEAE /* DetailView.swift */; };
 		9FF78ED12B481718006F6756 /* ModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF78ED02B481718006F6756 /* ModelContainer.swift */; };
 		9FF78ED42B481C20006F6756 /* SelectionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF78ED32B481C20006F6756 /* SelectionContext.swift */; };
@@ -158,6 +159,7 @@
 		9FDB9CE12B37242200646B67 /* current model typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "current model typealias.swift"; sourceTree = "<group>"; };
 		9FDE39DA2B1E78E7000EC63E /* LearningSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningSheet.swift; sourceTree = "<group>"; };
 		9FEAC8072B24D06100AA7133 /* VocabloScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabloScene.swift; sourceTree = "<group>"; };
+		9FEDFF112B7B9D6300728D7C /* SearchingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchingText.swift; sourceTree = "<group>"; };
 		9FF01AAB2B152EB30038BEAE /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		9FF78ED02B481718006F6756 /* ModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContainer.swift; sourceTree = "<group>"; };
 		9FF78ED32B481C20006F6756 /* SelectionContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionContext.swift; sourceTree = "<group>"; };
@@ -463,6 +465,7 @@
 			isa = PBXGroup;
 			children = (
 				9FD5134C2B695A3D00B7955B /* SheetContext.swift */,
+				9FEDFF112B7B9D6300728D7C /* SearchingText.swift */,
 			);
 			path = envrionmentkeys;
 			sourceTree = "<group>";
@@ -627,6 +630,7 @@
 				9FD5134D2B695A3D00B7955B /* SheetContext.swift in Sources */,
 				9F2767322B0525A900C99231 /* Vocabulary UTType.swift in Sources */,
 				9F7F6C452B177E7D001B266A /* SidebarView.swift in Sources */,
+				9FEDFF122B7B9D6300728D7C /* SearchingText.swift in Sources */,
 				9F3C66B72B2A572B00E75793 /* LinkUndoManager.swift in Sources */,
 				9F77411F2B1345B200565B42 /* VocabularyToggle.swift in Sources */,
 				9F77411A2B1343DC00565B42 /* EditVocabularyView.swift in Sources */,
