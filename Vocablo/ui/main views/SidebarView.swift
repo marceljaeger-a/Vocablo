@@ -48,7 +48,13 @@ struct SidebarView: View {
     }
     
     private func addNewList() {
-        let newList = modelContext.addList("New List")
+        let newList: VocabularyList = .newList
+        modelContext.insert(newList)
+        do {
+            try modelContext.save()
+        }catch {
+            print("Saving adding new list failed!")
+        }
         actionPublisherService.send(action: \.addingList, input: newList)
     }
     
@@ -67,7 +73,7 @@ struct SidebarView: View {
             
             guard let listIdentifiers = listSelections.listIdentifiers else { return }
             
-            let fetchedLists: Array<VocabularyList> = modelContext.fetch(by: listIdentifiers)
+            let fetchedLists = modelContext.fetchLists(.byIdentifiers(listIdentifiers))
             
             for fetchedList in fetchedLists {
                 learningVocabularies.append(contentsOf: fetchedList.vocabularies)
@@ -80,18 +86,18 @@ struct SidebarView: View {
     private func resetLists(listSelections: ListSelectionSet) {
         if listSelections.isAllVocabulariesSelected {
         
-            modelContext.resetLearningStates(of: allVocabularies)
+            allVocabularies.forEach { $0.resetLearningsStates() }
             
         }else if listSelections.isDuplicatesSelected {
             
             let duplicateVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
-            modelContext.resetLearningStates(of: duplicateVocabularies)
+            duplicateVocabularies.forEach { $0.resetLearningsStates() }
             
         }else if listSelections.isAnyListSelected {
             
             guard let listIdentifiers = listSelections.listIdentifiers else { return }
-            let lists: Array<VocabularyList> = modelContext.fetch(by: listIdentifiers)
-            modelContext.resetLearningStates(vocabulariesOf: lists)
+            let lists = modelContext.fetchLists(.byIdentifiers(listIdentifiers))
+            lists.forEach { $0.resetLearningStates() }
             
         }
     }
@@ -106,7 +112,7 @@ struct SidebarView: View {
             return true
         }
         
-        let fetchedSelectedLists: Array<VocabularyList> = modelContext.fetch(by: listIdentifiers)
+        let fetchedSelectedLists = modelContext.fetchLists(.byIdentifiers(listIdentifiers))
         
         if withConfirmationDialog {
             if areListsEmtpy(fetchedSelectedLists) == false {
@@ -211,7 +217,7 @@ extension SidebarView {
         
         Divider()
         
-        if let firstFetchedList: VocabularyList = modelContext.fetch(by: listSelections.listIdentifiers ?? []).first, listSelections.listCount == 1 {
+        if let firstFetchedList: VocabularyList = modelContext.fetchLists(.byIdentifiers(listSelections.listIdentifiers ?? []) ).first, listSelections.listCount == 1 {
             @Bindable var bindedFirstFetchedList = firstFetchedList
             Picker("Sort list by", selection: $bindedFirstFetchedList.sorting) {
                 VocabularyList.VocabularySorting.pickerContent

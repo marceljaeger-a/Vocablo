@@ -17,7 +17,7 @@ extension View {
             defer {
                 for cuttedVocabulary in cuttedVocabularies {
                     if let list = cuttedVocabulary.list {
-                        list.removeVocabulary(cuttedVocabulary)
+                        list.remove(vocabulary: cuttedVocabulary)
                     }
                     
                     context.delete(cuttedVocabulary)

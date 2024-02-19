@@ -85,19 +85,15 @@ extension SchemaV1 {
         
         //MARK: - Instanz Methodes
         
-        ///Add the Vocabulary to the list.
-        ///Sends a publisher message with the new vocabulary instance to subscribers.
-        func addVocabulary(_ vocabulary: Vocabulary) {
-            self.vocabularies.append(vocabulary)
-            if let context = vocabulary.modelContext {
-                try? context.save()
-            }
+        ///Appends the vocabulary.
+        func append(vocabulary: Vocabulary) {
+            vocabularies.append(vocabulary)
         }
         
         ///Removes the Vocabulary from the list.
         ///
         ///> If you remove vocabularies without this methode, the UndoManager will not be able to register the unrelating!
-        func removeVocabulary(_ vocabulary: Vocabulary) {
+        func remove(vocabulary: Vocabulary) {
             self.vocabularies.removeAll { element in
                 element == vocabulary
             }
@@ -105,26 +101,21 @@ extension SchemaV1 {
             if let undoManager = self.modelContext?.undoManager {
                 undoManager.registerUndo(withTarget: self) { undoList in
                     let removedVocabulary = vocabulary
-                    undoList.addVocabulary(removedVocabulary)
+                    undoList.append(vocabulary: removedVocabulary)
                     undoManager.registerUndo(withTarget: undoList) { redoList in
                         let addedVocabulary = removedVocabulary
-                        redoList.removeVocabulary(addedVocabulary)
+                        redoList.remove(vocabulary: addedVocabulary)
                     }
                 }
             }
         }
         
-        ///Returns true, when the list contains the Vocabulary.
-        func containVocabulary(_ vocabulary: Vocabulary) -> Bool {
-            self.vocabularies.contains { item in
-                item == vocabulary
+        ///Resets both the baseState and translationState of related vocabularies.
+        func resetLearningStates() {
+            for vocabulary in vocabularies {
+                vocabulary.baseState.reset()
+                vocabulary.translationState.reset()
             }
-        }
-        
-        ///Add a new Vocabulary with empty strings and word group as noun.
-        func addNewVocabulary() {
-            let newVocabulary = Vocabulary(baseWord: "", translationWord: "", wordGroup: .noun)
-            addVocabulary(newVocabulary)
         }
     }
 }

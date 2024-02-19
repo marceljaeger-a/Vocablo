@@ -14,7 +14,7 @@ extension View {
         self.pasteDestination(for: Vocabulary.VocabularyTransfer.self) { vocabularyTransfers in
             if let list {
                 for vocabularyTransfer in vocabularyTransfers{
-                    list.addVocabulary(Vocabulary(from: vocabularyTransfer))
+                    list.append(vocabulary: Vocabulary(from: vocabularyTransfer))
                 }
             }else {
                 for vocabularyTransfer in vocabularyTransfers {

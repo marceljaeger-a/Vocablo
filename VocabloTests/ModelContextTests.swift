@@ -74,55 +74,6 @@ final class ModelContextTests: XCTestCase {
     }
     
     
-    //MARK: - Test methodes for Adding
-    
-    //addList(_name: String) -> Void
-    func testAddingLists() throws {
-        //Given
-        
-        //When
-        context.addList("List 1")
-        context.addList("List 2")
-        
-        //Then
-        let count = try context.fetchCount(FetchDescriptor<VocabularyList>())
-        XCTAssertEqual(count, 2, "VocabularyList count should be 2")
-    }
-    
-    
-    //MARK: - Test Methodes for Fetching
-    
-    func testFetchingByIdentifiers() throws {
-        //Given
-        let lists = try insertExampleData(into: context, listCount: 2, vocabularyPerListCount: 3)
-        let listIdentifiers = lists.map { $0.id }
-        let vocabularyIdentifiers = try context.fetchIdentifiers(FetchDescriptor<Vocabulary>())
-        
-        //When
-        let fetchedLists: Array<VocabularyList> = context.fetch(by: Set(listIdentifiers) )
-        let fetchedVocabularies: Array<Vocabulary> = context.fetch(by: Set(vocabularyIdentifiers) )
-        
-        //Then
-        XCTAssertEqual(fetchedLists.count, 2, "VocabularyList count should be 2")
-        XCTAssertEqual(fetchedVocabularies.count, 6, "Vocabulary count should be 3")
-    }
-    
-    func testFetchingCountByIdentifiers() throws {
-        //Given
-        let lists = try insertExampleData(into: context, listCount: 2, vocabularyPerListCount: 3)
-        let listIdentifiers = lists.map { $0.id }
-        let vocabularyIdentifiers = try context.fetchIdentifiers(FetchDescriptor<Vocabulary>())
-        
-        //When
-        let fetchedListCount = context.fetchCount(for: VocabularyList.self, by: Set(listIdentifiers))
-        let fetchedVocabularyCount = context.fetchCount(for: Vocabulary.self, by: Set(vocabularyIdentifiers) )
-        
-        //Then
-        XCTAssertEqual(fetchedListCount, 2, "VocabularyList count should be 2")
-        XCTAssertEqual(fetchedVocabularyCount, 6, "Vocabulary count should be 9")
-    }
-    
-    
     //MARK: - Test Methodes for Deleting
 
     func testDeletingLists_All() throws {

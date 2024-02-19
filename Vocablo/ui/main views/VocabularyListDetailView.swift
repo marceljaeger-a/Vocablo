@@ -67,7 +67,7 @@ struct VocabularyListDetailView: View {
     }
     
     private func openEditVocabularyView(firstOf vocabularyIdentifiers: Set<PersistentIdentifier>) {
-        guard let firstFetchedVocabulary: Vocabulary = modelContext.fetch(by: vocabularyIdentifiers).first else { return }
+        guard let firstFetchedVocabulary = modelContext.fetchVocabularies(.byIdentifiers(vocabularyIdentifiers)).first else { return }
         sheetContext.editingVocabulary = firstFetchedVocabulary
     }
     
@@ -77,14 +77,14 @@ struct VocabularyListDetailView: View {
     
     private func deleteSelectedVocabularies(vocabularyIdentifiers: Set<PersistentIdentifier>) {
         _ = selectionContext.unselectVocabularies(vocabularyIdentifiers)
-        modelContext.deleteVocabularies(allVocabularies[byIdentifiers: vocabularyIdentifiers])
+        modelContext.delete(models: allVocabularies[byIdentifiers: vocabularyIdentifiers])
     }
     
     private func addNewVocabulary() {
-        let newVocabulary = Vocabulary(baseWord: "", translationWord: "", wordGroup: .noun)
+        let newVocabulary: Vocabulary = .newVocabulary
         
         if let selectedList {
-            selectedList.addVocabulary(newVocabulary)
+            selectedList.append(vocabulary: newVocabulary)
         }else {
             modelContext.insert(newVocabulary)
         }
@@ -152,14 +152,14 @@ extension VocabularyListDetailView {
         Divider()
         
         Button {
-            modelContext.checkToLearn(of: modelContext.fetch(by: vocabularyIdentifiers))
+            modelContext.fetchVocabularies(.byIdentifiers(vocabularyIdentifiers)).forEach { $0.checkToLearn() }
         } label: {
             Text("To learn")
         }
         .disabled(vocabularyIdentifiers.isEmpty == true)
     
         Button {
-            modelContext.uncheckToLearn(of: modelContext.fetch(by: vocabularyIdentifiers))
+            modelContext.fetchVocabularies(.byIdentifiers(vocabularyIdentifiers)).forEach { $0.uncheckToLearn() }
         } label: {
             Text("Not to learn")
         }
@@ -168,8 +168,8 @@ extension VocabularyListDetailView {
         Divider()
         
         Button {
-            let fetchedSelectedVocabularies: Array<Vocabulary> = modelContext.fetch(by: vocabularyIdentifiers)
-            modelContext.resetLearningStates(of: fetchedSelectedVocabularies)
+            let fetchedSelectedVocabularies: Array<Vocabulary> = modelContext.fetchVocabularies(.byIdentifiers(vocabularyIdentifiers))
+            fetchedSelectedVocabularies.forEach { $0.resetLearningsStates() }
         } label: {
             if vocabularyIdentifiers.count == 1 {
                 Text("Reset")

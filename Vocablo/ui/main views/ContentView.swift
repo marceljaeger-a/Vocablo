@@ -33,11 +33,11 @@ struct ContentView: View {
         .searchable(text: $searchingText, prompt: Text("Search for word or sentence"))
         .environment(\.searchingText, searchingText)
         .linkContextUndoManager(context: modelContext, with: viewUndoManager)
-        .copyableVocabularies(modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
-        .cuttableVocabularies(modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers), context: modelContext)
-        .vocabulariesPasteDestination(into: modelContext.fetch(by: selectionContext.listSelections.listIdentifiers ?? []).first, context: modelContext)
+        .copyableVocabularies(modelContext.fetchVocabularies(.byIdentifiers(selectionContext.selectedVocabularyIdentifiers)))
+        .cuttableVocabularies(modelContext.fetchVocabularies(.byIdentifiers(selectionContext.selectedVocabularyIdentifiers)), context: modelContext)
+        .vocabulariesPasteDestination(into: modelContext.fetchLists(.byIdentifiers(selectionContext.listSelections.listIdentifiers ?? [])).first, context: modelContext)
         .onDeleteCommand { //⌫ & Delete Menu command, when no vocabulary is selected.
-            modelContext.deleteVocabularies(
+            modelContext.delete(models:
                 allVocabularies[
                     byIdentifiers: selectionContext.unselectAllVocabularies()
                 ]
@@ -90,7 +90,7 @@ extension ContentView {
                     VocabularyListDetailView(of: nil, isShown: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
                 }else if selectionContext.listSelections.isDuplicatesSelected {
                     VocabularyListDetailView(of: nil, isShown: { duplicatesRecognizer.existDuplicate(of: $0, within: allVocabularies)}, isDuplicatesPopoverButtonAvailable: false, isListLabelAvailable: true)
-                } else if selectionContext.listSelections.isAnyListSelected, let firstSelectedList: VocabularyList = modelContext.fetch(by: selectionContext.listSelections.listIdentifiers ?? []).first {
+                } else if selectionContext.listSelections.isAnyListSelected, let firstSelectedList = modelContext.fetchLists(.byIdentifiers( selectionContext.listSelections.listIdentifiers ?? [])).first {
                     VocabularyListDetailView(of: firstSelectedList, isShown: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: false)
                 } else {
                     NoSelectedListView()

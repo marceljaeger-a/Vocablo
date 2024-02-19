@@ -44,12 +44,12 @@ final class LearningValueManagerTests: XCTestCase {
         try context.save()
         
         let vocabulary1 = Vocabulary(baseWord: "Word 1", translationWord: "Wort 1", wordGroup: .noun)
-        list.addVocabulary(vocabulary1)
+        list.append(vocabulary: vocabulary1)
         let vocabulary2 = Vocabulary(baseWord: "Word 2", translationWord: "Wort 2", wordGroup: .noun)
-        list.addVocabulary(vocabulary2)
+        list.append(vocabulary: vocabulary2)
         let vocabulary3 = Vocabulary(baseWord: "Word 3", translationWord: "Wort 3", wordGroup: .noun)
-        list.addVocabulary(vocabulary3)
-        context.checkToLearn(of: list.vocabularies)
+        list.append(vocabulary: vocabulary3)
+        list.vocabularies.forEach { $0.checkToLearn() }
         try context.save()
         
         

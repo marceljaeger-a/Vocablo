@@ -20,10 +20,12 @@ protocol Learnable: AnyObject {
 
 extension Learnable {
     func checkToLearn() {
+        guard isToLearn == false else { return }
         self.isToLearn = true
     }
     
     func uncheckToLearn() {
+        guard isToLearn == true else { return }
         self.isToLearn = false
     }
     

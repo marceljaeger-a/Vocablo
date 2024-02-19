@@ -86,40 +86,18 @@ extension SchemaV1 {
         ///Removes that vocabulary from the list.
         ///
         ///> If you set the property to nil without this methode, the UndoManager will not be able to register the unrelating!
-        func removeList() {
+        func removeFromList() {
             if let list {
-                list.removeVocabulary(self)
+                list.remove(vocabulary: self)
             }
+        }
+        
+        ///Resets both the baseState and the translationState.
+        func resetLearningsStates() {
+            baseState.reset()
+            translationState.reset()
         }
     }
 }
 
-
-//extension Vocabulary {
-//    func hasTag(_ tag: Tag) -> Bool {
-//        tags.contains { element in
-//            element == tag
-//        }
-//    }
-//    
-//    func safelyTag(_ tag: Tag) {
-//        guard !hasTag(tag) else { return }
-//        tags.append(tag)
-//    }
-//    
-//    func safelyUntag(_ tag: Tag){
-//        guard hasTag(tag) else { return }
-//        tags.removeAll { element in
-//            element == tag
-//        }
-//    }
-//    
-//    func toggleTag(_ tag: Tag) {
-//        if hasTag(tag) {
-//            self.safelyUntag(tag)
-//        }else {
-//            self.safelyTag(tag)
-//        }
-//    }
-//}
 

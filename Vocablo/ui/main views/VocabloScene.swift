@@ -24,15 +24,21 @@ struct VocabloScene: Scene {
     //MARK: - Methodes
     
     private func addNewList() {
-        let newList = modelContext.addList("New List")
+        let newList: VocabularyList = .newList
+        modelContext.insert(newList)
+        do {
+            try modelContext.save()
+        } catch {
+            print("Saving adding new list failed!")
+        }
         actionPublisherService.send(action: \.addingList, input: newList)
     }
     
     private func addNewVocabulary() {
-        let newVocabulary = Vocabulary(baseWord: "", translationWord: "", wordGroup: .noun)
+        let newVocabulary: Vocabulary = .newVocabulary
         
-        if let selectedListIdentifiers = selectionContext.listSelections.listIdentifiers, let firstSelectedList: VocabularyList =  modelContext.fetch(by: selectedListIdentifiers).first {
-            firstSelectedList.addVocabulary(newVocabulary)
+        if let selectedListIdentifiers = selectionContext.listSelections.listIdentifiers, let firstSelectedList =  modelContext.fetchLists(.byIdentifiers(selectedListIdentifiers)).first {
+            firstSelectedList.append(vocabulary: .newVocabulary)
         }else {
             modelContext.insert(newVocabulary)
         }
@@ -90,7 +96,7 @@ extension VocabloScene {
             Divider()
             
             if selectionContext.selectedVocabularyIdentifiers.isEmpty == false {
-                CommandWordGroupPicker(vocabularies: modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
+                CommandWordGroupPicker(vocabularies: modelContext.fetchVocabularies(.byIdentifiers(selectionContext.selectedVocabularyIdentifiers)))
             }else {
                 Text("Set word group of selected vocabularies")
             }
@@ -98,13 +104,13 @@ extension VocabloScene {
             Divider()
             
             Button("Check selected vocabularies for learning"){
-                modelContext.checkToLearn(of: modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
+                modelContext.fetchVocabularies(.byIdentifiers(selectionContext.selectedVocabularyIdentifiers)).forEach { $0.checkToLearn() }
             }
             .keyboardShortcut(KeyEquivalent("l"), modifiers: .command)
             .disabled(selectionContext.selectedVocabularyIdentifiers.isEmpty)
             
             Button("Uncheck selected vocabularies for learning"){
-                modelContext.uncheckToLearn(of: modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers))
+                modelContext.fetchVocabularies(.byIdentifiers(selectionContext.selectedVocabularyIdentifiers)).forEach { $0.uncheckToLearn() }
             }
             .keyboardShortcut(KeyEquivalent("l"), modifiers: .command.union(.shift))
             .disabled(selectionContext.selectedVocabularyIdentifiers.isEmpty)
@@ -112,21 +118,21 @@ extension VocabloScene {
             Divider()
             
             Button("Reset selected vocabularies") {
-                let selectedVocabularies: Array<Vocabulary> = modelContext.fetch(by: selectionContext.selectedVocabularyIdentifiers)
-                modelContext.resetLearningStates(of: selectedVocabularies)
+                let selectedVocabularies = modelContext.fetchVocabularies(.byIdentifiers(selectionContext.selectedVocabularyIdentifiers))
+                selectedVocabularies.forEach { $0.resetLearningsStates() }
             }
             .keyboardShortcut(KeyEquivalent("r"), modifiers: .command)
             .disabled(selectionContext.selectedVocabularyIdentifiers.isEmpty)
             
             Button("Reset vocabularies of shown list") {
                 if selectionContext.listSelections.isAllVocabulariesSelected {
-                    modelContext.resetLearningStates(of: allVocabularies)
+                    allVocabularies.forEach { $0.resetLearningsStates() }
                 }else if selectionContext.listSelections.isDuplicatesSelected {
-                    modelContext.resetLearningStates(of: duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies))
+                    duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).forEach { $0.resetLearningsStates() }
                 }else if selectionContext.listSelections.isAnyListSelected{
                     guard let listIdentifiers = selectionContext.listSelections.listIdentifiers else { return }
-                    guard let firstSelectedList: VocabularyList = modelContext.fetch(by: listIdentifiers).first else { return }
-                    modelContext.resetLearningStates(of: firstSelectedList.vocabularies)
+                    guard let firstSelectedList = modelContext.fetchLists(.byIdentifiers(listIdentifiers)).first else { return }
+                    firstSelectedList.resetLearningStates()
                 }
             }
             .keyboardShortcut(KeyEquivalent("r"), modifiers: .command.union(.shift))
@@ -137,7 +143,7 @@ extension VocabloScene {
     
     var viewMenu: some Commands {
         CommandGroup(before: .toolbar) {
-            if let selectedListIdentifiers = selectionContext.listSelections.listIdentifiers, let firstSelectedList: VocabularyList =  modelContext.fetch(by: selectedListIdentifiers).first{
+            if let selectedListIdentifiers = selectionContext.listSelections.listIdentifiers, let firstSelectedList =  modelContext.fetchLists(.byIdentifiers(selectedListIdentifiers)).first{
                 @Bindable var bindedList = firstSelectedList
                 
                 Picker("Sort shown list by", selection: $bindedList.sorting) {
@@ -165,7 +171,7 @@ extension VocabloScene {
                 } else if selectionContext.listSelections.isAnyListSelected {
                     
                     guard let listIdentifiers = selectionContext.listSelections.listIdentifiers else { return }
-                    guard let firstList: VocabularyList = modelContext.fetch(by: listIdentifiers).first else { return }
+                    guard let firstList = modelContext.fetchLists(.byIdentifiers(listIdentifiers)).first else { return }
                     sheetContext.learningVocabularies = firstList.vocabularies
                     
                 }
