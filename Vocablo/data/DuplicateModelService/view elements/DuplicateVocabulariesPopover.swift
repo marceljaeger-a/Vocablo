@@ -12,8 +12,6 @@ struct DuplicateVocabulariesPopover: View {
     
     let duplicates: Array<Vocabulary>
     
-    @Environment(\.modelContext) var context
-    
     var body: some View {
         ScrollView {
             VStack {

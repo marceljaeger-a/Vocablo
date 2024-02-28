@@ -150,4 +150,31 @@ final class ModelContextTests: XCTestCase {
     
     //MARK: - Test Methodes for Configurate Learning Functionality
     //- NO Testing
+    
+    func testPerformanceA() throws {
+        let list = VocabularyList("Test")
+        context.insert(list)
+        _ = try insertExampleVocabularies(count: 200, into: list)
+        
+        try context.save()
+        
+        measure {
+            var fetched = context.fetchVocabularies(.vocabularies())
+        }
+    }
+    
+    func testPerformanceB() throws {
+        let list = VocabularyList("Test")
+        context.insert(list)
+        _ = try insertExampleVocabularies(count: 200, into: list)
+        
+        try context.save()
+        
+        var descriptor: FetchDescriptor<Vocabulary> = .vocabularies()
+        descriptor.propertiesToFetch = [\.baseWord, \.translationWord]
+        
+        measure {
+            _ = context.fetchVocabularies(descriptor)
+        }
+    }
 }

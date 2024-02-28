@@ -27,8 +27,11 @@ struct VocabularyItem: View {
     let isDuplicateRecognitionLabelAvailable: Bool
     let isListLabelAvailable: Bool
     
-    @Query var allVocabularies: Array<Vocabulary>
+    @Environment(\.modelContext) var modelContext
+    @Environment(\.refresh) var refreshAction
+    
     @State private var isLearningStateInfoButtonShowed: Bool = false
+    @State private var hasDuplicates: Bool = false
     
     private var learningStateInfoButtonOpacity: Double {
         if isLearningStateInfoButtonShowed {
@@ -38,7 +41,22 @@ struct VocabularyItem: View {
         }
     }
     
-    let duplicateRecognicer = DuplicateRecognitionService()
+    //MARK: - Methods
+    
+    private func fetchDuplicateCount() async -> Int {
+        let count = try? modelContext.fetchCount(.duplicatesOf(vocabulary))
+        return count ?? 0
+    }
+    
+    private func setHasDuplicates() async {
+        async let count = fetchDuplicateCount()
+        
+        if await count > 0 {
+            hasDuplicates = true
+        }else {
+            hasDuplicates = false
+        }
+    }
     
     //MARK: - Body
     
@@ -61,13 +79,19 @@ struct VocabularyItem: View {
                         if isListLabelAvailable, let list = vocabulary.list {
                             VocabularyListLabel(list: list)
                         }
-                        if duplicateRecognicer.existDuplicate(of: vocabulary, within: allVocabularies) && isDuplicateRecognitionLabelAvailable {
-                            DuplicateVocabulariesPopoverButton(duplicatesOf: vocabulary, within: allVocabularies)
+                        if hasDuplicates && isDuplicateRecognitionLabelAvailable {
+                            DuplicateVocabulariesPopoverButton(duplicatesOf: vocabulary, within: nil)
                                 .buttonStyle(.plain)
-                            
-                            
                         }
                         Spacer()
+                    }
+                    .task {
+                        await setHasDuplicates()
+                    }
+                    .onChange(of: [vocabulary.baseWord, vocabulary.baseSentence, vocabulary.translationWord, vocabulary.translationSentence]) { oldValue, newValue in
+                        Task {
+                            await setHasDuplicates()
+                        }
                     }
                 }
             }

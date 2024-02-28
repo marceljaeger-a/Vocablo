@@ -97,6 +97,7 @@ struct VocabularyListDetailView: View {
     //MARK: - Body
     
     var body: some View {
+        let _ = Self._printChanges()
         List(selection: selectionContext.bindable.selectedVocabularyIdentifiers) {
             ForEach(shownVocabularies, id: \.id) { vocabulary in
                 VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus, isDuplicateRecognitionLabelAvailable: isDuplicatesPopoverButtonAvailable, isListLabelAvailable: isListLabelAvailable)

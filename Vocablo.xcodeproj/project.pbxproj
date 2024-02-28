@@ -55,6 +55,7 @@
 		9F7FBC962B2CFE710033EBAC /* LearningValueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7FBC952B2CFE710033EBAC /* LearningValueManager.swift */; };
 		9F7FBC982B2CFF790033EBAC /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7FBC972B2CFF790033EBAC /* SettingsScene.swift */; };
 		9F9491142B3323B20018AF4C /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9491132B3323B20018AF4C /* Date.swift */; };
+		9F9BD2292B83AC0A009DE663 /* FetchDescriptor +ext for Duplcates .swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9BD2282B83AC0A009DE663 /* FetchDescriptor +ext for Duplcates .swift */; };
 		9FAE26E32B35BA9F0023E5C4 /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE26E22B35BA9F0023E5C4 /* AppVersionManager.swift */; };
 		9FBDDE432B6BE94800429B52 /* VocabularyListLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBDDE422B6BE94800429B52 /* VocabularyListLabel.swift */; };
 		9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583152AE6F70900A56141 /* VocabloApp.swift */; };
@@ -63,13 +64,10 @@
 		9FC583272AE7080E00A56141 /* SchemaV1 VocabularyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583262AE7080E00A56141 /* SchemaV1 VocabularyList.swift */; };
 		9FC583292AE7085400A56141 /* SchemaV1 Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583282AE7085400A56141 /* SchemaV1 Vocabulary.swift */; };
 		9FC5832B2AE7088B00A56141 /* WordGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC5832A2AE7088B00A56141 /* WordGroup.swift */; };
-		9FD513472B69165700B7955B /* DuplicateRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD513462B69165700B7955B /* DuplicateRecognitionService.swift */; };
 		9FD513492B69177E00B7955B /* DuplicateWarningLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD513482B69177E00B7955B /* DuplicateWarningLabel.swift */; };
 		9FD5134B2B69183700B7955B /* DuplicateVocabulariesPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5134A2B69183700B7955B /* DuplicateVocabulariesPopover.swift */; };
 		9FD5134D2B695A3D00B7955B /* SheetContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5134C2B695A3D00B7955B /* SheetContext.swift */; };
 		9FD513512B6A97FD00B7955B /* DuplicateVocabularyPopoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD513502B6A97FD00B7955B /* DuplicateVocabularyPopoverButton.swift */; };
-		9FD513532B6A9D7400B7955B /* Duplicateable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD513522B6A9D7400B7955B /* Duplicateable.swift */; };
-		9FD513562B6AA02D00B7955B /* Vocabulary +extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD513552B6AA02D00B7955B /* Vocabulary +extension.swift */; };
 		9FDB9CE02B3723CC00646B67 /* SchemaV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB9CDF2B3723CC00646B67 /* SchemaV1.swift */; };
 		9FDB9CE22B37242200646B67 /* current model typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB9CE12B37242200646B67 /* current model typealias.swift */; };
 		9FDE39DB2B1E78E7000EC63E /* LearningSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDE39DA2B1E78E7000EC63E /* LearningSheet.swift */; };
@@ -145,6 +143,7 @@
 		9F7FBC952B2CFE710033EBAC /* LearningValueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningValueManager.swift; sourceTree = "<group>"; };
 		9F7FBC972B2CFF790033EBAC /* SettingsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		9F9491132B3323B20018AF4C /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		9F9BD2282B83AC0A009DE663 /* FetchDescriptor +ext for Duplcates .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FetchDescriptor +ext for Duplcates .swift"; sourceTree = "<group>"; };
 		9FAE26E22B35BA9F0023E5C4 /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
 		9FAF88472AEAE9E000D81CE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9FBDDE422B6BE94800429B52 /* VocabularyListLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyListLabel.swift; sourceTree = "<group>"; };
@@ -156,13 +155,10 @@
 		9FC583262AE7080E00A56141 /* SchemaV1 VocabularyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SchemaV1 VocabularyList.swift"; sourceTree = "<group>"; };
 		9FC583282AE7085400A56141 /* SchemaV1 Vocabulary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SchemaV1 Vocabulary.swift"; sourceTree = "<group>"; };
 		9FC5832A2AE7088B00A56141 /* WordGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGroup.swift; sourceTree = "<group>"; };
-		9FD513462B69165700B7955B /* DuplicateRecognitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateRecognitionService.swift; sourceTree = "<group>"; };
 		9FD513482B69177E00B7955B /* DuplicateWarningLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateWarningLabel.swift; sourceTree = "<group>"; };
 		9FD5134A2B69183700B7955B /* DuplicateVocabulariesPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateVocabulariesPopover.swift; sourceTree = "<group>"; };
 		9FD5134C2B695A3D00B7955B /* SheetContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContext.swift; sourceTree = "<group>"; };
 		9FD513502B6A97FD00B7955B /* DuplicateVocabularyPopoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateVocabularyPopoverButton.swift; sourceTree = "<group>"; };
-		9FD513522B6A9D7400B7955B /* Duplicateable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Duplicateable.swift; sourceTree = "<group>"; };
-		9FD513552B6AA02D00B7955B /* Vocabulary +extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Vocabulary +extension.swift"; sourceTree = "<group>"; };
 		9FDB9CDF2B3723CC00646B67 /* SchemaV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaV1.swift; sourceTree = "<group>"; };
 		9FDB9CE12B37242200646B67 /* current model typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "current model typealias.swift"; sourceTree = "<group>"; };
 		9FDE39DA2B1E78E7000EC63E /* LearningSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningSheet.swift; sourceTree = "<group>"; };
@@ -411,7 +407,7 @@
 			children = (
 				9F1949B82B73D4F200E28B9B /* SelectionContext */,
 				9F13D95C2B5FD9A800DEBDDF /* ActionPublisherService */,
-				9FD513452B69163A00B7955B /* DuplicationRecognitionService */,
+				9FD513452B69163A00B7955B /* DuplicateModelService */,
 				9F7FBC8D2B2BB5610033EBAC /* protocols */,
 				9F7FBC8C2B2BB5310033EBAC /* schemas */,
 				9F46EFBD2AE823D20006E5F3 /* types */,
@@ -435,23 +431,13 @@
 			path = ui;
 			sourceTree = "<group>";
 		};
-		9FD513452B69163A00B7955B /* DuplicationRecognitionService */ = {
+		9FD513452B69163A00B7955B /* DuplicateModelService */ = {
 			isa = PBXGroup;
 			children = (
-				9FD513462B69165700B7955B /* DuplicateRecognitionService.swift */,
-				9FD513522B6A9D7400B7955B /* Duplicateable.swift */,
-				9FD513542B6AA01700B7955B /* duplicateable types */,
+				9F9BD2282B83AC0A009DE663 /* FetchDescriptor +ext for Duplcates .swift */,
 				9FBDDE412B6AA64A00429B52 /* view elements */,
 			);
-			path = DuplicationRecognitionService;
-			sourceTree = "<group>";
-		};
-		9FD513542B6AA01700B7955B /* duplicateable types */ = {
-			isa = PBXGroup;
-			children = (
-				9FD513552B6AA02D00B7955B /* Vocabulary +extension.swift */,
-			);
-			path = "duplicateable types";
+			path = DuplicateModelService;
 			sourceTree = "<group>";
 		};
 		9FDB9CE32B3724AF00646B67 /* schemaV1 */ = {
@@ -612,11 +598,10 @@
 				9FDB9CE22B37242200646B67 /* current model typealias.swift in Sources */,
 				9F2935EB2B5A81D90016A413 /* VocabularyListDetailView.swift in Sources */,
 				9FEAC8082B24D06100AA7133 /* VocabloScene.swift in Sources */,
-				9FD513562B6AA02D00B7955B /* Vocabulary +extension.swift in Sources */,
 				9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */,
 				9F66361E2B838405008C7980 /* VocabularyList +ext.swift in Sources */,
 				9F7741252B134AC600565B42 /* LearningLevelPicker.swift in Sources */,
-				9FD513532B6A9D7400B7955B /* Duplicateable.swift in Sources */,
+				9F9BD2292B83AC0A009DE663 /* FetchDescriptor +ext for Duplcates .swift in Sources */,
 				9FF78ED12B481718006F6756 /* ModelContainer.swift in Sources */,
 				9F7FBC912B2CFB760033EBAC /* OpacityBool.swift in Sources */,
 				9F334D9E2B2BAADD0004AAC9 /* VocabularyItem.swift in Sources */,
@@ -632,7 +617,6 @@
 				9FDB9CE02B3723CC00646B67 /* SchemaV1.swift in Sources */,
 				9FFB36182AED93A500E510CA /* Learnable.swift in Sources */,
 				9FAE26E32B35BA9F0023E5C4 /* AppVersionManager.swift in Sources */,
-				9FD513472B69165700B7955B /* DuplicateRecognitionService.swift in Sources */,
 				9F13D9642B5FDE2E00DEBDDF /* ActionReactingService EnvrionmentKey.swift in Sources */,
 				9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */,
 				9F1949BA2B73D51200E28B9B /* ListSelectionSet.swift in Sources */,

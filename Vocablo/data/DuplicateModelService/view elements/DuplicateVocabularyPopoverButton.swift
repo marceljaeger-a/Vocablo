@@ -7,16 +7,19 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct DuplicateVocabulariesPopoverButton: View {
     
-    let duplicates: Array<Vocabulary>
-    let duplicateRecogniser: DuplicateRecognitionService = .init()
+    @Environment(\.modelContext) var modelContext
+    let vocabulary: Vocabulary
+    let list: VocabularyList?
     
     @State var isDuplicatesPopoverShown: Bool = false
     
-    init(duplicatesOf vocabulary: Vocabulary, within otherVocabularies: Array<Vocabulary>) {
-        self.duplicates = duplicateRecogniser.duplicates(of: vocabulary, within: otherVocabularies)
+    init(duplicatesOf vocabulary: Vocabulary, within list: VocabularyList?) {
+        self.vocabulary = vocabulary
+        self.list = list
     }
     
     var body: some View {
@@ -26,7 +29,7 @@ struct DuplicateVocabulariesPopoverButton: View {
             DuplicateWarningLabel()
         }
         .popover(isPresented: $isDuplicatesPopoverShown, content: {
-            DuplicateVocabulariesPopover(duplicates: duplicates)
+            DuplicateVocabulariesPopover(duplicates: modelContext.fetchVocabularies(.duplicatesOf(vocabulary, withIn: list, sortBy: [.init(\.baseWord), .init(\.translationWord), .init(\.baseSentence), .init(\.translationSentence)])))
         })
     }
 }

@@ -19,7 +19,6 @@ struct VocabloScene: Scene {
     @Environment(\.sheetContext) private var sheetContext
     @Environment(\.modelContext) private var modelContext: ModelContext
     @Query private var allVocabularies: Array<Vocabulary>
-    let duplicatesRecognizer = DuplicateRecognitionService()
     
     //MARK: - Methodes
     
@@ -128,7 +127,7 @@ extension VocabloScene {
                 if selectionContext.listSelections.isAllVocabulariesSelected {
                     allVocabularies.forEach { $0.resetLearningsStates() }
                 }else if selectionContext.listSelections.isDuplicatesSelected {
-                    duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).forEach { $0.resetLearningsStates() }
+//                    duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).forEach { $0.resetLearningsStates() }
                 }else if selectionContext.listSelections.isAnyListSelected{
                     guard let listIdentifiers = selectionContext.listSelections.listIdentifiers else { return }
                     guard let firstSelectedList = modelContext.fetchLists(.byIdentifiers(listIdentifiers)).first else { return }
@@ -166,7 +165,7 @@ extension VocabloScene {
                     
                 }else if selectionContext.listSelections.isDuplicatesSelected {
                     
-                    sheetContext.learningVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
+//                    sheetContext.learningVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
                     
                 } else if selectionContext.listSelections.isAnyListSelected {
                     

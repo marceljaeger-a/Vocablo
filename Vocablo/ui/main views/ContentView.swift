@@ -15,8 +15,6 @@ struct ContentView: View {
     @Environment(\.selectionContext) private var selectionContext: SelectionContext
     @Environment(\.modelContext) private var modelContext: ModelContext
     @Environment(\.undoManager) private var viewUndoManager: UndoManager?
-
-    @Query private var allVocabularies: Array<Vocabulary>
     
     @State var searchingText: String = ""
     
@@ -37,11 +35,12 @@ struct ContentView: View {
         .cuttableVocabularies(modelContext.fetchVocabularies(.byIdentifiers(selectionContext.selectedVocabularyIdentifiers)), context: modelContext)
         .vocabulariesPasteDestination(into: modelContext.fetchLists(.byIdentifiers(selectionContext.listSelections.listIdentifiers ?? [])).first, context: modelContext)
         .onDeleteCommand { //⌫ & Delete Menu command, when no vocabulary is selected.
-            modelContext.delete(models:
-                allVocabularies[
-                    byIdentifiers: selectionContext.unselectAllVocabularies()
-                ]
-            )
+            let selectedIdentifiers = selectionContext.unselectAllVocabularies()
+            let deletingVocabularies = modelContext.fetchVocabularies(.byIdentifiers(selectedIdentifiers))
+            modelContext.delete(models: deletingVocabularies)
+            
+//            Possibility 2 with a special methode because of the UndoManager!
+//            modelContext.delete(model: Vocabulary.self, where: #Predicate { selectedIdentifiers.contains($0.persistentModelID) })
         }
         .onChange(of: selectionContext.listSelections.selections) {
             _ = selectionContext.unselectAllVocabularies()
@@ -67,10 +66,6 @@ extension ContentView {
         @Environment(\.searchingText) private var searchingText: String
         @Environment(\.isSearching) var isSearching: Bool
         
-        @Query private var allVocabularies: Array<Vocabulary>
-        
-        let duplicatesRecognizer = DuplicateRecognitionService()
-        
         var body: some View {
             if sheetContext.learningVocabularies == nil {
                 if isSearching {
@@ -89,7 +84,7 @@ extension ContentView {
                 }else if selectionContext.listSelections.isAllVocabulariesSelected {
                     VocabularyListDetailView(of: nil, isShown: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: true)
                 }else if selectionContext.listSelections.isDuplicatesSelected {
-                    VocabularyListDetailView(of: nil, isShown: { duplicatesRecognizer.existDuplicate(of: $0, within: allVocabularies)}, isDuplicatesPopoverButtonAvailable: false, isListLabelAvailable: true)
+//                    VocabularyListDetailView(of: nil, isShown: { duplicatesRecognizer.existDuplicate(of: $0, within: allVocabularies)}, isDuplicatesPopoverButtonAvailable: false, isListLabelAvailable: true)
                 } else if selectionContext.listSelections.isAnyListSelected, let firstSelectedList = modelContext.fetchLists(.byIdentifiers( selectionContext.listSelections.listIdentifiers ?? [])).first {
                     VocabularyListDetailView(of: firstSelectedList, isShown: nil, isDuplicatesPopoverButtonAvailable: true, isListLabelAvailable: false)
                 } else {

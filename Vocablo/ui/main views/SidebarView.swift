@@ -19,11 +19,12 @@ struct SidebarView: View {
     @Environment(\.selectionContext) private var selectionContext
     @Environment(\.sheetContext) private var sheetContext
     @Environment(\.modelContext) private var modelContext: ModelContext
+    
     @Query(sort: \VocabularyList.created, order: .forward) private var allLists: Array<VocabularyList>
     @Query private var allVocabularies: Array<Vocabulary>
+    
     @FocusState private var focusedList: PersistentIdentifier?
     @State private var listDeleteConfirmationDialogState: (isShowing: Bool, deletingLists: Array<VocabularyList>) = (false, [])
-    let duplicatesRecognizer = DuplicateRecognitionService()
     let learningValueCounter: LearningValueManager = LearningValueManager()
     private var bindedIsShowingListDeleteConfirmationDialog: Binding<Bool> {
         Binding {
@@ -66,8 +67,8 @@ struct SidebarView: View {
             
         }else if listSelections.isDuplicatesSelected {
             
-            let duplicateVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
-            learningVocabularies.append(contentsOf: duplicateVocabularies)
+//            let duplicateVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
+//            learningVocabularies.append(contentsOf: duplicateVocabularies)
             
         }else if listSelections.isAnyListSelected {
             
@@ -90,8 +91,8 @@ struct SidebarView: View {
             
         }else if listSelections.isDuplicatesSelected {
             
-            let duplicateVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
-            duplicateVocabularies.forEach { $0.resetLearningsStates() }
+//            let duplicateVocabularies = duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)
+//            duplicateVocabularies.forEach { $0.resetLearningsStates() }
             
         }else if listSelections.isAnyListSelected {
             
@@ -164,15 +165,15 @@ extension SidebarView {
         Group {
             Label("All vocabularies", systemImage: "tray.full")
                 .badge(learningValueCounter.algorithmedLearningValuesCount(of: allVocabularies), prominece: .increased)
-                .badge((try? modelContext.fetchCount(FetchDescriptor<Vocabulary>())) ?? 0, prominece: .decreased)
+                .badge((try? modelContext.fetchCount(.vocabularies())) ?? 0, prominece: .decreased)
                 .tag(ListSelectionValue.allVocabularies)
             
-            if duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).isEmpty == false || isDuplciatesNavigationLinkAlwaysShown == true {
-                Label("Duplicates", image: .duplicateWarning)
-                    .badge(learningValueCounter.algorithmedLearningValuesCount(of: duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)), prominece: .increased)
-                    .badge(duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).count, prominece: .decreased)
-                    .tag(ListSelectionValue.duplicates)
-            }
+//            if duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).isEmpty == false || isDuplciatesNavigationLinkAlwaysShown == true {
+//                Label("Duplicates", image: .duplicateWarning)
+//                    .badge(learningValueCounter.algorithmedLearningValuesCount(of: duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies)), prominece: .increased)
+//                    .badge(duplicatesRecognizer.valuesWithDuplicate(within: allVocabularies).count, prominece: .decreased)
+//                    .tag(ListSelectionValue.duplicates)
+//            }
         }
     }
     
