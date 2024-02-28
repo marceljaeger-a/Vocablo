@@ -101,6 +101,9 @@ struct VocabularyListDetailView: View {
         List(selection: selectionContext.bindable.selectedVocabularyIdentifiers) {
             ForEach(shownVocabularies, id: \.id) { vocabulary in
                 VocabularyItem(vocabulary: vocabulary, textFieldFocus: $textFieldFocus, isDuplicateRecognitionLabelAvailable: isDuplicatesPopoverButtonAvailable, isListLabelAvailable: isListLabelAvailable)
+                    .alignmentGuide(.listRowSeparatorLeading, computeValue: { dim in
+                        0
+                    })
                     .onSubmit(of: .text) {
                         addNewVocabulary()
                     }

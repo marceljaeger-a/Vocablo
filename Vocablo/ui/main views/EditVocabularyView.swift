@@ -41,24 +41,24 @@ struct EditVocabularyView: View {
 extension EditVocabularyView {
     var wordsSection: some View {
         Section {
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.baseWord, placeholder: "Word...")
+            TextField("", text: $editingVocabulary.baseWord, prompt: Text("Word..."))
             
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.translationWord, placeholder: "Translated word...")
+            TextField("", text: $editingVocabulary.translationWord, prompt: Text("Translated word..."))
         }
     }
     
     var sentencesSection: some View {
         Section {
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.baseSentence, placeholder: "Sentence...")
+            TextField("", text: $editingVocabulary.baseSentence, prompt: Text("Sentence..."))
             
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.translationSentence, placeholder: "Translated sentence...")
+            TextField("", text: $editingVocabulary.translationSentence, prompt: Text("Translated sentence..."))
         }
     }
     
     var explenationSection: some View {
         Section {
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.baseExplenation, placeholder: "Explenation...")
-            VocabularyTextField(vocabulary: editingVocabulary, value: \.translationExplanation, placeholder: "Translated explenation...")
+            TextField("", text: $editingVocabulary.baseExplenation, prompt: Text("Explenation..."))
+            TextField("", text: $editingVocabulary.translationExplanation, prompt: Text("Translated explenation..."))
         }
     }
     
@@ -66,7 +66,7 @@ extension EditVocabularyView {
         Section {
             WordGroupPicker(vocabulary: editingVocabulary)
             
-            VocabularyToggle(vocabulary: editingVocabulary, value: \.isToLearn, label: Text("To learn"))
+            Toggle("To learn", isOn: $editingVocabulary.isToLearn)
         }
     }
     

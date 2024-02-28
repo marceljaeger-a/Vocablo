@@ -62,9 +62,6 @@ struct VocabularyItem: View {
     
     var body: some View {
         HStack(spacing: 20){
-            VocabularyToggle(vocabulary: vocabulary, value: \.isToLearn)
-                .toggleStyle(.checkbox)
-            
             VStack(spacing: 10){
                 HStack {
                     wordAndSentenceVStack
@@ -74,32 +71,35 @@ struct VocabularyItem: View {
                     translatedWordAndSentenceVStack
                 }
                 
-                if isDuplicateRecognitionLabelAvailable || isListLabelAvailable{
-                    HStack(spacing: 20){
-                        if isListLabelAvailable, let list = vocabulary.list {
-                            VocabularyListLabel(list: list)
-                        }
-                        if hasDuplicates && isDuplicateRecognitionLabelAvailable {
-                            DuplicateVocabulariesPopoverButton(duplicatesOf: vocabulary, within: nil)
-                                .buttonStyle(.plain)
-                        }
-                        Spacer()
+                HStack(spacing: 20) {
+                    Label(vocabulary.isToLearn ? "To learn" : "Not to learn", systemImage: vocabulary.isToLearn ? "checkmark" : "xmark")
+                        .labelStyle(.titleOnly)
+                        .foregroundStyle(vocabulary.isToLearn ? AnyShapeStyle(Color.green) : AnyShapeStyle(.tertiary))
+                    
+                    if isListLabelAvailable, let list = vocabulary.list {
+                        Label(list.name, systemImage: "")
+                            .labelStyle(.titleOnly)
+                            .foregroundStyle(.tertiary)
                     }
-                    .task {
+                    if hasDuplicates && isDuplicateRecognitionLabelAvailable {
+                        DuplicateVocabulariesPopoverButton(duplicatesOf: vocabulary, within: nil)
+                            .buttonStyle(.plain)
+                    }
+                    Spacer()
+                }
+                .task {
+                    if isDuplicateRecognitionLabelAvailable {
                         await setHasDuplicates()
                     }
-                    .onChange(of: [vocabulary.baseWord, vocabulary.baseSentence, vocabulary.translationWord, vocabulary.translationSentence]) { oldValue, newValue in
+                }
+                .onChange(of: [vocabulary.baseWord, vocabulary.baseSentence, vocabulary.translationWord, vocabulary.translationSentence]) { oldValue, newValue in
+                    if isDuplicateRecognitionLabelAvailable {
                         Task {
                             await setHasDuplicates()
                         }
                     }
                 }
             }
-            
-            LearningStateInfoButton(vocabulary: vocabulary)
-                .buttonStyle(.borderless)
-                .foregroundStyle(.secondary)
-                .opacity(learningStateInfoButtonOpacity)
         }
         .padding(6)
         .textFieldStyle(.plain)
@@ -119,11 +119,11 @@ struct VocabularyItem: View {
 extension VocabularyItem {
     var wordAndSentenceVStack: some View {
         VStack(alignment: .leading){
-            VocabularyTextField(vocabulary: vocabulary, value: \.baseWord, placeholder: "Word...")
+            TextField("", text: $vocabulary.baseWord, prompt: Text("Word..."))
                 .font(.headline)
                 .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.word(vocabulary.id))
             
-            VocabularyTextField(vocabulary: vocabulary, value: \.baseSentence, placeholder: "Sentence...")
+            TextField("", text: $vocabulary.baseSentence, prompt: Text("Sentence..."))
                 .foregroundStyle(.secondary)
                 .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.sentence(vocabulary.id))
         }
@@ -131,11 +131,11 @@ extension VocabularyItem {
     
     var translatedWordAndSentenceVStack: some View {
         VStack(alignment: .leading){
-            VocabularyTextField(vocabulary: vocabulary, value: \.translationWord, placeholder: "Translated word..")
+            TextField("", text: $vocabulary.translationWord, prompt: Text("Translated word..."))
                 .font(.headline)
                 .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedWord(vocabulary.id))
             
-            VocabularyTextField(vocabulary: vocabulary, value: \.translationSentence, placeholder: "Translated sentence..")
+            TextField("", text: $vocabulary.translationSentence, prompt: Text("Translated sentence..."))
                 .foregroundStyle(.secondary)
                 .focused($textFieldFocus, equals: VocabularyTextFieldFocusState.translatedSentenced(vocabulary.id))
         }
