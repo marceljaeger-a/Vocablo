@@ -28,4 +28,12 @@ extension FetchDescriptor {
         }
         return FetchDescriptor<Vocabulary>(predicate: predicate, sortBy: sortDescriptors)
     }
+    
+    static func vocabularies(of list: PersistentIdentifier, sortBy sortDescriptors: [SortDescriptor<Vocabulary>] = []) -> FetchDescriptor<Vocabulary> {
+        let listId = list
+        let predicate: Predicate<Vocabulary> = #Predicate { vocabulary in
+            vocabulary.list?.persistentModelID == listId
+        }
+        return FetchDescriptor<Vocabulary>(predicate: predicate, sortBy: sortDescriptors)
+    }
 }

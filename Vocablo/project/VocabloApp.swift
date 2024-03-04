@@ -14,11 +14,8 @@ struct VocabloApp: App {
     //MARK: - Body
     
     var body: some Scene {
-        VocabloScene()
-            .modelContainer(.current)
-        
-        SettingsScene()
-            .defaultSize(width: 400, height: 500)
+        WindowGroupScene()
+            .modelContainer(ModelContainer.current)
     }
 }
 
