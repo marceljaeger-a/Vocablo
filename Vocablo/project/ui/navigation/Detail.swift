@@ -29,31 +29,14 @@ struct Detail: View {
     }
     
     //MARK: - Methods
-    
-    private func getListQuery(listIdentifier: PersistentIdentifier) -> Query<Vocabulary, Array<Vocabulary>> {
-        let listIdentifier = listIdentifier
-        let predicate: Predicate<Vocabulary> = #Predicate { vocabulary in
-            vocabulary.list?.persistentModelID == listIdentifier
-        }
-        let fetchDescriptor: FetchDescriptor<Vocabulary> = FetchDescriptor(predicate: predicate)
-        
-        return Query(fetchDescriptor)
-    }
-    
-    private let searchingFilter: (Vocabulary, String) -> Bool  = {
-        vocabulary, searchingText in
-            vocabulary.baseWord.caseInsensitiveContains(searchingText) ||
-            vocabulary.translationWord.caseInsensitiveContains(searchingText) ||
-            vocabulary.baseSentence.caseInsensitiveContains(searchingText) ||
-            vocabulary.translationSentence.caseInsensitiveContains(searchingText)
-    }
+
     
     //MARK: - Body
     
     var body: some View {
         let _ = Self._printChanges()
         if isSearching {
-            VocabularyListView(searchingText: searchingText, searchingFilter: searchingFilter)
+            VocabularyListView(searchingText: searchingText)
                 .navigationTitle("Searching results")
         }else {
             if let registeredSelectedListModel {

@@ -17,6 +17,8 @@ struct DeleteVocabulariesButton: View {
     
     @Environment(\.modelContext) var modelContext
     
+    @FocusedBinding(\.selectedVocabularies) var selectedVocabularies
+    
     //MARK: - Initialiser
     
     init(_ vocabularyIdentifiers: Set<PersistentIdentifier>) {
@@ -26,9 +28,12 @@ struct DeleteVocabulariesButton: View {
     //MARK: - Methods
     
     private func deleteVocabularies() {
-        #warning("The deltedVocabularies need to be removed from the selected vocabularies set!")
         let fetchedVocabularies = modelContext.fetchVocabularies(.byIdentifiers(vocabularyIdentifiers))
         modelContext.delete(models: fetchedVocabularies)
+        
+        if selectedVocabularies != nil {
+            _ = selectedVocabularies?.remove(members: vocabularyIdentifiers)
+        }
     }
     
     //MARK: - Body

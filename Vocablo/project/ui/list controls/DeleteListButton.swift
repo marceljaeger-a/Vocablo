@@ -15,6 +15,7 @@ struct DeleteListButton: View {
     
     let list: VocabularyList?
     @Environment(\.modelContext) var modelContext
+    @FocusedBinding(\.selectedList) var selectedList
     
     //MARK: - Methods
     
@@ -24,9 +25,19 @@ struct DeleteListButton: View {
     
     var body: some View {
         Button {
-            #warning("The selectingValue should be changed!")
             guard let list else { return }
             modelContext.delete(models: [list])
+            
+            switch selectedList {
+            case .all:
+                break
+            case .model(id: let id):
+                if id == list.id {
+                    selectedList = .all
+                }
+            case .none:
+                break
+            }
         } label: {
             Label("Delete", systemImage: "trash")
         }

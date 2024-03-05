@@ -15,6 +15,7 @@ struct VocabularyRow: View {
     
     @Environment(\.isFocused) var isFocused
     @Bindable var vocabulary: Vocabulary
+    @FocusState.Binding var focusedTextField: FocusedVocabularyTextField?
     
     //MARK: - Methods
     
@@ -26,13 +27,19 @@ struct VocabularyRow: View {
         Grid(horizontalSpacing: 25){
             GridRow{
                 TextField("", text: $vocabulary.baseWord, prompt: Text("Word..."))
+                    .focused($focusedTextField, equals: .baseWord(vocabularyIdentifier: vocabulary.id))
+                
                 TextField("", text: $vocabulary.translationWord, prompt: Text("Translated word..."))
+                    .focused($focusedTextField, equals: .translationWord(vocabularyIdentifier: vocabulary.id))
             }
             .font(.headline)
             
             GridRow {
                 TextField("", text: $vocabulary.baseSentence, prompt: Text("Sentence..."))
+                    .focused($focusedTextField, equals: .baseSentence(vocabularyIdentifier: vocabulary.id))
+                
                 TextField("", text: $vocabulary.translationSentence, prompt: Text("Translated sentence..."))
+                    .focused($focusedTextField, equals: .translationSentence(vocabularyIdentifier: vocabulary.id))
             }
             .foregroundStyle(.secondary)
             

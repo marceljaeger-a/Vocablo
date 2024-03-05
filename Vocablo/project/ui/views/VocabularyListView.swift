@@ -9,6 +9,13 @@ import Foundation
 import SwiftUI
 import SwiftData
 
+enum FocusedVocabularyTextField: Hashable {
+    case baseWord(vocabularyIdentifier: PersistentIdentifier)
+    case translationWord(vocabularyIdentifier: PersistentIdentifier)
+    case baseSentence(vocabularyIdentifier: PersistentIdentifier)
+    case translationSentence(vocabularyIdentifier: PersistentIdentifier)
+}
+
 struct VocabularyListView: View {
     
     //MARK: - Dependencies
@@ -19,6 +26,7 @@ struct VocabularyListView: View {
     var list: VocabularyList? = nil
     
     @Environment(\.modelContext) var modelContext
+    @Environment(\.isSearching) var isSearching
     
     @Query private var vocabularies: Array<Vocabulary>
     private var filteredVocabularies: Array<Vocabulary> {
@@ -32,6 +40,8 @@ struct VocabularyListView: View {
     }
     @State private var selectedVocabularies: Set<PersistentIdentifier> = []
     @State private var editedVocabulary: Vocabulary? = nil
+    
+    @FocusState var focusedVocabularyTextField: FocusedVocabularyTextField?
     
     //MARK: - Initialiser
     
@@ -54,38 +64,51 @@ struct VocabularyListView: View {
     //Searching variant
     init(
         query: Query<Vocabulary, Array<Vocabulary>> = .init(.vocabularies()),
-        searchingText: String ,
-        searchingFilter: @escaping (Vocabulary, String) -> Bool
+        searchingText: String
     ) {
         self.init(query: query)
         
         self.searchingText = searchingText
-        self.searchingFilter = searchingFilter
+        self.searchingFilter = {
+            vocabulary, searchingText in
+                vocabulary.baseWord.caseInsensitiveContains(searchingText) ||
+                vocabulary.translationWord.caseInsensitiveContains(searchingText) ||
+                vocabulary.baseSentence.caseInsensitiveContains(searchingText) ||
+                vocabulary.translationSentence.caseInsensitiveContains(searchingText)
+        }
     }
     
     //MARK: - Methods
-    
-    private func openEditVocabularyView(with identifiers: Set<PersistentIdentifier>) {
-        guard identifiers.count == 1 else { return }
-        guard let identifier = identifiers.first else { return }
-        guard let registeredVocabulary: Vocabulary = modelContext.registeredModel(for: identifier) else { return }
-        editedVocabulary = registeredVocabulary
+
+    private func onSumbmitAction() {
+        guard isSearching == false else { return }
+        
+        let newVocabulary = Vocabulary.newVocabulary
+        if let list {
+            list.append(vocabulary: newVocabulary)
+        }else {
+            modelContext.insert(newVocabulary)
+        }
+        
+        try? modelContext.save()
     }
     
     //MARK: - Body
     
     var body: some View {
         let _ = Self._printChanges()
+       
         List(selection: $selectedVocabularies) {
             ForEach(filteredVocabularies, id: \.id) { vocabulary in
-                VocabularyRow(vocabulary: vocabulary)
+                VocabularyRow(vocabulary: vocabulary, focusedTextField: $focusedVocabularyTextField)
+                    .onSubmit(onSumbmitAction)
             }
         }
         .listStyle(.inset)
         .contextMenu(forSelectionType: PersistentIdentifier.self) { identifiers in
-            VocabularyListViewContextMenu(identifiers: identifiers, list: list)
+            VocabularyListViewContextMenu(identifiers: identifiers, list: list, editedVocabulary: $editedVocabulary)
         } primaryAction: { identifiers in
-            openEditVocabularyView(with: identifiers)
+            OpenEditVocabularyViewButton.openEditVocabularyView(editedVocabulary: &editedVocabulary, identifiers: identifiers, modelContext: modelContext)
         }
         .toolbar {
             VocabularyListViewToolbar(list: list)
@@ -102,6 +125,7 @@ struct VocabularyListView: View {
 struct VocabularyListViewContextMenu: View {
     let identifiers: Set<PersistentIdentifier>
     let list: VocabularyList?
+    @Binding var editedVocabulary: Vocabulary?
     
     var body: some View {
         NewVocabularyButton(list: list)
@@ -109,10 +133,8 @@ struct VocabularyListViewContextMenu: View {
         
         Divider()
         
-        Button("Edit") {
-            
-        }
-        .disabled(identifiers.count != 1)
+        OpenEditVocabularyViewButton(editedVocabulary: $editedVocabulary, identifiers: identifiers)
+            .disabled(identifiers.count != 1)
         
         SetVocabularyToLearnButton(identifiers, to: true, title: "Set to learn")
             .disabled(identifiers.isEmpty)
