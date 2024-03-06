@@ -10,11 +10,11 @@ import SwiftUI
 import SwiftData
 
 struct SelectedVocabulariesFocusedValue: FocusedValueKey {
-    typealias Value = Binding<Set<PersistentIdentifier>>
+    typealias Value = Binding<Set<Vocabulary>>
 }
 
 extension FocusedValues {
-    var selectedVocabularies: Binding<Set<PersistentIdentifier>>? {
+    var selectedVocabularies: Binding<Set<Vocabulary>>? {
         get {
             self[SelectedVocabulariesFocusedValue.self]
         }

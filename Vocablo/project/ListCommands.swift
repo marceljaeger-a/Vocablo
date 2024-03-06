@@ -14,17 +14,13 @@ struct ListCommands: Commands {
     
     @FocusedBinding(\.selectedList) var selectedListValue
     
-    var registeredList: VocabularyList? {
-        selectedListValue?.fetchList(with: modelContext)
-    }
-    
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
             Group {
-                NewListButton()
+                AddNewListButton()
                     .keyboardShortcut(KeyEquivalent("n"), modifiers: .command.union(.shift))
                     
-                NewVocabularyButton(list: registeredList)
+                AddNewVocabularyButton(into: selectedListValue?.list)
                     .keyboardShortcut(KeyEquivalent("n"), modifiers: .command)
             }
             .modelContext(modelContext)
@@ -41,8 +37,10 @@ struct ListCommands: Commands {
         
         CommandGroup(after: .pasteboard) {
             Group {
-                ResetListButton(title: "Reset list", list: registeredList)
-                    .disabled(selectedListValue == nil || selectedListValue == ListSelectingValue.all)
+                ResetListButton(list: selectedListValue?.list) {
+                    Text("Reset list")
+                }
+                .disabled(selectedListValue == nil || selectedListValue == ListSelectingValue.all)
             }
             .modelContext(modelContext)
         }

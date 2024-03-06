@@ -13,13 +13,28 @@ struct VocabularyRow: View {
     
     //MARK: - Dependencies
     
-    @Environment(\.isFocused) var isFocused
     @Bindable var vocabulary: Vocabulary
     @FocusState.Binding var focusedTextField: FocusedVocabularyTextField?
+    let list: VocabularyList?
+    
+    @Environment(\.isFocused) var isFocused
+    @Environment(\.isSearching) var isSearching
+    @Environment(\.modelContext) var modelContext
     
     //MARK: - Methods
     
-    
+    private func onSumbmitAction() {
+        guard isSearching == false else { return }
+        
+        let newVocabulary = Vocabulary.newVocabulary
+        if let list {
+            list.append(vocabulary: newVocabulary)
+        }else {
+            modelContext.insert(newVocabulary)
+        }
+        
+        try? modelContext.save()
+    }
     
     //MARK: - Body
     
@@ -50,6 +65,7 @@ struct VocabularyRow: View {
         }
         .textFieldStyle(.plain)
         .padding(5)
+        .onSubmit(onSumbmitAction)
     }
 }
 

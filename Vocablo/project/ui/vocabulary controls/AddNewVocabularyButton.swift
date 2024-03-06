@@ -9,17 +9,28 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct NewVocabularyButton: View {
+struct AddNewVocabularyButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
     let list: VocabularyList?
+    var label: () -> LabelContent
     
     @Environment(\.modelContext) var modelContext
     
+    //MARK: - Initialiser
+    
+    init(
+        into list: VocabularyList?,
+        label: @escaping () -> LabelContent = { Label("New vocabulary", systemImage: "plus") }
+    ) {
+        self.list = list
+        self.label = label
+    }
+    
     //MARK: - Methods
     
-    private func addNewVocabulary() {
+    private func perform() {
         #warning("The new vocabulary needs to be focused!")
         let newVocabulary = Vocabulary.newVocabulary
         
@@ -44,9 +55,9 @@ struct NewVocabularyButton: View {
     
     var body: some View {
         Button {
-            addNewVocabulary()
+            perform()
         } label: {
-            Label("New vocabulary", systemImage: "plus")
+            label()
         }
     }
 }

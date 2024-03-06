@@ -9,40 +9,43 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct DeleteVocabulariesButton: View {
+struct DeleteVocabulariesButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
-    let vocabularyIdentifiers: Set<PersistentIdentifier>
+    let vocabularies: Set<Vocabulary>
+    @Binding var selectedVocabularies: Set<Vocabulary>
+    var label: () -> LabelContent
     
     @Environment(\.modelContext) var modelContext
     
-    @FocusedBinding(\.selectedVocabularies) var selectedVocabularies
-    
     //MARK: - Initialiser
     
-    init(_ vocabularyIdentifiers: Set<PersistentIdentifier>) {
-        self.vocabularyIdentifiers = vocabularyIdentifiers
+    init(
+        vocabularies: Set<Vocabulary>,
+        selectedVocabularies: Binding<Set<Vocabulary>>,
+        label: @escaping () -> LabelContent = { Label("Delete", systemImage: "trash") }
+    ) {
+        self.vocabularies = vocabularies
+        self._selectedVocabularies = selectedVocabularies
+        self.label = label
     }
     
     //MARK: - Methods
     
-    private func deleteVocabularies() {
-        let fetchedVocabularies = modelContext.fetchVocabularies(.byIdentifiers(vocabularyIdentifiers))
-        modelContext.delete(models: fetchedVocabularies)
+    private func perform() {
+        modelContext.delete(models: Array(vocabularies))
         
-        if selectedVocabularies != nil {
-            _ = selectedVocabularies?.remove(members: vocabularyIdentifiers)
-        }
+        _ = selectedVocabularies.remove(members: vocabularies)
     }
     
     //MARK: - Body
     
     var body: some View {
         Button {
-            deleteVocabularies()
+            perform()
         } label: {
-            Label("Delete", systemImage: "trash")
+            label()
         }
     }
 }

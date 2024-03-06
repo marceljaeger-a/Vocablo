@@ -73,13 +73,13 @@
 		9FA72CB12B92211700246E76 /* WordGroupPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CB02B92211700246E76 /* WordGroupPicker.swift */; };
 		9FA72CB72B92294600246E76 /* VocabularyCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CB62B92294600246E76 /* VocabularyCommands.swift */; };
 		9FA72CB92B92295200246E76 /* ListCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CB82B92295200246E76 /* ListCommands.swift */; };
-		9FA72CBB2B9236E900246E76 /* NewVocabularyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CBA2B9236E900246E76 /* NewVocabularyButton.swift */; };
+		9FA72CBB2B9236E900246E76 /* AddNewVocabularyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CBA2B9236E900246E76 /* AddNewVocabularyButton.swift */; };
 		9FA72CBF2B92383C00246E76 /* SetVocabularyToLearnButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CBE2B92383C00246E76 /* SetVocabularyToLearnButton.swift */; };
 		9FA72CC12B9239E800246E76 /* ResetVocabulariesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CC02B9239E800246E76 /* ResetVocabulariesButton.swift */; };
 		9FA72CC32B923AA300246E76 /* DeleteVocabulariesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CC22B923AA300246E76 /* DeleteVocabulariesButton.swift */; };
 		9FA72CC52B923CE200246E76 /* LastRepetitionDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CC42B923CE200246E76 /* LastRepetitionDatePicker.swift */; };
 		9FA72CC72B923EBE00246E76 /* ResetLearningStateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CC62B923EBE00246E76 /* ResetLearningStateButton.swift */; };
-		9FA72CC92B9240E200246E76 /* NewListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CC82B9240E200246E76 /* NewListButton.swift */; };
+		9FA72CC92B9240E200246E76 /* AddNewListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CC82B9240E200246E76 /* AddNewListButton.swift */; };
 		9FAE26E32B35BA9F0023E5C4 /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE26E22B35BA9F0023E5C4 /* AppVersionManager.swift */; };
 		9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC583152AE6F70900A56141 /* VocabloApp.swift */; };
 		9FC5831A2AE6F70A00A56141 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FC583192AE6F70A00A56141 /* Assets.xcassets */; };
@@ -184,13 +184,13 @@
 		9FA72CB02B92211700246E76 /* WordGroupPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGroupPicker.swift; sourceTree = "<group>"; };
 		9FA72CB62B92294600246E76 /* VocabularyCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyCommands.swift; sourceTree = "<group>"; };
 		9FA72CB82B92295200246E76 /* ListCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCommands.swift; sourceTree = "<group>"; };
-		9FA72CBA2B9236E900246E76 /* NewVocabularyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewVocabularyButton.swift; sourceTree = "<group>"; };
+		9FA72CBA2B9236E900246E76 /* AddNewVocabularyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewVocabularyButton.swift; sourceTree = "<group>"; };
 		9FA72CBE2B92383C00246E76 /* SetVocabularyToLearnButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetVocabularyToLearnButton.swift; sourceTree = "<group>"; };
 		9FA72CC02B9239E800246E76 /* ResetVocabulariesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetVocabulariesButton.swift; sourceTree = "<group>"; };
 		9FA72CC22B923AA300246E76 /* DeleteVocabulariesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteVocabulariesButton.swift; sourceTree = "<group>"; };
 		9FA72CC42B923CE200246E76 /* LastRepetitionDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastRepetitionDatePicker.swift; sourceTree = "<group>"; };
 		9FA72CC62B923EBE00246E76 /* ResetLearningStateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetLearningStateButton.swift; sourceTree = "<group>"; };
-		9FA72CC82B9240E200246E76 /* NewListButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListButton.swift; sourceTree = "<group>"; };
+		9FA72CC82B9240E200246E76 /* AddNewListButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewListButton.swift; sourceTree = "<group>"; };
 		9FAE26E22B35BA9F0023E5C4 /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
 		9FAF88472AEAE9E000D81CE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9FC583122AE6F70900A56141 /* Vocablo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vocablo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -329,7 +329,7 @@
 		9F323B5C2B96170200A88947 /* list controls */ = {
 			isa = PBXGroup;
 			children = (
-				9FA72CC82B9240E200246E76 /* NewListButton.swift */,
+				9FA72CC82B9240E200246E76 /* AddNewListButton.swift */,
 				9F323B582B96081E00A88947 /* ResetListButton.swift */,
 				9F323B5A2B960A4E00A88947 /* DeleteListButton.swift */,
 			);
@@ -533,7 +533,7 @@
 		9FA72CAF2B92210B00246E76 /* vocabulary controls */ = {
 			isa = PBXGroup;
 			children = (
-				9FA72CBA2B9236E900246E76 /* NewVocabularyButton.swift */,
+				9FA72CBA2B9236E900246E76 /* AddNewVocabularyButton.swift */,
 				9FA72CC02B9239E800246E76 /* ResetVocabulariesButton.swift */,
 				9FA72CC22B923AA300246E76 /* DeleteVocabulariesButton.swift */,
 				9FA72CB02B92211700246E76 /* WordGroupPicker.swift */,
@@ -795,7 +795,7 @@
 				9FA72CAE2B921FB600246E76 /* EditVocabularyView.swift in Sources */,
 				9FDB9CE22B37242200646B67 /* current model typealias.swift in Sources */,
 				9F2935EB2B5A81D90016A413 /* VocabularyListDetailView.swift in Sources */,
-				9FA72CBB2B9236E900246E76 /* NewVocabularyButton.swift in Sources */,
+				9FA72CBB2B9236E900246E76 /* AddNewVocabularyButton.swift in Sources */,
 				9F323B592B96081E00A88947 /* ResetListButton.swift in Sources */,
 				9FEAC8082B24D06100AA7133 /* VocabloScene.swift in Sources */,
 				9F46EFC12AE83EB90006E5F3 /* ListTableView.swift in Sources */,
@@ -817,7 +817,7 @@
 				9F11D7982B22762C0050A3AD /* VocabulariesPasteDestination.swift in Sources */,
 				9F6636202B839026008C7980 /* Optional.swift in Sources */,
 				9F323B612B9756F500A88947 /* SelectedList.swift in Sources */,
-				9FA72CC92B9240E200246E76 /* NewListButton.swift in Sources */,
+				9FA72CC92B9240E200246E76 /* AddNewListButton.swift in Sources */,
 				9F9491142B3323B20018AF4C /* Date.swift in Sources */,
 				9F23D9412B0BF53200C90BBB /* Array.swift in Sources */,
 				9FC583272AE7080E00A56141 /* SchemaV1 VocabularyList.swift in Sources */,

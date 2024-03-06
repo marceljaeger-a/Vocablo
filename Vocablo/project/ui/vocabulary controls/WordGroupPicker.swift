@@ -16,10 +16,6 @@ struct WordGroupPicker: View {
     let title: String
     @Binding var group: WordGroup
     
-    //MARK: - Methods
-    
-    
-    
     //MARK: - Body
     
     var body: some View {

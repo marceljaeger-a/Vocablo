@@ -25,9 +25,6 @@ struct VocabularyListView: View {
     
     var list: VocabularyList? = nil
     
-    @Environment(\.modelContext) var modelContext
-    @Environment(\.isSearching) var isSearching
-    
     @Query private var vocabularies: Array<Vocabulary>
     private var filteredVocabularies: Array<Vocabulary> {
         if let searchingFilter, let searchingText{
@@ -38,10 +35,10 @@ struct VocabularyListView: View {
             return vocabularies
         }
     }
-    @State private var selectedVocabularies: Set<PersistentIdentifier> = []
+    @State private var selectedVocabularies: Set<Vocabulary> = []
     @State private var editedVocabulary: Vocabulary? = nil
-    
     @FocusState var focusedVocabularyTextField: FocusedVocabularyTextField?
+    @Environment(\.modelContext) var modelContext
     
     //MARK: - Initialiser
     
@@ -78,40 +75,26 @@ struct VocabularyListView: View {
         }
     }
     
-    //MARK: - Methods
-
-    private func onSumbmitAction() {
-        guard isSearching == false else { return }
-        
-        let newVocabulary = Vocabulary.newVocabulary
-        if let list {
-            list.append(vocabulary: newVocabulary)
-        }else {
-            modelContext.insert(newVocabulary)
-        }
-        
-        try? modelContext.save()
-    }
-    
     //MARK: - Body
     
     var body: some View {
         let _ = Self._printChanges()
        
         List(selection: $selectedVocabularies) {
-            ForEach(filteredVocabularies, id: \.id) { vocabulary in
-                VocabularyRow(vocabulary: vocabulary, focusedTextField: $focusedVocabularyTextField)
-                    .onSubmit(onSumbmitAction)
+            ForEach(filteredVocabularies, id: \.self) { vocabulary in
+                VocabularyRow(vocabulary: vocabulary, focusedTextField: $focusedVocabularyTextField, list: list)
             }
         }
         .listStyle(.inset)
-        .contextMenu(forSelectionType: PersistentIdentifier.self) { identifiers in
-            VocabularyListViewContextMenu(identifiers: identifiers, list: list, editedVocabulary: $editedVocabulary)
-        } primaryAction: { identifiers in
-            OpenEditVocabularyViewButton.openEditVocabularyView(editedVocabulary: &editedVocabulary, identifiers: identifiers, modelContext: modelContext)
+        .contextMenu(forSelectionType: Vocabulary.self) { vocabularies in
+            VocabularyListViewContextMenu(vocabularies: vocabularies, selectedList: list, selectedVocabularies: $selectedVocabularies, editedVocabulary: $editedVocabulary)
+        } primaryAction: { vocabularies in
+            if vocabularies.count == 1 {
+                editedVocabulary = vocabularies.first
+            }
         }
         .toolbar {
-            VocabularyListViewToolbar(list: list)
+            VocabularyListViewToolbar(selectedList: list)
         }
         .sheet(item: $editedVocabulary) { vocabulary in
             EditVocabularyView(vocabulary: vocabulary)
@@ -123,37 +106,46 @@ struct VocabularyListView: View {
 
 
 struct VocabularyListViewContextMenu: View {
-    let identifiers: Set<PersistentIdentifier>
-    let list: VocabularyList?
+    let vocabularies: Set<Vocabulary>
+    let selectedList: VocabularyList?
+    @Binding var selectedVocabularies: Set<Vocabulary>
     @Binding var editedVocabulary: Vocabulary?
+    @Environment(\.isSearching) var isSearching
     
     var body: some View {
-        NewVocabularyButton(list: list)
-            .disabled(identifiers.isEmpty == false)
+        AddNewVocabularyButton(into: selectedList)
+            .disabled(
+                vocabularies.isEmpty == false &&
+                isSearching == false
+            )
         
         Divider()
         
-        OpenEditVocabularyViewButton(editedVocabulary: $editedVocabulary, identifiers: identifiers)
-            .disabled(identifiers.count != 1)
+        OpenEditVocabularyViewButton(sheetValue: $editedVocabulary, open: vocabularies.first)
+            .disabled(vocabularies.count != 1)
         
-        SetVocabularyToLearnButton(identifiers, to: true, title: "Set to learn")
-            .disabled(identifiers.isEmpty)
+        SetVocabulariesToLearnButton(vocabularies, to: true) {
+            Text("Set to learn")
+        }
+        .disabled(vocabularies.isEmpty)
         
-        SetVocabularyToLearnButton(identifiers, to: false, title: "Set not to learn")
-            .disabled(identifiers.isEmpty)
+        SetVocabulariesToLearnButton(vocabularies, to: false) {
+            Text("Set not to learn")
+        }
+        .disabled(vocabularies.isEmpty)
         
         Divider()
         
-        ResetVocabulariesButton(identifiers)
-            .disabled(identifiers.isEmpty)
+        ResetVocabulariesButton(vocabularies: vocabularies)
+            .disabled(vocabularies.isEmpty)
         
-        DeleteVocabulariesButton(identifiers)
-            .disabled(identifiers.isEmpty)
+        DeleteVocabulariesButton(vocabularies: vocabularies, selectedVocabularies: $selectedVocabularies)
+            .disabled(vocabularies.isEmpty)
     }
 }
 
 struct VocabularyListViewToolbar: ToolbarContent {
-    let list: VocabularyList?
+    let selectedList: VocabularyList?
     @Environment(\.isSearching) var isSearching
     
     var body: some ToolbarContent {
@@ -167,7 +159,7 @@ struct VocabularyListViewToolbar: ToolbarContent {
         }
         
         ToolbarItem(placement: .primaryAction) {
-            NewVocabularyButton(list: list)
+            AddNewVocabularyButton(into: selectedList)
                 .disabled(isSearching)
         }
     }

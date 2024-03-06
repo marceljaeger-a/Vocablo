@@ -9,26 +9,29 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct ResetVocabulariesButton: View {
+struct ResetVocabulariesButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
-    let title: String 
-    let vocabularyIdentifiers: Set<PersistentIdentifier>
+    let vocabularies: Set<Vocabulary>
+    var label: () -> LabelContent
     
     @Environment(\.modelContext) var modelContext
-
+    
     //MARK: - Initialiser
     
-    init(title: String = "Reset", _ vocabularyIdentifiers: Set<PersistentIdentifier>) {
-        self.title = title
-        self.vocabularyIdentifiers = vocabularyIdentifiers
+    init(
+        vocabularies: Set<Vocabulary>,
+        label: @escaping () -> LabelContent = { Text("Reset") }
+    ) {
+        self.vocabularies = vocabularies
+        self.label = label
     }
     
     //MARK: - Methods
     
-    private func resetVocabularies() {
-        modelContext.fetchVocabularies(.byIdentifiers(vocabularyIdentifiers)).forEach { vocabulary in
+    private func perform() {
+        vocabularies.forEach { vocabulary in
             vocabulary.resetLearningsStates()
         }
     }
@@ -37,9 +40,9 @@ struct ResetVocabulariesButton: View {
     
     var body: some View {
         Button {
-            resetVocabularies()
+            perform()
         } label: {
-            Text(title)
+            label()
         }
     }
 }

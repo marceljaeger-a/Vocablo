@@ -9,37 +9,49 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct DeleteListButton: View {
+struct DeleteListButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
     let list: VocabularyList?
+    @Binding var selectedList: ListSelectingValue
+    var label: () -> LabelContent
+    
     @Environment(\.modelContext) var modelContext
-    @FocusedBinding(\.selectedList) var selectedList
+    
+    //MARK: - Initialiser
+    
+    init(
+        list: VocabularyList?,
+        selectedList: Binding<ListSelectingValue>,
+        label: @escaping () -> LabelContent = { Label("Delete", systemImage: "trash") }
+    ) {
+        self.list = list
+        self._selectedList = selectedList 
+        self.label = label
+    }
     
     //MARK: - Methods
     
-    
+    private func perform() {
+        guard let list else { return }
+        
+        modelContext.delete(models: [list])
+        
+        if let selectedListModel = selectedList.list {
+            if list.id == selectedListModel.id {
+                selectedList = .all
+            }
+        }
+    }
     
     //MARK: - Body
     
     var body: some View {
         Button {
-            guard let list else { return }
-            modelContext.delete(models: [list])
-            
-            switch selectedList {
-            case .all:
-                break
-            case .model(id: let id):
-                if id == list.id {
-                    selectedList = .all
-                }
-            case .none:
-                break
-            }
+            perform()
         } label: {
-            Label("Delete", systemImage: "trash")
+            label()
         }
     }
 }

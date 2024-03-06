@@ -41,7 +41,7 @@ struct EditVocabularyView: View {
             }
             
             Section {
-                LearningLevelPicker(level: $vocabulary.baseState.level, title: "Level")
+                LearningLevelPicker(title: "Level", level: $vocabulary.baseState.level)
                 Text("Next repetition in \(vocabulary.baseState.remainingTimeLabel)")
                 LastRepetitionDatePicker(state: $vocabulary.baseState)
             }header: {
@@ -55,7 +55,7 @@ struct EditVocabularyView: View {
             }
             
             Section {
-                LearningLevelPicker(level: $vocabulary.translationState.level, title: "Level")
+                LearningLevelPicker(title: "Level", level: $vocabulary.translationState.level)
                 Text("Next repetition in \(vocabulary.translationState.remainingTimeLabel)")
                 LastRepetitionDatePicker(state: $vocabulary.translationState)
             }header: {

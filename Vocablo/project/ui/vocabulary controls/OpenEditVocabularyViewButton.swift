@@ -9,30 +9,41 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct OpenEditVocabularyViewButton: View {
+struct OpenEditVocabularyViewButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
-    var title: String = "Edit"
     @Binding var editedVocabulary: Vocabulary?
-    let identifiers: Set<PersistentIdentifier>
+    let vocabulary: Vocabulary?
+    var label: () -> LabelContent
     
     @Environment(\.modelContext) var modelContext
     
+    //MARK: - Initialiser
+    
+    init(
+        sheetValue editedVocabulary: Binding<Vocabulary?>,
+        open vocabulary: Vocabulary?,
+        label: @escaping () -> LabelContent = { Text("Edit") }
+    ) {
+        self._editedVocabulary = editedVocabulary
+        self.vocabulary = vocabulary
+        self.label = label
+    }
+    
     //MARK: - Methods
     
-    static func openEditVocabularyView(editedVocabulary: inout Vocabulary?, identifiers: Set<PersistentIdentifier>, modelContext: ModelContext) {
-        guard identifiers.count == 1 else { return }
-        guard let identifier = identifiers.first else { return }
-        guard let registeredVocabulary: Vocabulary = modelContext.registeredModel(for: identifier) else { return }
-        editedVocabulary = registeredVocabulary
+    private func perform() {
+        editedVocabulary = vocabulary
     }
     
     //MARK: - Body
     
     var body: some View {
-        Button(title) {
-            Self.openEditVocabularyView(editedVocabulary: &editedVocabulary, identifiers: identifiers, modelContext: modelContext)
+        Button {
+            perform()
+        } label: {
+            label()
         }
     }
 }

@@ -9,30 +9,42 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct ResetListButton: View {
+struct ResetListButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
-    var title = "Reset"
     let list: VocabularyList?
+    var label: () -> LabelContent
     
     @Environment(\.modelContext) var modelContext
     
+    //MARK: - Initialiser
+    
+    init(
+        list: VocabularyList?,
+        label: @escaping () -> LabelContent = { Text("Reset") }
+    ) {
+        self.list = list
+        self.label = label
+    }
+    
     //MARK: - Methods
     
-    
+    private func perform() {
+        guard let list else { return }
+        let fetchedVocabulariesOfList = modelContext.fetchVocabularies(.vocabularies(of: list))
+        fetchedVocabulariesOfList.forEach { vocabulary in
+            vocabulary.resetLearningsStates()
+        }
+    }
     
     //MARK: - Body
     
     var body: some View {
         Button {
-            guard let list else { return }
-            let fetchedVocabulariesOfList = modelContext.fetchVocabularies(.vocabularies(of: list))
-            fetchedVocabulariesOfList.forEach { vocabulary in
-                vocabulary.resetLearningsStates()
-            }
+            perform()
         } label: {
-            Text(title)
+            label()
         }
     }
 }

@@ -11,7 +11,12 @@ import SwiftData
 
 
 struct LastRepetitionDatePicker: View {
+    
+    //MARK: - Dependencies
+    
     @Binding var state: LearningState
+    
+    //MARK: - Body
 
     var body: some View {
         if state.isNewly == false {
@@ -21,7 +26,6 @@ struct LastRepetitionDatePicker: View {
                 } set: { newDate in
                     state.lastRepetition = newDate
                 }
-
             }
 
             DatePicker("Last repetition", selection: bindedLastRepetition)

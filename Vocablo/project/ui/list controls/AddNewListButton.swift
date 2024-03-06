@@ -1,5 +1,5 @@
 //
-//  ManipulateToLearnButton.swift
+//  NewListButton.swift
 //  Vocablo
 //
 //  Created by Marcel Jäger on 01.03.24.
@@ -9,33 +9,29 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct SetVocabulariesToLearnButton<LabelContent: View>: View {
+struct AddNewListButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
-    let vocabularies: Set<Vocabulary>
-    let newValue: Bool
-    let label: () -> LabelContent
-    
+    var label: () -> LabelContent
     @Environment(\.modelContext) var modelContext
     
-    //MARK: - Initialiser
+    //MARK: Initialiser
     
     init(
-        _ vocabularies: Set<Vocabulary>,
-        to newValue: Bool,
-        label: @escaping () -> LabelContent
+        label: @escaping () -> LabelContent = { Label("New list", systemImage: "plus") }
     ) {
-        self.vocabularies = vocabularies
-        self.newValue = newValue
         self.label = label
     }
     
     //MARK: - Methods
     
     private func perform() {
-        vocabularies.forEach { item in
-            item.isToLearn = newValue
+        modelContext.insert(VocabularyList.newList)
+        do {
+            try modelContext.save()
+        } catch {
+            print(error.localizedDescription)
         }
     }
     

@@ -10,23 +10,29 @@ import SwiftUI
 import SwiftData
 
 struct SetWordGroupMenu: View {
+    
+    //MARK: - Dependencies
+    
     let title: String
-    let vocabularies: Set<PersistentIdentifier>
+    let vocabularies: Set<Vocabulary>
     
     @Environment(\.modelContext) var modelContext
     
-    init(title: String, of vocabularies: Set<PersistentIdentifier>) {
-        self.title = title
-        self.vocabularies = vocabularies
+    //MARK: - Methods
+    
+    private func perform(wordGoup: WordGroup) {
+        vocabularies.forEach { element in
+            element.wordGroup = wordGoup
+        }
     }
+
+    //MARK: - Body
     
     var body: some View {
         Menu(title) {
             ForEach(WordGroup.allCases, id: \.rawValue) { wordGoup in
                 Button {
-                    modelContext.fetchVocabularies(.byIdentifiers(vocabularies)).forEach { element in
-                        element.wordGroup = wordGoup
-                    }
+                    perform(wordGoup: wordGoup)
                 } label: {
                     Label(wordGoup.rawValue, systemImage: "check")
                         .labelStyle(.titleOnly)

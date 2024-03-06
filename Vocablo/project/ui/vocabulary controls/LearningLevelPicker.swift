@@ -9,12 +9,13 @@ import Foundation
 import SwiftUI
 
 struct LearningLevelPicker: View {
-    @Binding var level: LearningLevel
-    let title: String
     
-//    private func selectLearningState(selection: LearningLevel) {
-//        self.level = selection
-//    }
+    //MARK: - Dependencies
+    
+    let title: String
+    @Binding var level: LearningLevel
+    
+    //MARK: - Body
     
     var body: some View {
         Picker(title, selection: $level) {
@@ -23,16 +24,5 @@ struct LearningLevelPicker: View {
                     .tag(levelCase)
             }
         }
-//        Menu(level.rawValue) {
-//            ForEach(LearningLevel.allCases, id: \.rawValue) { levelCase in
-//                Button {
-//                    selectLearningState(selection: levelCase)
-//                } label: {
-//                    Text("\(levelCase.rawValue)")
-//                }
-//                .disabled(levelCase == level)
-//            }
-//        }
-//        .menuStyle(.borderlessButton)
     }
 }

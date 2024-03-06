@@ -19,15 +19,6 @@ struct Detail: View {
     @Environment(\.isSearching) private var isSearching
     @Environment(\.searchingText) private var  searchingText
     
-    var registeredSelectedListModel: VocabularyList? {
-        switch selectedList {
-        case .all:
-            return nil
-        case .model(let id):
-            return modelContext.registeredModel(for: id)
-        }
-    }
-    
     //MARK: - Methods
 
     
@@ -39,8 +30,8 @@ struct Detail: View {
             VocabularyListView(searchingText: searchingText)
                 .navigationTitle("Searching results")
         }else {
-            if let registeredSelectedListModel {
-                VocabularyListView(list: registeredSelectedListModel)
+            if let selectedListModel = selectedList.list {
+                VocabularyListView(list: selectedListModel)
             }else {
                 VocabularyListView()
             }

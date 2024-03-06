@@ -10,24 +10,14 @@ import SwiftData
 
 enum ListSelectingValue: Hashable {
     case all
-    case model(id: PersistentIdentifier)
+    case list(list: VocabularyList)
     
-    var modelIdentifier: PersistentIdentifier? {
+    var list: VocabularyList? {
         return switch self {
         case .all:
             nil
-        case .model(let id):
-            id
-        }
-    }
-    
-    func fetchList(with modelContext: ModelContext) -> VocabularyList? {
-        switch self {
-        case .all:
-            return nil
-        case .model(id: let id):
-            let registeredList: VocabularyList? = modelContext.registeredModel(for: id)
-            return registeredList
+        case .list(let list):
+            list
         }
     }
 }
