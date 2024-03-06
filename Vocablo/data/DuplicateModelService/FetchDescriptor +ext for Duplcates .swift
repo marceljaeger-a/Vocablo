@@ -15,13 +15,14 @@ extension FetchDescriptor {
         let baseWord = vocabulary.baseWord
         let translationWord = vocabulary.translationWord
         let vocabularyId = vocabulary.persistentModelID
-        let predicate: Predicate<Vocabulary> = if let listId {
-            #Predicate { otherVocabulary in
+        let predicate: Predicate<Vocabulary>
+        if let listId {
+            predicate = #Predicate { otherVocabulary in
                 baseWord == otherVocabulary.baseWord && translationWord == otherVocabulary.translationWord && vocabularyId != otherVocabulary.persistentModelID && listId == otherVocabulary.list?.persistentModelID
             }
            
         }else {
-            #Predicate { otherVocabulary in
+            predicate = #Predicate { otherVocabulary in
                 baseWord == otherVocabulary.baseWord && translationWord == otherVocabulary.translationWord && vocabularyId != otherVocabulary.persistentModelID
             }
         }

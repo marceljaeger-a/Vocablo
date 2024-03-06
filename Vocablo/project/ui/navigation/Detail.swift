@@ -27,13 +27,15 @@ struct Detail: View {
     var body: some View {
         let _ = Self._printChanges()
         if isSearching {
-            VocabularyListView(searchingText: searchingText)
+            SearchingVocabularyListView(searchingText: searchingText)
                 .navigationTitle("Searching results")
         }else {
             if let selectedListModel = selectedList.list {
-                VocabularyListView(list: selectedListModel)
+                ListVocabularyListView(list: selectedListModel)
+            }else if selectedList == .all {
+                AllVocabularyListView()
             }else {
-                VocabularyListView()
+                ContentUnavailableView("List is not available.", systemImage: "questionmark", description: nil)
             }
         }
     }

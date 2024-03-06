@@ -13,6 +13,7 @@ struct VocabularyListRow: View {
     @Bindable var list: VocabularyList
     
     var body: some View {
+        let _ = Self._printChanges()
         Label {
             TextField("", text: $list.name)
         } icon: {

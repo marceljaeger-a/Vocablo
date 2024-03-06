@@ -39,6 +39,7 @@ struct VocabularyRow: View {
     //MARK: - Body
     
     var body: some View {
+        let _ = Self._printChanges()
         Grid(horizontalSpacing: 25){
             GridRow{
                 TextField("", text: $vocabulary.baseWord, prompt: Text("Word..."))
