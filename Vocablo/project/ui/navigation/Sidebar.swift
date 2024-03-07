@@ -15,12 +15,7 @@ struct Sidebar: View {
     
     @Binding var selectedList: ListSelectingValue
     
-    @Environment(\.modelContext) private var modelContext
     @Query(sort: \VocabularyList.created, order: .forward) private var  lists: Array<VocabularyList>
-    
-    //MARK: - Methods
-    
-    
     
     //MARK: - Body
     
@@ -31,13 +26,7 @@ struct Sidebar: View {
                 Label("All vocabularies", systemImage: "tray.full")
             }
                 
-            Section("Lists") {
-                ForEach(lists) { list in
-                    NavigationLink(value: ListSelectingValue.list(list: list)) {
-                        VocabularyListRow(list: list)
-                    }
-                }
-            }
+            SidebarListsSection(lists: lists)
         }
         .contextMenu(forSelectionType: ListSelectingValue.self) { values in
             SidebarContextMenu(values: values, selectedListValue: $selectedList)
@@ -47,12 +36,26 @@ struct Sidebar: View {
 }
 
 
+struct SidebarListsSection: View {
+    let lists: Array<VocabularyList>
+    
+    var body: some View {
+        let _ = Self._printChanges()
+        Section("Lists") {
+            ForEach(lists) { list in
+                NavigationLink(value: ListSelectingValue.list(list: list)) {
+                    VocabularyListRow(list: list)
+                }
+            }
+        }
+    }
+}
+
+
 
 struct SidebarContextMenu: View {
     let values: Set<ListSelectingValue>
     @Binding var selectedListValue: ListSelectingValue
-    
-    @Environment(\.modelContext) var modelContext: ModelContext
     
     var firstList: VocabularyList? {
         return values.first?.list

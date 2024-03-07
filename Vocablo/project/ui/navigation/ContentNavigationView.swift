@@ -18,11 +18,6 @@ struct ContentNavigationView: View {
     
     @State private var searchingText: String = ""
     @State private var selectedList: ListSelectingValue = .all
-    @State private var learningVocabularies: Array<Vocabulary> = []
-    
-    //MARK: - Methods
-    
-    
     
     //MARK: - Body
     

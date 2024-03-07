@@ -28,11 +28,7 @@ struct ListVocabularyListView: View {
         self._vocabularies = Query(.vocabularies(of: list, sortBy: sortDescriptor))
         self.list = list
     }
-    
-    //MARK: - Methods
-    
-    
-    
+
     //MARK: - Body
     
     var body: some View {

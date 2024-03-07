@@ -13,7 +13,7 @@ import Combine
 extension SchemaV1 {
     @Model
     class VocabularyList {
-        
+
         //MARK: - Nested Types
         enum VocabularySorting: String, Codable {
             case newest = "Newest", oldest = "Oldest", word = "Word", translatedWord = "Translated Word"

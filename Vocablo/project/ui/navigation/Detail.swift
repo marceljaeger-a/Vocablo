@@ -15,12 +15,8 @@ struct Detail: View {
     
     @Binding var selectedList: ListSelectingValue
     
-    @Environment(\.modelContext) private var modelContext
     @Environment(\.isSearching) private var isSearching
-    @Environment(\.searchingText) private var  searchingText
-    
-    //MARK: - Methods
-
+    @Environment(\.searchingText) private var searchingText
     
     //MARK: - Body
     

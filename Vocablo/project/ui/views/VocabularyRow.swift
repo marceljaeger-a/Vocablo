@@ -15,33 +15,14 @@ struct VocabularyRow: View {
     
     @Bindable var vocabulary: Vocabulary
     @FocusState.Binding var focusedTextField: FocusedVocabularyTextField?
-    let list: VocabularyList?
-    
-    @Environment(\.isFocused) var isFocused
-    @Environment(\.isSearching) var isSearching
-    @Environment(\.modelContext) var modelContext
-    
-    //MARK: - Methods
-    
-    private func onSumbmitAction() {
-        guard isSearching == false else { return }
-        
-        let newVocabulary = Vocabulary.newVocabulary
-        if let list {
-            list.append(vocabulary: newVocabulary)
-        }else {
-            modelContext.insert(newVocabulary)
-        }
-        
-        try? modelContext.save()
-    }
     
     //MARK: - Body
     
     var body: some View {
-        let _ = Self._printChanges()
-        Grid(horizontalSpacing: 25){
-            GridRow{
+        Grid(alignment: .leading ,horizontalSpacing: 25){
+            GridRow {
+                //FIXME: The TextField is one reason of the hang while opening a DetailView. The run 13 in Instruments is without TextField.
+                //And the run 14 is with TextFields.
                 TextField("", text: $vocabulary.baseWord, prompt: Text("Word..."))
                     .focused($focusedTextField, equals: .baseWord(vocabularyIdentifier: vocabulary.id))
                 
@@ -60,19 +41,18 @@ struct VocabularyRow: View {
             .foregroundStyle(.secondary)
             
             GridRow {
-                VocabularyViewInfoBar(vocabulary: vocabulary)
+                VocabularyInfoGridRowContent(vocabulary: vocabulary)
                     .gridCellColumns(2)
             }
         }
         .textFieldStyle(.plain)
         .padding(5)
-        .onSubmit(onSumbmitAction)
     }
 }
 
 
 
-struct VocabularyViewInfoBar: View {
+struct VocabularyInfoGridRowContent: View {
     let vocabulary: Vocabulary
     
     var list: VocabularyList? {
