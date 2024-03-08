@@ -38,6 +38,9 @@ struct VocabularyListView: View {
         try? modelContext.save()
     }
     
+    private func isSelected(_ vocabulary: Vocabulary) -> Bool {
+        selectedVocabularies.contains(vocabulary)
+    }
     
     //MARK: - Body
     
@@ -45,7 +48,7 @@ struct VocabularyListView: View {
         let _ = Self._printChanges()
         List(selection: $selectedVocabularies) {
             ForEach(vocabularies, id: \.self) { vocabulary in
-                VocabularyRow(vocabulary: vocabulary, focusedTextField: $focusedVocabularyTextField)
+                VocabularyRow(vocabulary: vocabulary, focusedTextField: $focusedVocabularyTextField,isSelected: isSelected(vocabulary))
                     .onSubmit {
                         onSumbmitAction()
                     }
