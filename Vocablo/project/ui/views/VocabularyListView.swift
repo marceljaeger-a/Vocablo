@@ -15,28 +15,11 @@ struct VocabularyListView: View {
     
     let vocabularies: Array<Vocabulary>
     @Binding var selectedVocabularies: Set<Vocabulary>
-    @Binding var editedVocabulary: Vocabulary?
-    let selectedList: VocabularyList?
-    
-    @Environment(\.isSearching) var isSearching
-    @Environment(\.modelContext) var modelContext
+    let onSubmitRow: () -> Void
     
     @FocusState var focusedVocabularyTextField: FocusedVocabularyTextField?
     
     //MARK: - Methods
-    
-    private func onSumbmitAction() {
-        guard isSearching == false else { return }
-
-        let newVocabulary = Vocabulary.newVocabulary
-        if let selectedList {
-            selectedList.append(vocabulary: newVocabulary)
-        }else {
-            modelContext.insert(newVocabulary)
-        }
-
-        try? modelContext.save()
-    }
     
     private func isSelected(_ vocabulary: Vocabulary) -> Bool {
         selectedVocabularies.contains(vocabulary)
@@ -49,13 +32,10 @@ struct VocabularyListView: View {
         List(selection: $selectedVocabularies) {
             ForEach(vocabularies, id: \.self) { vocabulary in
                 VocabularyRow(vocabulary: vocabulary, focusedTextField: $focusedVocabularyTextField,isSelected: isSelected(vocabulary))
-                    .onSubmit {
-                        onSumbmitAction()
-                    }
+                    .onSubmit(onSubmitRow)
             }
         }
         .listStyle(.inset)
-        .focusedValue(\.selectedVocabularies, $selectedVocabularies)
     }
 }
 

@@ -19,6 +19,8 @@ struct ListVocabularyListView: View {
     @State private var selectedVocabularies: Set<Vocabulary> = []
     @State private var editedVocabulary: Vocabulary? = nil
     
+    @Environment(\.modelContext) var modelContext
+    
     //MARK: - Initialiser
     
     init(
@@ -28,12 +30,20 @@ struct ListVocabularyListView: View {
         self._vocabularies = Query(.vocabularies(of: list, sortBy: sortDescriptor))
         self.list = list
     }
+    
+    //MARK: - Initialiser
+    
+    private func onSumbmitAction() {
+        let newVocabulary = Vocabulary.newVocabulary
+        list.append(vocabulary: newVocabulary)
+        try? modelContext.save()
+    }
 
     //MARK: - Body
     
     var body: some View {
         let _ = Self._printChanges()
-        VocabularyListView(vocabularies: vocabularies, selectedVocabularies: $selectedVocabularies, editedVocabulary: $editedVocabulary, selectedList: list)
+        VocabularyListView(vocabularies: vocabularies, selectedVocabularies: $selectedVocabularies, onSubmitRow: onSumbmitAction)
             .contextMenu(forSelectionType: Vocabulary.self) { vocabularies in
                 VocabularyListViewContextMenu(vocabulariesOfContextMenu: vocabularies, of: list, selectedVocabularies: $selectedVocabularies, editedVocabulary: $editedVocabulary, isSearching: false)
             } primaryAction: { vocabularies in
@@ -47,5 +57,6 @@ struct ListVocabularyListView: View {
             .sheet(item: $editedVocabulary) { vocabulary in
                 EditVocabularyView(vocabulary: vocabulary)
             }
+            .focusedValue(\.selectedVocabularies, $selectedVocabularies)
     }
 }

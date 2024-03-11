@@ -11,6 +11,8 @@ import SwiftData
 
 struct SearchingVocabularyListView: View {
     
+    //MARK: - Dependencies
+    
     var searchingFilter: Optional<(Vocabulary, String) -> Bool> = nil
     var searchingText: Optional<String> = nil
     
@@ -28,6 +30,8 @@ struct SearchingVocabularyListView: View {
     @State private var selectedVocabularies: Set<Vocabulary> = []
     @State private var editedVocabulary: Vocabulary? = nil
     
+    //MARK: - Initialiser
+    
     init(
         query: Query<Vocabulary, Array<Vocabulary>> = .init(.vocabularies()),
         searchingText: String
@@ -44,9 +48,11 @@ struct SearchingVocabularyListView: View {
         }
     }
     
+    //MARK: - Body
+    
     var body: some View {
         let _ = Self._printChanges()
-        VocabularyListView(vocabularies: filteredVocabularies, selectedVocabularies: $selectedVocabularies, editedVocabulary: $editedVocabulary, selectedList: nil)
+        VocabularyListView(vocabularies: filteredVocabularies, selectedVocabularies: $selectedVocabularies, onSubmitRow: {})
             .contextMenu(forSelectionType: Vocabulary.self) { vocabularies in
                 VocabularyListViewContextMenu(vocabulariesOfContextMenu: vocabularies, of: nil, selectedVocabularies: $selectedVocabularies, editedVocabulary: $editedVocabulary, isSearching: true)
             } primaryAction: { vocabularies in
@@ -60,5 +66,6 @@ struct SearchingVocabularyListView: View {
             .sheet(item: $editedVocabulary) { vocabulary in
                 EditVocabularyView(vocabulary: vocabulary)
             }
+            .focusedValue(\.selectedVocabularies, $selectedVocabularies)
     }
 }
