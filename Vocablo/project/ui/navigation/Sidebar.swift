@@ -17,16 +17,37 @@ struct Sidebar: View {
     
     @Query(sort: \VocabularyList.created, order: .forward) private var  lists: Array<VocabularyList>
     
+    @Environment(\.modelContext) var modelContext
+    
     //MARK: - Body
+    
+    func fetchVocabulariesCount(of list: VocabularyList?) -> Int {
+        do {
+            if let list {
+                return try modelContext.fetchCount(.vocabularies(of: list))
+            }else {
+                return try modelContext.fetchCount(.vocabularies())
+            }
+        } catch {
+            return 0
+        }
+    }
     
     var body: some View {
         let _ = Self._printChanges()
         List(selection: $selectedList){
-            NavigationLink(value: ListSelectingValue.all) {
-                Label("All vocabularies", systemImage: "tray.full")
+            Label("All vocabularies", systemImage: "tray.full")
+                .badge(fetchVocabulariesCount(of: nil), prominece: .decreased)
+                .tag(ListSelectingValue.all)
+            
+            Section("Lists") {
+                ForEach(lists) { list in
+                    VocabularyListRow(list: list)
+                        .badge(fetchVocabulariesCount(of: list), prominece: .decreased)
+                        .tag(ListSelectingValue.list(list: list))
+                }
             }
-                
-            SidebarListsSection(lists: lists)
+//            SidebarListsSection(lists: lists)
         }
         .contextMenu(forSelectionType: ListSelectingValue.self) { values in
             SidebarContextMenu(values: values, selectedListValue: $selectedList)
@@ -36,6 +57,9 @@ struct Sidebar: View {
 }
 
 
+
+//Unused
+// - Because the VocabularyListRow needs to be updated when the user adds a new vocabulary.
 struct SidebarListsSection: View {
     let lists: Array<VocabularyList>
     
