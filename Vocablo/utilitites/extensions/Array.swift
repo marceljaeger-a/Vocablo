@@ -38,8 +38,4 @@ extension Array where Element: PersistentModel{
         }
         return returnedArray
     }
-    
-    var identifiers: Set<PersistentIdentifier> {
-        return Set(self.map { $0.id })
-    }
 }

@@ -30,9 +30,7 @@ extension DuplicateVocabulariesPopover {
         
         @Bindable var duplicate: Vocabulary
         
-        @Environment(\.sheetContext) var sheetContext
         @Environment(\.modelContext) var modelContext
-        @Environment(\.selectionContext) var selectionContext
         
         var body: some View {
             VStack {
@@ -62,13 +60,13 @@ extension DuplicateVocabulariesPopover {
                 
                 HStack{
                     Button {
-                        sheetContext.editingVocabulary = duplicate
+//                        sheetContext.editingVocabulary = duplicate
                     } label: {
                         Label("Edit", systemImage: "pencil")
                     }
                     
                     Button(role: .destructive){
-                        _ = selectionContext.unselectVocabularies([duplicate.id])
+//                        _ = selectionContext.unselectVocabularies([duplicate.id])
                         modelContext.delete(models: [duplicate])
                     } label: {
                         Label("Delete", systemImage: "trash")

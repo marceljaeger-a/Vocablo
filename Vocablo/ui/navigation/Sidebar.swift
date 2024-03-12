@@ -37,13 +37,15 @@ struct Sidebar: View {
         let _ = Self._printChanges()
         List(selection: $selectedList){
             Label("All vocabularies", systemImage: "tray.full")
-                .badge(fetchVocabulariesCount(of: nil), prominece: .decreased)
+                .badge(fetchVocabulariesCount(of: nil))
+                .badgeProminence(.decreased)
                 .tag(ListSelectingValue.all)
             
             Section("Lists") {
                 ForEach(lists) { list in
                     VocabularyListRow(list: list)
-                        .badge(fetchVocabulariesCount(of: list), prominece: .decreased)
+                        .badge(fetchVocabulariesCount(of: list))
+                        .badgeProminence(.decreased)
                         .tag(ListSelectingValue.list(list: list))
                 }
             }

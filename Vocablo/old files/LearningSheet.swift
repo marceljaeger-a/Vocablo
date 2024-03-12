@@ -48,7 +48,9 @@ struct LearningSheet: View {
             viewUpdateTrigger.toggle()
             isOverlapping = true
         })
-        .linkContextUndoManager(context: context, with: undoManager)
+        .onAppear {
+            context.undoManager = undoManager
+        }
     }
 }
 
