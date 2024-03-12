@@ -12,9 +12,9 @@ import SwiftData
 struct CopyableVocabuariesModifier: ViewModifier {
     @FocusedBinding(\.selectedVocabularies) var selectedVocabularies: Set<Vocabulary>?
     
-    private func copyableVocabularies() -> Array<Vocabulary.VocabularyTransfer> {
+    private func copyableVocabularies() -> Array<Vocabulary> {
         if let selectedVocabularies {
-            return selectedVocabularies.map { $0.convert() }
+            return selectedVocabularies.map { $0.copy() }
         }
         return []
     }

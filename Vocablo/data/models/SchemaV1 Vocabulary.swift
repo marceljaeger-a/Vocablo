@@ -12,7 +12,7 @@ import UniformTypeIdentifiers
 
 extension SchemaV1 {
     @Model
-    class Vocabulary: Learnable, TransferConvertable, Hashable {
+    class Vocabulary: Learnable, Hashable {
         
         //MARK: - Instanz Properties of Learnable
         
@@ -49,40 +49,6 @@ extension SchemaV1 {
             self.translationExplanation = translationExplenation
         }
         
-        //MARK: - TransferConvertable implementation
-        
-        struct VocabularyTransfer: TransferType {
-            //Learnable
-            var isLearnable: Bool
-            var baseState: LearningState
-            var translationState: LearningState
-            var baseWord: String
-            var translationWord: String
-            var baseSentence: String
-            var translationSentence: String
-            var baseExplenation: String
-            
-            //Model
-            var wordGroup: WordGroup
-            var translationExplenation: String
-            
-            static var transferRepresentation: some TransferRepresentation {
-                CodableRepresentation(for: Self.self, contentType: .vocabulary)
-            }
-        }
-        
-        required convenience init(from value: VocabularyTransfer) {
-            self.init(baseWord: value.baseWord, translationWord: value.translationWord, baseSentence: value.baseSentence, translationSentence: value.translationSentence, wordGroup: value.wordGroup, baseExplenation: value.baseExplenation, translationExplenation: value.translationExplenation, list: nil, tags: [])
-            self.isToLearn = value.isLearnable
-            self.baseState = value.baseState
-            self.translationState = value.translationState
-        }
-        
-        ///Returns a VocabularyTransfer instanz, which has the same properties as that Vocabulary instanz.
-        func convert() -> VocabularyTransfer{
-            VocabularyTransfer.init(isLearnable: isToLearn, baseState: baseState, translationState: translationState, baseWord: baseWord, translationWord: translationWord, baseSentence: baseSentence, translationSentence: translationSentence, baseExplenation: baseExplenation, wordGroup: wordGroup, translationExplenation: translationExplanation)
-        }
-        
         ///Removes that vocabulary from the list.
         ///
         ///> If you set the property to nil without this methode, the UndoManager will not be able to register the unrelating!
@@ -97,6 +63,71 @@ extension SchemaV1 {
             baseState.reset()
             translationState.reset()
         }
+        
+        
+        
+        required init(from decoder: any Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.isToLearn = try container.decode(Bool.self, forKey: .isToLearn)
+            self.baseWord = try container.decode(String.self, forKey: .baseWord)
+            self.translationWord = try container.decode(String.self, forKey: .translationWord)
+            self.baseSentence = try container.decode(String.self, forKey: .baseSentence)
+            self.translationSentence = try container.decode(String.self, forKey: .translationSentence)
+            self.baseState = try container.decode(LearningState.self, forKey: .baseState)
+            self.translationState = try container.decode(LearningState.self, forKey: .translationState)
+            self.wordGroup = try container.decode(WordGroup.self, forKey: .wordGroup)
+            
+            self.created = .now
+            baseExplenation = ""
+            translationExplanation = ""
+            tags = []
+        }
+        
+        
+        required init(copyOf value: SchemaV1.Vocabulary) {
+            self.isToLearn = value.isToLearn
+            self.baseWord = value.baseWord
+            self.translationWord = value.translationWord
+            self.baseSentence = value.baseSentence
+            self.translationSentence = value.translationSentence
+            self.baseState = value.baseState
+            self.translationState = value.translationState
+            self.wordGroup = value.wordGroup
+            
+            self.created = .now
+            self.baseExplenation = ""
+            translationExplanation = ""
+            tags = []
+        }
+    }
+}
+
+
+
+extension Vocabulary: Codable, Transferable, Copyable {
+    enum CodingKeys: CodingKey {
+        case isToLearn
+        case baseWord, translationWord
+        case baseSentence, translationSentence
+        case baseState, translationState
+        case wordGroup
+    }
+    
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(isToLearn, forKey: .isToLearn)
+        try container.encode(baseWord, forKey: .baseWord)
+        try container.encode(translationWord, forKey: .translationWord)
+        try container.encode(baseSentence, forKey: .baseSentence)
+        try container.encode(translationSentence, forKey: .translationSentence)
+        try container.encode(baseState, forKey: .baseState)
+        try container.encode(translationState, forKey: .translationState)
+        try container.encode(wordGroup, forKey: .wordGroup)
+    }
+    
+    
+    static var transferRepresentation: some TransferRepresentation {
+        CodableRepresentation(for: Vocabulary.self, contentType: .vocabulary)
     }
 }
 

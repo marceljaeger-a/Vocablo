@@ -14,15 +14,13 @@ struct PasteVocabulariesModifier: ViewModifier {
     @Environment(\.modelContext) var modelContext
     let selectedList: ListSelectingValue
     
-    private func pasteVocabularies(values: Array<Vocabulary.VocabularyTransfer>) {
+    private func pasteVocabularies(vocabularies: Array<Vocabulary>) {
         switch selectedList {
         case .all:
-            let vocabularies = values.map { Vocabulary(from: $0) }
             for vocabulary in vocabularies {
                 modelContext.insert(vocabulary)
             }
         case .list(let list):
-            let vocabularies = values.map { Vocabulary(from: $0) }
             for vocabulary in vocabularies {
                 list.append(vocabulary: vocabulary)
             }
@@ -30,8 +28,8 @@ struct PasteVocabulariesModifier: ViewModifier {
     }
     
     func body(content: Content) -> some View {
-        content.pasteDestination(for: Vocabulary.VocabularyTransfer.self) { values in
-            pasteVocabularies(values: values)
+        content.pasteDestination(for: Vocabulary.self) { values in
+            pasteVocabularies(vocabularies: values)
         }
     }
 }

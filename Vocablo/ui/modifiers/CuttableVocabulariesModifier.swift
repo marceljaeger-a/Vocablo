@@ -13,9 +13,9 @@ struct CuttableVocabulariesModifier: ViewModifier {
     @FocusedBinding(\.selectedVocabularies) var selectedVocabularies: Set<Vocabulary>?
     @Environment(\.modelContext) var modelContext
     
-    private func cutVocabularies() -> Array<Vocabulary.VocabularyTransfer> {
+    private func cutVocabularies() -> Array<Vocabulary> {
         if let selectedVocabularies {
-            let convertedValues = selectedVocabularies.map{ $0.convert() }
+            let convertedValues = selectedVocabularies.map{ $0.copy() }
             modelContext.delete(models: Array(selectedVocabularies))
             
             return convertedValues
@@ -24,7 +24,7 @@ struct CuttableVocabulariesModifier: ViewModifier {
     }
     
     func body(content: Content) -> some View {
-        content.cuttable(for: Vocabulary.VocabularyTransfer.self) {
+        content.cuttable(for: Vocabulary.self) {
             cutVocabularies()
         }
     }

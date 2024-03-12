@@ -30,6 +30,7 @@
 		9F34826A2B9F72D500C8CBD2 /* PasteVocabulariesModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3482692B9F72D500C8CBD2 /* PasteVocabulariesModifier.swift */; };
 		9F46EFBC2AE81F5D0006E5F3 /* SchemaV1 Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBB2AE81F5D0006E5F3 /* SchemaV1 Tag.swift */; };
 		9F56C16E2B504CEB0013442E /* LearningValueManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F56C16D2B504CEB0013442E /* LearningValueManagerTests.swift */; };
+		9F6084EF2BA0A1A700E2E6A2 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084EE2BA0A1A700E2E6A2 /* Copyable.swift */; };
 		9F66361C2B83811C008C7980 /* FetchDescriptor +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F66361B2B83811C008C7980 /* FetchDescriptor +ext.swift */; };
 		9F66361E2B838405008C7980 /* VocabularyList +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F66361D2B838405008C7980 /* VocabularyList +ext.swift */; };
 		9F6636222B839C7B008C7980 /* Vocabulary +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6636212B839C7B008C7980 /* Vocabulary +ext.swift */; };
@@ -124,6 +125,7 @@
 		9F3482692B9F72D500C8CBD2 /* PasteVocabulariesModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteVocabulariesModifier.swift; sourceTree = "<group>"; };
 		9F46EFBB2AE81F5D0006E5F3 /* SchemaV1 Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SchemaV1 Tag.swift"; sourceTree = "<group>"; };
 		9F56C16D2B504CEB0013442E /* LearningValueManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningValueManagerTests.swift; sourceTree = "<group>"; };
+		9F6084EE2BA0A1A700E2E6A2 /* Copyable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copyable.swift; sourceTree = "<group>"; };
 		9F66361B2B83811C008C7980 /* FetchDescriptor +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FetchDescriptor +ext.swift"; sourceTree = "<group>"; };
 		9F66361D2B838405008C7980 /* VocabularyList +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VocabularyList +ext.swift"; sourceTree = "<group>"; };
 		9F6636212B839C7B008C7980 /* Vocabulary +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Vocabulary +ext.swift"; sourceTree = "<group>"; };
@@ -246,6 +248,14 @@
 			path = "focused values";
 			sourceTree = "<group>";
 		};
+		9F6084ED2BA0A19600E2E6A2 /* protocols */ = {
+			isa = PBXGroup;
+			children = (
+				9F6084EE2BA0A1A700E2E6A2 /* Copyable.swift */,
+			);
+			path = protocols;
+			sourceTree = "<group>";
+		};
 		9F6C1B0E2B4C584F008717D5 /* VocabloTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +337,7 @@
 		9FA72C902B8F896F00246E76 /* utilitites */ = {
 			isa = PBXGroup;
 			children = (
+				9F6084ED2BA0A19600E2E6A2 /* protocols */,
 				9FA72C8F2B8F896800246E76 /* extensions */,
 			);
 			path = utilitites;
@@ -682,6 +693,7 @@
 				9FD513492B69177E00B7955B /* DuplicateWarningLabel.swift in Sources */,
 				9FDE39DB2B1E78E7000EC63E /* LearningSheet.swift in Sources */,
 				9F323B5B2B960A4E00A88947 /* DeleteListButton.swift in Sources */,
+				9F6084EF2BA0A1A700E2E6A2 /* Copyable.swift in Sources */,
 				9FA72CA82B90EDDF00246E76 /* ListSelectingValue.swift in Sources */,
 				9F3482662B9F718400C8CBD2 /* CopyableVocabulariesModifier.swift in Sources */,
 				9F13D96C2B62B96000DEBDDF /* Documentation.docc in Sources */,
