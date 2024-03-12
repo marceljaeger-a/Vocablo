@@ -52,7 +52,7 @@ struct ListVocabularyListView: View {
                 }
             }
             .toolbar {
-                VocabularyListViewToolbar(selectedList: list, isSearching: false)
+                VocabularyListViewToolbar(selectedList: list)
             }
             .sheet(item: $editedVocabulary) { vocabulary in
                 EditVocabularyView(vocabulary: vocabulary)

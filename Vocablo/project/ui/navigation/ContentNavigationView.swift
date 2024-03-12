@@ -33,5 +33,11 @@ struct ContentNavigationView: View {
         .searchable(text: $searchingText, prompt: Text("Search for word or sentence"))
         .environment(\.searchingText, searchingText)
         .onAppear { modelContext.undoManager = viewUndoManager }
+        .modifier(CopyableVocabuariesModifier())
+        .modifier(CuttableVocabulariesModifier())
+        .modifier(PasteVocabulariesModifier(selectedList: selectedList))
     }
 }
+
+
+

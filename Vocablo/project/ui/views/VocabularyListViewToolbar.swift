@@ -11,7 +11,6 @@ import SwiftUI
 
 struct VocabularyListViewToolbar: ToolbarContent {
     let selectedList: VocabularyList?
-    let isSearching: Bool
     
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
@@ -20,12 +19,10 @@ struct VocabularyListViewToolbar: ToolbarContent {
             } label: {
                 Image(.wordlistPlay)
             }
-            .disabled(isSearching)
         }
         
         ToolbarItem(placement: .primaryAction) {
             AddNewVocabularyButton(into: selectedList)
-                .disabled(isSearching)
         }
     }
 }

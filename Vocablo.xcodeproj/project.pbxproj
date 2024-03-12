@@ -34,6 +34,9 @@
 		9F323B632B97572F00A88947 /* SelectedVocabularies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F323B622B97572F00A88947 /* SelectedVocabularies.swift */; };
 		9F334D9C2B2BA9E40004AAC9 /* VocabulariesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F334D9B2B2BA9E40004AAC9 /* VocabulariesListView.swift */; };
 		9F334D9E2B2BAADD0004AAC9 /* VocabularyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F334D9D2B2BAADD0004AAC9 /* VocabularyItem.swift */; };
+		9F3482662B9F718400C8CBD2 /* CopyableVocabulariesModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3482652B9F718400C8CBD2 /* CopyableVocabulariesModifier.swift */; };
+		9F3482682B9F71A400C8CBD2 /* CuttableVocabulariesModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3482672B9F71A400C8CBD2 /* CuttableVocabulariesModifier.swift */; };
+		9F34826A2B9F72D500C8CBD2 /* PasteVocabulariesModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3482692B9F72D500C8CBD2 /* PasteVocabulariesModifier.swift */; };
 		9F3C66B72B2A572B00E75793 /* LinkUndoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3C66B62B2A572B00E75793 /* LinkUndoManager.swift */; };
 		9F46EFBC2AE81F5D0006E5F3 /* SchemaV1 Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBB2AE81F5D0006E5F3 /* SchemaV1 Tag.swift */; };
 		9F46EFBF2AE83C510006E5F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBE2AE83C510006E5F3 /* ContentView.swift */; };
@@ -149,6 +152,9 @@
 		9F323B622B97572F00A88947 /* SelectedVocabularies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedVocabularies.swift; sourceTree = "<group>"; };
 		9F334D9B2B2BA9E40004AAC9 /* VocabulariesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabulariesListView.swift; sourceTree = "<group>"; };
 		9F334D9D2B2BAADD0004AAC9 /* VocabularyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyItem.swift; sourceTree = "<group>"; };
+		9F3482652B9F718400C8CBD2 /* CopyableVocabulariesModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableVocabulariesModifier.swift; sourceTree = "<group>"; };
+		9F3482672B9F71A400C8CBD2 /* CuttableVocabulariesModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuttableVocabulariesModifier.swift; sourceTree = "<group>"; };
+		9F3482692B9F72D500C8CBD2 /* PasteVocabulariesModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteVocabulariesModifier.swift; sourceTree = "<group>"; };
 		9F3C66B62B2A572B00E75793 /* LinkUndoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkUndoManager.swift; sourceTree = "<group>"; };
 		9F46EFBB2AE81F5D0006E5F3 /* SchemaV1 Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SchemaV1 Tag.swift"; sourceTree = "<group>"; };
 		9F46EFBE2AE83C510006E5F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -531,6 +537,9 @@
 		9FA72C962B8F8A0800246E76 /* modifiers */ = {
 			isa = PBXGroup;
 			children = (
+				9F3482652B9F718400C8CBD2 /* CopyableVocabulariesModifier.swift */,
+				9F3482672B9F71A400C8CBD2 /* CuttableVocabulariesModifier.swift */,
+				9F3482692B9F72D500C8CBD2 /* PasteVocabulariesModifier.swift */,
 			);
 			path = modifiers;
 			sourceTree = "<group>";
@@ -806,6 +815,7 @@
 				9F0975E22AF590C10001C9E3 /* ButtomToolbar.swift in Sources */,
 				9F13D95E2B5FD9B900DEBDDF /* ActionReactingService.swift in Sources */,
 				9F323B5E2B97513C00A88947 /* OpenEditVocabularyViewButton.swift in Sources */,
+				9F3482682B9F71A400C8CBD2 /* CuttableVocabulariesModifier.swift in Sources */,
 				9F7741232B1345F100565B42 /* TagMultiPicker.swift in Sources */,
 				9FD5134B2B69183700B7955B /* DuplicateVocabulariesPopover.swift in Sources */,
 				9FA72CAE2B921FB600246E76 /* EditVocabularyView.swift in Sources */,
@@ -879,9 +889,11 @@
 				9F323B5B2B960A4E00A88947 /* DeleteListButton.swift in Sources */,
 				9FF78ED42B481C20006F6756 /* SelectionContext.swift in Sources */,
 				9FA72CA82B90EDDF00246E76 /* ListSelectingValue.swift in Sources */,
+				9F3482662B9F718400C8CBD2 /* CopyableVocabulariesModifier.swift in Sources */,
 				9F13D96C2B62B96000DEBDDF /* Documentation.docc in Sources */,
 				9FA72CBF2B92383C00246E76 /* SetVocabularyToLearnButton.swift in Sources */,
 				9F323B572B9605A400A88947 /* SetWordGroupMenu.swift in Sources */,
+				9F34826A2B9F72D500C8CBD2 /* PasteVocabulariesModifier.swift in Sources */,
 				9FF78ED82B484B7D006F6756 /* Set.swift in Sources */,
 				9FF746242B98942D00118E47 /* VocabularyListViewToolbar.swift in Sources */,
 				9F46EFBF2AE83C510006E5F3 /* ContentView.swift in Sources */,

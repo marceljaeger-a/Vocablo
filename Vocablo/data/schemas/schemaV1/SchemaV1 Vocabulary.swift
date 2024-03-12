@@ -12,7 +12,7 @@ import UniformTypeIdentifiers
 
 extension SchemaV1 {
     @Model
-    class Vocabulary: Learnable, TransferConvertable {
+    class Vocabulary: Learnable, TransferConvertable, Hashable {
         
         //MARK: - Instanz Properties of Learnable
         

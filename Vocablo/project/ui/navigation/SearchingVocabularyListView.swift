@@ -60,9 +60,6 @@ struct SearchingVocabularyListView: View {
                     editedVocabulary = vocabularies.first
                 }
             }
-            .toolbar {
-                VocabularyListViewToolbar(selectedList: nil, isSearching: true)
-            }
             .sheet(item: $editedVocabulary) { vocabulary in
                 EditVocabularyView(vocabulary: vocabulary)
             }

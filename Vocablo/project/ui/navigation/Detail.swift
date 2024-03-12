@@ -28,6 +28,7 @@ struct Detail: View {
         }else {
             if let selectedListModel = selectedList.list {
                 ListVocabularyListView(list: selectedListModel)
+                    .id(UUID())
             }else if selectedList == .all {
                 AllVocabularyListView()
             }else {
