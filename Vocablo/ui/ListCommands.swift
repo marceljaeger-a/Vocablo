@@ -28,9 +28,9 @@ struct ListCommands: Commands {
         
         
         CommandGroup(before: .toolbar) {
+            ListSortingPicker()
             
-            //Sorting of list
-            Text("Sort list by")
+            VocabularySortingPicker()
             
             Divider()
         }

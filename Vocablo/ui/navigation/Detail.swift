@@ -18,6 +18,9 @@ struct Detail: View {
     @Environment(\.isSearching) private var isSearching
     @Environment(\.searchingText) private var searchingText
     
+    @AppStorage(AppStorageKeys.vocabularySortingKey) var vocabularySortingKey: VocabularySortingKey = .createdDate
+    @AppStorage(AppStorageKeys.vocabularySortingOrder) var vocabularySortingOrder: SortingOrder = .ascending
+    
     //MARK: - Body
     
     var body: some View {
@@ -27,10 +30,10 @@ struct Detail: View {
                 .navigationTitle("Searching results")
         }else {
             if let selectedListModel = selectedList.list {
-                ListVocabularyListView(list: selectedListModel)
+                ListVocabularyListView(list: selectedListModel, vocabularySortingKey: vocabularySortingKey, vocabularySortingOrder: vocabularySortingOrder)
                     .id(UUID())
             }else if selectedList == .all {
-                AllVocabularyListView()
+                AllVocabularyListView(vocabularySortingKey: vocabularySortingKey, vocabularySortingOrder: vocabularySortingOrder)
             }else {
                 ContentUnavailableView("List is not available.", systemImage: "questionmark", description: nil)
             }

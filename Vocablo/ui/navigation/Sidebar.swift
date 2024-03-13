@@ -19,6 +19,14 @@ struct Sidebar: View {
     
     @Environment(\.modelContext) var modelContext
     
+    //MARK: Initialiser
+    
+    init(selectedList: Binding<ListSelectingValue>, listSortingKey: ListSortingKey, listSortingOrder: SortingOrder) {
+        self._selectedList = selectedList
+        
+        self._lists = Query(sort: [SortDescriptor<VocabularyList>.listSortDescriptor(by: listSortingKey, order: listSortingOrder)])
+    }
+    
     //MARK: - Body
     
     func fetchVocabulariesCount(of list: VocabularyList?) -> Int {
@@ -98,10 +106,8 @@ struct SidebarContextMenu: View {
         
         Divider()
         
-        Button("Sort list by") {
-        
-        }
-        .disabled(values.isEmpty)
+        ListSortingPicker()
+        VocabularySortingPicker()
         
         Divider()
         

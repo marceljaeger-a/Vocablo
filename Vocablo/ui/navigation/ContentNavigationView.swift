@@ -19,12 +19,15 @@ struct ContentNavigationView: View {
     @State private var searchingText: String = ""
     @State private var selectedList: ListSelectingValue = .all
     
+    @AppStorage(AppStorageKeys.listSortingKey) var listSortingKey: ListSortingKey = .createdDate
+    @AppStorage(AppStorageKeys.listSortingOrder) var listSortingOrder: SortingOrder = .ascending
+    
     //MARK: - Body
     
     var body: some View {
         let _ = Self._printChanges()
         NavigationSplitView {
-            Sidebar(selectedList: $selectedList)
+            Sidebar(selectedList: $selectedList, listSortingKey: listSortingKey, listSortingOrder: listSortingOrder)
                 .navigationSplitViewColumnWidth(min: 200, ideal: 250)
         } detail: {
             Detail(selectedList: $selectedList)

@@ -20,6 +20,12 @@ struct AllVocabularyListView: View {
     
     @Environment(\.modelContext) var modelContext
     
+    //MARK: - Initialiser
+    
+    init(vocabularySortingKey: VocabularySortingKey, vocabularySortingOrder: SortingOrder) {
+        self._vocabularies = Query(sort: [SortDescriptor<Vocabulary>.vocabularySortDescriptor(by: vocabularySortingKey, order: vocabularySortingOrder)])
+    }
+    
     //MARK: - Methods
     
     private func onSumbmitAction() {

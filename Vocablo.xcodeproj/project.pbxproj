@@ -31,6 +31,14 @@
 		9F46EFBC2AE81F5D0006E5F3 /* SchemaV1 Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F46EFBB2AE81F5D0006E5F3 /* SchemaV1 Tag.swift */; };
 		9F56C16E2B504CEB0013442E /* LearningValueManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F56C16D2B504CEB0013442E /* LearningValueManagerTests.swift */; };
 		9F6084EF2BA0A1A700E2E6A2 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084EE2BA0A1A700E2E6A2 /* Copyable.swift */; };
+		9F6084F22BA0B43D00E2E6A2 /* ListSortingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084F12BA0B43D00E2E6A2 /* ListSortingKey.swift */; };
+		9F6084F42BA0B44300E2E6A2 /* VocabularySortingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084F32BA0B44300E2E6A2 /* VocabularySortingKey.swift */; };
+		9F6084F62BA0C06300E2E6A2 /* SortingOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084F52BA0C06300E2E6A2 /* SortingOrder.swift */; };
+		9F6084F82BA0C09900E2E6A2 /* ListSortingPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084F72BA0C09900E2E6A2 /* ListSortingPicker.swift */; };
+		9F6084FA2BA1B7E700E2E6A2 /* AppStorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084F92BA1B7E700E2E6A2 /* AppStorageKeys.swift */; };
+		9F6084FC2BA1B8E000E2E6A2 /* VocabularySortingPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084FB2BA1B8E000E2E6A2 /* VocabularySortingPicker.swift */; };
+		9F6084FE2BA1BC6100E2E6A2 /* SortDescriptor +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084FD2BA1BC6100E2E6A2 /* SortDescriptor +ext.swift */; };
+		9F6085002BA1BE8100E2E6A2 /* Bool +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084FF2BA1BE8100E2E6A2 /* Bool +ext.swift */; };
 		9F66361C2B83811C008C7980 /* FetchDescriptor +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F66361B2B83811C008C7980 /* FetchDescriptor +ext.swift */; };
 		9F66361E2B838405008C7980 /* VocabularyList +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F66361D2B838405008C7980 /* VocabularyList +ext.swift */; };
 		9F6636222B839C7B008C7980 /* Vocabulary +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6636212B839C7B008C7980 /* Vocabulary +ext.swift */; };
@@ -126,6 +134,14 @@
 		9F46EFBB2AE81F5D0006E5F3 /* SchemaV1 Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SchemaV1 Tag.swift"; sourceTree = "<group>"; };
 		9F56C16D2B504CEB0013442E /* LearningValueManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningValueManagerTests.swift; sourceTree = "<group>"; };
 		9F6084EE2BA0A1A700E2E6A2 /* Copyable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copyable.swift; sourceTree = "<group>"; };
+		9F6084F12BA0B43D00E2E6A2 /* ListSortingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSortingKey.swift; sourceTree = "<group>"; };
+		9F6084F32BA0B44300E2E6A2 /* VocabularySortingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularySortingKey.swift; sourceTree = "<group>"; };
+		9F6084F52BA0C06300E2E6A2 /* SortingOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingOrder.swift; sourceTree = "<group>"; };
+		9F6084F72BA0C09900E2E6A2 /* ListSortingPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSortingPicker.swift; sourceTree = "<group>"; };
+		9F6084F92BA1B7E700E2E6A2 /* AppStorageKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageKeys.swift; sourceTree = "<group>"; };
+		9F6084FB2BA1B8E000E2E6A2 /* VocabularySortingPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularySortingPicker.swift; sourceTree = "<group>"; };
+		9F6084FD2BA1BC6100E2E6A2 /* SortDescriptor +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SortDescriptor +ext.swift"; sourceTree = "<group>"; };
+		9F6084FF2BA1BE8100E2E6A2 /* Bool +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool +ext.swift"; sourceTree = "<group>"; };
 		9F66361B2B83811C008C7980 /* FetchDescriptor +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FetchDescriptor +ext.swift"; sourceTree = "<group>"; };
 		9F66361D2B838405008C7980 /* VocabularyList +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VocabularyList +ext.swift"; sourceTree = "<group>"; };
 		9F6636212B839C7B008C7980 /* Vocabulary +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Vocabulary +ext.swift"; sourceTree = "<group>"; };
@@ -235,6 +251,8 @@
 				9FA72CC82B9240E200246E76 /* AddNewListButton.swift */,
 				9F323B582B96081E00A88947 /* ResetListButton.swift */,
 				9F323B5A2B960A4E00A88947 /* DeleteListButton.swift */,
+				9F6084F72BA0C09900E2E6A2 /* ListSortingPicker.swift */,
+				9F6084FB2BA1B8E000E2E6A2 /* VocabularySortingPicker.swift */,
 			);
 			path = "list controls";
 			sourceTree = "<group>";
@@ -330,6 +348,7 @@
 				9F23D9402B0BF53200C90BBB /* Array.swift */,
 				9FF78ED72B484B7D006F6756 /* Set.swift */,
 				9F9491132B3323B20018AF4C /* Date.swift */,
+				9F6084FF2BA1BE8100E2E6A2 /* Bool +ext.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -357,6 +376,7 @@
 				9F7F6C422B168D75001B266A /* ModelContext.swift */,
 				9F66361D2B838405008C7980 /* VocabularyList +ext.swift */,
 				9F6636212B839C7B008C7980 /* Vocabulary +ext.swift */,
+				9F6084FD2BA1BC6100E2E6A2 /* SortDescriptor +ext.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -401,6 +421,7 @@
 			children = (
 				9F323B5F2B9756DB00A88947 /* focused values */,
 				9FA72C922B8F89B600246E76 /* extensions */,
+				9F6084F92BA1B7E700E2E6A2 /* AppStorageKeys.swift */,
 				9FA72CA72B90EDDF00246E76 /* ListSelectingValue.swift */,
 			);
 			path = utiltities;
@@ -512,6 +533,9 @@
 				9FC5832A2AE7088B00A56141 /* WordGroup.swift */,
 				9FFB36192AED952C00E510CA /* LearningState.swift */,
 				9FFB36212AF0427F00E510CA /* LearningLevel.swift */,
+				9F6084F12BA0B43D00E2E6A2 /* ListSortingKey.swift */,
+				9F6084F32BA0B44300E2E6A2 /* VocabularySortingKey.swift */,
+				9F6084F52BA0C06300E2E6A2 /* SortingOrder.swift */,
 			);
 			path = types;
 			sourceTree = "<group>";
@@ -638,10 +662,13 @@
 				9FF746202B9891E700118E47 /* ListVocabularyListView.swift in Sources */,
 				9F13D9622B5FDE0600DEBDDF /* onActionViewModifier.swift in Sources */,
 				9F0975E22AF590C10001C9E3 /* ButtomToolbar.swift in Sources */,
+				9F6084F22BA0B43D00E2E6A2 /* ListSortingKey.swift in Sources */,
 				9F13D95E2B5FD9B900DEBDDF /* ActionReactingService.swift in Sources */,
 				9F323B5E2B97513C00A88947 /* OpenEditVocabularyViewButton.swift in Sources */,
+				9F6084F62BA0C06300E2E6A2 /* SortingOrder.swift in Sources */,
 				9F3482682B9F71A400C8CBD2 /* CuttableVocabulariesModifier.swift in Sources */,
 				9FD5134B2B69183700B7955B /* DuplicateVocabulariesPopover.swift in Sources */,
+				9F6084F82BA0C09900E2E6A2 /* ListSortingPicker.swift in Sources */,
 				9FA72CAE2B921FB600246E76 /* EditVocabularyView.swift in Sources */,
 				9FDB9CE22B37242200646B67 /* current model typealias.swift in Sources */,
 				9FA72CBB2B9236E900246E76 /* AddNewVocabularyButton.swift in Sources */,
@@ -654,13 +681,16 @@
 				9FF746262B98974200118E47 /* AllVocabularyListView.swift in Sources */,
 				9F9BD2292B83AC0A009DE663 /* FetchDescriptor +ext for Duplcates .swift in Sources */,
 				9FF78ED12B481718006F6756 /* ModelContainer.swift in Sources */,
+				9F6084FA2BA1B7E700E2E6A2 /* AppStorageKeys.swift in Sources */,
 				9F7FBC912B2CFB760033EBAC /* OpacityBool.swift in Sources */,
 				9F13D96A2B6005FF00DEBDDF /* AddingVocabularyListPublisher.swift in Sources */,
 				9FA72CA22B90DC2600246E76 /* VocabularyListView.swift in Sources */,
 				9FA72C9A2B8F8A5000246E76 /* ContentNavigationView.swift in Sources */,
+				9F6084F42BA0B44300E2E6A2 /* VocabularySortingKey.swift in Sources */,
 				9F7F6C432B168D75001B266A /* ModelContext.swift in Sources */,
 				9FA72CB92B92295200246E76 /* ListCommands.swift in Sources */,
 				9FC5832B2AE7088B00A56141 /* WordGroup.swift in Sources */,
+				9F6085002BA1BE8100E2E6A2 /* Bool +ext.swift in Sources */,
 				9F323B612B9756F500A88947 /* SelectedList.swift in Sources */,
 				9FA72CC92B9240E200246E76 /* AddNewListButton.swift in Sources */,
 				9F9491142B3323B20018AF4C /* Date.swift in Sources */,
@@ -671,6 +701,7 @@
 				9FDB9CE02B3723CC00646B67 /* SchemaV1.swift in Sources */,
 				9FFB36182AED93A500E510CA /* Learnable.swift in Sources */,
 				9FF7461E2B9890DB00118E47 /* SearchingVocabularyListView.swift in Sources */,
+				9F6084FE2BA1BC6100E2E6A2 /* SortDescriptor +ext.swift in Sources */,
 				9FAE26E32B35BA9F0023E5C4 /* AppVersionManager.swift in Sources */,
 				9F13D9642B5FDE2E00DEBDDF /* ActionReactingService EnvrionmentKey.swift in Sources */,
 				9FC583162AE6F70900A56141 /* VocabloApp.swift in Sources */,
@@ -687,6 +718,7 @@
 				9FA72CB12B92211700246E76 /* WordGroupPicker.swift in Sources */,
 				9FA72C9E2B90B3F900246E76 /* Detail.swift in Sources */,
 				9F7FBC942B2CFBB60033EBAC /* LearningValue.swift in Sources */,
+				9F6084FC2BA1B8E000E2E6A2 /* VocabularySortingPicker.swift in Sources */,
 				9FA72CA02B90B96600246E76 /* VocabularyRow.swift in Sources */,
 				9FC583292AE7085400A56141 /* SchemaV1 Vocabulary.swift in Sources */,
 				9F7FBC962B2CFE710033EBAC /* LearningValueManager.swift in Sources */,

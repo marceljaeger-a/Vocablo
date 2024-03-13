@@ -25,9 +25,9 @@ struct ListVocabularyListView: View {
     
     init(
         list: VocabularyList,
-        sortVocabulariesBy sortDescriptor: Array<SortDescriptor<Vocabulary>> = []
+        vocabularySortingKey: VocabularySortingKey, vocabularySortingOrder: SortingOrder
     ) {
-        self._vocabularies = Query(.vocabularies(of: list, sortBy: sortDescriptor))
+        self._vocabularies = Query(.vocabularies(of: list, sortBy: [SortDescriptor<Vocabulary>.vocabularySortDescriptor(by: vocabularySortingKey, order: vocabularySortingOrder)]))
         self.list = list
     }
     
