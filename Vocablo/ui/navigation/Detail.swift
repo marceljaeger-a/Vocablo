@@ -15,29 +15,31 @@ struct Detail: View {
     
     @Binding var selectedList: ListSelectingValue
     
-    @Environment(\.isSearching) private var isSearching
-    @Environment(\.searchingText) private var searchingText
-    
-    @AppStorage(AppStorageKeys.vocabularySortingKey) var vocabularySortingKey: VocabularySortingKey = .createdDate
-    @AppStorage(AppStorageKeys.vocabularySortingOrder) var vocabularySortingOrder: SortingOrder = .ascending
+    @State var selectedVocabularies: Set<Vocabulary> = []
+    @State var editedVocabulary: Vocabulary?
     
     //MARK: - Body
     
     var body: some View {
         let _ = Self._printChanges()
-        if isSearching {
-            SearchingVocabularyListView(searchingText: searchingText)
-                .navigationTitle("Searching results")
-        }else {
-            if let selectedListModel = selectedList.list {
-                ListVocabularyListView(list: selectedListModel, vocabularySortingKey: vocabularySortingKey, vocabularySortingOrder: vocabularySortingOrder)
-                    .id(UUID())
-            }else if selectedList == .all {
-                AllVocabularyListView(vocabularySortingKey: vocabularySortingKey, vocabularySortingOrder: vocabularySortingOrder)
-            }else {
-                ContentUnavailableView("List is not available.", systemImage: "questionmark", description: nil)
+        VocabularyListView(selectedListValue: selectedList, selectedVocabularies: $selectedVocabularies)
+            .onChange(of: selectedList) {
+                selectedVocabularies = []
             }
-        }
+            .contextMenu(forSelectionType: Vocabulary.self) { vocabularies in
+                VocabularyListViewContextMenu(vocabulariesOfContextMenu: vocabularies, selectedList: selectedList, selectedVocabularies: $selectedVocabularies, editedVocabulary: $editedVocabulary)
+            } primaryAction: { vocabularies in
+                if vocabularies.count == 1 {
+                    editedVocabulary = vocabularies.first
+                }
+            }
+            .toolbar {
+                VocabularyListViewToolbar(selectedList: selectedList)
+            }
+            .sheet(item: $editedVocabulary) { vocabulary in
+                EditVocabularyView(vocabulary: vocabulary)
+            }
+            .focusedValue(\.selectedVocabularies, $selectedVocabularies)
     }
 }
 

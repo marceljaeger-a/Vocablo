@@ -9,27 +9,35 @@ import Foundation
 import SwiftUI
 import SwiftData
 
+enum FocusedTextField: Hashable {
+    case baseWord
+    case translationWord
+    case baseSentence
+    case translationSentence
+}
+
 struct VocabularyRow: View {
     
     //MARK: - Dependencies
     
     @Bindable var vocabulary: Vocabulary
-    @FocusState.Binding var focusedTextField: FocusedVocabularyTextField?
+    @FocusState var focusedTextField: FocusedTextField?
     let isSelected: Bool
+    let onSubmit: () -> Void
     
     //MARK: - Body
     
     var body: some View {
         Grid(alignment: .leading ,horizontalSpacing: 25, verticalSpacing: 5){
             GridRow {
-                DynamicTextField(text: $vocabulary.baseWord, placeholder: "Word...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, textFieldFocusValue: .baseWord(vocabularyIdentifier: vocabulary.id))
-                DynamicTextField(text: $vocabulary.translationWord, placeholder: "Translated word...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, textFieldFocusValue: .translationWord(vocabularyIdentifier: vocabulary.id))
+                DynamicTextField(text: $vocabulary.baseWord, placeholder: "Word...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, focusValue: .baseWord)
+                DynamicTextField(text: $vocabulary.translationWord, placeholder: "Translated word...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, focusValue: .translationWord)
             }
             .font(.headline)
             
             GridRow {
-                DynamicTextField(text: $vocabulary.baseSentence, placeholder: "Sentence...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, textFieldFocusValue: .baseSentence(vocabularyIdentifier: vocabulary.id))
-                DynamicTextField(text: $vocabulary.translationWord, placeholder: "Translated sentence...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, textFieldFocusValue: .translationWord(vocabularyIdentifier: vocabulary.id))
+                DynamicTextField(text: $vocabulary.baseSentence, placeholder: "Sentence...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, focusValue: .baseSentence)
+                DynamicTextField(text: $vocabulary.translationWord, placeholder: "Translated sentence...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, focusValue: .translationSentence)
             }
             
             GridRow {
@@ -39,6 +47,10 @@ struct VocabularyRow: View {
         }
         .textFieldStyle(.plain)
         .padding(5)
+        .defaultFocus($focusedTextField, .baseWord, priority: .userInitiated)
+        .onSubmit {
+            
+        }
     }
 }
 
@@ -49,8 +61,8 @@ extension VocabularyRow {
         @Binding var text: String
         let placeholder: String
         let isTextFieldShown: Bool
-        @FocusState.Binding var textFieldFocus: FocusedVocabularyTextField?
-        let textFieldFocusValue: FocusedVocabularyTextField
+        @FocusState.Binding var textFieldFocus: FocusedTextField?
+        let focusValue: FocusedTextField
         
         var currentText: String {
             if text.isEmpty {
@@ -62,7 +74,7 @@ extension VocabularyRow {
         var body: some View {
             if isTextFieldShown {
                 TextField("", text: $text, prompt: Text(placeholder))
-                    .focused($textFieldFocus, equals: textFieldFocusValue)
+                    .focused($textFieldFocus, equals: focusValue)
             }else {
                 HStack {
                     Text(currentText)
