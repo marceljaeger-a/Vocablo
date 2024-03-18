@@ -9,6 +9,10 @@ import Foundation
 import SwiftUI
 import SwiftData
 
+enum FocusedRow: Hashable {
+    case id(PersistentIdentifier)
+}
+
 struct VocabularyListView: View {
     
     //MARK: - Dependencies
@@ -76,10 +80,5 @@ struct VocabularyListView: View {
         }
         .listStyle(.inset)
     }
-}
-
-
-enum FocusedRow: Hashable {
-    case id(PersistentIdentifier)
 }
 
