@@ -17,6 +17,7 @@ struct AddNewVocabularyButton<LabelContent: View>: View {
     var label: () -> LabelContent
     
     @Environment(\.modelContext) var modelContext
+    @Environment(\.onAddingVocabularySubject) var onAddingVocabularySubject
     
     //MARK: - Initialiser
     
@@ -31,7 +32,6 @@ struct AddNewVocabularyButton<LabelContent: View>: View {
     //MARK: - Methods
     
     private func perform() {
-        #warning("The new vocabulary needs to be focused!")
         let newVocabulary = Vocabulary.newVocabulary
         
         if let list {
@@ -49,6 +49,8 @@ struct AddNewVocabularyButton<LabelContent: View>: View {
                 print(error.localizedDescription)
             }
         }
+        
+        onAddingVocabularySubject.send(newVocabulary)
     }
     
     //MARK: - Body

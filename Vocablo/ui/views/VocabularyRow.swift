@@ -23,7 +23,6 @@ struct VocabularyRow: View {
     @Bindable var vocabulary: Vocabulary
     @FocusState var focusedTextField: FocusedTextField?
     let isSelected: Bool
-    let onSubmit: () -> Void
     
     //MARK: - Body
     
@@ -37,7 +36,7 @@ struct VocabularyRow: View {
             
             GridRow {
                 DynamicTextField(text: $vocabulary.baseSentence, placeholder: "Sentence...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, focusValue: .baseSentence)
-                DynamicTextField(text: $vocabulary.translationWord, placeholder: "Translated sentence...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, focusValue: .translationSentence)
+                DynamicTextField(text: $vocabulary.translationSentence, placeholder: "Translated sentence...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, focusValue: .translationSentence)
             }
             
             GridRow {
@@ -47,9 +46,10 @@ struct VocabularyRow: View {
         }
         .textFieldStyle(.plain)
         .padding(5)
-        .defaultFocus($focusedTextField, .baseWord, priority: .userInitiated)
-        .onSubmit {
-            
+        .onChange(of: isSelected) {
+            if isSelected {
+                focusedTextField = .baseWord
+            }
         }
     }
 }

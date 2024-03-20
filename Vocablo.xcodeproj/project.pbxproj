@@ -40,6 +40,8 @@
 		9F6084FE2BA1BC6100E2E6A2 /* SortDescriptor +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084FD2BA1BC6100E2E6A2 /* SortDescriptor +ext.swift */; };
 		9F6085002BA1BE8100E2E6A2 /* Bool +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6084FF2BA1BE8100E2E6A2 /* Bool +ext.swift */; };
 		9F6085022BA1DE9100E2E6A2 /* VocabularyQueryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6085012BA1DE9100E2E6A2 /* VocabularyQueryView.swift */; };
+		9F6085052BA9C46D00E2E6A2 /* OnAddingVocabularySubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6085042BA9C46D00E2E6A2 /* OnAddingVocabularySubject.swift */; };
+		9F6085072BA9C65B00E2E6A2 /* OnReceiveControlActiveStateModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6085062BA9C65B00E2E6A2 /* OnReceiveControlActiveStateModifier.swift */; };
 		9F66361C2B83811C008C7980 /* FetchDescriptor +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F66361B2B83811C008C7980 /* FetchDescriptor +ext.swift */; };
 		9F66361E2B838405008C7980 /* VocabularyList +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F66361D2B838405008C7980 /* VocabularyList +ext.swift */; };
 		9F6636222B839C7B008C7980 /* Vocabulary +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6636212B839C7B008C7980 /* Vocabulary +ext.swift */; };
@@ -141,6 +143,8 @@
 		9F6084FD2BA1BC6100E2E6A2 /* SortDescriptor +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SortDescriptor +ext.swift"; sourceTree = "<group>"; };
 		9F6084FF2BA1BE8100E2E6A2 /* Bool +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool +ext.swift"; sourceTree = "<group>"; };
 		9F6085012BA1DE9100E2E6A2 /* VocabularyQueryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyQueryView.swift; sourceTree = "<group>"; };
+		9F6085042BA9C46D00E2E6A2 /* OnAddingVocabularySubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnAddingVocabularySubject.swift; sourceTree = "<group>"; };
+		9F6085062BA9C65B00E2E6A2 /* OnReceiveControlActiveStateModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnReceiveControlActiveStateModifier.swift; sourceTree = "<group>"; };
 		9F66361B2B83811C008C7980 /* FetchDescriptor +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FetchDescriptor +ext.swift"; sourceTree = "<group>"; };
 		9F66361D2B838405008C7980 /* VocabularyList +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VocabularyList +ext.swift"; sourceTree = "<group>"; };
 		9F6636212B839C7B008C7980 /* Vocabulary +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Vocabulary +ext.swift"; sourceTree = "<group>"; };
@@ -268,6 +272,14 @@
 				9F6084EE2BA0A1A700E2E6A2 /* Copyable.swift */,
 			);
 			path = protocols;
+			sourceTree = "<group>";
+		};
+		9F6085032BA9C45000E2E6A2 /* environment values */ = {
+			isa = PBXGroup;
+			children = (
+				9F6085042BA9C46D00E2E6A2 /* OnAddingVocabularySubject.swift */,
+			);
+			path = "environment values";
 			sourceTree = "<group>";
 		};
 		9F6C1B0E2B4C584F008717D5 /* VocabloTests */ = {
@@ -406,6 +418,7 @@
 				9F3482652B9F718400C8CBD2 /* CopyableVocabulariesModifier.swift */,
 				9F3482672B9F71A400C8CBD2 /* CuttableVocabulariesModifier.swift */,
 				9F3482692B9F72D500C8CBD2 /* PasteVocabulariesModifier.swift */,
+				9F6085062BA9C65B00E2E6A2 /* OnReceiveControlActiveStateModifier.swift */,
 			);
 			path = modifiers;
 			sourceTree = "<group>";
@@ -413,6 +426,7 @@
 		9FA72CA62B90EDC700246E76 /* utiltities */ = {
 			isa = PBXGroup;
 			children = (
+				9F6085032BA9C45000E2E6A2 /* environment values */,
 				9F323B5F2B9756DB00A88947 /* focused values */,
 				9FA72C922B8F89B600246E76 /* extensions */,
 				9F6084F92BA1B7E700E2E6A2 /* AppStorageKeys.swift */,
@@ -681,7 +695,9 @@
 				9F6084F42BA0B44300E2E6A2 /* VocabularySortingKey.swift in Sources */,
 				9F7F6C432B168D75001B266A /* ModelContext.swift in Sources */,
 				9FA72CB92B92295200246E76 /* ListCommands.swift in Sources */,
+				9F6085072BA9C65B00E2E6A2 /* OnReceiveControlActiveStateModifier.swift in Sources */,
 				9FC5832B2AE7088B00A56141 /* WordGroup.swift in Sources */,
+				9F6085052BA9C46D00E2E6A2 /* OnAddingVocabularySubject.swift in Sources */,
 				9F6085002BA1BE8100E2E6A2 /* Bool +ext.swift in Sources */,
 				9F323B612B9756F500A88947 /* SelectedList.swift in Sources */,
 				9FA72CC92B9240E200246E76 /* AddNewListButton.swift in Sources */,

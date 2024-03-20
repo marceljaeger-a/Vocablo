@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-enum FocusedRow: Hashable {
-    case id(PersistentIdentifier)
-}
+//enum FocusedRow: Hashable {
+//    case id(PersistentIdentifier)
+//}
 
 struct VocabularyListView: View {
     
@@ -20,14 +20,13 @@ struct VocabularyListView: View {
     let selectedListValue: ListSelectingValue
     @Binding var selectedVocabularies: Set<Vocabulary>
     
-    @FocusState var focusedRow: FocusedRow?
-    
     @AppStorage(AppStorageKeys.vocabularySortingKey) var vocabularySortingKey: VocabularySortingKey = .createdDate
     @AppStorage(AppStorageKeys.vocabularySortingOrder) var vocabularySortingOrder: SortingOrder = .ascending
     
     @Environment(\.modelContext) var modelContext
     @Environment(\.isSearching) var isSearching
     @Environment(\.searchingText) var searchingText
+    @Environment(\.onAddingVocabularySubject) var onAddingVocabularySubject
     
     private var currentQuery: Query<Vocabulary, Array<Vocabulary>> {
         if isSearching {
@@ -52,7 +51,7 @@ struct VocabularyListView: View {
     //MARK: - Methods
     
     private func isSelected(_ vocabulary: Vocabulary) -> Bool {
-        selectedVocabularies.contains(vocabulary)
+        selectedVocabularies.contains(vocabulary) && selectedVocabularies.count == 1
     }
     
     private func onSubmitAction() {
@@ -65,20 +64,29 @@ struct VocabularyListView: View {
             list.append(vocabulary: newVocabulary)
         }
         try? modelContext.save()
+        
+        onAddingVocabularySubject.send(newVocabulary)
     }
     
     //MARK: - Body
     
     var body: some View {
         let _ = Self._printChanges()
-        List(selection: $selectedVocabularies) {
-            VocabularyQueryView(currentQuery){ vocabulary in
-                VocabularyRow(vocabulary: vocabulary, isSelected: isSelected(vocabulary), onSubmit: onSubmitAction)
-                    .focused($focusedRow, equals: .id(vocabulary.id))
-                    .focusable(interactions: .edit)
+        ScrollViewReader { proxy in
+            List(selection: $selectedVocabularies) {
+                VocabularyQueryView(currentQuery){ vocabulary in
+                    VocabularyRow(vocabulary: vocabulary, isSelected: isSelected(vocabulary))
+                        .onSubmit {
+                            onSubmitAction()
+                        }
+                }
             }
+            .listStyle(.inset)
+            .onReceive(onAddingVocabularySubject.delay(for: 0.1, scheduler: DispatchQueue.main), performIfControlActiveStateIs: .key, perform: { output in
+                proxy.scrollTo(output)
+                selectedVocabularies = [output]
+            })
         }
-        .listStyle(.inset)
     }
 }
 

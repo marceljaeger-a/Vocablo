@@ -16,6 +16,7 @@ struct EditVocabularyView: View {
     @Bindable var vocabulary: Vocabulary
     
     @Environment(\.dismiss) var dismissAction
+    @FocusState var focusedTextField: FocusedTextField?
     
     //MARK: - Methods
     
@@ -27,12 +28,22 @@ struct EditVocabularyView: View {
         Form {
             Section {
                 TextField("", text: $vocabulary.baseWord, prompt: Text("Word..."))
-                TextField("", text: $vocabulary.translationWord, prompt: Text("Word..."))
+                    .focused($focusedTextField, equals: .baseWord)
+                    .onAppear(perform: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            focusedTextField = .baseWord
+                        }
+                        
+                    })
+                TextField("", text: $vocabulary.translationWord, prompt: Text("Translated word..."))
+                    .focused($focusedTextField, equals: .translationWord)
             }
             
             Section {
                 TextField("", text: $vocabulary.baseSentence, prompt: Text("Sentence..."))
+                    .focused($focusedTextField, equals: .baseSentence)
                 TextField("", text: $vocabulary.translationSentence, prompt: Text("Translated sentence..."))
+                    .focused($focusedTextField, equals: .translationSentence)
             }
             
             Section {
