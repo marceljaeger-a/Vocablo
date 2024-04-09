@@ -41,6 +41,7 @@ struct ListCommands: Commands {
                     Text("Reset list")
                 }
                 .disabled(selectedListValue == nil || selectedListValue == ListSelectingValue.all)
+                .keyboardShortcut(KeyEquivalent("r"), modifiers: .command.union(.shift))
             }
             .modelContext(modelContext)
         }

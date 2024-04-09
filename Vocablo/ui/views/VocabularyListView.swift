@@ -23,7 +23,6 @@ struct VocabularyListView: View {
     @AppStorage(AppStorageKeys.vocabularySortingKey) var vocabularySortingKey: VocabularySortingKey = .createdDate
     @AppStorage(AppStorageKeys.vocabularySortingOrder) var vocabularySortingOrder: SortingOrder = .ascending
     
-    @Environment(\.modelContext) var modelContext
     @Environment(\.isSearching) var isSearching
     @Environment(\.searchingText) var searchingText
     @Environment(\.onAddingVocabularySubject) var onAddingVocabularySubject
@@ -54,20 +53,6 @@ struct VocabularyListView: View {
         selectedVocabularies.contains(vocabulary) && selectedVocabularies.count == 1
     }
     
-    private func onSubmitAction() {
-        guard isSearching == false else { return }
-        let newVocabulary = Vocabulary.newVocabulary
-        switch selectedListValue {
-        case .all:
-            modelContext.insert(newVocabulary)
-        case .list(let list):
-            list.append(vocabulary: newVocabulary)
-        }
-        try? modelContext.save()
-        
-        onAddingVocabularySubject.send(newVocabulary)
-    }
-    
     //MARK: - Body
     
     var body: some View {
@@ -76,9 +61,6 @@ struct VocabularyListView: View {
             List(selection: $selectedVocabularies) {
                 VocabularyQueryView(currentQuery){ vocabulary in
                     VocabularyRow(vocabulary: vocabulary, isSelected: isSelected(vocabulary))
-                        .onSubmit {
-                            onSubmitAction()
-                        }
                 }
             }
             .listStyle(.inset)

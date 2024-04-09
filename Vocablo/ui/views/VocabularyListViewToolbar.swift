@@ -12,15 +12,11 @@ import SwiftUI
 struct VocabularyListViewToolbar: ToolbarContent {
     let selectedList: ListSelectingValue
     @Environment(\.isSearching) private var isSearching
-    
+
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
-            Button {
-                
-            } label: {
-                Image(.wordlistPlay)
-            }
-            .disabled(isSearching)
+            LearnVocabulariesButton(selectedListValue: selectedList)
+                .disabled(isSearching)
         }
         
         ToolbarItem(placement: .primaryAction) {

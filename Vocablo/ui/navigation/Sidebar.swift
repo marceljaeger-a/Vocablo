@@ -99,10 +99,7 @@ struct SidebarContextMenu: View {
         AddNewListButton()
             .disabled(values.isEmpty == false)
         
-        Button("Learn list") {
-            
-        }
-        .disabled(values.isEmpty)
+        LearnVocabulariesButton(selectedListValue: values.first)
         
         Divider()
         

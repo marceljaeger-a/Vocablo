@@ -12,7 +12,7 @@ import UniformTypeIdentifiers
 
 extension SchemaV1 {
     @Model
-    class Vocabulary: Learnable, Hashable {
+    class Vocabulary: Hashable {
         
         //MARK: - Instanz Properties of Learnable
         
@@ -128,6 +128,46 @@ extension Vocabulary: Codable, Transferable, Copyable {
     
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(for: Vocabulary.self, contentType: .vocabulary)
+    }
+}
+
+
+
+extension Vocabulary: Learnable {
+    var basePrimaryContent: String {
+        get {
+            baseWord
+        }
+        set {
+            baseWord = newValue
+        }
+    }
+    
+    var translationPrimaryContent: String {
+        get {
+            translationWord
+        }
+        set {
+            translationWord = newValue
+        }
+    }
+    
+    var baseSecondaryContent: String {
+        get {
+            baseSentence
+        }
+        set {
+            baseSentence = newValue
+        }
+    }
+    
+    var translationSecondaryContent: String {
+        get {
+            translationSentence
+        }
+        set {
+            translationSentence = newValue
+        }
     }
 }
 

@@ -12,11 +12,51 @@ import SwiftData
 struct LearningCommands: Commands {
     let modelContext: ModelContext
     
+    @FocusedBinding(\.selectedList) var selectedListValue
+    @FocusedValue(\.learningValue) var currentLearningValue
+    @FocusedBinding(\.isAnswerVisible) var isAnswerVisible
+    
+    var isShowAnswerButtonDisabled: Bool {
+        isAnswerVisible == nil || isAnswerVisible == true
+    }
+    
+    var isAnswerButtonDisabled: Bool {
+        if currentLearningValue == nil {
+            return true
+        }
+        
+        if isAnswerVisible == false || isAnswerVisible == nil {
+            return true
+        }
+        return false
+    }
+    
     var body: some Commands {
         CommandMenu("Learning") {
-            Text("Learn vocabuaries of list")
+            LearnVocabulariesButton(selectedListValue: selectedListValue, title: "Learn vocabularies")
+                .keyboardShortcut(KeyEquivalent("l"), modifiers: .command.union(.option))
             
-            Text("Learn selected vocabularies")
+            Divider()
+            
+            Button("Show answer"){
+                withAnimation {
+                    isAnswerVisible = true
+                }
+            }
+            .keyboardShortcut(KeyEquivalent("a"), modifiers: .command)
+            .disabled(isShowAnswerButtonDisabled)
+            
+            Button("Answer true") {
+                currentLearningValue?.answerTrue()
+            }
+            .keyboardShortcut(KeyEquivalent("t"), modifiers: .command)
+            .disabled(isAnswerButtonDisabled)
+            
+            Button("Answer false") {
+                currentLearningValue?.answerFalse()
+            }
+            .keyboardShortcut(KeyEquivalent("f"), modifiers: .command)
+            .disabled(isAnswerButtonDisabled)
         }
     }
 }
