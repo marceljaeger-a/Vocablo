@@ -44,14 +44,18 @@ struct Sidebar: View {
     var body: some View {
         let _ = Self._printChanges()
         List(selection: $selectedList){
+            #warning("LearningVocabulariesCountBadgeModifier causes less performance because of the Query!")
             Label("All vocabularies", systemImage: "tray.full")
+                .modifier(LearningVocabulariesCountBadgeModifier(listValue: .all))
                 .badge(fetchVocabulariesCount(of: nil))
                 .badgeProminence(.decreased)
                 .tag(ListSelectingValue.all)
             
             Section("Lists") {
                 ForEach(lists) { list in
+                    #warning("LearningVocabulariesCountBadgeModifier causes less performance because of the Query!")
                     VocabularyListRow(list: list)
+                        .modifier(LearningVocabulariesCountBadgeModifier(listValue: .list(list: list)))
                         .badge(fetchVocabulariesCount(of: list))
                         .badgeProminence(.decreased)
                         .tag(ListSelectingValue.list(list: list))
@@ -63,25 +67,6 @@ struct Sidebar: View {
             SidebarContextMenu(values: values, selectedListValue: $selectedList)
         }
         .focusedSceneValue(\.selectedList, $selectedList)
-    }
-}
-
-
-
-//Unused
-// - Because the VocabularyListRow needs to be updated when the user adds a new vocabulary.
-struct SidebarListsSection: View {
-    let lists: Array<VocabularyList>
-    
-    var body: some View {
-        let _ = Self._printChanges()
-        Section("Lists") {
-            ForEach(lists) { list in
-                NavigationLink(value: ListSelectingValue.list(list: list)) {
-                    VocabularyListRow(list: list)
-                }
-            }
-        }
     }
 }
 

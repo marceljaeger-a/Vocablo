@@ -62,6 +62,7 @@ struct VocabularyListView: View {
                 VocabularyQueryView(currentQuery){ vocabulary in
                     VocabularyRow(vocabulary: vocabulary, isSelected: isSelected(vocabulary))
                 }
+                .environment(\.selectedListValue, selectedListValue)
             }
             .listStyle(.inset)
             .onReceive(onAddingVocabularySubject.delay(for: 0.1, scheduler: DispatchQueue.main), performIfControlActiveStateIs: .key, perform: { output in

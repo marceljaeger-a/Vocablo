@@ -10,7 +10,7 @@ import SwiftData
 import SwiftUI
 
 struct LearningService {
-    static var shared = Self.init()
+//    static var shared = Self.init()
     
     ///Returns an array of LearningValues of the passed vocabularies.
     ///
@@ -20,7 +20,7 @@ struct LearningService {
     ///     - vocabularies: The vocabularies you will create LearningValues with those.
     ///
     /// - Returns: The sorted LearningValues.
-    func getLearnignValues(of vocabularies: Array<Vocabulary>) -> Array<LearningValue<Vocabulary>> {
+    static func getLearnignValues(of vocabularies: Array<Vocabulary>) -> Array<LearningValue<Vocabulary>> {
         let baseAskingLearningValues = vocabularies.map { LearningValue(value: $0, askingContent: .base) }.filter { $0.askingState.isNextRepetitionExpired == true }
         let translationAskingLearningValues = vocabularies.map { LearningValue(value: $0, askingContent: .translation) }.filter { $0.askingState.isNextRepetitionExpired == true }
         
@@ -51,7 +51,7 @@ struct LearningService {
     ///     - vocabularies: The vocabularies you will create LearningValues with those.
     ///
     /// - Returns: The sorted LearningValues.
-    func getLearnignValues(of vocabularies: Array<Vocabulary>) async -> Array<LearningValue<Vocabulary>> {
+    static func asyncGetLearnignValues(of vocabularies: Array<Vocabulary>) async -> Array<LearningValue<Vocabulary>> {
         let baseAskingLearningValues = vocabularies.map { LearningValue(value: $0, askingContent: .base) }.filter { $0.askingState.isNextRepetitionExpired == true }
         let translationAskingLearningValues = vocabularies.map { LearningValue(value: $0, askingContent: .translation) }.filter { $0.askingState.isNextRepetitionExpired == true }
         

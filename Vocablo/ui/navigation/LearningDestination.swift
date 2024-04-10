@@ -25,7 +25,7 @@ struct LearningDestination: View {
     //MARK: - Methods
     
     private func getLearnignValues() -> Array<LearningValue<Vocabulary>> {
-        LearningService.shared.getLearnignValues(of: vocabularies)
+        LearningService.getLearnignValues(of: vocabularies)
     }
     
     //MARK: - Body

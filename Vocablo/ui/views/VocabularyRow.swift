@@ -21,12 +21,14 @@ struct VocabularyRow: View {
     //MARK: - Dependencies
     
     @Bindable var vocabulary: Vocabulary
-    @FocusState var focusedTextField: FocusedTextField?
     let isSelected: Bool
+    
+    @FocusState var focusedTextField: FocusedTextField?
     
     //MARK: - Body
     
     var body: some View {
+        let _ = Self._printChanges()
         Grid(alignment: .leading ,horizontalSpacing: 25, verticalSpacing: 5){
             GridRow {
                 DynamicTextField(text: $vocabulary.baseWord, placeholder: "Word...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, focusValue: .baseWord)
@@ -39,10 +41,7 @@ struct VocabularyRow: View {
                 DynamicTextField(text: $vocabulary.translationSentence, placeholder: "Translated sentence...", isTextFieldShown: isSelected, textFieldFocus: $focusedTextField, focusValue: .translationSentence)
             }
             
-            GridRow {
-                VocabularyInfoGridRowContent(vocabulary: vocabulary)
-                    .gridCellColumns(2)
-            }
+            VocabularyInfoGridRowContent(vocabulary: vocabulary, isSelected: isSelected)
         }
         .textFieldStyle(.plain)
         .padding(5)
@@ -91,21 +90,31 @@ extension VocabularyRow {
 
 struct VocabularyInfoGridRowContent: View {
     let vocabulary: Vocabulary
+    let isSelected: Bool
     
-    var list: VocabularyList? {
+    @Environment(\.selectedListValue) var selectedListValue: ListSelectingValue
+    
+    var listOfVocabulary: VocabularyList? {
         vocabulary.list
     }
     
+    var isListNameLabelVisible: Bool {
+        if case ListSelectingValue.all = selectedListValue {
+            return true
+        }
+        return false
+    }
+    
     var body: some View {
-        HStack(spacing: 20) {
+        HStack(spacing: 20){
             if vocabulary.isToLearn {
                 Label("To learn", systemImage: "checkmark")
                     .labelStyle(.titleOnly)
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(isSelected ? AnyShapeStyle(.primary) : AnyShapeStyle(Color.accentColor.secondary))
             }
             
-            if let list {
-                Label(list.name, systemImage: "")
+            if let listOfVocabulary, isListNameLabelVisible == true {
+                Label(listOfVocabulary.name, systemImage: "")
                     .labelStyle(.titleOnly)
                     .foregroundStyle(.tertiary)
             }
