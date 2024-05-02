@@ -66,6 +66,13 @@ struct Sidebar: View {
         .contextMenu(forSelectionType: ListSelectingValue.self) { values in
             SidebarContextMenu(values: values, selectedListValue: $selectedList)
         }
+        .overlay(alignment: .bottomLeading) {
+            AddNewListButton {
+                Label("New list", systemImage: "plus")
+            }
+            .buttonStyle(.plain)
+            .padding()
+        }
         .focusedSceneValue(\.selectedList, $selectedList)
     }
 }
