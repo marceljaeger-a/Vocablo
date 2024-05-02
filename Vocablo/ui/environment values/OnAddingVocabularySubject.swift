@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 struct OnAddingVocabularySubjectKey: EnvironmentKey {
-    static var defaultValue: PassthroughSubject<Vocabulary, Never> = .init()
+    static let defaultValue: PassthroughSubject<Vocabulary, Never> = .init()
 }
 
 extension EnvironmentValues {

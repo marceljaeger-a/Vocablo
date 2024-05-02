@@ -22,7 +22,7 @@ struct VocabulariesDestination: View {
     
     var body: some View {
         let _ = Self._printChanges()
-        VocabularyListView(selectedListValue: selectedList, selectedVocabularies: $selectedVocabularies)
+        VocabularyListView(selectedListValue: selectedList, selectedVocabularies: $selectedVocabularies, editingVocabulary: $editedVocabulary)
             .onChange(of: selectedList) {
                 selectedVocabularies = []
             }
@@ -35,9 +35,6 @@ struct VocabulariesDestination: View {
             }
             .toolbar {
                 VocabularyListViewToolbar(selectedList: selectedList)
-            }
-            .sheet(item: $editedVocabulary) { vocabulary in
-                EditVocabularyView(vocabulary: vocabulary)
             }
             .focusedValue(\.selectedVocabularies, $selectedVocabularies)
     }

@@ -19,6 +19,7 @@ struct VocabularyListView: View {
     
     let selectedListValue: ListSelectingValue
     @Binding var selectedVocabularies: Set<Vocabulary>
+    @Binding var editingVocabulary: Vocabulary?
     
     @AppStorage(AppStorageKeys.vocabularySortingKey) var vocabularySortingKey: VocabularySortingKey = .createdDate
     @AppStorage(AppStorageKeys.vocabularySortingOrder) var vocabularySortingOrder: SortingOrder = .ascending
@@ -53,6 +54,17 @@ struct VocabularyListView: View {
         selectedVocabularies.contains(vocabulary) && selectedVocabularies.count == 1
     }
     
+    private func isEditing(_ vocabulary: Vocabulary) -> Binding<Bool> {
+        Binding {
+            editingVocabulary == vocabulary
+        } set: { newValue in
+            if newValue == false {
+                editingVocabulary = nil
+            }
+        }
+
+    }
+    
     //MARK: - Body
     
     var body: some View {
@@ -61,6 +73,11 @@ struct VocabularyListView: View {
             List(selection: $selectedVocabularies) {
                 VocabularyQueryView(currentQuery){ vocabulary in
                     VocabularyRow(vocabulary: vocabulary, isSelected: isSelected(vocabulary))
+                        .popover(isPresented: isEditing(vocabulary)) {
+                            if let editingVocabulary {
+                                VocabularyPopoverView(vocabulary: editingVocabulary)
+                            }
+                        }
                 }
                 .environment(\.selectedListValue, selectedListValue)
             }
@@ -68,8 +85,15 @@ struct VocabularyListView: View {
             .onReceive(onAddingVocabularySubject.delay(for: 0.1, scheduler: DispatchQueue.main), performIfControlActiveStateIs: .key, perform: { output in
                 proxy.scrollTo(output)
                 selectedVocabularies = [output]
+                editingVocabulary = nil
+                Task {
+                    editingVocabulary = output
+                }
             })
         }
     }
 }
+
+
+
 
