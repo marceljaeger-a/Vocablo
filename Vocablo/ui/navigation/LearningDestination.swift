@@ -36,6 +36,7 @@ struct LearningDestination: View {
         
         if let firstLearningValue = learningValues.first {
             LearningValueView(of: firstLearningValue, learningValuesCount: learningValues.count)
+                .background(.background)
         }else {
             ContentUnavailableView("No vocabulary to learn today!", systemImage: "calendar.badge.checkmark")
         }

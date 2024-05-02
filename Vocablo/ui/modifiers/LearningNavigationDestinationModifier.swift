@@ -18,7 +18,7 @@ struct LearningNavigationDestinationModifier: ViewModifier {
             if let learningListValue = learningNavigationModel.currentLearningListValue {
                 LearningDestination(learningListValue: learningListValue)
             }else {
-                Color.white
+                
             }
         }
     }
