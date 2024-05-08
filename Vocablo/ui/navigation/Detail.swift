@@ -13,14 +13,14 @@ struct Detail: View {
     
     //MARK: - Dependencies
     
-    @Binding var selectedList: ListSelectingValue
+    @Binding var selectedDeckValue: DeckSelectingValue
     
     //MARK: - Body
     
     var body: some View {
         let _ = Self._printChanges()
         NavigationStack {
-            VocabulariesDestination(selectedList: $selectedList)
+            VocabulariesDestination(selectedDeckValue: $selectedDeckValue)
                 .modifier(LearningNavigationDestinationModifier())
         }
         

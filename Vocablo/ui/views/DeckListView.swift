@@ -13,11 +13,11 @@ import SwiftData
 //    case id(PersistentIdentifier)
 //}
 
-struct VocabularyListView: View {
+struct DeckListView: View {
     
     //MARK: - Dependencies
     
-    let selectedListValue: ListSelectingValue
+    let selectedDeckValue: DeckSelectingValue
     @Binding var selectedVocabularies: Set<Vocabulary>
     @Binding var editingVocabulary: Vocabulary?
     
@@ -39,10 +39,10 @@ struct VocabularyListView: View {
             
             return Query(filter: predicate)
         }else {
-            switch selectedListValue {
+            switch selectedDeckValue {
             case .all:
                 return Query(sort: [SortDescriptor<Vocabulary>.vocabularySortDescriptor(by: vocabularySortingKey, order: vocabularySortingOrder)])
-            case .list(let list):
+            case .deck(let list):
                 return Query(.vocabularies(of: list, sortBy: [SortDescriptor<Vocabulary>.vocabularySortDescriptor(by: vocabularySortingKey, order: vocabularySortingOrder)]))
             }
         }
@@ -79,7 +79,7 @@ struct VocabularyListView: View {
                             }
                         }
                 }
-                .environment(\.selectedListValue, selectedListValue)
+                .environment(\.selectedDeckValue, selectedDeckValue)
             }
             .listStyle(.inset)
             .onReceive(onAddingVocabularySubject.delay(for: 0.1, scheduler: DispatchQueue.main), performIfControlActiveStateIs: .key, perform: { output in

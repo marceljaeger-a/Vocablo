@@ -9,27 +9,27 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct VocabularyListViewContextMenu: View {
+struct DeckListViewContextMenu: View {
     let vocabulariesOfContextMenu: Set<Vocabulary>
-    let selectedList: ListSelectingValue
+    let selectedDeckValue: DeckSelectingValue
     @Binding var selectedVocabularies: Set<Vocabulary>
     @Binding var editedVocabulary: Vocabulary?
     @Environment(\.isSearching) private var isSearching
     
     init(
         vocabulariesOfContextMenu: Set<Vocabulary>,
-        selectedList: ListSelectingValue,
+        selectedDeckValue: DeckSelectingValue,
         selectedVocabularies: Binding<Set<Vocabulary>>,
         editedVocabulary: Binding<Vocabulary?>
     ) {
         self.vocabulariesOfContextMenu = vocabulariesOfContextMenu
-        self.selectedList = selectedList
+        self.selectedDeckValue = selectedDeckValue
         self._selectedVocabularies = selectedVocabularies
         self._editedVocabulary = editedVocabulary
     }
     
     var body: some View {
-        AddNewVocabularyButton(into: selectedList.list)
+        AddNewVocabularyButton(into: selectedDeckValue.deck)
             .disabled(
                 vocabulariesOfContextMenu.isEmpty == false &&
                 isSearching == false

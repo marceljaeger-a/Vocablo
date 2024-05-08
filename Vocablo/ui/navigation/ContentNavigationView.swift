@@ -17,20 +17,20 @@ struct ContentNavigationView: View {
     @Environment(\.undoManager) private var  viewUndoManager: UndoManager?
     
     @State private var searchingText: String = ""
-    @State private var selectedList: ListSelectingValue = .all
+    @State private var selectedDeckValue: DeckSelectingValue = .all
     
-    @AppStorage(AppStorageKeys.listSortingKey) var listSortingKey: ListSortingKey = .createdDate
-    @AppStorage(AppStorageKeys.listSortingOrder) var listSortingOrder: SortingOrder = .ascending
+    @AppStorage(AppStorageKeys.decksSortingKey) var decksSortingKey: DecksSortingKey = .createdDate
+    @AppStorage(AppStorageKeys.decksSortingOrder) var decksSortingOrder: SortingOrder = .ascending
     
     //MARK: - Body
     
     var body: some View {
         let _ = Self._printChanges()
         NavigationSplitView {
-            Sidebar(selectedList: $selectedList, listSortingKey: listSortingKey, listSortingOrder: listSortingOrder)
+            Sidebar(selectedDeckValue: $selectedDeckValue, decksSortingKey: decksSortingKey, decksSortingOrder: decksSortingOrder)
                 .navigationSplitViewColumnWidth(min: 200, ideal: 250)
         } detail: {
-            Detail(selectedList: $selectedList)
+            Detail(selectedDeckValue: $selectedDeckValue)
         }
         .navigationTitle("")
         .searchable(text: $searchingText, prompt: Text("Search for word or sentence"))
@@ -38,7 +38,7 @@ struct ContentNavigationView: View {
         .onAppear { modelContext.undoManager = viewUndoManager }
         .modifier(CopyableVocabuariesModifier())
         .modifier(CuttableVocabulariesModifier())
-        .modifier(PasteVocabulariesModifier(selectedList: selectedList))
+        .modifier(PasteVocabulariesModifier(selectedDeckValue: selectedDeckValue))
     }
 }
 

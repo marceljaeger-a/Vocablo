@@ -8,14 +8,14 @@
 import Foundation
 import SwiftUI
 
-struct ListSortingPicker: View {
-    @AppStorage(AppStorageKeys.listSortingKey) var listSortingKey: ListSortingKey = .createdDate
-    @AppStorage(AppStorageKeys.listSortingOrder) var listSortingOrder: SortingOrder = .ascending
+struct DecksSortingPicker: View {
+    @AppStorage(AppStorageKeys.decksSortingKey) var decksSortingKey: DecksSortingKey = .createdDate
+    @AppStorage(AppStorageKeys.decksSortingOrder) var decksSortingOrder: SortingOrder = .ascending
     
     var body: some View {
         Menu("Sort sidebar") {
-            Picker("By", selection: $listSortingKey) {
-                ForEach(ListSortingKey.allCases, id: \.rawValue) { sortingCase in
+            Picker("By", selection: $decksSortingKey) {
+                ForEach(DecksSortingKey.allCases, id: \.rawValue) { sortingCase in
                     Text(sortingCase.label)
                         .tag(sortingCase)
                 }
@@ -24,7 +24,7 @@ struct ListSortingPicker: View {
             
             Divider()
             
-            Picker("Order", selection: $listSortingOrder) {
+            Picker("Order", selection: $decksSortingOrder) {
                 ForEach(SortingOrder.allCases, id: \.rawValue) { sortingCase in
                     Text(sortingCase.label)
                         .tag(sortingCase)

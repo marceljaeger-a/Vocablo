@@ -9,12 +9,12 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct DeleteListButton<LabelContent: View>: View {
+struct DeleteDeckButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
-    let list: VocabularyList?
-    @Binding var selectedList: ListSelectingValue
+    let deck: Deck?
+    @Binding var selectedDeckValue: DeckSelectingValue
     var label: () -> LabelContent
     
     @Environment(\.modelContext) var modelContext
@@ -22,25 +22,25 @@ struct DeleteListButton<LabelContent: View>: View {
     //MARK: - Initialiser
     
     init(
-        list: VocabularyList?,
-        selectedList: Binding<ListSelectingValue>,
+        deck: Deck?,
+        selectedDeckValue: Binding<DeckSelectingValue>,
         label: @escaping () -> LabelContent = { Label("Delete", systemImage: "trash") }
     ) {
-        self.list = list
-        self._selectedList = selectedList 
+        self.deck = deck
+        self._selectedDeckValue = selectedDeckValue
         self.label = label
     }
     
     //MARK: - Methods
     
     private func perform() {
-        guard let list else { return }
+        guard let deck else { return }
         
-        modelContext.delete(models: [list])
+        modelContext.delete(models: [deck])
         
-        if let selectedListModel = selectedList.list {
-            if list.id == selectedListModel.id {
-                selectedList = .all
+        if let selectedListModel = selectedDeckValue.deck {
+            if deck.id == selectedListModel.id {
+                selectedDeckValue = .all
             }
         }
     }

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct FeedbackView: View {
-    @LearningValue var value: Vocabulary
+    @IndexCard var value: Vocabulary
     @Binding var isAnswerVisible: Bool
     let wordsLeft: Int
     

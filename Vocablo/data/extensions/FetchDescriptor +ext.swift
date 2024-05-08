@@ -17,14 +17,14 @@ extension FetchDescriptor {
         FetchDescriptor<Vocabulary>(predicate: predicate, sortBy: sortDescriptors)
     }
     
-    static func lists(_ predicate: Predicate<VocabularyList>? = nil, sortBy sortDescriptors: [SortDescriptor<VocabularyList>] = []) -> FetchDescriptor<VocabularyList> {
-        FetchDescriptor<VocabularyList>(predicate: predicate, sortBy: sortDescriptors)
+    static func lists(_ predicate: Predicate<Deck>? = nil, sortBy sortDescriptors: [SortDescriptor<Deck>] = []) -> FetchDescriptor<Deck> {
+        FetchDescriptor<Deck>(predicate: predicate, sortBy: sortDescriptors)
     }
     
-    static func vocabularies(of list: VocabularyList, sortBy sortDescriptors: [SortDescriptor<Vocabulary>] = []) -> FetchDescriptor<Vocabulary> {
+    static func vocabularies(of list: Deck, sortBy sortDescriptors: [SortDescriptor<Vocabulary>] = []) -> FetchDescriptor<Vocabulary> {
         let listId = list.persistentModelID
         let predicate: Predicate<Vocabulary> = #Predicate { vocabulary in
-            vocabulary.list?.persistentModelID == listId
+            vocabulary.deck?.persistentModelID == listId
         }
         return FetchDescriptor<Vocabulary>(predicate: predicate, sortBy: sortDescriptors)
     }
@@ -32,7 +32,7 @@ extension FetchDescriptor {
     static func vocabularies(of list: PersistentIdentifier, sortBy sortDescriptors: [SortDescriptor<Vocabulary>] = []) -> FetchDescriptor<Vocabulary> {
         let listId = list
         let predicate: Predicate<Vocabulary> = #Predicate { vocabulary in
-            vocabulary.list?.persistentModelID == listId
+            vocabulary.deck?.persistentModelID == listId
         }
         return FetchDescriptor<Vocabulary>(predicate: predicate, sortBy: sortDescriptors)
     }

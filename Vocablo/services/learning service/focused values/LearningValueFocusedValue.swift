@@ -9,11 +9,11 @@ import Foundation
 import SwiftUI
 
 struct LearningValueFocusedValue: FocusedValueKey {
-    typealias Value = LearningValue<Vocabulary>
+    typealias Value = IndexCard<Vocabulary>
 }
 
 extension FocusedValues {
-    var learningValue: LearningValue<Vocabulary>? {
+    var learningValue: IndexCard<Vocabulary>? {
         get {
             self[LearningValueFocusedValue.self]
         }

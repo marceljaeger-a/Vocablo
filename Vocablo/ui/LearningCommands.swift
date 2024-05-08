@@ -12,7 +12,7 @@ import SwiftData
 struct LearningCommands: Commands {
     let modelContext: ModelContext
     
-    @FocusedBinding(\.selectedList) var selectedListValue
+    @FocusedBinding(\.selectedDeckValue) var selectedDeckValue
     @FocusedValue(\.learningValue) var currentLearningValue
     @FocusedBinding(\.isAnswerVisible) var isAnswerVisible
     
@@ -33,7 +33,7 @@ struct LearningCommands: Commands {
     
     var body: some Commands {
         CommandMenu("Learning") {
-            LearnVocabulariesButton(selectedListValue: selectedListValue, title: "Learn vocabularies")
+            LearnVocabulariesButton(selectedDeckValue: selectedDeckValue, title: "Learn vocabularies")
                 .keyboardShortcut(KeyEquivalent("l"), modifiers: .command.union(.option))
             
             Divider()
@@ -53,7 +53,7 @@ struct LearningCommands: Commands {
             .disabled(isAnswerButtonDisabled)
             
             Button("Answer false") {
-                currentLearningValue?.answerFalse()
+                currentLearningValue?.answerWrong()
             }
             .keyboardShortcut(KeyEquivalent("f"), modifiers: .command)
             .disabled(isAnswerButtonDisabled)

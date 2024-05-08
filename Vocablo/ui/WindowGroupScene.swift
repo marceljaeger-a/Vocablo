@@ -17,7 +17,7 @@ struct WindowGroupScene: Scene {
         }
         .defaultSize(width: 1280, height: 720)
         .commands {
-            ListCommands(modelContext: modelContext)
+            DeckCommands(modelContext: modelContext)
             VocabularyCommands(modelContext: modelContext)
             LearningCommands(modelContext: modelContext)
         }

@@ -13,26 +13,26 @@ struct Sidebar: View {
     
     //MARK: - Dependencies
     
-    @Binding var selectedList: ListSelectingValue
+    @Binding var selectedDeckValue: DeckSelectingValue
     
-    @Query(sort: \VocabularyList.created, order: .forward) private var  lists: Array<VocabularyList>
+    @Query(sort: \Deck.created, order: .forward) private var  decks: Array<Deck>
     
     @Environment(\.modelContext) var modelContext
     
     //MARK: Initialiser
     
-    init(selectedList: Binding<ListSelectingValue>, listSortingKey: ListSortingKey, listSortingOrder: SortingOrder) {
-        self._selectedList = selectedList
+    init(selectedDeckValue: Binding<DeckSelectingValue>, decksSortingKey: DecksSortingKey, decksSortingOrder: SortingOrder) {
+        self._selectedDeckValue = selectedDeckValue
         
-        self._lists = Query(sort: [SortDescriptor<VocabularyList>.listSortDescriptor(by: listSortingKey, order: listSortingOrder)])
+        self._decks = Query(sort: [SortDescriptor<Deck>.listSortDescriptor(by: decksSortingKey, order: decksSortingOrder)])
     }
     
     //MARK: - Body
     
-    func fetchVocabulariesCount(of list: VocabularyList?) -> Int {
+    func fetchVocabulariesCount(of deck: Deck?) -> Int {
         do {
-            if let list {
-                return try modelContext.fetchCount(.vocabularies(of: list))
+            if let deck {
+                return try modelContext.fetchCount(.vocabularies(of: deck))
             }else {
                 return try modelContext.fetchCount(.vocabularies())
             }
@@ -43,67 +43,67 @@ struct Sidebar: View {
     
     var body: some View {
         let _ = Self._printChanges()
-        List(selection: $selectedList){
+        List(selection: $selectedDeckValue){
             #warning("LearningVocabulariesCountBadgeModifier causes less performance because of the Query!")
             Label("All vocabularies", systemImage: "tray.full")
-                .modifier(LearningVocabulariesCountBadgeModifier(listValue: .all))
+                .modifier(LearningVocabulariesCountBadgeModifier(deckValue: .all))
                 .badge(fetchVocabulariesCount(of: nil))
                 .badgeProminence(.decreased)
-                .tag(ListSelectingValue.all)
+                .tag(DeckSelectingValue.all)
             
-            Section("Lists") {
-                ForEach(lists) { list in
+            Section("Decks") {
+                ForEach(decks) { deck in
                     #warning("LearningVocabulariesCountBadgeModifier causes less performance because of the Query!")
-                    VocabularyListRow(list: list)
-                        .modifier(LearningVocabulariesCountBadgeModifier(listValue: .list(list: list)))
-                        .badge(fetchVocabulariesCount(of: list))
+                    DeckRow(deck: deck)
+                        .modifier(LearningVocabulariesCountBadgeModifier(deckValue: .deck(deck: deck)))
+                        .badge(fetchVocabulariesCount(of: deck))
                         .badgeProminence(.decreased)
-                        .tag(ListSelectingValue.list(list: list))
+                        .tag(DeckSelectingValue.deck(deck: deck))
                 }
             }
 //            SidebarListsSection(lists: lists)
         }
-        .contextMenu(forSelectionType: ListSelectingValue.self) { values in
-            SidebarContextMenu(values: values, selectedListValue: $selectedList)
+        .contextMenu(forSelectionType: DeckSelectingValue.self) { values in
+            SidebarContextMenu(values: values, selectedDeckValue: $selectedDeckValue)
         }
         .overlay(alignment: .bottomLeading) {
-            AddNewListButton {
-                Label("New list", systemImage: "plus")
+            AddNewDeckButton {
+                Label("New deck", systemImage: "plus")
             }
             .buttonStyle(.plain)
             .padding()
         }
-        .focusedSceneValue(\.selectedList, $selectedList)
+        .focusedSceneValue(\.selectedDeckValue, $selectedDeckValue)
     }
 }
 
 
 
 struct SidebarContextMenu: View {
-    let values: Set<ListSelectingValue>
-    @Binding var selectedListValue: ListSelectingValue
+    let values: Set<DeckSelectingValue>
+    @Binding var selectedDeckValue: DeckSelectingValue
     
-    var firstList: VocabularyList? {
-        return values.first?.list
+    var firstDeck: Deck? {
+        return values.first?.deck
     }
     
     var body: some View {
-        AddNewListButton()
+        AddNewDeckButton()
             .disabled(values.isEmpty == false)
         
-        LearnVocabulariesButton(selectedListValue: values.first)
+        LearnVocabulariesButton(selectedDeckValue: values.first)
         
         Divider()
         
-        ListSortingPicker()
+        DecksSortingPicker()
         VocabularySortingPicker()
         
         Divider()
         
-        ResetListButton(list: firstList)
+        ResetDeckButton(deck: firstDeck)
             .disabled(values.isEmpty || values.contains(.all) == true)
         
-        DeleteListButton(list: firstList, selectedList: $selectedListValue)
+        DeleteDeckButton(deck: firstDeck, selectedDeckValue: $selectedDeckValue)
             .disabled(values.isEmpty || values.contains(.all) == true)
     }
 }

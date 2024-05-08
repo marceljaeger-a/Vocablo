@@ -9,23 +9,23 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct WordGroupPicker: View {
-    
-    //MARK: - Dependencies
-    
-    let title: String
-    @Binding var group: WordGroup
-    
-    //MARK: - Body
-    
-    var body: some View {
-        Picker(title, selection: $group) {
-            ForEach(WordGroup.allCases, id: \.rawValue) { wordGroup in
-                Text(wordGroup.rawValue)
-                    .tag(wordGroup)
-            }
-        }
-    }
-}
+//struct WordGroupPicker: View {
+//    
+//    //MARK: - Dependencies
+//    
+//    let title: String
+//    @Binding var group: WordGroup
+//    
+//    //MARK: - Body
+//    
+//    var body: some View {
+//        Picker(title, selection: $group) {
+//            ForEach(WordGroup.allCases, id: \.rawValue) { wordGroup in
+//                Text(wordGroup.rawValue)
+//                    .tag(wordGroup)
+//            }
+//        }
+//    }
+//}
 
 

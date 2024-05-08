@@ -9,11 +9,11 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct ResetListButton<LabelContent: View>: View {
+struct ResetDeckButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
-    let list: VocabularyList?
+    let deck: Deck?
     var label: () -> LabelContent
     
     @Environment(\.modelContext) var modelContext
@@ -21,20 +21,20 @@ struct ResetListButton<LabelContent: View>: View {
     //MARK: - Initialiser
     
     init(
-        list: VocabularyList?,
+        deck: Deck?,
         label: @escaping () -> LabelContent = { Text("Reset") }
     ) {
-        self.list = list
+        self.deck = deck
         self.label = label
     }
     
     //MARK: - Methods
     
     private func perform() {
-        guard let list else { return }
-        let fetchedVocabulariesOfList = modelContext.fetchVocabularies(.vocabularies(of: list))
+        guard let deck else { return }
+        let fetchedVocabulariesOfList = modelContext.fetchVocabularies(.vocabularies(of: deck))
         fetchedVocabulariesOfList.forEach { vocabulary in
-            vocabulary.resetLearningsStates()
+            vocabulary.reset()
         }
     }
     

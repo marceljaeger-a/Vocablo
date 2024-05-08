@@ -10,11 +10,11 @@ import SwiftUI
 import SwiftData
 
 @Observable class LearningNavigationModel {
-    var currentLearningListValue: ListSelectingValue?
+    var currentLearningDeckValue: DeckSelectingValue?
 
     var isLearningDestinationPresented: Binding<Bool> {
         Binding {
-            if self.currentLearningListValue == nil {
+            if self.currentLearningDeckValue == nil {
                 return false
             }
             else {
@@ -22,7 +22,7 @@ import SwiftData
             }
         } set: { newValue in
             if newValue == false {
-                self.currentLearningListValue = nil
+                self.currentLearningDeckValue = nil
             }
         }
 

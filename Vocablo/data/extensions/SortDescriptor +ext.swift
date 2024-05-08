@@ -9,12 +9,12 @@ import Foundation
 import SwiftData
 
 extension SortDescriptor {
-    static func listSortDescriptor(by sortingKey: ListSortingKey, order: SortingOrder) -> SortDescriptor<VocabularyList> {
+    static func listSortDescriptor(by sortingKey: DecksSortingKey, order: SortingOrder) -> SortDescriptor<Deck> {
         switch sortingKey {
         case .createdDate:
-            SortDescriptor<VocabularyList>(\VocabularyList.created, order: order.swiftDataOrder)
+            SortDescriptor<Deck>(\Deck.created, order: order.swiftDataOrder)
         case .name:
-            SortDescriptor<VocabularyList>(\VocabularyList.name, order: order.swiftDataOrder)
+            SortDescriptor<Deck>(\Deck.name, order: order.swiftDataOrder)
         }
     }
     

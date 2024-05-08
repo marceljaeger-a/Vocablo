@@ -38,11 +38,9 @@ struct VocabularyPopoverView: View {
                 HStack {
                     Text("Translation to Word")
                         .foregroundStyle(.secondary)
-                    Spacer()
-                    ResetLearningStateButton(state: $vocabulary.translationState)
                 }
-                LearningLevelPicker(title: "Level", level: $vocabulary.translationState.level)
-                Text("Next repetition in \(vocabulary.translationState.remainingTimeLabel)")
+                LearningLevelPicker(title: "Level", level: $vocabulary.levelOfTranslation)
+                Text("Next repetition in ---")
                 
                 Divider()
                 
@@ -50,11 +48,9 @@ struct VocabularyPopoverView: View {
                     #warning("Implement languages to list.")
                     Text("Word to Translation")
                         .foregroundStyle(.secondary)
-                    Spacer()
-                    ResetLearningStateButton(state: $vocabulary.baseState)
                 }
-                LearningLevelPicker(title: "Level", level: $vocabulary.baseState.level)
-                Text("Next repetition in \(vocabulary.baseState.remainingTimeLabel)")
+                LearningLevelPicker(title: "Level", level: $vocabulary.levelOfBase)
+                Text("Next repetition in ---")
             } header: {
                 HStack {
                     Spacer()

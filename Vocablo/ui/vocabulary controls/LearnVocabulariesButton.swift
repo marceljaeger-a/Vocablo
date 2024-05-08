@@ -12,7 +12,7 @@ struct LearnVocabulariesButton: View {
     
     //MARK: - Dependencies
     
-    let selectedListValue: ListSelectingValue?
+    let selectedDeckValue: DeckSelectingValue?
     var title: String = "Learn vocabularies"
     
     @Environment(\.learningNavigationModel) var learningNavigationModel
@@ -20,14 +20,14 @@ struct LearnVocabulariesButton: View {
     //MARK: - Methods
     
     private func setVocabularies() {
-        learningNavigationModel.currentLearningListValue = selectedListValue
+        learningNavigationModel.currentLearningDeckValue = selectedDeckValue
     }
     
     private var isDisabled: Bool {
-        if selectedListValue == nil {
+        if selectedDeckValue == nil {
             return true
         }
-        if learningNavigationModel.currentLearningListValue == selectedListValue {
+        if learningNavigationModel.currentLearningDeckValue == selectedDeckValue {
             return true
         }
         return false

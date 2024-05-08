@@ -9,18 +9,18 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct ListCommands: Commands {
+struct DeckCommands: Commands {
     let modelContext: ModelContext
     
-    @FocusedBinding(\.selectedList) var selectedListValue
+    @FocusedBinding(\.selectedDeckValue) var selectedDeckValue
     
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
             Group {
-                AddNewListButton()
+                AddNewDeckButton()
                     .keyboardShortcut(KeyEquivalent("n"), modifiers: .command.union(.shift))
                     
-                AddNewVocabularyButton(into: selectedListValue?.list)
+                AddNewVocabularyButton(into: selectedDeckValue?.deck)
                     .keyboardShortcut(KeyEquivalent("n"), modifiers: .command)
             }
             .modelContext(modelContext)
@@ -28,7 +28,7 @@ struct ListCommands: Commands {
         
         
         CommandGroup(before: .toolbar) {
-            ListSortingPicker()
+            DecksSortingPicker()
             
             VocabularySortingPicker()
             
@@ -37,10 +37,10 @@ struct ListCommands: Commands {
         
         CommandGroup(after: .pasteboard) {
             Group {
-                ResetListButton(list: selectedListValue?.list) {
-                    Text("Reset list")
+                ResetDeckButton(deck: selectedDeckValue?.deck) {
+                    Text("Reset deck")
                 }
-                .disabled(selectedListValue == nil || selectedListValue == ListSelectingValue.all)
+                .disabled(selectedDeckValue == nil || selectedDeckValue == DeckSelectingValue.all)
                 .keyboardShortcut(KeyEquivalent("r"), modifiers: .command.union(.shift))
             }
             .modelContext(modelContext)

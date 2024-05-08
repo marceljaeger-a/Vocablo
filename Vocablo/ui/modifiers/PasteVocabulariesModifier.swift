@@ -12,17 +12,17 @@ import SwiftData
 struct PasteVocabulariesModifier: ViewModifier {
     
     @Environment(\.modelContext) var modelContext
-    let selectedList: ListSelectingValue
+    let selectedDeckValue: DeckSelectingValue
     
     private func pasteVocabularies(vocabularies: Array<Vocabulary>) {
-        switch selectedList {
+        switch selectedDeckValue {
         case .all:
             for vocabulary in vocabularies {
                 modelContext.insert(vocabulary)
             }
-        case .list(let list):
+        case .deck(let deck):
             for vocabulary in vocabularies {
-                list.append(vocabulary: vocabulary)
+                deck.vocabularies.append(vocabulary)
             }
         }
     }

@@ -8,14 +8,18 @@
 import Foundation
 
 protocol Learnable: AnyObject {
-    var baseState: LearningState { get set }
-    var translationState: LearningState { get set }
+    var primaryContentOfFront: String { get set }
+    var secondaryContentOfFront: String { get set }
+    var primaryContentOfBack: String { get set }
+    var secondaryContentOfBack: String { get set }
     
-    var basePrimaryContent: String { get set }
-    var translationPrimaryContent: String { get set }
+    var levelOfFront: LearningLevel { get set }
+    var levelOfBack: LearningLevel { get set }
+    var sessionsOfFront: Array<Date> { get set }
+    var sessionsOfBack: Array<Date> { get set }
     
-    var baseSecondaryContent: String { get set }
-    var translationSecondaryContent: String { get  set }
+    func answerTrue(askingSide: IndexCard<Self>.Side)
+    func answerWrong(askingSide: IndexCard<Self>.Side)
 }
 
 

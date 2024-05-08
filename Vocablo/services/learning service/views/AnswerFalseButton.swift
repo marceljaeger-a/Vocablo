@@ -9,15 +9,18 @@ import Foundation
 import SwiftUI
 
 struct AnswerFalseButton: View {
-    @LearningValue var value: Vocabulary
+    @IndexCard var value: Vocabulary
     
     var previousLevelRepeatingIntervalString: String {
-        $value.askingState.previousLevel.repeatingIntervalLabel
+        if let previousLevel = $value.askingLevel.previousLevel() {
+            return previousLevel.repeatingIntervalLabel
+        }
+        return $value.askingLevel.repeatingIntervalLabel
     }
     
     var body: some View {
         Button {
-            $value.answerFalse()
+            $value.answerWrong()
         } label: {
             Label(previousLevelRepeatingIntervalString, systemImage: "hand.thumbsdown")
                 .foregroundStyle(.red.gradient)

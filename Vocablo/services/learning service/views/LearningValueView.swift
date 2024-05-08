@@ -14,7 +14,7 @@ struct LearningValueView: View {
     //MARK: - Dependencies
     
     ///Every new instance of LearningValue is unique because of the Identifable conformance. So the body will run, if you initialise a new View value!
-    @LearningValue var value: Vocabulary
+    @IndexCard var value: Vocabulary
     let learningValuesCount: Int
     
     @State var isAnswerVisible: Bool = false
@@ -36,7 +36,7 @@ struct LearningValueView: View {
     }
     
     var newWordLabelOpacity: Double {
-        switch _value.askingState.isNewly {
+        switch _value.isNew{
         case true:
             return 1.0
         case false:
@@ -46,7 +46,7 @@ struct LearningValueView: View {
     
     //MARK: - Initialiser
     
-    init(of learningValue: LearningValue<Vocabulary>, learningValuesCount: Int) {
+    init(of learningValue: IndexCard<Vocabulary>, learningValuesCount: Int) {
         self._value = learningValue
         self.learningValuesCount = learningValuesCount
     }

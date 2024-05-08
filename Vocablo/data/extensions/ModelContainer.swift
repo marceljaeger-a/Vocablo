@@ -15,8 +15,9 @@ extension ModelContainer {
     static var main: ModelContainer {
         var container: ModelContainer
         do {
-            let schema = Schema([VocabularyList.self, Vocabulary.self, Tag.self])
-            container = try ModelContainer(for: schema, configurations: [])
+            let schema = Schema([Deck.self, Vocabulary.self])
+            let configuration = ModelConfiguration("vocablo_datastorage2_main", schema: schema)
+            container = try ModelContainer(for: schema, configurations: [configuration])
 
             container.mainContext.autosaveEnabled = true
         } catch {
@@ -29,8 +30,8 @@ extension ModelContainer {
     static var debug: ModelContainer {
         var container: ModelContainer
         do {
-            let schema = Schema([VocabularyList.self, Vocabulary.self, Tag.self])
-            let configuration = ModelConfiguration("vocablo_datastorage_debug", schema: schema)
+            let schema = Schema([Deck.self, Vocabulary.self])
+            let configuration = ModelConfiguration("vocablo_datastorage2_debug", schema: schema)
             container = try ModelContainer(for: schema, configurations: [configuration])
             
             container.mainContext.autosaveEnabled = true
@@ -57,7 +58,7 @@ extension ModelContainer {
 
 extension View {
     func previewModelContainer() -> some View {
-        self.modelContainer(for: [VocabularyList.self, Vocabulary.self, Tag.self], inMemory: true)
+        self.modelContainer(for: [Deck.self, Vocabulary.self], inMemory: true)
 
     }
 }

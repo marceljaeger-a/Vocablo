@@ -72,14 +72,14 @@ struct VocabularyInfoGridRowContent: View {
     let vocabulary: Vocabulary
     let isSelected: Bool
     
-    @Environment(\.selectedListValue) var selectedListValue: ListSelectingValue
+    @Environment(\.selectedDeckValue) var selectedDeckValue: DeckSelectingValue
     
-    var listOfVocabulary: VocabularyList? {
-        vocabulary.list
+    var deckOfVocabulary: Deck? {
+        vocabulary.deck
     }
     
     var isListNameLabelVisible: Bool {
-        if case ListSelectingValue.all = selectedListValue {
+        if case DeckSelectingValue.all = selectedDeckValue {
             return true
         }
         return false
@@ -93,8 +93,8 @@ struct VocabularyInfoGridRowContent: View {
                     .foregroundStyle(isSelected ? AnyShapeStyle(.primary) : AnyShapeStyle(Color.accentColor))
             }
             
-            if let listOfVocabulary, isListNameLabelVisible == true {
-                Label(listOfVocabulary.name, systemImage: "")
+            if let deckOfVocabulary, isListNameLabelVisible == true {
+                Label(deckOfVocabulary.name, systemImage: "")
                     .labelStyle(.titleOnly)
                     .foregroundStyle(.tertiary)
             }

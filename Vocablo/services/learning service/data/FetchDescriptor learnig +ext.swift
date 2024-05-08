@@ -10,16 +10,16 @@ import SwiftData
 import SwiftUI
 
 extension FetchDescriptor {
-    static func learningVocabularies(of learningListValue: ListSelectingValue) -> FetchDescriptor<Vocabulary> {
+    static func learningVocabularies(of learningListValue: DeckSelectingValue) -> FetchDescriptor<Vocabulary> {
         switch learningListValue {
         case .all:
             return FetchDescriptor<Vocabulary>(predicate: #Predicate { vocabulary in
                 vocabulary.isToLearn == true
             })
-        case .list(let list):
+        case .deck(let list):
             let listID = list.persistentModelID
             let predicate: Predicate<Vocabulary> = #Predicate { vocabulary in
-                ( listID == vocabulary.list?.persistentModelID ) && ( vocabulary.isToLearn == true )
+                ( listID == vocabulary.deck?.persistentModelID ) && ( vocabulary.isToLearn == true )
             }
             return FetchDescriptor<Vocabulary>(predicate: predicate)
         }

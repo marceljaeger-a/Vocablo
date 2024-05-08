@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct AddNewListButton<LabelContent: View>: View {
+struct AddNewDeckButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
@@ -19,7 +19,7 @@ struct AddNewListButton<LabelContent: View>: View {
     //MARK: Initialiser
     
     init(
-        label: @escaping () -> LabelContent = { Label("New list", systemImage: "plus") }
+        label: @escaping () -> LabelContent = { Label("New deck", systemImage: "plus") }
     ) {
         self.label = label
     }
@@ -27,7 +27,7 @@ struct AddNewListButton<LabelContent: View>: View {
     //MARK: - Methods
     
     private func perform() {
-        modelContext.insert(VocabularyList.newList)
+        modelContext.insert(Deck.new)
         do {
             try modelContext.save()
         } catch {

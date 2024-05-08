@@ -8,16 +8,16 @@
 import Foundation
 import SwiftData
 
-enum ListSelectingValue: Hashable {
+enum DeckSelectingValue: Hashable {
     case all
-    case list(list: VocabularyList)
+    case deck(deck: Deck)
     
-    var list: VocabularyList? {
+    var deck: Deck? {
         return switch self {
         case .all:
             nil
-        case .list(let list):
-            list
+        case .deck(let deck):
+            deck
         }
     }
 }

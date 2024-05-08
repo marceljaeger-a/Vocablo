@@ -13,7 +13,7 @@ struct AddNewVocabularyButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
-    let list: VocabularyList?
+    let deck: Deck?
     var label: () -> LabelContent
     
     @Environment(\.modelContext) var modelContext
@@ -22,20 +22,20 @@ struct AddNewVocabularyButton<LabelContent: View>: View {
     //MARK: - Initialiser
     
     init(
-        into list: VocabularyList?,
+        into deck: Deck?,
         label: @escaping () -> LabelContent = { Label("New vocabulary", systemImage: "plus") }
     ) {
-        self.list = list
+        self.deck = deck
         self.label = label
     }
     
     //MARK: - Methods
     
     private func perform() {
-        let newVocabulary = Vocabulary.newVocabulary
+        let newVocabulary = Vocabulary.new
         
-        if let list {
-            list.append(vocabulary: newVocabulary)
+        if let deck {
+            deck.vocabularies.append(newVocabulary)
             do {
                 try modelContext.save()
             }catch {

@@ -15,8 +15,8 @@ struct LearningNavigationDestinationModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content.navigationDestination(isPresented: learningNavigationModel.isLearningDestinationPresented) {
-            if let learningListValue = learningNavigationModel.currentLearningListValue {
-                LearningDestination(learningListValue: learningListValue)
+            if let learningDeckValue = learningNavigationModel.currentLearningDeckValue {
+                LearningDestination(learningDeckValue: learningDeckValue)
             }else {
                 
             }

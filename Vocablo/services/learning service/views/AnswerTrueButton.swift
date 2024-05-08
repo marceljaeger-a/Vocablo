@@ -9,10 +9,13 @@ import Foundation
 import SwiftUI
 
 struct AnswerTrueButton: View {
-    @LearningValue var value: Vocabulary
+    @IndexCard var value: Vocabulary
     
     var nextLevelRepeatingIntervalString: String {
-        $value.askingState.nextLevel.repeatingIntervalLabel
+        if let nextLevel = $value.askingLevel.nextLevel() {
+            return nextLevel.repeatingIntervalLabel
+        }
+        return $value.askingLevel.repeatingIntervalLabel
     }
     
     var body: some View {

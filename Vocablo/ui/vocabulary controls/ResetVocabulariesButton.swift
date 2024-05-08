@@ -32,7 +32,7 @@ struct ResetVocabulariesButton<LabelContent: View>: View {
     
     private func perform() {
         vocabularies.forEach { vocabulary in
-            vocabulary.resetLearningsStates()
+            vocabulary.reset()
         }
     }
     

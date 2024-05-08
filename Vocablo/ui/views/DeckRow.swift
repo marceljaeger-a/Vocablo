@@ -9,13 +9,13 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct VocabularyListRow: View {
-    @Bindable var list: VocabularyList
+struct DeckRow: View {
+    @Bindable var deck: Deck
     
     var body: some View {
         let _ = Self._printChanges()
         Label {
-            TextField("", text: $list.name)
+            TextField("", text: $deck.name)
         } icon: {
             Image(systemName: "book.pages")
         }

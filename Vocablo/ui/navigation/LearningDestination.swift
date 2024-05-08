@@ -17,14 +17,14 @@ struct LearningDestination: View {
     
     //MARK: - Initialiser
     
-    init(learningListValue: ListSelectingValue) {
-        let query = Query(.learningVocabularies(of: learningListValue))
+    init(learningDeckValue: DeckSelectingValue) {
+        let query = Query(.learningVocabularies(of: learningDeckValue))
         self._vocabularies = query
     }
     
     //MARK: - Methods
     
-    private func getLearnignValues() -> Array<LearningValue<Vocabulary>> {
+    private func getLearnignValues() -> Array<IndexCard<Vocabulary>> {
         LearningService.getLearnignValues(of: vocabularies)
     }
     

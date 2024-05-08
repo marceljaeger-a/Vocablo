@@ -9,18 +9,18 @@ import Foundation
 import SwiftData
 import SwiftUI
 
-struct VocabularyListViewToolbar: ToolbarContent {
-    let selectedList: ListSelectingValue
+struct DeckListViewToolbar: ToolbarContent {
+    let selectedDeckValue: DeckSelectingValue
     @Environment(\.isSearching) private var isSearching
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
-            LearnVocabulariesButton(selectedListValue: selectedList)
+            LearnVocabulariesButton(selectedDeckValue: selectedDeckValue)
                 .disabled(isSearching)
         }
         
         ToolbarItem(placement: .primaryAction) {
-            AddNewVocabularyButton(into: selectedList.list)
+            AddNewVocabularyButton(into: selectedDeckValue.deck)
                 .disabled(isSearching)
         }
     }

@@ -13,8 +13,8 @@ struct LearningVocabulariesCountBadgeModifier: ViewModifier {
     
     @Query var learningVocabularies: Array<Vocabulary>
 
-    init(listValue: ListSelectingValue) {
-        self._learningVocabularies = Query(.learningVocabularies(of: listValue))
+    init(deckValue: DeckSelectingValue) {
+        self._learningVocabularies = Query(.learningVocabularies(of: deckValue))
     }
     
     var currentLearningValueCount: Int {

@@ -9,8 +9,8 @@ import Foundation
 import SwiftUI
 
 struct AppStorageKeys {
-    static let listSortingKey: String = "listSortingKey"
-    static let listSortingOrder: String = "listSortingOrder"
+    static let decksSortingKey: String = "decksSortingKey"
+    static let decksSortingOrder: String = "decksSortingOrder"
     
     static let vocabularySortingKey: String = "vocabularySortingKey"
     static let vocabularySortingOrder: String = "vocabularySortingOrder"

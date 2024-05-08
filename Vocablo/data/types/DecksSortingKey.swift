@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ListSortingKey: Int, CaseIterable{
+enum DecksSortingKey: Int, CaseIterable{
     case createdDate
     case name
     

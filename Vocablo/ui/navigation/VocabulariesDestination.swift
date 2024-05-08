@@ -12,7 +12,7 @@ struct VocabulariesDestination: View {
     
     //MARK: - Dependencies
     
-    @Binding var selectedList: ListSelectingValue
+    @Binding var selectedDeckValue: DeckSelectingValue
     
     @State var selectedVocabularies: Set<Vocabulary> = []
     @State var editedVocabulary: Vocabulary?
@@ -22,19 +22,19 @@ struct VocabulariesDestination: View {
     
     var body: some View {
         let _ = Self._printChanges()
-        VocabularyListView(selectedListValue: selectedList, selectedVocabularies: $selectedVocabularies, editingVocabulary: $editedVocabulary)
-            .onChange(of: selectedList) {
+        DeckListView(selectedDeckValue: selectedDeckValue, selectedVocabularies: $selectedVocabularies, editingVocabulary: $editedVocabulary)
+            .onChange(of: selectedDeckValue) {
                 selectedVocabularies = []
             }
             .contextMenu(forSelectionType: Vocabulary.self) { vocabularies in
-                VocabularyListViewContextMenu(vocabulariesOfContextMenu: vocabularies, selectedList: selectedList, selectedVocabularies: $selectedVocabularies, editedVocabulary: $editedVocabulary)
+                DeckListViewContextMenu(vocabulariesOfContextMenu: vocabularies, selectedDeckValue: selectedDeckValue, selectedVocabularies: $selectedVocabularies, editedVocabulary: $editedVocabulary)
             } primaryAction: { vocabularies in
                 if vocabularies.count == 1 {
                     editedVocabulary = vocabularies.first
                 }
             }
             .toolbar {
-                VocabularyListViewToolbar(selectedList: selectedList)
+                DeckListViewToolbar(selectedDeckValue: selectedDeckValue)
             }
             .focusedValue(\.selectedVocabularies, $selectedVocabularies)
     }

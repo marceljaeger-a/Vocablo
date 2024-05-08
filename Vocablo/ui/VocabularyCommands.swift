@@ -27,10 +27,10 @@ struct VocabularyCommands: Commands {
                 .keyboardShortcut(KeyEquivalent("r"), modifiers: .command)
                 .disabled(selectedVocabularies?.isEmpty ?? true)
                 
-                Divider()
-                
-                SetWordGroupMenu(title: "Set word group", vocabularies: unwrappedSelectedVocabularies)
-                    .disabled(selectedVocabularies?.isEmpty ?? true)
+//                Divider()
+//                
+//                SetWordGroupMenu(title: "Set word group", vocabularies: unwrappedSelectedVocabularies)
+//                    .disabled(selectedVocabularies?.isEmpty ?? true)
                 
                 Divider()
                 
