@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 extension SortDescriptor {
-    static func listSortDescriptor(by sortingKey: DecksSortingKey, order: SortingOrder) -> SortDescriptor<Deck> {
+    static func decksSortDescriptor(by sortingKey: DecksSortingKey, order: SortingOrder) -> SortDescriptor<Deck> {
         switch sortingKey {
         case .createdDate:
             SortDescriptor<Deck>(\Deck.created, order: order.swiftDataOrder)

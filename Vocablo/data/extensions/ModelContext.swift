@@ -14,7 +14,7 @@ extension ModelContext {
     
     ///Returns the fetched VocabularyLists.
     ///- Returns: An emptry Array if the wrapped fetch method throws an error.
-    func fetchLists(_ descriptor: FetchDescriptor<Deck>) -> Array<Deck> {
+    func fetchDecks(_ descriptor: FetchDescriptor<Deck>) -> Array<Deck> {
         ( try? self.fetch(descriptor) ) ?? []
     }
     
@@ -33,17 +33,17 @@ extension ModelContext {
         if let deletingVocabularies = models as? Array<Vocabulary> {
             
             for deletingVocabulary in deletingVocabularies {
-                if let list = deletingVocabulary.deck {
-                    list.remove(vocabulary: deletingVocabulary)
+                if let deck = deletingVocabulary.deck {
+                    deck.remove(vocabulary: deletingVocabulary)
                 }
                 self.delete(deletingVocabulary)
             }
             
-        }else if let deletingLists = models as? Array<Deck> {
+        }else if let deletingDecks = models as? Array<Deck> {
             
-            for deletingList in deletingLists {
-                delete(models: deletingList.vocabularies)
-                self.delete(deletingList)
+            for deletingDeck in deletingDecks {
+                delete(models: deletingDeck.vocabularies)
+                self.delete(deletingDeck)
             }
             
         }

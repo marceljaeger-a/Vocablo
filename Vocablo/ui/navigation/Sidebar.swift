@@ -24,7 +24,7 @@ struct Sidebar: View {
     init(selectedDeckValue: Binding<DeckSelectingValue>, decksSortingKey: DecksSortingKey, decksSortingOrder: SortingOrder) {
         self._selectedDeckValue = selectedDeckValue
         
-        self._decks = Query(sort: [SortDescriptor<Deck>.listSortDescriptor(by: decksSortingKey, order: decksSortingOrder)])
+        self._decks = Query(sort: [SortDescriptor<Deck>.decksSortDescriptor(by: decksSortingKey, order: decksSortingOrder)])
     }
     
     //MARK: - Body
