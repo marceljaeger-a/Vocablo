@@ -17,6 +17,8 @@ protocol Learnable: AnyObject {
     var levelOfBack: LearningLevel { get set }
     var sessionsOfFront: Array<Date> { get set }
     var sessionsOfBack: Array<Date> { get set }
+    var nextSessionOfFront: Date { get set }
+    var nextSessionOfBack: Date { get set }
     
     func answerTrue(askingSide: IndexCard<Self>.Side)
     func answerWrong(askingSide: IndexCard<Self>.Side)

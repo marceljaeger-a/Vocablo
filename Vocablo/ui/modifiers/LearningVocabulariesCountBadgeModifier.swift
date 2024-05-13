@@ -18,7 +18,8 @@ struct LearningVocabulariesCountBadgeModifier: ViewModifier {
     }
     
     var currentLearningValueCount: Int {
-        LearningService.getLearnignValues(of: learningVocabularies).count
+        let service = LearningService()
+        return service.getFilteredSortedIndexCards(of: learningVocabularies).count
     }
     
     func body(content: Content) -> some View {

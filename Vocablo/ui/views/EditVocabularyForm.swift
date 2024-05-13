@@ -40,7 +40,14 @@ struct VocabularyPopoverView: View {
                         .foregroundStyle(.secondary)
                 }
                 LearningLevelPicker(title: "Level", level: $vocabulary.levelOfTranslation)
-                Text("Next repetition in ---")
+                HStack {
+                    Text("Next repetition in ")
+                    if vocabulary.nextSessionOfBase > Date.now {
+                        Text(vocabulary.nextSessionOfBase, style: .timer)
+                    }else {
+                        Text("0:00")
+                    }
+                }
                 
                 Divider()
                 
@@ -50,7 +57,14 @@ struct VocabularyPopoverView: View {
                         .foregroundStyle(.secondary)
                 }
                 LearningLevelPicker(title: "Level", level: $vocabulary.levelOfBase)
-                Text("Next repetition in ---")
+                HStack {
+                    Text("Next repetition in ")
+                    if vocabulary.nextSessionOfTranslation > Date.now {
+                        Text(vocabulary.nextSessionOfTranslation, style: .timer)
+                    }else {
+                        Text("0:00")
+                    }
+                }
             } header: {
                 HStack {
                     Spacer()

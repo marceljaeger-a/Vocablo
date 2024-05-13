@@ -4,73 +4,39 @@
 //
 //  Created by Marcel Jäger on 20.03.24.
 //
-
 import Foundation
 import SwiftData
 import SwiftUI
 
 struct LearningService {
-//    static var shared = Self.init()
     
-    ///Returns an array of LearningValues of the passed vocabularies.
+    ///Returns an array of of IndexCards
     ///
-    ///It creates for both learning states LearningValues and sort that Array by the alogrithm.
+    ///It creates for both sides a IndexCard and sort $ filter the values.
     ///
     /// - Parameters:
     ///     - vocabularies: The vocabularies you will create LearningValues with those.
     ///
-    /// - Returns: The sorted LearningValues.
-    static func getLearnignValues(of vocabularies: Array<Vocabulary>) -> Array<IndexCard<Vocabulary>> {
-//        let baseAskingLearningValues = vocabularies.map { LearningValue(value: $0, askingContent: .base) }.filter { $0.askingState.isNextRepetitionExpired == true }
-//        let translationAskingLearningValues = vocabularies.map { LearningValue(value: $0, askingContent: .translation) }.filter { $0.askingState.isNextRepetitionExpired == true }
-//        
-//        let newBaseAskingLearningValues = baseAskingLearningValues
-//            .filter{ $0.askingState.isNewly }
-//            .sorted(using: [KeyPathComparator(\.askingState.nextRepetition, order: .forward)])
-//        let notNewBaseAskingLearningValues = baseAskingLearningValues
-//            .filter{ $0.askingState.isNewly == false }
-//        
-//        let newTranslationAskingLearningValues = translationAskingLearningValues
-//            .filter{ $0.askingState.isNewly }
-//            .sorted(using: [KeyPathComparator(\.askingState.nextRepetition, order: .forward)])
-//        let notNewTranslationAskingLearningValues = translationAskingLearningValues
-//            .filter{ $0.askingState.isNewly == false }
-//        
-//        let notNewLearningValues = (notNewBaseAskingLearningValues + notNewTranslationAskingLearningValues ).sorted(using: KeyPathComparator(\.askingState.nextRepetition, order: .forward))
-//        
-//        return newBaseAskingLearningValues + newTranslationAskingLearningValues + notNewLearningValues
-        []
-    }
-    
-    ///Returns an array of LearningValues of the passed vocabularies.
-    ///
-    ///It creates for both learning states LearningValues and sort that Array by the alogrithm.
-    ///
-    ///This is a asyncronous variant of ``getLearnignValues(of:)-9l21d``.
-    ///
-    /// - Parameters:
-    ///     - vocabularies: The vocabularies you will create LearningValues with those.
-    ///
-    /// - Returns: The sorted LearningValues.
-    static func asyncGetLearnignValues(of vocabularies: Array<Vocabulary>) async -> Array<IndexCard<Vocabulary>> {
-//        let baseAskingLearningValues = vocabularies.map { LearningValue(value: $0, askingContent: .base) }.filter { $0.askingState.isNextRepetitionExpired == true }
-//        let translationAskingLearningValues = vocabularies.map { LearningValue(value: $0, askingContent: .translation) }.filter { $0.askingState.isNextRepetitionExpired == true }
-//        
-//        async let newBaseAskingLearningValues = baseAskingLearningValues
-//            .filter{ $0.askingState.isNewly }
-//            .sorted(using: [KeyPathComparator(\.askingState.nextRepetition, order: .forward)])
-//        async let notNewBaseAskingLearningValues = baseAskingLearningValues
-//            .filter{ $0.askingState.isNewly == false }
-//        
-//        async let newTranslationAskingLearningValues = translationAskingLearningValues
-//            .filter{ $0.askingState.isNewly }
-//            .sorted(using: [KeyPathComparator(\.askingState.nextRepetition, order: .forward)])
-//        async let notNewTranslationAskingLearningValues = translationAskingLearningValues
-//            .filter{ $0.askingState.isNewly == false }
-//        
-//        let notNewLearningValues = ( (await notNewBaseAskingLearningValues) + (await notNewTranslationAskingLearningValues) ).sorted(using: KeyPathComparator(\.askingState.nextRepetition, order: .forward))
-//        
-//        return (await newBaseAskingLearningValues) + (await newTranslationAskingLearningValues) + notNewLearningValues
-        []
+    /// - Returns: The sorted IndexCards.
+    func getFilteredSortedIndexCards<L: Learnable>(of values: Array<L>, currentSession: Date = Date.now) -> Array<IndexCard<L>> {
+        
+        let baseAskingLearningValues = values.map { IndexCard(value: $0, askingSide: .front) }.filter { $0.nextSession < currentSession }
+        let translationAskingLearningValues = values.map { IndexCard(value: $0, askingSide: .back) }.filter { $0.nextSession < currentSession }
+        
+        let newBaseAskingLearningValues = baseAskingLearningValues
+            .filter{ $0.isNew == true }
+            .sorted(using: [KeyPathComparator(\.nextSession, order: .forward)])
+        let notNewBaseAskingLearningValues = baseAskingLearningValues
+            .filter{ $0.isNew == false }
+        
+        let newTranslationAskingLearningValues = translationAskingLearningValues
+            .filter{ $0.isNew }
+            .sorted(using: [KeyPathComparator(\.nextSession, order: .forward)])
+        let notNewTranslationAskingLearningValues = translationAskingLearningValues
+            .filter{ $0.isNew == false }
+        
+        let notNewLearningValues = (notNewBaseAskingLearningValues + notNewTranslationAskingLearningValues ).sorted(using: KeyPathComparator(\.nextSession, order: .forward))
+        
+        return newBaseAskingLearningValues + newTranslationAskingLearningValues + notNewLearningValues
     }
 }

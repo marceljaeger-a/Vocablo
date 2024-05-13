@@ -89,6 +89,15 @@ struct IndexCard<V: Learnable>: Identifiable {
         }
     }
     
+    var nextSession: Date {
+        switch askingSide {
+        case .front:
+            value.nextSessionOfFront
+        case .back:
+            value.nextSessionOfBack
+        }
+    }
+    
     //MARK: Instanz Methodes
 
     func answerTrue() {

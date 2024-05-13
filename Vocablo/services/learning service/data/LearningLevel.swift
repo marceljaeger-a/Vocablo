@@ -111,4 +111,8 @@ enum LearningLevel: String, Codable, CaseIterable {
         default: return .lvl2
         }
     }
+    
+    func nextSession(latestSession: Date) -> Date {
+        Date.now.addingTimeInterval(TimeInterval(self.repeatingInterval * 60))
+    }
 }

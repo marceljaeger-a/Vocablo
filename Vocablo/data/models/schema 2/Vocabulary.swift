@@ -136,6 +136,24 @@ extension Vocabulary: Learnable {
         }
     }
     
+    var nextSessionOfFront: Date {
+        get {
+            self.nextSessionOfBase
+        }
+        set {
+            self.nextSessionOfBase = newValue
+        }
+    }
+    
+    var nextSessionOfBack: Date {
+        get {
+            self.nextSessionOfTranslation
+        }
+        set {
+            self.nextSessionOfTranslation = newValue
+        }
+    }
+    
     var sessionsOfBack: Array<Date> {
         get {
             self.sessionsOfTranslation
@@ -200,14 +218,34 @@ extension Vocabulary: Learnable {
     }
     
     func answerTrue(askingSide: IndexCard<Vocabulary>.Side) {
-        #warning("IMPLEMENT")
+        switch askingSide {
+        case .front:
+            let currentDate = Date.now
+            self.levelOfBase = self.levelOfBase.nextLevel() ?? .max
+            self.sessionsOfBase.append(currentDate)
+            self.nextSessionOfBase = self.levelOfBase.nextSession(latestSession: currentDate)
+        case .back:
+            let currentDate = Date.now
+            self.levelOfTranslation = self.levelOfTranslation.nextLevel() ?? .max
+            self.sessionsOfTranslation.append(currentDate)
+            self.nextSessionOfTranslation = self.levelOfTranslation.nextSession(latestSession: currentDate)
+        }
     }
     
     func answerWrong(askingSide: IndexCard<Vocabulary>.Side) {
-        #warning("IMPLEMENT")
+        switch askingSide {
+        case .front:
+            let currentDate = Date.now
+            self.levelOfBase = self.levelOfBase.previousLevel() ?? .min
+            self.sessionsOfBase.append(currentDate)
+            self.nextSessionOfBase = self.levelOfBase.nextSession(latestSession: currentDate)
+        case .back:
+            let currentDate = Date.now
+            self.levelOfTranslation = self.levelOfTranslation.previousLevel() ?? .max
+            self.sessionsOfTranslation.append(currentDate)
+            self.nextSessionOfTranslation = self.levelOfTranslation.nextSession(latestSession: currentDate)
+        }
     }
-    
-    
 }
 
 

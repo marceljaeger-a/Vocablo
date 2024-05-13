@@ -22,14 +22,14 @@ final class LearningServiceTests: XCTestCase {
     override func setUpWithError() throws {
         if context == nil {
             let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
-            let container = try ModelContainer(for: VocabularyList.self, Vocabulary.self, configurations: configuration)
+            let container = try ModelContainer(for: Deck.self, Vocabulary.self, configurations: configuration)
             
             context = ModelContext(container)
         }
     }
 
     override func tearDownWithError() throws {
-        try context.delete(model: VocabularyList.self)
+        try context.delete(model: Deck.self)
         try context.save()
     }
 
@@ -39,52 +39,48 @@ final class LearningServiceTests: XCTestCase {
     func testAlgorithmedLearningValues () throws {
         //Give
         let learningService = LearningService()
-        let list = VocabularyList("Example list")
-        context.insert(list)
+        let deck = Deck(name: "Example list", languageOfBase: "German", languageOfTranslation: "English")
+        context.insert(deck)
         try context.save()
         
-        let vocabulary1 = Vocabulary(baseWord: "Word 1", translationWord: "Wort 1", wordGroup: .noun)
-        list.append(vocabulary: vocabulary1)
-        let vocabulary2 = Vocabulary(baseWord: "Word 2", translationWord: "Wort 2", wordGroup: .noun)
-        list.append(vocabulary: vocabulary2)
-        let vocabulary3 = Vocabulary(baseWord: "Word 3", translationWord: "Wort 3", wordGroup: .noun)
-        list.append(vocabulary: vocabulary3)
-        list.vocabularies.forEach { $0.isToLearn = true }
+        let vocabulary1 = Vocabulary(baseWord: "Wort 1", baseSentence: "", translationWord: "Word 1", translationSentence: "", isToLearn: true, levelOfBase: .lvl1, levelOfTranslation: .lvl1, sessionsOfBase: [], sessionsOfTranslation: [], nextSessionOfBase: .now, nextSessionOfTranslation: .now)
+        deck.vocabularies.append(vocabulary1)
+        let vocabulary2 = Vocabulary(baseWord: "Wort 2", baseSentence: "", translationWord: "Word 2", translationSentence: "", isToLearn: true, levelOfBase: .lvl1, levelOfTranslation: .lvl1, sessionsOfBase: [], sessionsOfTranslation: [], nextSessionOfBase: .now, nextSessionOfTranslation: .now)
+        deck.vocabularies.append(vocabulary2)
+        let vocabulary3 = Vocabulary(baseWord: "Wort 3", baseSentence: "", translationWord: "Word 3", translationSentence: "", isToLearn: true, levelOfBase: .lvl1, levelOfTranslation: .lvl1, sessionsOfBase: [], sessionsOfTranslation: [], nextSessionOfBase: .now, nextSessionOfTranslation: .now)
+        deck.vocabularies.append(vocabulary3)
         try context.save()
         
         
         //- Learning simulation
-        let value1B = LearningValue(value: vocabulary1, askingContent: .base)    //Should be: 5/6
+        let value1B = IndexCard(value: vocabulary1, askingSide: .front)    //Should be: 5/6
         value1B.answerTrue()
         value1B.answerTrue()
-        vocabulary1.baseState.lastRepetition = .now - 60*60*24*365
         
-        let value1T = LearningValue(value: vocabulary1, askingContent: .translation) //Should be: 2/6
+        let value1T = IndexCard(value: vocabulary1, askingSide: .back) //Should be: 3/6
         
-        let value2B = LearningValue(value: vocabulary2, askingContent: .base)    //Should be: 3/6
-        vocabulary2.baseState.lastRepetition = .now - 60*60*24*367
+        let value2B = IndexCard(value: vocabulary2, askingSide: .front)    //Should be: 1/6
+
         
-        let value2T = LearningValue(value: vocabulary2, askingContent: .translation) //Should be: 6/6
+        let value2T = IndexCard(value: vocabulary2, askingSide: .back) //Should be: 6/6
         value2T.answerTrue()
         value2T.answerTrue()
         value2T.answerTrue()
-        vocabulary2.translationState.lastRepetition = .now - 60*60*24*365
         
-        let value3B = LearningValue(value: vocabulary3, askingContent: .base)    //Should be: 1/6
+        let value3B = IndexCard(value: vocabulary3, askingSide: .front)    //Should be: 2/6
         
-        let value3T = LearningValue(value: vocabulary3, askingContent: .translation) //Should be: 4/6
-        vocabulary3.translationState.lastRepetition = .now - 60*60*24*366
+        let value3T = IndexCard(value: vocabulary3, askingSide: .back) //Should be: 4/6
         
         try context.save()
         
 
         //When
-        let algorythmedValues = learningService.getLearnignValues(of: list.vocabularies)
+        let algorythmedValues = learningService.getFilteredSortedIndexCards(of: deck.vocabularies, currentSession: .distantFuture)
         
         //Then
-        XCTAssertEqual(algorythmedValues[0].askingPrimaryContent, value3B.askingPrimaryContent)
-        XCTAssertEqual(algorythmedValues[1].askingPrimaryContent, value1T.askingPrimaryContent)
-        XCTAssertEqual(algorythmedValues[2].askingPrimaryContent, value2B.askingPrimaryContent)
+        XCTAssertEqual(algorythmedValues[0].askingPrimaryContent, value2B.askingPrimaryContent)
+        XCTAssertEqual(algorythmedValues[1].askingPrimaryContent, value3B.askingPrimaryContent)
+        XCTAssertEqual(algorythmedValues[2].askingPrimaryContent, value1T.askingPrimaryContent)
         XCTAssertEqual(algorythmedValues[3].askingPrimaryContent, value3T.askingPrimaryContent)
         XCTAssertEqual(algorythmedValues[4].askingPrimaryContent, value1B.askingPrimaryContent)
         XCTAssertEqual(algorythmedValues[5].askingPrimaryContent, value2T.askingPrimaryContent)

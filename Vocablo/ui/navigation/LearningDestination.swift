@@ -25,7 +25,8 @@ struct LearningDestination: View {
     //MARK: - Methods
     
     private func getLearnignValues() -> Array<IndexCard<Vocabulary>> {
-        LearningService.getLearnignValues(of: vocabularies)
+        let service = LearningService()
+        return service.getFilteredSortedIndexCards(of: vocabularies)
     }
     
     //MARK: - Body
