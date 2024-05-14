@@ -36,8 +36,11 @@ struct VocabulariesDestination: View {
                 DeckListViewToolbar(selectedDeckValue: selectedDeckValue)
             }
             .sheet(isPresented: presentationModel.bindable.isVocabularyDetailSheetShown) {
-                EditVocabularyView(editingVocabulary: presentationModel.bindable.editingVocabulary, addNewVocabularyToDeck: { selectedDeckValue.deck?.vocabularies.append($0) })
-                    .frame(minWidth: 250, maxWidth: 800, minHeight: 250, maxHeight: 800)
+                VocabularyDetailForm(
+                    editingVocabulary: presentationModel.bindable.editingVocabulary,
+                    addNewVocabularyToDeck: { selectedDeckValue.deck?.vocabularies.append($0) }
+                )
+                .frame(minWidth: 250, maxWidth: 800, minHeight: 250, maxHeight: 800)
             }
             .focusedValue(\.selectedVocabularies, $selectedVocabularies)
     }

@@ -17,6 +17,10 @@ struct VocabularyRow: View {
     @Bindable var vocabulary: Vocabulary
     let isSelected: Bool
     
+    var hasVocabularyEmptySentences: Bool {
+        vocabulary.baseSentence.isEmpty && vocabulary.translationSentence.isEmpty
+    }
+    
     //MARK: - Body
     
     var body: some View {
@@ -28,13 +32,15 @@ struct VocabularyRow: View {
             }
             .font(.headline)
             .lineLimit(1)
-            
+
             GridRow(alignment: .firstTextBaseline) {
-                FitedTextView(value: vocabulary.baseSentence, placeholder: "Sample sentence, explenation, ...")
-                    .fixedSize(horizontal: false, vertical: true)
+                if hasVocabularyEmptySentences == false {
+                    FitedTextView(value: vocabulary.baseSentence, placeholder: "Sample sentence, explenation, ...")
+                        .fixedSize(horizontal: false, vertical: true)
                     
-                FitedTextView(value: vocabulary.translationSentence, placeholder: "Sample sentence, explenation, ...")
-                    .fixedSize(horizontal: false, vertical: true)
+                    FitedTextView(value: vocabulary.translationSentence, placeholder: "Sample sentence, explenation, ...")
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
             .lineLimit(2)
             
@@ -59,7 +65,7 @@ extension VocabularyRow {
         
         var body: some View {
             HStack {
-                Text(text)
+                Text(value)
                     .foregroundStyle(value.isEmpty ? .tertiary : .primary)
                 Spacer()
             }
