@@ -12,6 +12,7 @@ import SwiftUI
 struct DeckListViewToolbar: ToolbarContent {
     let selectedDeckValue: DeckSelectingValue
     @Environment(\.isSearching) private var isSearching
+    @Environment(PresentationModel.self) var presentationModel
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
@@ -20,8 +21,12 @@ struct DeckListViewToolbar: ToolbarContent {
         }
         
         ToolbarItem(placement: .primaryAction) {
-            AddNewVocabularyButton(into: selectedDeckValue.deck)
-                .disabled(isSearching)
+            Button {
+                presentationModel.showVocabularyDetailSheet(edit: nil)
+            } label: {
+                Label("New vocabulary", systemImage: "plus")
+            }
+            .disabled(isSearching)
         }
     }
 }

@@ -13,31 +13,33 @@ struct DeckListViewContextMenu: View {
     let vocabulariesOfContextMenu: Set<Vocabulary>
     let selectedDeckValue: DeckSelectingValue
     @Binding var selectedVocabularies: Set<Vocabulary>
-    @Binding var editedVocabulary: Vocabulary?
     @Environment(\.isSearching) private var isSearching
+    @Environment(PresentationModel.self) var presentationModel
     
     init(
         vocabulariesOfContextMenu: Set<Vocabulary>,
         selectedDeckValue: DeckSelectingValue,
-        selectedVocabularies: Binding<Set<Vocabulary>>,
-        editedVocabulary: Binding<Vocabulary?>
+        selectedVocabularies: Binding<Set<Vocabulary>>
     ) {
         self.vocabulariesOfContextMenu = vocabulariesOfContextMenu
         self.selectedDeckValue = selectedDeckValue
         self._selectedVocabularies = selectedVocabularies
-        self._editedVocabulary = editedVocabulary
     }
     
     var body: some View {
-        AddNewVocabularyButton(into: selectedDeckValue.deck)
-            .disabled(
-                vocabulariesOfContextMenu.isEmpty == false &&
-                isSearching == false
-            )
+        Button {
+            presentationModel.showVocabularyDetailSheet(edit: nil)
+        } label: {
+            Label("New vocabulary", systemImage: "plus")
+        }
+        .disabled(
+            vocabulariesOfContextMenu.isEmpty == false &&
+            isSearching == false
+        )
         
         Divider()
         
-        OpenEditVocabularyViewButton(sheetValue: $editedVocabulary, open: vocabulariesOfContextMenu.first)
+        OpenEditVocabularyViewButton(open: vocabulariesOfContextMenu.first)
             .disabled(vocabulariesOfContextMenu.count != 1)
         
         SetVocabulariesToLearnButton(vocabulariesOfContextMenu, to: true) {

@@ -13,20 +13,18 @@ struct OpenEditVocabularyViewButton<LabelContent: View>: View {
     
     //MARK: - Dependencies
     
-    @Binding var editedVocabulary: Vocabulary?
     let vocabulary: Vocabulary?
     var label: () -> LabelContent
     
     @Environment(\.modelContext) var modelContext
+    @Environment(PresentationModel.self) var presentationModel
     
     //MARK: - Initialiser
     
     init(
-        sheetValue editedVocabulary: Binding<Vocabulary?>,
         open vocabulary: Vocabulary?,
         label: @escaping () -> LabelContent = { Text("Edit") }
     ) {
-        self._editedVocabulary = editedVocabulary
         self.vocabulary = vocabulary
         self.label = label
     }
@@ -34,7 +32,7 @@ struct OpenEditVocabularyViewButton<LabelContent: View>: View {
     //MARK: - Methods
     
     private func perform() {
-        editedVocabulary = vocabulary
+        presentationModel.showVocabularyDetailSheet(edit: vocabulary)
     }
     
     //MARK: - Body

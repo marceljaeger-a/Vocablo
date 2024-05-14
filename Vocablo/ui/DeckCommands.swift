@@ -13,6 +13,7 @@ struct DeckCommands: Commands {
     let modelContext: ModelContext
     
     @FocusedBinding(\.selectedDeckValue) var selectedDeckValue
+    @FocusedValue(PresentationModel.self) var presentationModel
     
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
@@ -20,8 +21,12 @@ struct DeckCommands: Commands {
                 AddNewDeckButton()
                     .keyboardShortcut(KeyEquivalent("n"), modifiers: .command.union(.shift))
                     
-                AddNewVocabularyButton(into: selectedDeckValue?.deck)
-                    .keyboardShortcut(KeyEquivalent("n"), modifiers: .command)
+                Button {
+                    presentationModel?.showVocabularyDetailSheet(edit: nil)
+                } label: {
+                    Label("New vocabulary", systemImage: "plus")
+                }
+                .keyboardShortcut(KeyEquivalent("n"), modifiers: .command)
             }
             .modelContext(modelContext)
         }

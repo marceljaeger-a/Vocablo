@@ -19,7 +19,6 @@ struct DeckListView: View {
     
     let selectedDeckValue: DeckSelectingValue
     @Binding var selectedVocabularies: Set<Vocabulary>
-    @Binding var editingVocabulary: Vocabulary?
     
     @AppStorage(AppStorageKeys.vocabularySortingKey) var vocabularySortingKey: VocabularySortingKey = .createdDate
     @AppStorage(AppStorageKeys.vocabularySortingOrder) var vocabularySortingOrder: SortingOrder = .ascending
@@ -54,17 +53,6 @@ struct DeckListView: View {
         selectedVocabularies.contains(vocabulary) && selectedVocabularies.count == 1
     }
     
-    private func isEditing(_ vocabulary: Vocabulary) -> Binding<Bool> {
-        Binding {
-            editingVocabulary == vocabulary
-        } set: { newValue in
-            if newValue == false {
-                editingVocabulary = nil
-            }
-        }
-
-    }
-    
     //MARK: - Body
     
     var body: some View {
@@ -73,22 +61,12 @@ struct DeckListView: View {
             List(selection: $selectedVocabularies) {
                 VocabularyQueryView(currentQuery){ vocabulary in
                     VocabularyRow(vocabulary: vocabulary, isSelected: isSelected(vocabulary))
-                        .popover(isPresented: isEditing(vocabulary)) {
-                            if let editingVocabulary {
-                                VocabularyPopoverView(vocabulary: editingVocabulary)
-                            }
-                        }
                 }
                 .environment(\.selectedDeckValue, selectedDeckValue)
             }
             .listStyle(.inset)
             .onReceive(onAddingVocabularySubject.delay(for: 0.1, scheduler: DispatchQueue.main), performIfControlActiveStateIs: .key, perform: { output in
                 proxy.scrollTo(output)
-                selectedVocabularies = [output]
-                editingVocabulary = nil
-                Task {
-                    editingVocabulary = output
-                }
             })
         }
     }

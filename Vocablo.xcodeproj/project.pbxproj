@@ -10,6 +10,7 @@
 		9F13D96C2B62B96000DEBDDF /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 9F13D96B2B62B96000DEBDDF /* Documentation.docc */; };
 		9F1B256F2BE8EB3400A6EC89 /* Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1B256E2BE8EB3400A6EC89 /* Vocabulary.swift */; };
 		9F1B25712BE8F23200A6EC89 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1B25702BE8F23200A6EC89 /* Deck.swift */; };
+		9F1C01ED2BF3550B00C0CDBF /* PresentationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1C01EC2BF3550B00C0CDBF /* PresentationModel.swift */; };
 		9F23D9412B0BF53200C90BBB /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F23D9402B0BF53200C90BBB /* Array.swift */; };
 		9F2767322B0525A900C99231 /* UTType +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2767312B0525A900C99231 /* UTType +ext.swift */; };
 		9F323B552B95F54800A88947 /* WindowGroupScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F323B542B95F54800A88947 /* WindowGroupScene.swift */; };
@@ -57,7 +58,7 @@
 		9F66361C2B83811C008C7980 /* FetchDescriptor +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F66361B2B83811C008C7980 /* FetchDescriptor +ext.swift */; };
 		9F6C1B172B4C58D1008717D5 /* ModelContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6C1B162B4C58D1008717D5 /* ModelContextTests.swift */; };
 		9F7741252B134AC600565B42 /* LearningLevelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7741242B134AC500565B42 /* LearningLevelPicker.swift */; };
-		9F79B8B62BE399B500C226D7 /* EditVocabularyForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79B8B52BE399B500C226D7 /* EditVocabularyForm.swift */; };
+		9F79B8B62BE399B500C226D7 /* EditVocabularyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F79B8B52BE399B500C226D7 /* EditVocabularyView.swift */; };
 		9F7F6C432B168D75001B266A /* ModelContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7F6C422B168D75001B266A /* ModelContext.swift */; };
 		9F7FBC8F2B2BB7BC0033EBAC /* WelcomeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7FBC8E2B2BB7BC0033EBAC /* WelcomeSheet.swift */; };
 		9F7FBC942B2CFBB60033EBAC /* IndexCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7FBC932B2CFBB60033EBAC /* IndexCard.swift */; };
@@ -76,7 +77,6 @@
 		9FA72CB12B92211700246E76 /* WordGroupPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CB02B92211700246E76 /* WordGroupPicker.swift */; };
 		9FA72CB72B92294600246E76 /* VocabularyCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CB62B92294600246E76 /* VocabularyCommands.swift */; };
 		9FA72CB92B92295200246E76 /* DeckCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CB82B92295200246E76 /* DeckCommands.swift */; };
-		9FA72CBB2B9236E900246E76 /* AddNewVocabularyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CBA2B9236E900246E76 /* AddNewVocabularyButton.swift */; };
 		9FA72CBF2B92383C00246E76 /* SetVocabularyToLearnButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CBE2B92383C00246E76 /* SetVocabularyToLearnButton.swift */; };
 		9FA72CC12B9239E800246E76 /* ResetVocabulariesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CC02B9239E800246E76 /* ResetVocabulariesButton.swift */; };
 		9FA72CC32B923AA300246E76 /* DeleteVocabulariesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA72CC22B923AA300246E76 /* DeleteVocabulariesButton.swift */; };
@@ -115,6 +115,7 @@
 		9F13D96B2B62B96000DEBDDF /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		9F1B256E2BE8EB3400A6EC89 /* Vocabulary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vocabulary.swift; sourceTree = "<group>"; };
 		9F1B25702BE8F23200A6EC89 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
+		9F1C01EC2BF3550B00C0CDBF /* PresentationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationModel.swift; sourceTree = "<group>"; };
 		9F23D9402B0BF53200C90BBB /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		9F2767312B0525A900C99231 /* UTType +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UTType +ext.swift"; sourceTree = "<group>"; };
 		9F323B542B95F54800A88947 /* WindowGroupScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowGroupScene.swift; sourceTree = "<group>"; };
@@ -163,7 +164,7 @@
 		9F6C1B0D2B4C584F008717D5 /* VocabloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VocabloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F6C1B162B4C58D1008717D5 /* ModelContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContextTests.swift; sourceTree = "<group>"; };
 		9F7741242B134AC500565B42 /* LearningLevelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningLevelPicker.swift; sourceTree = "<group>"; };
-		9F79B8B52BE399B500C226D7 /* EditVocabularyForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVocabularyForm.swift; sourceTree = "<group>"; };
+		9F79B8B52BE399B500C226D7 /* EditVocabularyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVocabularyView.swift; sourceTree = "<group>"; };
 		9F7F6C422B168D75001B266A /* ModelContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContext.swift; sourceTree = "<group>"; };
 		9F7FBC8E2B2BB7BC0033EBAC /* WelcomeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeSheet.swift; sourceTree = "<group>"; };
 		9F7FBC932B2CFBB60033EBAC /* IndexCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexCard.swift; sourceTree = "<group>"; };
@@ -182,7 +183,6 @@
 		9FA72CB02B92211700246E76 /* WordGroupPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGroupPicker.swift; sourceTree = "<group>"; };
 		9FA72CB62B92294600246E76 /* VocabularyCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyCommands.swift; sourceTree = "<group>"; };
 		9FA72CB82B92295200246E76 /* DeckCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckCommands.swift; sourceTree = "<group>"; };
-		9FA72CBA2B9236E900246E76 /* AddNewVocabularyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewVocabularyButton.swift; sourceTree = "<group>"; };
 		9FA72CBE2B92383C00246E76 /* SetVocabularyToLearnButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetVocabularyToLearnButton.swift; sourceTree = "<group>"; };
 		9FA72CC02B9239E800246E76 /* ResetVocabulariesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetVocabulariesButton.swift; sourceTree = "<group>"; };
 		9FA72CC22B923AA300246E76 /* DeleteVocabulariesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteVocabulariesButton.swift; sourceTree = "<group>"; };
@@ -437,7 +437,7 @@
 				9FF746212B98941300118E47 /* DeckListViewContextMenu.swift */,
 				9FF746232B98942D00118E47 /* DeckListViewToolbar.swift */,
 				9FA72C9F2B90B96600246E76 /* VocabularyRow.swift */,
-				9F79B8B52BE399B500C226D7 /* EditVocabularyForm.swift */,
+				9F79B8B52BE399B500C226D7 /* EditVocabularyView.swift */,
 				9F6085012BA1DE9100E2E6A2 /* VocabularyQueryView.swift */,
 			);
 			path = views;
@@ -471,6 +471,7 @@
 				9F6084F92BA1B7E700E2E6A2 /* AppStorageKeys.swift */,
 				9FA72CA72B90EDDF00246E76 /* DeckSelectingValue.swift */,
 				9F60850A2BAAF89D00E2E6A2 /* LearningNavigationModel.swift */,
+				9F1C01EC2BF3550B00C0CDBF /* PresentationModel.swift */,
 			);
 			path = helpers;
 			sourceTree = "<group>";
@@ -478,7 +479,6 @@
 		9FA72CAF2B92210B00246E76 /* vocabulary controls */ = {
 			isa = PBXGroup;
 			children = (
-				9FA72CBA2B9236E900246E76 /* AddNewVocabularyButton.swift */,
 				9FA72CC02B9239E800246E76 /* ResetVocabulariesButton.swift */,
 				9FA72CC22B923AA300246E76 /* DeleteVocabulariesButton.swift */,
 				9FA72CB02B92211700246E76 /* WordGroupPicker.swift */,
@@ -664,12 +664,12 @@
 				9F7FBC8F2B2BB7BC0033EBAC /* WelcomeSheet.swift in Sources */,
 				9F6084F22BA0B43D00E2E6A2 /* DecksSortingKey.swift in Sources */,
 				9F6085122BAB256C00E2E6A2 /* LearningService.swift in Sources */,
+				9F1C01ED2BF3550B00C0CDBF /* PresentationModel.swift in Sources */,
 				9F323B5E2B97513C00A88947 /* OpenEditVocabularyViewButton.swift in Sources */,
 				9F1B256F2BE8EB3400A6EC89 /* Vocabulary.swift in Sources */,
 				9F6084F62BA0C06300E2E6A2 /* SortingOrder.swift in Sources */,
 				9F3482682B9F71A400C8CBD2 /* CuttableVocabulariesModifier.swift in Sources */,
 				9F6084F82BA0C09900E2E6A2 /* DecksSortingPicker.swift in Sources */,
-				9FA72CBB2B9236E900246E76 /* AddNewVocabularyButton.swift in Sources */,
 				9F323B592B96081E00A88947 /* ResetDeckButton.swift in Sources */,
 				9FA72CAC2B921D8F00246E76 /* String +ext.swift in Sources */,
 				9FA72CAA2B90EE2D00246E76 /* LearningCommands.swift in Sources */,
@@ -735,7 +735,7 @@
 				9F3482662B9F718400C8CBD2 /* CopyableVocabulariesModifier.swift in Sources */,
 				9FA13F4F2BC6B7CD005419A0 /* LearningVocabulariesCountBadgeModifier.swift in Sources */,
 				9F4A08192BB1CB89009F47CE /* ShowAnswerButton.swift in Sources */,
-				9F79B8B62BE399B500C226D7 /* EditVocabularyForm.swift in Sources */,
+				9F79B8B62BE399B500C226D7 /* EditVocabularyView.swift in Sources */,
 				9F13D96C2B62B96000DEBDDF /* Documentation.docc in Sources */,
 				9FA72CBF2B92383C00246E76 /* SetVocabularyToLearnButton.swift in Sources */,
 				9F323B572B9605A400A88947 /* SetWordGroupMenu.swift in Sources */,
