@@ -12,7 +12,7 @@ import SwiftUI
 struct DeckListViewToolbar: ToolbarContent {
     let selectedDeckValue: DeckSelectingValue
     @Environment(\.isSearching) private var isSearching
-    @Environment(PresentationModel.self) var presentationModel
+    @Environment(ModalPresentationModel.self) var presentationModel
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigation) {

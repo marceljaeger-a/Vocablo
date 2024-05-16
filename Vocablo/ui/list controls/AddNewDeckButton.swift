@@ -15,6 +15,7 @@ struct AddNewDeckButton<LabelContent: View>: View {
     
     var label: () -> LabelContent
     @Environment(\.modelContext) var modelContext
+    @Environment(ModalPresentationModel.self) var modalPresentationModel
     
     //MARK: Initialiser
     
@@ -27,12 +28,7 @@ struct AddNewDeckButton<LabelContent: View>: View {
     //MARK: - Methods
     
     private func perform() {
-        modelContext.insert(Deck.new)
-        do {
-            try modelContext.save()
-        } catch {
-            print(error.localizedDescription)
-        }
+        modalPresentationModel.showDeckDetailSheet(edit: nil)
     }
     
     //MARK: - Body

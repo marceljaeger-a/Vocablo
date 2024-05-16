@@ -18,6 +18,7 @@ struct Sidebar: View {
     @Query(sort: \Deck.created, order: .forward) private var  decks: Array<Deck>
     
     @Environment(\.modelContext) var modelContext
+    @Environment(ModalPresentationModel.self) var modalPresentationModel
     
     //MARK: Initialiser
     
@@ -65,6 +66,10 @@ struct Sidebar: View {
         }
         .contextMenu(forSelectionType: DeckSelectingValue.self) { values in
             SidebarContextMenu(values: values, selectedDeckValue: $selectedDeckValue)
+        } primaryAction: { values in
+            if let firstDeck = values.first?.deck {
+                modalPresentationModel.showDeckDetailSheet(edit: firstDeck)
+            }
         }
         .overlay(alignment: .bottomLeading) {
             AddNewDeckButton {
@@ -74,6 +79,7 @@ struct Sidebar: View {
             .padding()
         }
         .focusedSceneValue(\.selectedDeckValue, $selectedDeckValue)
+        .modifier(DeckDetailSheetModifier())
     }
 }
 
@@ -82,6 +88,7 @@ struct Sidebar: View {
 struct SidebarContextMenu: View {
     let values: Set<DeckSelectingValue>
     @Binding var selectedDeckValue: DeckSelectingValue
+    @Environment(ModalPresentationModel.self) var modalPresentationModal
     
     var firstDeck: Deck? {
         return values.first?.deck
@@ -90,6 +97,17 @@ struct SidebarContextMenu: View {
     var body: some View {
         AddNewDeckButton()
             .disabled(values.isEmpty == false)
+        
+        Divider()
+        
+        Button {
+            if let firstDeck {
+                modalPresentationModal.showDeckDetailSheet(edit: firstDeck)
+            }
+        } label: {
+            Text("Edit deck")
+        }
+        .disabled(values.isEmpty)
         
         LearnVocabulariesButton(selectedDeckValue: values.first)
         

@@ -15,7 +15,7 @@ struct VocabulariesDestination: View {
     @Binding var selectedDeckValue: DeckSelectingValue
     
     @State var selectedVocabularies: Set<Vocabulary> = []
-    @Environment(PresentationModel.self) var presentationModel
+    @Environment(ModalPresentationModel.self) var presentationModel
     
     //MARK: - Body
     
@@ -35,13 +35,7 @@ struct VocabulariesDestination: View {
             .toolbar {
                 DeckListViewToolbar(selectedDeckValue: selectedDeckValue)
             }
-            .sheet(isPresented: presentationModel.bindable.isVocabularyDetailSheetShown) {
-                VocabularyDetailForm(
-                    editingVocabulary: presentationModel.bindable.editingVocabulary,
-                    addNewVocabularyToDeck: { selectedDeckValue.deck?.vocabularies.append($0) }
-                )
-                .frame(minWidth: 250, maxWidth: 800, minHeight: 250, maxHeight: 800)
-            }
+            .modifier(VocabularyDetailSheetModifier(selectedDeckValue: selectedDeckValue))
             .focusedValue(\.selectedVocabularies, $selectedVocabularies)
     }
 }

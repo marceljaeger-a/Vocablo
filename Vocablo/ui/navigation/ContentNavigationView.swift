@@ -22,7 +22,7 @@ struct ContentNavigationView: View {
     @AppStorage(AppStorageKeys.decksSortingKey) var decksSortingKey: DecksSortingKey = .createdDate
     @AppStorage(AppStorageKeys.decksSortingOrder) var decksSortingOrder: SortingOrder = .ascending
     
-    @State var presentationModel: PresentationModel = PresentationModel()
+    @State var presentationModel: ModalPresentationModel = ModalPresentationModel()
     
     //MARK: - Body
     

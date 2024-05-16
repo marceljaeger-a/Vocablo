@@ -14,7 +14,7 @@ struct DeckListViewContextMenu: View {
     let selectedDeckValue: DeckSelectingValue
     @Binding var selectedVocabularies: Set<Vocabulary>
     @Environment(\.isSearching) private var isSearching
-    @Environment(PresentationModel.self) var presentationModel
+    @Environment(ModalPresentationModel.self) var presentationModel
     
     init(
         vocabulariesOfContextMenu: Set<Vocabulary>,

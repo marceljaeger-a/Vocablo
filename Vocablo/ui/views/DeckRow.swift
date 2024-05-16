@@ -10,14 +10,10 @@ import SwiftUI
 import SwiftData
 
 struct DeckRow: View {
-    @Bindable var deck: Deck
+    let deck: Deck
     
     var body: some View {
         let _ = Self._printChanges()
-        Label {
-            TextField("", text: $deck.name)
-        } icon: {
-            Image(systemName: "book.pages")
-        }
+        Label(deck.name, systemImage: "book.pages")
     }
 }

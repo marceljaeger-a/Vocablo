@@ -17,7 +17,7 @@ struct OpenEditVocabularyViewButton<LabelContent: View>: View {
     var label: () -> LabelContent
     
     @Environment(\.modelContext) var modelContext
-    @Environment(PresentationModel.self) var presentationModel
+    @Environment(ModalPresentationModel.self) var presentationModel
     
     //MARK: - Initialiser
     

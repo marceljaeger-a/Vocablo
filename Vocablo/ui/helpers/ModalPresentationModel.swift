@@ -8,11 +8,13 @@
 import Foundation
 import SwiftUI
 
-@Observable class PresentationModel {
+@Observable class ModalPresentationModel {
     
-    var bindable: Bindable<PresentationModel> {
+    var bindable: Bindable<ModalPresentationModel> {
         Bindable(self)
     }
+    
+    //MARK: - Vocabulary detail view
     
     var isVocabularyDetailSheetShown: Bool = false
     var editingVocabulary: Vocabulary? = nil
@@ -20,6 +22,16 @@ import SwiftUI
     func showVocabularyDetailSheet(edit vocabulary: Vocabulary?) {
         editingVocabulary = vocabulary
         isVocabularyDetailSheetShown = true
+    }
+    
+    //MARK: - Deck detail view
+    
+    var isDeckDetailSheetShown: Bool = false
+    var editingDeck: Deck? = nil
+    
+    func showDeckDetailSheet(edit deck: Deck?) {
+        editingDeck = deck
+        isDeckDetailSheetShown = true
     }
     
 }

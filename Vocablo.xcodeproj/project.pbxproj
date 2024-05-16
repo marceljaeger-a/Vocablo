@@ -10,7 +10,10 @@
 		9F13D96C2B62B96000DEBDDF /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 9F13D96B2B62B96000DEBDDF /* Documentation.docc */; };
 		9F1B256F2BE8EB3400A6EC89 /* Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1B256E2BE8EB3400A6EC89 /* Vocabulary.swift */; };
 		9F1B25712BE8F23200A6EC89 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1B25702BE8F23200A6EC89 /* Deck.swift */; };
-		9F1C01ED2BF3550B00C0CDBF /* PresentationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1C01EC2BF3550B00C0CDBF /* PresentationModel.swift */; };
+		9F1C01ED2BF3550B00C0CDBF /* ModalPresentationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1C01EC2BF3550B00C0CDBF /* ModalPresentationModel.swift */; };
+		9F1C01EF2BF392E900C0CDBF /* DeckDetailSheetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1C01EE2BF392E900C0CDBF /* DeckDetailSheetModifier.swift */; };
+		9F1C01F12BF3944400C0CDBF /* DeckDetailForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1C01F02BF3944400C0CDBF /* DeckDetailForm.swift */; };
+		9F1C01F32BF3E55C00C0CDBF /* VocabularyDetailSheetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1C01F22BF3E55C00C0CDBF /* VocabularyDetailSheetModifier.swift */; };
 		9F23D9412B0BF53200C90BBB /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F23D9402B0BF53200C90BBB /* Array.swift */; };
 		9F2767322B0525A900C99231 /* UTType +ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2767312B0525A900C99231 /* UTType +ext.swift */; };
 		9F323B552B95F54800A88947 /* WindowGroupScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F323B542B95F54800A88947 /* WindowGroupScene.swift */; };
@@ -115,7 +118,10 @@
 		9F13D96B2B62B96000DEBDDF /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		9F1B256E2BE8EB3400A6EC89 /* Vocabulary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vocabulary.swift; sourceTree = "<group>"; };
 		9F1B25702BE8F23200A6EC89 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
-		9F1C01EC2BF3550B00C0CDBF /* PresentationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationModel.swift; sourceTree = "<group>"; };
+		9F1C01EC2BF3550B00C0CDBF /* ModalPresentationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentationModel.swift; sourceTree = "<group>"; };
+		9F1C01EE2BF392E900C0CDBF /* DeckDetailSheetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckDetailSheetModifier.swift; sourceTree = "<group>"; };
+		9F1C01F02BF3944400C0CDBF /* DeckDetailForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckDetailForm.swift; sourceTree = "<group>"; };
+		9F1C01F22BF3E55C00C0CDBF /* VocabularyDetailSheetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyDetailSheetModifier.swift; sourceTree = "<group>"; };
 		9F23D9402B0BF53200C90BBB /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		9F2767312B0525A900C99231 /* UTType +ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UTType +ext.swift"; sourceTree = "<group>"; };
 		9F323B542B95F54800A88947 /* WindowGroupScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowGroupScene.swift; sourceTree = "<group>"; };
@@ -439,6 +445,7 @@
 				9FA72C9F2B90B96600246E76 /* VocabularyRow.swift */,
 				9F79B8B52BE399B500C226D7 /* VocabularyDetailForm.swift */,
 				9F6085012BA1DE9100E2E6A2 /* VocabularyQueryView.swift */,
+				9F1C01F02BF3944400C0CDBF /* DeckDetailForm.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -461,6 +468,8 @@
 				9F6085062BA9C65B00E2E6A2 /* OnReceiveControlActiveStateModifier.swift */,
 				9F6085172BAC833100E2E6A2 /* LearningNavigationDestinationModifier.swift */,
 				9FA13F4E2BC6B7CD005419A0 /* LearningVocabulariesCountBadgeModifier.swift */,
+				9F1C01EE2BF392E900C0CDBF /* DeckDetailSheetModifier.swift */,
+				9F1C01F22BF3E55C00C0CDBF /* VocabularyDetailSheetModifier.swift */,
 			);
 			path = modifiers;
 			sourceTree = "<group>";
@@ -471,7 +480,7 @@
 				9F6084F92BA1B7E700E2E6A2 /* AppStorageKeys.swift */,
 				9FA72CA72B90EDDF00246E76 /* DeckSelectingValue.swift */,
 				9F60850A2BAAF89D00E2E6A2 /* LearningNavigationModel.swift */,
-				9F1C01EC2BF3550B00C0CDBF /* PresentationModel.swift */,
+				9F1C01EC2BF3550B00C0CDBF /* ModalPresentationModel.swift */,
 			);
 			path = helpers;
 			sourceTree = "<group>";
@@ -664,7 +673,7 @@
 				9F7FBC8F2B2BB7BC0033EBAC /* WelcomeSheet.swift in Sources */,
 				9F6084F22BA0B43D00E2E6A2 /* DecksSortingKey.swift in Sources */,
 				9F6085122BAB256C00E2E6A2 /* LearningService.swift in Sources */,
-				9F1C01ED2BF3550B00C0CDBF /* PresentationModel.swift in Sources */,
+				9F1C01ED2BF3550B00C0CDBF /* ModalPresentationModel.swift in Sources */,
 				9F323B5E2B97513C00A88947 /* OpenEditVocabularyViewButton.swift in Sources */,
 				9F1B256F2BE8EB3400A6EC89 /* Vocabulary.swift in Sources */,
 				9F6084F62BA0C06300E2E6A2 /* SortingOrder.swift in Sources */,
@@ -694,6 +703,7 @@
 				9FA72CC92B9240E200246E76 /* AddNewDeckButton.swift in Sources */,
 				9F9491142B3323B20018AF4C /* Date.swift in Sources */,
 				9F4A08132BB1CB24009F47CE /* FeedbackView.swift in Sources */,
+				9F1C01F32BF3E55C00C0CDBF /* VocabularyDetailSheetModifier.swift in Sources */,
 				9F23D9412B0BF53200C90BBB /* Array.swift in Sources */,
 				9F60850D2BAAFB0F00E2E6A2 /* LearnVocabulariesButton.swift in Sources */,
 				9FC583272AE7080E00A56141 /* SchemaV1 VocabularyList.swift in Sources */,
@@ -714,7 +724,9 @@
 				9FA72C9C2B8F8C2D00246E76 /* Sidebar.swift in Sources */,
 				9F4A080F2BB1CAE9009F47CE /* LearningContextView.swift in Sources */,
 				9F323B552B95F54800A88947 /* WindowGroupScene.swift in Sources */,
+				9F1C01F12BF3944400C0CDBF /* DeckDetailForm.swift in Sources */,
 				9FF746222B98941300118E47 /* DeckListViewContextMenu.swift in Sources */,
+				9F1C01EF2BF392E900C0CDBF /* DeckDetailSheetModifier.swift in Sources */,
 				9FA72CA52B90DD6800246E76 /* DeckRow.swift in Sources */,
 				9F4A08112BB1CB0F009F47CE /* NewWordLabel.swift in Sources */,
 				9F2767322B0525A900C99231 /* UTType +ext.swift in Sources */,

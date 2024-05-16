@@ -13,13 +13,17 @@ struct DeckCommands: Commands {
     let modelContext: ModelContext
     
     @FocusedBinding(\.selectedDeckValue) var selectedDeckValue
-    @FocusedValue(PresentationModel.self) var presentationModel
+    @FocusedValue(ModalPresentationModel.self) var presentationModel
     
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
             Group {
-                AddNewDeckButton()
-                    .keyboardShortcut(KeyEquivalent("n"), modifiers: .command.union(.shift))
+                Button {
+                    presentationModel?.showDeckDetailSheet(edit: nil)
+                } label: {
+                    Label("New deck", systemImage: "plus")
+                }
+                .keyboardShortcut(KeyEquivalent("n"), modifiers: .command.union(.shift))
                     
                 Button {
                     presentationModel?.showVocabularyDetailSheet(edit: nil)
