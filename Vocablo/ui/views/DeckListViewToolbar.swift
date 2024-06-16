@@ -13,6 +13,17 @@ struct DeckListViewToolbar: ToolbarContent {
     let selectedDeckValue: DeckSelectingValue
     @Environment(\.isSearching) private var isSearching
     @Environment(ModalPresentationModel.self) var presentationModel
+    
+    var isNewVocabularyButtonDisabled: Bool {
+        if isSearching {
+            return true
+        }
+        if selectedDeckValue == .all {
+            return true
+        }
+        
+        return false
+    }
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
@@ -26,7 +37,7 @@ struct DeckListViewToolbar: ToolbarContent {
             } label: {
                 Label("New vocabulary", systemImage: "plus")
             }
-            .disabled(isSearching)
+            .disabled(isNewVocabularyButtonDisabled)
         }
     }
 }

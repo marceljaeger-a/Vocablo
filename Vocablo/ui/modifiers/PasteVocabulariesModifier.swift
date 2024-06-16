@@ -17,9 +17,10 @@ struct PasteVocabulariesModifier: ViewModifier {
     private func pasteVocabularies(vocabularies: Array<Vocabulary>) {
         switch selectedDeckValue {
         case .all:
-            for vocabulary in vocabularies {
-                modelContext.insert(vocabulary)
-            }
+            break
+//            for vocabulary in vocabularies {
+//                modelContext.insert(vocabulary)
+//            }
         case .deck(let deck):
             for vocabulary in vocabularies {
                 deck.vocabularies.append(vocabulary)

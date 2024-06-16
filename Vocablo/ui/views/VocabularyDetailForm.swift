@@ -39,18 +39,18 @@ struct VocabularyDetailForm: View {
     }
     
     var titleOfLanguageOfBase: String {
-        if let currentDeck {
-            if currentDeck.languageOfBase.isEmpty == false {
-                return currentDeck.languageOfBase
+        if let deck = editingVocabulary?.deck {
+            if deck.languageOfBase.isEmpty == false {
+                return deck.languageOfBase
             }
         }
         return "first content"
     }
     
     var titleOfLanguageOfTranslation: String {
-        if let currentDeck {
-            if currentDeck.languageOfTranslation.isEmpty == false {
-                return currentDeck.languageOfTranslation
+        if let deck = editingVocabulary?.deck  {
+            if deck.languageOfTranslation.isEmpty == false {
+                return deck.languageOfTranslation
             }
         }
         return "second content"
@@ -209,7 +209,6 @@ struct VocabularyDetailForm: View {
                         Text("Cancel")
                     }
                 }
-                
                 
                 ToolbarItem(placement: .confirmationAction){
                     Button {

@@ -26,16 +26,23 @@ struct DeckListViewContextMenu: View {
         self._selectedVocabularies = selectedVocabularies
     }
     
+    var isNewVocabularyButtonDisabled: Bool {
+        if vocabulariesOfContextMenu.isEmpty == false && isSearching == false {
+            return true
+        }
+        if selectedDeckValue == .all {
+            return true
+        }
+        return false
+    }
+    
     var body: some View {
         Button {
             presentationModel.showVocabularyDetailSheet(edit: nil)
         } label: {
             Label("New vocabulary", systemImage: "plus")
         }
-        .disabled(
-            vocabulariesOfContextMenu.isEmpty == false &&
-            isSearching == false
-        )
+        .disabled(isNewVocabularyButtonDisabled)
         
         Divider()
         

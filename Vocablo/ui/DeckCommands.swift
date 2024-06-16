@@ -15,6 +15,16 @@ struct DeckCommands: Commands {
     @FocusedBinding(\.selectedDeckValue) var selectedDeckValue
     @FocusedValue(ModalPresentationModel.self) var presentationModel
     
+    var isNewVocabularyButtonDisabled: Bool {
+        guard let selectedDeckValue else { return true }
+        switch selectedDeckValue {
+        case .all:
+            return true
+        default:
+            return false
+        }
+    }
+    
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
             Group {
@@ -31,6 +41,7 @@ struct DeckCommands: Commands {
                     Label("New vocabulary", systemImage: "plus")
                 }
                 .keyboardShortcut(KeyEquivalent("n"), modifiers: .command)
+                .disabled(isNewVocabularyButtonDisabled)
             }
             .modelContext(modelContext)
         }
