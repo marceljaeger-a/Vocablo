@@ -61,6 +61,7 @@ struct DeckListView: View {
             List(selection: $selectedVocabularies) {
                 VocabularyQueryView(currentQuery){ vocabulary in
                     VocabularyRow(vocabulary: vocabulary, isSelected: isSelected(vocabulary))
+                        .draggable(vocabulary)
                 }
                 .environment(\.selectedDeckValue, selectedDeckValue)
             }

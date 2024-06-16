@@ -101,7 +101,9 @@ struct VocabularyDetailForm: View {
             
             let newVocabulary = Vocabulary(baseWord: self.baseWord, baseSentence: self.baseSentence, translationWord: self.translationWord, translationSentence: self.translationSentence, isToLearn: self.isToLearn, levelOfBase: self.levelOfBase, levelOfTranslation: self.levelOfTranslation, sessionsOfBase: [], sessionsOfTranslation: [], nextSessionOfBase: Date.now, nextSessionOfTranslation: Date.now)
             modelContext.insert(newVocabulary)
-            
+            if let currentDeck {
+                currentDeck.vocabularies.append(newVocabulary)
+            }
             onAddingVocabularySubject.send(newVocabulary)
         }
         

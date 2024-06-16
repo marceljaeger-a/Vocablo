@@ -42,6 +42,15 @@ struct Sidebar: View {
         }
     }
     
+    func drop(vocabularies: Array<Vocabulary>, into deck: Deck) -> Bool{
+        for vocabulary in vocabularies {
+            if vocabulary.deck != deck {
+                deck.vocabularies.append(vocabulary)
+            }
+        }
+        return true
+    }
+    
     var body: some View {
         let _ = Self._printChanges()
         List(selection: $selectedDeckValue){
@@ -60,6 +69,9 @@ struct Sidebar: View {
                         .badge(fetchVocabulariesCount(of: deck))
                         .badgeProminence(.decreased)
                         .tag(DeckSelectingValue.deck(deck: deck))
+                        .dropDestination(for: Vocabulary.self) { items, location in
+                            drop(vocabularies: items, into: deck)
+                        }
                 }
             }
 //            SidebarListsSection(lists: lists)
