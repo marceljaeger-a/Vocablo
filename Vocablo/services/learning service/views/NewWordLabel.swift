@@ -14,9 +14,9 @@ struct NewWordLabel: View {
             .font(.headline)
             .fontDesign(.rounded)
             .bold()
-            .foregroundStyle(.blue.gradient)
+            .foregroundStyle(Color.accentColor.gradient)
             .padding(.horizontal, 10)
             .padding(.vertical, 7)
-            .background(.blue.opacity(0.2), in: .rect(cornerRadius: 8))
+            .background(Color.accentColor.opacity(0.2), in: .rect(cornerRadius: 8))
     }
 }
